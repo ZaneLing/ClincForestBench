@@ -1,0 +1,8 @@
+{
+    "AGE": 33,
+    "DIFFERENTIAL_DIAGNOSIS": "[['Acute COPD exacerbation / infection', 0.10255289743765629], ['Bronchitis', 0.09253000294252357], ['Pulmonary neoplasm', 0.08619677344440968], ['Pneumonia', 0.06809403450033454], ['Tuberculosis', 0.062417242596313094], ['Acute pulmonary edema', 0.06083587873412698], ['Anaphylaxis', 0.06083587873412698], ['Guillain-Barré syndrome', 0.05560753682679768], ['Atrial fibrillation', 0.05311525330059545], ['Myocarditis', 0.05245500620893348], ['Pulmonary embolism', 0.04711690034540144], ['Bronchiectasis', 0.04196588378797603], ['Acute dystonic reactions', 0.03915940466006916], ['Myasthenia gravis', 0.03915940466006916], ['Anemia', 0.03915940466006916], ['Scombroid food poisoning', 0.03617996570329641], ['PSVT', 0.02091757298912971], ['SLE', 0.018128935075634216], ['Possible NSTEMI / STEMI', 0.01178601169626863], ['Chagas', 0.01178601169626863]]",
+    "EVIDENCES": "['E_31', 'E_66', 'E_72', 'E_79', 'E_123', 'E_125', 'E_198', 'E_199', 'E_200', 'E_201', 'E_204_@_V_10', 'E_214']",
+    "INITIAL_EVIDENCE": "E_214",
+    "PATHOLOGY": "Acute COPD exacerbation / infection",
+    "SEX": "M"
+}

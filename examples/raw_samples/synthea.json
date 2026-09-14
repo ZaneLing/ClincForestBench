@@ -1,0 +1,477 @@
+{
+  "conditions": [
+    {
+      "CODE": "72892002",
+      "DESCRIPTION": "Normal pregnancy",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "START": "1985-10-06",
+      "STOP": "1986-05-11"
+    }
+  ],
+  "encounter": {
+    "BASE_ENCOUNTER_COST": "129.16",
+    "CODE": "424441002",
+    "DESCRIPTION": "Prenatal initial visit",
+    "ENCOUNTERCLASS": "ambulatory",
+    "Id": "adad0da9-89d8-442c-825d-07c0f2ada308",
+    "ORGANIZATION": "5d4b9df1-93ae-3bc9-b680-03249990e558",
+    "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+    "PAYER": "6e2f1a2d-27bd-3701-8d08-dae202c58632",
+    "PAYER_COVERAGE": "54.16",
+    "PROVIDER": "af01a385-31d3-3c77-8fdb-2867fe88df2f",
+    "REASONCODE": "72892002",
+    "REASONDESCRIPTION": "Normal pregnancy",
+    "START": "1985-10-07T01:51:56Z",
+    "STOP": "1985-10-07T07:06:56Z",
+    "TOTAL_CLAIM_COST": "129.16"
+  },
+  "medications": [
+    {
+      "BASE_COST": "162.81",
+      "CODE": "705129",
+      "DESCRIPTION": "Nitroglycerin 0.4 MG/ACTUAT Mucosal Spray",
+      "DISPENSES": "12",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "PAYER": "6e2f1a2d-27bd-3701-8d08-dae202c58632",
+      "PAYER_COVERAGE": "87.81",
+      "REASONCODE": "",
+      "REASONDESCRIPTION": "",
+      "START": "1985-10-07T01:51:56Z",
+      "STOP": "1986-10-13T01:51:56Z",
+      "TOTALCOST": "1953.72"
+    }
+  ],
+  "observations": [
+    {
+      "CODE": "8302-2",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Body Height",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "cm",
+      "VALUE": "162.0"
+    },
+    {
+      "CODE": "72514-3",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Pain severity - 0-10 verbal numeric rating [Score] - Reported",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "{score}",
+      "VALUE": "2.0"
+    },
+    {
+      "CODE": "29463-7",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Body Weight",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "kg",
+      "VALUE": "79.8"
+    },
+    {
+      "CODE": "39156-5",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Body Mass Index",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "kg/m2",
+      "VALUE": "30.4"
+    },
+    {
+      "CODE": "8462-4",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Diastolic Blood Pressure",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "mm[Hg]",
+      "VALUE": "85.0"
+    },
+    {
+      "CODE": "8480-6",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Systolic Blood Pressure",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "mm[Hg]",
+      "VALUE": "119.0"
+    },
+    {
+      "CODE": "8867-4",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Heart rate",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "/min",
+      "VALUE": "82.0"
+    },
+    {
+      "CODE": "9279-1",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Respiratory rate",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "/min",
+      "VALUE": "15.0"
+    },
+    {
+      "CODE": "6690-2",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Leukocytes [#/volume] in Blood by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "10*3/uL",
+      "VALUE": "9.1"
+    },
+    {
+      "CODE": "789-8",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Erythrocytes [#/volume] in Blood by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "10*6/uL",
+      "VALUE": "4.4"
+    },
+    {
+      "CODE": "718-7",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Hemoglobin [Mass/volume] in Blood",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "g/dL",
+      "VALUE": "15.1"
+    },
+    {
+      "CODE": "4544-3",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Hematocrit [Volume Fraction] of Blood by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "%",
+      "VALUE": "35.4"
+    },
+    {
+      "CODE": "787-2",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "MCV [Entitic volume] by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "fL",
+      "VALUE": "81.5"
+    },
+    {
+      "CODE": "785-6",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "MCH [Entitic mass] by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "pg",
+      "VALUE": "30.6"
+    },
+    {
+      "CODE": "786-4",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "MCHC [Mass/volume] by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "g/dL",
+      "VALUE": "33.7"
+    },
+    {
+      "CODE": "21000-5",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Erythrocyte distribution width [Entitic volume] by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "fL",
+      "VALUE": "40.8"
+    },
+    {
+      "CODE": "777-3",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Platelets [#/volume] in Blood by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "10*3/uL",
+      "VALUE": "334.6"
+    },
+    {
+      "CODE": "32207-3",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "fL",
+      "VALUE": "169.2"
+    },
+    {
+      "CODE": "32623-1",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Platelet mean volume [Entitic volume] in Blood by Automated count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "numeric",
+      "UNITS": "fL",
+      "VALUE": "11.1"
+    },
+    {
+      "CODE": "72166-2",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Tobacco smoking status NHIS",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "TYPE": "text",
+      "UNITS": "",
+      "VALUE": "Never smoker"
+    }
+  ],
+  "patient": {
+    "ADDRESS": "157 Schiller Gardens",
+    "BIRTHDATE": "1944-04-02",
+    "BIRTHPLACE": "Reading  Massachusetts  US",
+    "CITY": "Springfield",
+    "COUNTY": "Hampden County",
+    "DEATHDATE": "1991-02-17",
+    "DRIVERS": "S99964738",
+    "ETHNICITY": "nonhispanic",
+    "FIRST": "Georgiann138",
+    "GENDER": "F",
+    "HEALTHCARE_COVERAGE": "12749.319999999998",
+    "HEALTHCARE_EXPENSES": "900623.9",
+    "Id": "47392cc2-4fb3-4431-b56f-c54688671786",
+    "LAST": "O'Connell601",
+    "LAT": "42.17013232002316",
+    "LON": "-72.58594807127324",
+    "MAIDEN": "Greenfelder433",
+    "MARITAL": "M",
+    "PASSPORT": "X60816538X",
+    "PREFIX": "Mrs.",
+    "RACE": "white",
+    "SSN": "999-45-6980",
+    "STATE": "Massachusetts",
+    "SUFFIX": "",
+    "ZIP": "01105"
+  },
+  "procedures": [
+    {
+      "BASE_COST": "6953.78",
+      "CODE": "252160004",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Standard pregnancy test",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "12540.31",
+      "CODE": "169230002",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Ultrasound scan for fetal viability",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "6197.57",
+      "CODE": "274804006",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Evaluation of uterine fundal height",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2940.12",
+      "CODE": "225158009",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Auscultation of the fetal heart",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "1285.14",
+      "CODE": "44608003",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Blood typing  RH typing",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2006.09",
+      "CODE": "104091002",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Hemoglobin / Hematocrit / Platelet count",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2020.62",
+      "CODE": "47758006",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Hepatitis B Surface Antigen Measurement",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2331.65",
+      "CODE": "31676001",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Human immunodeficiency virus antigen test",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2202.74",
+      "CODE": "310861008",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Chlamydia antigen test",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "3395.36",
+      "CODE": "165829005",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Gonorrhea infection test",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "1874.85",
+      "CODE": "269828009",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Syphilis infection test",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "1831.81",
+      "CODE": "117010004",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Urine culture",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "3460.09",
+      "CODE": "90226004",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Cytopathology procedure  preparation of smear  genital source",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "1725.84",
+      "CODE": "395123002",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Urine screening test for diabetes",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "1411.35",
+      "CODE": "104375008",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Hepatitis C antibody test",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "3299.37",
+      "CODE": "169690007",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Rubella screening",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2974.75",
+      "CODE": "104326007",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Measurement of Varicella-zoster virus antibody",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2443.50",
+      "CODE": "28163009",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Skin test for tuberculosis",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "2200.74",
+      "CODE": "167271000",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Urine protein test",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    },
+    {
+      "BASE_COST": "516.65",
+      "CODE": "5880005",
+      "DATE": "1985-10-07T01:51:56Z",
+      "DESCRIPTION": "Physical examination of mother",
+      "ENCOUNTER": "adad0da9-89d8-442c-825d-07c0f2ada308",
+      "PATIENT": "47392cc2-4fb3-4431-b56f-c54688671786",
+      "REASONCODE": "72892002",
+      "REASONDESCRIPTION": "Normal pregnancy"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+.DS_Store
+.env
+.venv/
+.tools/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+clincforestbench.egg-info/
+*.egg-info/
+frontend/.next/
+frontend/node_modules/
+frontend/.vinext/
+frontend/.wrangler/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+data/processed/
+data/exports/
+data/analysis_runs/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/raw/ddxplus/original/*.parquet
+data/raw/ddxplus/original/*.json
+!data/processed/.gitkeep
+!data/exports/.gitkeep
+!data/analysis_runs/.gitkeep
+
+# Source datasets stay local. Several are credentialed clinical datasets and
+# must never be redistributed through the code repository.
+dataset/**/*.parquet
+dataset/**/*.csv
+dataset/**/*.csv.gz
+dataset/**/*.zip
+dataset/**/*.xml
+dataset/restricted/**
+!dataset/restricted/README.md
+!dataset/restricted/*/
+!dataset/restricted/*/README.source.md
+!dataset/restricted/*/README.txt
+!dataset/restricted/*/LICENSE.txt
+!dataset/restricted/*/SHA256SUMS.txt
+!dataset/restricted/*/machine_measurements_data_dictionary.csv
+
+# Local model payloads are reproducible downloads, not source code.
+model/**
+!model/*/
+!model/*/README.md
+!model/*/LICENSE
+!model/*/config.json
+!model/*/generation_config.json
+!model/*/tokenizer_config.json
+
+# Previous ad-hoc import location; datasets are organized under dataset/.
+NewData/

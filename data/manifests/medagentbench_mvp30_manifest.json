@@ -1,0 +1,279 @@
+{
+  "case_count": 30,
+  "cases": [
+    {
+      "case_hash": "084aa8eaabea33d120709b9408a10e271f234b08613a9beb777932e18bdf2d71",
+      "case_id": "MAB_TASK4_1",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_1.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "10fd7bdd56d2b727c2eadab14436954e50cb5ab7304f970cdfdad3c4207e0543",
+      "case_id": "MAB_TASK4_2",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_2.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "28404e780d0b62506641a5c8f8901d7331f16b99ef0ad92e3540efd7e0365292",
+      "case_id": "MAB_TASK4_3",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_3.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "ddbf41ab17db27015798d52d0424903b2b8e82efce0a95532730537cbacde9df",
+      "case_id": "MAB_TASK4_4",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_4.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "eebdc24cba4f20bdef242a1752c1edf85494f51606318720c7b75ae80016e277",
+      "case_id": "MAB_TASK4_5",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_5.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "69b525bf5d4aa3ec401f74f07e9708210247d416991dadb1dd0e999111695dea",
+      "case_id": "MAB_TASK4_6",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_6.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "ce154091d8e436802ce472f02e9063acc30ac836361409964f1f6f268d8b7114",
+      "case_id": "MAB_TASK4_7",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_7.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "b30f12f2e3f0b84077220d00772fe662943bea14528e02408aa7bca7bdce25a2",
+      "case_id": "MAB_TASK4_8",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_8.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "2f70036b1655d4399a4c3554acf8e3d0a10256c37213b9fe608db2f925a01468",
+      "case_id": "MAB_TASK4_9",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_9.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "b8e45928eca465d7352263641429929b7736b70dd8768bbcbd972ae2f4bcd763",
+      "case_id": "MAB_TASK4_10",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_10.json",
+      "pathology": "MAB_OUTCOME_LAB_RETRIEVAL"
+    },
+    {
+      "case_hash": "6e1b2244dae8273201a65cdd2a198f6cdd9bd3815fa8df816ac3ce367577461c",
+      "case_id": "MAB_TASK5_1",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_1.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "c20445b71f6699461fa6c7a8580ac9d5aaa2ae941d00c205b107d99253df8ffa",
+      "case_id": "MAB_TASK5_2",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_2.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "4fca7e07520d6920b8d76ad63b5f03bf936415fdfa8fbdbab6d8519a45e578b7",
+      "case_id": "MAB_TASK5_3",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_3.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "4037bb84e97e88078a102827a09744295ae830738197828e922da29443c6a997",
+      "case_id": "MAB_TASK5_4",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_4.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "39eb1918f7c6404b34c15925927a2b5f2cbe6a70f4514d111607d32b9843caf2",
+      "case_id": "MAB_TASK5_5",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_5.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "860a5f1194bf394a85b10ae9aba5c7cf75ea2d552b18c0194391c4f8f3027e76",
+      "case_id": "MAB_TASK5_6",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_6.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "0446613d1521077aaade6b18d26bc0e43e2c9cd5df2a90f3db8f74747af3fa10",
+      "case_id": "MAB_TASK5_7",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_7.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "b0894c94b2fc88228e06d9270aa4c508b6e33a993014aaaf1aa90b531089f0bf",
+      "case_id": "MAB_TASK5_8",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_8.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "0644db44deeec0ee76f81609cce458d2dbb7dbcb92ce9777ae85f4763f15cd50",
+      "case_id": "MAB_TASK5_9",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_9.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "134a60bb8b3888d9558010e031b4d960d2265341de620364fcf22db3dd2f9295",
+      "case_id": "MAB_TASK5_10",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_10.json",
+      "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM"
+    },
+    {
+      "case_hash": "c711620216d2b202576f40b17f4c6715eac88e3fb2230194bf0da59cb248a912",
+      "case_id": "MAB_TASK8_1",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_1.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "0d59fb800d1eb9b13e64fddca1dfcecf81b5cf49fc8e24eb2c6f2909a849eea7",
+      "case_id": "MAB_TASK8_2",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_2.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "66e3b047c5cb440b434e015c415844909c0eede4dce4474ca409acb7ee18ff55",
+      "case_id": "MAB_TASK8_3",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_3.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "9202200ae98f8465af78f65568d9815241b622a47de701d6f0c69512f543e645",
+      "case_id": "MAB_TASK8_4",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_4.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "9866811fbb50c48b0228758f46ab45e56f6ad0f1ac322bc24bb84b2b68dc26a9",
+      "case_id": "MAB_TASK8_5",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_5.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "cba84cda4f4b8d18201a13323e68de575a184f590e85c3850587362709412762",
+      "case_id": "MAB_TASK8_6",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_6.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "565c2c417723075a99140aa0ca8033253be709b3ca9d067c540fb54ff2f3b191",
+      "case_id": "MAB_TASK8_7",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_7.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "4ffbbd6a07fe2f5bd8b9e937de295d0117c80be20193c218aca77154829903d2",
+      "case_id": "MAB_TASK8_8",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_8.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "d93b5fc81001190cd0da45fd4793c3bebda098a7518d7609c131e6a602b47736",
+      "case_id": "MAB_TASK8_9",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_9.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    },
+    {
+      "case_hash": "4dccc27c48274a1ccd81bdf46519dcb52801ea301abfd6b39b6ace09b85fd3a4",
+      "case_id": "MAB_TASK8_10",
+      "case_type": "WORKFLOW_FOREST",
+      "dataset_name": "MedAgentBench",
+      "generation_mode": "OFFLINE_TASK_REPLAY",
+      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_10.json",
+      "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL"
+    }
+  ],
+  "dataset_name": "MedAgentBench",
+  "execution_mode": "OFFLINE_TASK_REPLAY",
+  "manifest_name": "medagentbench_mvp30",
+  "manifest_version": "medagentbench_mvp30_v1"
+}

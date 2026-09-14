@@ -1,0 +1,458 @@
+{
+  "case_count": 50,
+  "cases": [
+    {
+      "case_hash": "5d14679ec8ed9358ed46708e368aba9b688b8cb731a8f9e01b30180d3bcf111f",
+      "case_id": "SYN_ENC_0001",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0001.json",
+      "pathology": "SYN_DX_75498004"
+    },
+    {
+      "case_hash": "878099a74767fb1edda055276ff2b3c4401785c16174d712d1143569d1587805",
+      "case_id": "SYN_ENC_0002",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0002.json",
+      "pathology": "SYN_DX_10509002"
+    },
+    {
+      "case_hash": "8e830f0845eac6307fda06e8a4c99c3f80b003d815b41e5cec64aff8eafb9d7b",
+      "case_id": "SYN_ENC_0003",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0003.json",
+      "pathology": "SYN_DX_195662009"
+    },
+    {
+      "case_hash": "9b8247d392f8a1b93e76a23705c4874498fa5621409f18a706b163c7acc01fad",
+      "case_id": "SYN_ENC_0004",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0004.json",
+      "pathology": "SYN_DX_26929004"
+    },
+    {
+      "case_hash": "2a37127625d1e5eead52ad0fe1eebd84adb097e4f1dc2ec787b5945ad6f0c4f9",
+      "case_id": "SYN_ENC_0005",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0005.json",
+      "pathology": "SYN_DX_271737000"
+    },
+    {
+      "case_hash": "790a2a94f1a8a21d916da026d16e4f4c20f07de31982b2985c2f6ce720bc09ba",
+      "case_id": "SYN_ENC_0006",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0006.json",
+      "pathology": "SYN_DX_195967001"
+    },
+    {
+      "case_hash": "121cff495f3d3b41dff484204cf076ed1afe793df6ac087e1fc2d690cfa8defd",
+      "case_id": "SYN_ENC_0007",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0007.json",
+      "pathology": "SYN_DX_233678006"
+    },
+    {
+      "case_hash": "d888d421e5fdbbbbb1258b3e63053f66799b5c437e80689e6d23fbbb4fe0778a",
+      "case_id": "SYN_ENC_0008",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0008.json",
+      "pathology": "SYN_DX_88805009"
+    },
+    {
+      "case_hash": "c5987e1be3c2ed948ec9aaa4cb39c0db9e71ba2250155666191ec1d1864e5dd1",
+      "case_id": "SYN_ENC_0009",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0009.json",
+      "pathology": "SYN_DX_124171000119105"
+    },
+    {
+      "case_hash": "4c9fb983ac71aca60bc34c196d5d50b088e757cf59b5fe48a9a59ac44d106b7a",
+      "case_id": "SYN_ENC_0010",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0010.json",
+      "pathology": "SYN_DX_82423001"
+    },
+    {
+      "case_hash": "58b7336e59232d832fbe2029bd94a9ec4e54e43bd641a6353d19f311f48209ff",
+      "case_id": "SYN_ENC_0011",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0011.json",
+      "pathology": "SYN_DX_38822007"
+    },
+    {
+      "case_hash": "0a453c29294b4d8859d3de15aab6d34a104d4986ed06ead1ca8f899ddc0a75fa",
+      "case_id": "SYN_ENC_0012",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0012.json",
+      "pathology": "SYN_DX_156073000"
+    },
+    {
+      "case_hash": "6fac8eed72d7f2770dd9c221b8365d804a73aa96c29071f843f8b9a17d07eb0e",
+      "case_id": "SYN_ENC_0013",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0013.json",
+      "pathology": "SYN_DX_55822004"
+    },
+    {
+      "case_hash": "b29ffb937acc4b4ca4156edb6d65cc5320f2ece55442fa97ac948da4b34b2b60",
+      "case_id": "SYN_ENC_0014",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0014.json",
+      "pathology": "SYN_DX_196416002"
+    },
+    {
+      "case_hash": "2de6a01b1e8a847adab3066a8bcc0adfcd00850a56456ed21545eca489763be4",
+      "case_id": "SYN_ENC_0015",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0015.json",
+      "pathology": "SYN_DX_363406005"
+    },
+    {
+      "case_hash": "4f7f6bf3ae6695c54b86d97fcdab3df9ee501e047975a146e206edfa0f7867fc",
+      "case_id": "SYN_ENC_0016",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0016.json",
+      "pathology": "SYN_DX_126906006"
+    },
+    {
+      "case_hash": "ca13270817dd17b076dda11601d4d79b8978d530d528ad688386ec877906f135",
+      "case_id": "SYN_ENC_0017",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0017.json",
+      "pathology": "SYN_DX_72892002"
+    },
+    {
+      "case_hash": "c4d35fa107bf1f316b533860da777fb5b31d0b3147532cb2a48ec2456b3516c9",
+      "case_id": "SYN_ENC_0018",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0018.json",
+      "pathology": "SYN_DX_109838007"
+    },
+    {
+      "case_hash": "8512082cac8c3f05a55144b84305dd3b4e76f1a877c7c56d2ed85d2df85a8e54",
+      "case_id": "SYN_ENC_0019",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0019.json",
+      "pathology": "SYN_DX_94260004"
+    },
+    {
+      "case_hash": "0691acea59c8a63cf4296f2a591482401e74460cd6cf91504c3a4a7fe107fef2",
+      "case_id": "SYN_ENC_0020",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0020.json",
+      "pathology": "SYN_DX_128613002"
+    },
+    {
+      "case_hash": "8c0fc6e79f73f35da830e6e8f9a997f6743a3360e27a305068fede1a947ce03f",
+      "case_id": "SYN_ENC_0021",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0021.json",
+      "pathology": "SYN_DX_36971009"
+    },
+    {
+      "case_hash": "4dd34442a53559776b5c13eb3be01f019fb95ad69f1f80663cba1f207512f268",
+      "case_id": "SYN_ENC_0022",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0022.json",
+      "pathology": "SYN_DX_43878008"
+    },
+    {
+      "case_hash": "0c23749caf80c58d7ae3dda5769746b58b5f9f5b77b0bd6acac283e67063b55c",
+      "case_id": "SYN_ENC_0023",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0023.json",
+      "pathology": "SYN_DX_79586000"
+    },
+    {
+      "case_hash": "c1f2d0cd5961b2ba699e993e92f282771bf299754db10d1247f4742a7de60585",
+      "case_id": "SYN_ENC_0024",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0024.json",
+      "pathology": "SYN_DX_444814009"
+    },
+    {
+      "case_hash": "2e2afff510d77d7ed681fefd9c60bb935e05cd0028f62d36001d72b7c925f4c5",
+      "case_id": "SYN_ENC_0025",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0025.json",
+      "pathology": "SYN_DX_75498004"
+    },
+    {
+      "case_hash": "1a31b08208c66d68a5dd288e242a00e45635983d749becf1b2ce7deb032d0ee1",
+      "case_id": "SYN_ENC_0026",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0026.json",
+      "pathology": "SYN_DX_10509002"
+    },
+    {
+      "case_hash": "f268a1ed4fae5a723fd9c37d1675b365df90afafe604b89c63e2941cd2c5f408",
+      "case_id": "SYN_ENC_0027",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0027.json",
+      "pathology": "SYN_DX_195662009"
+    },
+    {
+      "case_hash": "fbe403fccf046e3323dc47286dd18584ec9e60f937185b95719a38e300d4340c",
+      "case_id": "SYN_ENC_0028",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0028.json",
+      "pathology": "SYN_DX_271737000"
+    },
+    {
+      "case_hash": "9053383b6b3bdd876b139dcb176ebe3d5b89b32774091f648f7de96c6a2bf1c9",
+      "case_id": "SYN_ENC_0029",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0029.json",
+      "pathology": "SYN_DX_88805009"
+    },
+    {
+      "case_hash": "2773233ca1c057f19abf65d6ce9ccc944383ff6fb2c25d287cb2a6c0426ad0e1",
+      "case_id": "SYN_ENC_0030",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0030.json",
+      "pathology": "SYN_DX_55822004"
+    },
+    {
+      "case_hash": "40f83d5e93fde680f1d790a06c683506e57b805ef29db02d1e8c4ae3ec9442e1",
+      "case_id": "SYN_ENC_0031",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0031.json",
+      "pathology": "SYN_DX_196416002"
+    },
+    {
+      "case_hash": "3308bdb354dc99b40b09b370006df5d63a5e6c142dad9bbe3a45e3636a0d7c94",
+      "case_id": "SYN_ENC_0032",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0032.json",
+      "pathology": "SYN_DX_363406005"
+    },
+    {
+      "case_hash": "2150de2e747d287352b37c8d22c00c614fa485b76751a56ae9feab760b9b1974",
+      "case_id": "SYN_ENC_0033",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0033.json",
+      "pathology": "SYN_DX_126906006"
+    },
+    {
+      "case_hash": "2a50e8f7d50c5aec078f883479da74e8f18830dc0809a24470dfd1c6d763ee92",
+      "case_id": "SYN_ENC_0034",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0034.json",
+      "pathology": "SYN_DX_72892002"
+    },
+    {
+      "case_hash": "7bb38a468d9842a4ec1e5ccc6ed934c0862dd37724e35c09e220e0da504c4a82",
+      "case_id": "SYN_ENC_0035",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0035.json",
+      "pathology": "SYN_DX_109838007"
+    },
+    {
+      "case_hash": "8674170c8601ea08433a7625c77a25298673f950c0815d5077da0bb416dadec5",
+      "case_id": "SYN_ENC_0036",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0036.json",
+      "pathology": "SYN_DX_94260004"
+    },
+    {
+      "case_hash": "26109ce536b41908f08c0b313c947d0ee852c3424056dc8626819a2078951c66",
+      "case_id": "SYN_ENC_0037",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0037.json",
+      "pathology": "SYN_DX_128613002"
+    },
+    {
+      "case_hash": "931c27b00c7bb93e84b27cf37dd98752e84d317c98d336c65e6f9ffb35e8e3f2",
+      "case_id": "SYN_ENC_0038",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0038.json",
+      "pathology": "SYN_DX_36971009"
+    },
+    {
+      "case_hash": "c03c87094f25d28eb2342f4e6cd783e301d8bf049aebef1912b59e3525dd14b5",
+      "case_id": "SYN_ENC_0039",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0039.json",
+      "pathology": "SYN_DX_79586000"
+    },
+    {
+      "case_hash": "e2b6d1ab2fd732f782bd5185a9c097003634808d3d60fe0e7b136e2fc369fddb",
+      "case_id": "SYN_ENC_0040",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0040.json",
+      "pathology": "SYN_DX_444814009"
+    },
+    {
+      "case_hash": "2271093ff043ca270569bef27a1f03c5e269002c87ddb1d4c5fa1d39db2823bd",
+      "case_id": "SYN_ENC_0041",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0041.json",
+      "pathology": "SYN_DX_75498004"
+    },
+    {
+      "case_hash": "be5e405393484728e2064d0c85c739ceffe640a4dc2a345139b0996a9c49036a",
+      "case_id": "SYN_ENC_0042",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0042.json",
+      "pathology": "SYN_DX_10509002"
+    },
+    {
+      "case_hash": "1740059b0934749f1cfc88f30f77611526e7539588a6812ca3669243a13123a7",
+      "case_id": "SYN_ENC_0043",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0043.json",
+      "pathology": "SYN_DX_195662009"
+    },
+    {
+      "case_hash": "258d4a4a5840e122fa7291686654ccdd54290f1004a2df0e4147d2ede785af6f",
+      "case_id": "SYN_ENC_0044",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0044.json",
+      "pathology": "SYN_DX_271737000"
+    },
+    {
+      "case_hash": "9f6c6117e73020c942e47acde2693851ede7b3cc0820540c8bf36c9f18b7c723",
+      "case_id": "SYN_ENC_0045",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0045.json",
+      "pathology": "SYN_DX_88805009"
+    },
+    {
+      "case_hash": "d3833694ae867bc6e1f6aedd6e4e2e3228360c7a7244951260f596cb16ae67e6",
+      "case_id": "SYN_ENC_0046",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0046.json",
+      "pathology": "SYN_DX_55822004"
+    },
+    {
+      "case_hash": "97fd3eb3559527b6a08f5ad0db8fe79a61be2866178b7683839ffba178fa2bc7",
+      "case_id": "SYN_ENC_0047",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0047.json",
+      "pathology": "SYN_DX_196416002"
+    },
+    {
+      "case_hash": "e406c3a50babe1bbecc6c82190bfd38f6f90beef5c3d3182f9f3026215c81d23",
+      "case_id": "SYN_ENC_0048",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0048.json",
+      "pathology": "SYN_DX_363406005"
+    },
+    {
+      "case_hash": "c244f68414b58170919344d1d6fc2eac4525ee3d7106dc32ba96ae96886ebe09",
+      "case_id": "SYN_ENC_0049",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0049.json",
+      "pathology": "SYN_DX_126906006"
+    },
+    {
+      "case_hash": "fa09e95c130af869fed59782a47885bf92e4c7670a8273af36ef7f0aaff18250",
+      "case_id": "SYN_ENC_0050",
+      "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
+      "dataset_name": "Synthea",
+      "generation_mode": "NATURAL_CSV_EXPORT",
+      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0050.json",
+      "pathology": "SYN_DX_72892002"
+    }
+  ],
+  "dataset_name": "Synthea",
+  "manifest_name": "synthea_mvp50",
+  "manifest_version": "synthea_mvp50_v1"
+}

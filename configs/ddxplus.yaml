@@ -1,0 +1,37 @@
+dataset:
+  name: DDXPlus
+  dataset_version: original_en_hf_parquet
+  pipeline_version: v1
+  semantic_mapping_version: semantics_v1
+  case_manifest_version: mvp50_v1
+
+paths:
+  source_dir: dataset/ddxplus
+  raw_dir: data/raw/ddxplus/original
+  processed_dir: data/processed/ddxplus/v1
+  manifests_dir: data/manifests
+  exports_dir: data/exports
+
+splits:
+  train:
+    - train-0000.parquet
+    - train-0001.parquet
+  validate:
+    - validate.parquet
+  test:
+    - test.parquet
+
+age_buckets:
+  - {name: "0-4", min: 0, max: 4}
+  - {name: "5-17", min: 5, max: 17}
+  - {name: "18-39", min: 18, max: 39}
+  - {name: "40-64", min: 40, max: 64}
+  - {name: "65+", min: 65, max: 200}
+
+smoothing_alpha: 1.0
+known_upstream_quality_exceptions:
+  hierarchy_reference_error_count: 5
+  duplicate_case_count:
+    train: 13255
+    validate: 75
+    test: 101

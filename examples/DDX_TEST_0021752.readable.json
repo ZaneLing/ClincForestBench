@@ -1,0 +1,304 @@
+{
+  "about": "Human-readable projection of one immutable benchmark case. This file is for demonstration/research review and must not be sent to an active player.",
+  "case_hash": "5e7d7e310be55f9791ff4ad980ac0b44490a5445f9b53480aa715c085c57c2b9",
+  "case_id": "DDX_TEST_0021752",
+  "case_quality": {
+    "antecedent_count": 9,
+    "branchability_score": 0.3811238773440683,
+    "child_attribute_count": 1,
+    "differential_entropy": 2.869034827915869,
+    "differential_size": 20,
+    "evidence_count": 12,
+    "independent_root_count": 11,
+    "nonbinary_count": 1,
+    "symptom_count": 3,
+    "top1_probability": 0.10255289743765629,
+    "top1_top2_margin": 0.010022894495132717
+  },
+  "demographics": {
+    "age": 33,
+    "sex": "M"
+  },
+  "dense_truth": {
+    "evidence_count": 223,
+    "full_bundle_path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0021752.json"
+  },
+  "ground_truth": {
+    "differential": [
+      {
+        "condition": "Acute COPD exacerbation / infection",
+        "probability": 0.10255289743765629
+      },
+      {
+        "condition": "Bronchitis",
+        "probability": 0.09253000294252357
+      },
+      {
+        "condition": "Pulmonary neoplasm",
+        "probability": 0.08619677344440968
+      },
+      {
+        "condition": "Pneumonia",
+        "probability": 0.06809403450033454
+      },
+      {
+        "condition": "Tuberculosis",
+        "probability": 0.062417242596313094
+      },
+      {
+        "condition": "Acute pulmonary edema",
+        "probability": 0.06083587873412698
+      },
+      {
+        "condition": "Anaphylaxis",
+        "probability": 0.06083587873412698
+      },
+      {
+        "condition": "Guillain-Barré syndrome",
+        "probability": 0.05560753682679768
+      },
+      {
+        "condition": "Atrial fibrillation",
+        "probability": 0.05311525330059545
+      },
+      {
+        "condition": "Myocarditis",
+        "probability": 0.05245500620893348
+      },
+      {
+        "condition": "Pulmonary embolism",
+        "probability": 0.04711690034540144
+      },
+      {
+        "condition": "Bronchiectasis",
+        "probability": 0.04196588378797603
+      },
+      {
+        "condition": "Acute dystonic reactions",
+        "probability": 0.03915940466006916
+      },
+      {
+        "condition": "Myasthenia gravis",
+        "probability": 0.03915940466006916
+      },
+      {
+        "condition": "Anemia",
+        "probability": 0.03915940466006916
+      },
+      {
+        "condition": "Scombroid food poisoning",
+        "probability": 0.03617996570329641
+      },
+      {
+        "condition": "PSVT",
+        "probability": 0.02091757298912971
+      },
+      {
+        "condition": "SLE",
+        "probability": 0.018128935075634216
+      },
+      {
+        "condition": "Possible NSTEMI / STEMI",
+        "probability": 0.01178601169626863
+      },
+      {
+        "condition": "Chagas",
+        "probability": 0.01178601169626863
+      }
+    ],
+    "pathology": "Acute COPD exacerbation / infection",
+    "severity": 3
+  },
+  "initial_presentation": {
+    "answer": "Yes",
+    "clinical_domain": "SYMPTOM",
+    "evidence_id": "E_214",
+    "question": "Have you noticed a wheezing sound when you exhale?",
+    "raw_response": {
+      "data_type": "binary",
+      "evidence_id": "E_214",
+      "status": "PRESENT",
+      "value": true,
+      "values": []
+    },
+    "semantic_role": "PRESENTING_SYMPTOM"
+  },
+  "positive_findings": [
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_123",
+      "question": "Do you have a chronic obstructive pulmonary disease (COPD)?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_123",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_125",
+      "question": "Have you ever been diagnosed with gastroesophageal reflux?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_125",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_198",
+      "question": "Do you work in agriculture?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_198",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_199",
+      "question": "Do you work in construction?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_199",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_200",
+      "question": "Do you work in the mining sector?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_200",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "SYMPTOM",
+      "evidence_id": "E_201",
+      "question": "Do you have a cough?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_201",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "PRESENTING_SYMPTOM"
+    },
+    {
+      "answer": "No",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_204",
+      "question": "Have you traveled out of the country in the last 4 weeks?",
+      "raw_response": {
+        "data_type": "categorical",
+        "evidence_id": "E_204",
+        "status": "VALUE",
+        "value": "V_10",
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "SYMPTOM",
+      "evidence_id": "E_214",
+      "question": "Have you noticed a wheezing sound when you exhale?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_214",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "PRESENTING_SYMPTOM"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_31",
+      "question": "Do you have severe Chronic Obstructive Pulmonary Disease (COPD)?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_31",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "SYMPTOM",
+      "evidence_id": "E_66",
+      "question": "Are you experiencing shortness of breath or difficulty breathing in a significant way?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_66",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "PRESENTING_SYMPTOM"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_72",
+      "question": "Have you had one or several flare ups of chronic obstructive pulmonary disease (COPD) in the past year?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_72",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    },
+    {
+      "answer": "Yes",
+      "clinical_domain": "ANTECEDENT",
+      "evidence_id": "E_79",
+      "question": "Do you smoke cigarettes?",
+      "raw_response": {
+        "data_type": "binary",
+        "evidence_id": "E_79",
+        "status": "PRESENT",
+        "value": true,
+        "values": []
+      },
+      "semantic_role": "OTHER_ANTECEDENT"
+    }
+  ],
+  "versions": {
+    "case_manifest_version": "mvp50_v1",
+    "dataset_version": "original_en_hf_parquet",
+    "name": "DDXPlus",
+    "pipeline_version": "v1",
+    "semantic_mapping_version": "semantics_v1",
+    "split": "test"
+  }
+}

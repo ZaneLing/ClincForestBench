@@ -1,0 +1,8 @@
+protocol_version: exposure_v1
+disclaimer: Research exposure tiers are experimental protocols, not real visit chronology.
+tiers:
+  0: demographics_and_initial_evidence
+  1: initial_question_group_attributes
+  2: other_symptoms
+  3: antecedents_and_risk_factors
+  4: complete_queryable_history

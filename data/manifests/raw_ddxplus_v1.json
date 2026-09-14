@@ -1,0 +1,32 @@
+{
+  "dataset_version": "original_en_hf_parquet",
+  "files": [
+    {
+      "bytes": 168731468,
+      "name": "train-0000.parquet"
+    },
+    {
+      "bytes": 57189385,
+      "name": "train-0001.parquet"
+    },
+    {
+      "bytes": 30048885,
+      "name": "validate.parquet"
+    },
+    {
+      "bytes": 30521041,
+      "name": "test.parquet"
+    },
+    {
+      "bytes": 120263,
+      "name": "release_evidences.json",
+      "sha256": "281c78b044ae60514e28ecc9052d08a8225dd3e2db3f00f8788b99c47b05e0c0"
+    },
+    {
+      "bytes": 21029,
+      "name": "release_conditions.json",
+      "sha256": "61e16706a2ab78efb997bab8a865c83b46151b10b0377b63530745f1e18e71a8"
+    }
+  ],
+  "immutable_source": true
+}

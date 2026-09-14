@@ -1,0 +1,22 @@
+{
+  "condition_catalog_count": 49,
+  "dataset_version": "original_en_hf_parquet",
+  "evidence_catalog_count": 223,
+  "exception_drift": [],
+  "hierarchy_reference_error_count": 5,
+  "quality_status": "PASSED_WITH_VERSIONED_UPSTREAM_EXCEPTIONS",
+  "splits": {
+    "test": {
+      "duplicate_case_count": 101,
+      "row_count": 134529
+    },
+    "train": {
+      "duplicate_case_count": 13255,
+      "row_count": 1025602
+    },
+    "validate": {
+      "duplicate_case_count": 75,
+      "row_count": 132448
+    }
+  }
+}

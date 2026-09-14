@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: medtree
+      POSTGRES_USER: medtree
+      POSTGRES_PASSWORD: medtree
+    ports:
+      - "5432:5432"
+    volumes:
+      - medtree_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medtree -d medtree"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      ARENA_REPOSITORY: postgresql
+      DATABASE_URL: postgresql+psycopg://medtree:medtree@postgres:5432/medtree
+      RESEARCH_API_KEY: ${RESEARCH_API_KEY:-local-research-only}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - ./dataset:/app/dataset:ro
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  medtree_postgres:
+

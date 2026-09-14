@@ -1,0 +1,11 @@
+arena_version: arena_v1
+ui_version: ui_v1
+default_mode: FREE_EXPLORATION
+default_belief_capture_mode: EVERY_STEP
+belief_checkpoints: [0, 3, 6]
+allowed_actions:
+  - ASK_EVIDENCE
+  - SUBMIT_BELIEF
+  - FINAL_DIAGNOSIS
+  - STOP
+research_api_key_env: RESEARCH_API_KEY

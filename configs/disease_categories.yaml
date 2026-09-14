@@ -1,0 +1,96 @@
+taxonomy_version: disease_system_v1
+taxonomy_source: Expert-authored MVP taxonomy derived from DDXPlus condition names; requires clinical QA.
+
+categories:
+  AIRWAY_RESPIRATORY:
+    label: Airway & respiratory
+    conditions:
+      - Acute COPD exacerbation / infection
+      - Bronchiectasis
+      - Bronchiolitis
+      - Bronchitis
+      - Bronchospasm / acute asthma exacerbation
+      - Pneumonia
+      - Pulmonary neoplasm
+      - Sarcoidosis
+      - Spontaneous pneumothorax
+      - Tuberculosis
+      - Whooping cough
+
+  ENT_UPPER_AIRWAY:
+    label: ENT & upper airway
+    conditions:
+      - Acute laryngitis
+      - Acute otitis media
+      - Acute rhinosinusitis
+      - Allergic sinusitis
+      - Chronic rhinosinusitis
+      - Croup
+      - Epiglottitis
+      - Larygospasm
+      - URTI
+      - Viral pharyngitis
+
+  CARDIOVASCULAR:
+    label: Cardiovascular & vascular
+    conditions:
+      - Acute pulmonary edema
+      - Atrial fibrillation
+      - Chagas
+      - Localized edema
+      - Myocarditis
+      - PSVT
+      - Pericarditis
+      - Possible NSTEMI / STEMI
+      - Pulmonary embolism
+      - Stable angina
+      - Unstable angina
+
+  NEUROLOGIC:
+    label: Neurologic & neuromuscular
+    conditions:
+      - Acute dystonic reactions
+      - Cluster headache
+      - Guillain-Barré syndrome
+      - Myasthenia gravis
+
+  GASTROINTESTINAL:
+    label: Gastrointestinal & abdominal
+    conditions:
+      - Boerhaave
+      - GERD
+      - Inguinal hernia
+      - Pancreatic neoplasm
+
+  SYSTEMIC_INFECTIOUS:
+    label: Systemic infectious disease
+    conditions:
+      - Ebola
+      - HIV (initial infection)
+      - Influenza
+
+  ALLERGY_TOXICOLOGY:
+    label: Allergy & toxicology
+    conditions:
+      - Anaphylaxis
+      - Scombroid food poisoning
+
+  HEMATOLOGIC:
+    label: Hematologic
+    conditions:
+      - Anemia
+
+  RHEUMATOLOGIC:
+    label: Rheumatologic & autoimmune
+    conditions:
+      - SLE
+
+  PSYCHIATRIC:
+    label: Psychiatric
+    conditions:
+      - Panic attack
+
+  MUSCULOSKELETAL:
+    label: Musculoskeletal & trauma
+    conditions:
+      - Spontaneous rib fracture

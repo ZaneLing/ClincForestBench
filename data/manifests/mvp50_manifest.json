@@ -1,0 +1,309 @@
+{
+  "cases": [
+    {
+      "case_hash": "5e7d7e310be55f9791ff4ad980ac0b44490a5445f9b53480aa715c085c57c2b9",
+      "case_id": "DDX_TEST_0021752",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0021752.json",
+      "pathology": "Acute COPD exacerbation / infection"
+    },
+    {
+      "case_hash": "ea48f8e34f6c9a3182280a2194cb02f4e58df978cd090ead91e72a88e7969c56",
+      "case_id": "DDX_TEST_0019687",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0019687.json",
+      "pathology": "Acute dystonic reactions"
+    },
+    {
+      "case_hash": "bbff6575b8d186cbe5e1a46794bfb0ffe48c7863b701a3c7b454cdb0627666bb",
+      "case_id": "DDX_TEST_0076741",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0076741.json",
+      "pathology": "Acute laryngitis"
+    },
+    {
+      "case_hash": "a709de685f9e20c5828af91770f053e711eab2ed424f8e379017a35047dd2704",
+      "case_id": "DDX_TEST_0116720",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0116720.json",
+      "pathology": "Acute otitis media"
+    },
+    {
+      "case_hash": "47b6cf0d564e4e97a665406c3de83c5b3b9585df190b0e9396ffc25959fc6171",
+      "case_id": "DDX_TEST_0022402",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0022402.json",
+      "pathology": "Acute pulmonary edema"
+    },
+    {
+      "case_hash": "4d8fab8deb7df514ff4f4331d72e7aff207747f448e1e625a4d0becd8c450c3b",
+      "case_id": "DDX_TEST_0022295",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0022295.json",
+      "pathology": "Acute rhinosinusitis"
+    },
+    {
+      "case_hash": "ffa7f313bf0fe65ed955561b0de05aabd69d0bc01acc01a7f2fc9d8b6dc62119",
+      "case_id": "DDX_TEST_0016710",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0016710.json",
+      "pathology": "Allergic sinusitis"
+    },
+    {
+      "case_hash": "a60de453e70cd3c0d7fad9597d6e7ef808a810fd6190d5f1949c5e7cafa91c2a",
+      "case_id": "DDX_TEST_0051007",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0051007.json",
+      "pathology": "Anaphylaxis"
+    },
+    {
+      "case_hash": "4eb715032231a07baeb489ab542e69f1996b4fb7e511ff0f7e9b6eade7168505",
+      "case_id": "DDX_TEST_0045322",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0045322.json",
+      "pathology": "Anemia"
+    },
+    {
+      "case_hash": "ee44c2190fc99e5b6b26493f5e76d6b47ffeb14b84286e0d03c62e803d75a642",
+      "case_id": "DDX_TEST_0001176",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0001176.json",
+      "pathology": "Atrial fibrillation"
+    },
+    {
+      "case_hash": "f0954c99342c1f8d6f7cee7b74e369aaf864c51276772e653eea96c2e8150011",
+      "case_id": "DDX_TEST_0008115",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0008115.json",
+      "pathology": "Boerhaave"
+    },
+    {
+      "case_hash": "cebbd3f33f6ff9a7dc2c3abb083fc170098135696395ecbdeec7e9ae7e8b612b",
+      "case_id": "DDX_TEST_0007386",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0007386.json",
+      "pathology": "Bronchiectasis"
+    },
+    {
+      "case_hash": "90745c1ee32eb41dc91f4efcea83f6c93766d4d3f749b9f10269bc12146ad4c6",
+      "case_id": "DDX_TEST_0075610",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0075610.json",
+      "pathology": "Bronchiolitis"
+    },
+    {
+      "case_hash": "1c4d04f99aeb8788dde5e000ce3414bf1f47b5ebe5071485e4e530dcd0c190be",
+      "case_id": "DDX_TEST_0133178",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0133178.json",
+      "pathology": "Bronchitis"
+    },
+    {
+      "case_hash": "85c558fa4bb184081481a23fdd18d5fe9bd2576f2304d7ea2dcdcd045cada593",
+      "case_id": "DDX_TEST_0011711",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0011711.json",
+      "pathology": "Bronchospasm / acute asthma exacerbation"
+    },
+    {
+      "case_hash": "18b42bce4e5048f154531100f42246657079c85c378f528ea6b999dffd600d0d",
+      "case_id": "DDX_TEST_0046091",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0046091.json",
+      "pathology": "Chagas"
+    },
+    {
+      "case_hash": "b0ca720774f609a66aa7d37a139ef00ca15e8e4c3e64a8d24c06d71c88a9a528",
+      "case_id": "DDX_TEST_0002201",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0002201.json",
+      "pathology": "Chronic rhinosinusitis"
+    },
+    {
+      "case_hash": "559c01a7f702d6681eaa5074bf421309dcaf29cb09cd314517d44ffa798bdc83",
+      "case_id": "DDX_TEST_0000055",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0000055.json",
+      "pathology": "Cluster headache"
+    },
+    {
+      "case_hash": "2ad74805e004cfbf3bd592b2e9e350145fb392d1ff034d95f811278227b7fbf6",
+      "case_id": "DDX_TEST_0112288",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0112288.json",
+      "pathology": "Croup"
+    },
+    {
+      "case_hash": "d0945fb635466a92ae4fdb263ec61349e08c05280e130b49ec007fc1210cd89e",
+      "case_id": "DDX_TEST_0109149",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0109149.json",
+      "pathology": "Ebola"
+    },
+    {
+      "case_hash": "23595d7c482faf6f4b42205b481d8c9ff86233c5ec33ec8a812a541a182cea6d",
+      "case_id": "DDX_TEST_0031803",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0031803.json",
+      "pathology": "Epiglottitis"
+    },
+    {
+      "case_hash": "83062ad1295fceb4776dee77eab8cb9571a246e37c69ffdd97416532c7452210",
+      "case_id": "DDX_TEST_0126957",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0126957.json",
+      "pathology": "GERD"
+    },
+    {
+      "case_hash": "a36ca2ee5ed2c5dfc15baa1a79fb0a555a3ac159503def24797f769ccf7888d6",
+      "case_id": "DDX_TEST_0001720",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0001720.json",
+      "pathology": "Guillain-Barré syndrome"
+    },
+    {
+      "case_hash": "99374313b8649e70d562a201eb411f705d6acd9e680a69d9615f29b4c0a598ea",
+      "case_id": "DDX_TEST_0019516",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0019516.json",
+      "pathology": "HIV (initial infection)"
+    },
+    {
+      "case_hash": "fd914d62908aea77cff86c63af42e85bc1488cb3baa7c14601c2b71f57bcee9e",
+      "case_id": "DDX_TEST_0064269",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0064269.json",
+      "pathology": "Influenza"
+    },
+    {
+      "case_hash": "6e47251608f39c1486031a6d6b2151620d84a230f148caf5bc26b879fc0b940a",
+      "case_id": "DDX_TEST_0121798",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0121798.json",
+      "pathology": "Inguinal hernia"
+    },
+    {
+      "case_hash": "8b6ac04011605e634ddbd7ce4ae93ff3d56eeec00a79eb5eb356f130b2855211",
+      "case_id": "DDX_TEST_0038681",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0038681.json",
+      "pathology": "Localized edema"
+    },
+    {
+      "case_hash": "7661a7083a50b561ee3b69f8c7b8f2d6c12c7a8720bd95afe1658cab2fc5c749",
+      "case_id": "DDX_TEST_0006901",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0006901.json",
+      "pathology": "Myasthenia gravis"
+    },
+    {
+      "case_hash": "92f030c0ba52e723e60436916347e7cde0d17ea039afc69faee1f62018499421",
+      "case_id": "DDX_TEST_0117280",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0117280.json",
+      "pathology": "Myocarditis"
+    },
+    {
+      "case_hash": "7c5fc42f105782cad2a011a5cdfe398dc85d06dab29b01c499158cd4af7c7810",
+      "case_id": "DDX_TEST_0012938",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0012938.json",
+      "pathology": "PSVT"
+    },
+    {
+      "case_hash": "74ed83ea1621c847a4e85ea9dde663093b44e8d918b5c1bf13cc88c3cd786d25",
+      "case_id": "DDX_TEST_0088312",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0088312.json",
+      "pathology": "Pancreatic neoplasm"
+    },
+    {
+      "case_hash": "d464e2e5ad895a18cdd4c3a932703d30bd2c4f50b02845b68f9c8f6097f25632",
+      "case_id": "DDX_TEST_0017621",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0017621.json",
+      "pathology": "Panic attack"
+    },
+    {
+      "case_hash": "d3197c8f5778e06cc1d58bb0e5161cc0f74f50d95afe7a3b28f5c80f80825383",
+      "case_id": "DDX_TEST_0012194",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0012194.json",
+      "pathology": "Pericarditis"
+    },
+    {
+      "case_hash": "3878cc4f9f39c3ef99c56a273d2f548dc9b946e0122168c96799ede5b0483e12",
+      "case_id": "DDX_TEST_0094093",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0094093.json",
+      "pathology": "Pneumonia"
+    },
+    {
+      "case_hash": "8bcc788c28845117c56501eb76cb2722d691a31625022bc6f47086f7f87d02b5",
+      "case_id": "DDX_TEST_0112013",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0112013.json",
+      "pathology": "Possible NSTEMI / STEMI"
+    },
+    {
+      "case_hash": "5cccc184cdb15f8e446eaa1ae30e5ddd16cc1a7e95bf42cc9c1954f1a99bb788",
+      "case_id": "DDX_TEST_0003820",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0003820.json",
+      "pathology": "Pulmonary embolism"
+    },
+    {
+      "case_hash": "dad1cc14225e40f1c790e5b223393e512e9214066d7b3fa985fee132b1c708cc",
+      "case_id": "DDX_TEST_0083002",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0083002.json",
+      "pathology": "Pulmonary neoplasm"
+    },
+    {
+      "case_hash": "8048e5debe579c7ee5f65ed7ccca884f2c004843dc7ef1e8ed914513be1da8ec",
+      "case_id": "DDX_TEST_0059400",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0059400.json",
+      "pathology": "SLE"
+    },
+    {
+      "case_hash": "37420dc795cc8b1c2c95a7b94b48765c9e0ddbc16b783176f30041617a402f9d",
+      "case_id": "DDX_TEST_0098945",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0098945.json",
+      "pathology": "Sarcoidosis"
+    },
+    {
+      "case_hash": "77b9681c3f0f08b0cf4bb01f6be0b1e3ef5f520f878653e3da7bfb611ae2f2c4",
+      "case_id": "DDX_TEST_0120301",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0120301.json",
+      "pathology": "Scombroid food poisoning"
+    },
+    {
+      "case_hash": "af4c17ae48bf9083d8164264fbf95394a844f8547fc6e3bfab9dfe7a481bbd72",
+      "case_id": "DDX_TEST_0014608",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0014608.json",
+      "pathology": "Spontaneous pneumothorax"
+    },
+    {
+      "case_hash": "4eba07683690ca3fce0244cb48f0ba3e468a9bbd7a1065e0c99161623d5372ba",
+      "case_id": "DDX_TEST_0037936",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0037936.json",
+      "pathology": "Spontaneous rib fracture"
+    },
+    {
+      "case_hash": "151582e439ff50d11405eb17230205414918aa54cbf8dd9d2b43e7119bed52c5",
+      "case_id": "DDX_TEST_0029175",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0029175.json",
+      "pathology": "Stable angina"
+    },
+    {
+      "case_hash": "d126d66f1632a7fa6366c7414a199ff45d987ed6ff5d9a4ffdea6cf853536217",
+      "case_id": "DDX_TEST_0066465",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0066465.json",
+      "pathology": "Tuberculosis"
+    },
+    {
+      "case_hash": "a7d39f4dbe26103a6d8b827996d60ada272347fcafe37b649be5eab3b859d1e7",
+      "case_id": "DDX_TEST_0008154",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0008154.json",
+      "pathology": "URTI"
+    },
+    {
+      "case_hash": "b66737da1f86a3093da429081ae7215f8f2c76999b9f1168cbcd3242ff0a4740",
+      "case_id": "DDX_TEST_0022267",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0022267.json",
+      "pathology": "Unstable angina"
+    },
+    {
+      "case_hash": "cb9b8407542fb1570ac19b5bab0e354bef4814e73271945de7f9738e5da083b5",
+      "case_id": "DDX_TEST_0053813",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0053813.json",
+      "pathology": "Viral pharyngitis"
+    },
+    {
+      "case_hash": "a0e4217c5dccd20714440a3e5a83688494dc4ae37364831cc9d07b04b16da27e",
+      "case_id": "DDX_TEST_0012093",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0012093.json",
+      "pathology": "Whooping cough"
+    },
+    {
+      "case_hash": "1a0c97fbacf5230c284bce155ed48c63546c3c89d92835a23888b2124ebda48f",
+      "case_id": "DDX_TEST_0044507",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0044507.json",
+      "pathology": "Acute COPD exacerbation / infection"
+    },
+    {
+      "case_hash": "da06acf7887efb995651daa6727fd57426d0ae6b0ce0f833b7bf3c081f87cc92",
+      "case_id": "DDX_TEST_0028601",
+      "path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0028601.json",
+      "pathology": "Acute dystonic reactions"
+    }
+  ],
+  "dataset_version": "original_en_hf_parquet",
+  "manifest_name": "MVP-50",
+  "manifest_version": "mvp50_v1",
+  "pipeline_version": "v1",
+  "semantic_mapping_version": "semantics_v1"
+}

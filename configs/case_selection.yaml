@@ -1,0 +1,15 @@
+manifest_name: MVP-50
+manifest_version: mvp50_v1
+source_split: test
+target_cases: 50
+min_evidence_count: 8
+min_differential_size: 3
+prefer_initial_symptom: true
+weights:
+  independent_root_count: 0.25
+  child_attribute_count: 0.15
+  differential_entropy: 0.25
+  nonbinary_count: 0.15
+  evidence_count: 0.20
+max_cases_per_pathology: 3
+random_seed: 20260907
