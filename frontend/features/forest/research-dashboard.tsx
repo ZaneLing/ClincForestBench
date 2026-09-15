@@ -1,312 +1,51 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
 import {
-  ArrowRight,
-  BadgeCheck,
   Braces,
-  Check,
   ChevronDown,
   ChevronRight,
   Clipboard,
   Code2,
   Database,
   FileJson2,
-  Filter,
   GitBranch,
-  KeyRound,
-  Microscope,
   Rows3,
-  Stethoscope,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { api } from '@/lib/api';
-import type {
-  CaseTreeAudit,
-  CaseTreeManifest,
-  CaseTreeManifestEntry,
-} from './case-tree-types';
+import type { CaseTreeAudit } from './case-tree-types';
 import { GroundTruthTree } from './ground-truth-tree';
 
-export function ResearchDashboard() {
-  const [key, setKey] = useState('local-research-only');
-  const [manifest, setManifest] = useState<CaseTreeManifest | null>(null);
-  const [caseId, setCaseId] = useState('');
-  const [dataset, setDataset] = useState('ALL');
-  const [category, setCategory] = useState('ALL');
+export function ResearchDashboard({ selectedCaseId }: { selectedCaseId: string }) {
   const [audit, setAudit] = useState<CaseTreeAudit | null>(null);
   const [highlightedNodeId, setHighlightedNodeId] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [notice, setNotice] = useState(
-    'Loading the versioned multi-dataset tree manifest…',
-  );
-
-  const categories = useMemo(
-    () =>
-      Array.from(
-        new Map(
-          (manifest?.cases ?? [])
-            .filter(
-              (item) => dataset === 'ALL' || item.dataset_name === dataset,
-            )
-            .map((item) => [
-              item.disease_category_key,
-              item.disease_category,
-            ]),
-        ),
-      ).sort((a, b) => a[1].localeCompare(b[1])),
-    [dataset, manifest],
-  );
-  const visibleCases = useMemo(
-    () =>
-      (manifest?.cases ?? []).filter(
-        (item) =>
-          (dataset === 'ALL' || item.dataset_name === dataset) &&
-          (category === 'ALL' || item.disease_category_key === category),
-      ),
-    [category, dataset, manifest],
-  );
-
-  async function loadCase(nextCaseId: string, researchKey = key) {
-    if (!nextCaseId) return;
-    setBusy(true);
-    setCaseId(nextCaseId);
-    try {
-      const headers = { 'X-Research-Key': researchKey };
-      const treeAudit = await api<CaseTreeAudit>(
-        `/research/cases/${nextCaseId}/tree-audit`,
-        { headers },
-      );
-      setAudit(treeAudit);
-      setHighlightedNodeId(treeAudit.processed_tree.tree.root_id);
-      setNotice(
-        `${nextCaseId} loaded · raw row and processed tree hashes verified.`,
-      );
-    } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'Case load failed');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function unlock(researchKey = key) {
-    setBusy(true);
-    try {
-      const nextManifest = await api<CaseTreeManifest>('/research/case-trees', {
-        headers: { 'X-Research-Key': researchKey },
-      });
-      setManifest(nextManifest);
-      const first = nextManifest.cases[0];
-      setDataset('ALL');
-      setCategory('ALL');
-      if (first) await loadCase(first.case_id, researchKey);
-    } catch (error) {
-      setNotice(
-        error instanceof Error ? error.message : 'Research access failed',
-      );
-      setBusy(false);
-    }
-  }
+  const [error, setError] = useState('');
+  const [liveMessage, setLiveMessage] = useState('');
 
   useEffect(() => {
     const headers = { 'X-Research-Key': 'local-research-only' };
     let active = true;
-    void api<CaseTreeManifest>('/research/case-trees', { headers })
-      .then(async (nextManifest) => {
+    void api<CaseTreeAudit>(
+      `/research/cases/${selectedCaseId}/tree-audit`,
+      { headers },
+    )
+      .then((treeAudit) => {
         if (!active) return;
-        setManifest(nextManifest);
-        const requestedCaseId = new URLSearchParams(
-          window.location.search,
-        ).get('case');
-        const target =
-          nextManifest.cases.find(
-            (item) => item.case_id === requestedCaseId,
-          ) ?? nextManifest.cases[0];
-        if (!target) return;
-        const treeAudit = await api<CaseTreeAudit>(
-          `/research/cases/${target.case_id}/tree-audit`,
-          { headers },
-        );
-        if (!active) return;
-        setCaseId(target.case_id);
         setAudit(treeAudit);
+        setError('');
         setHighlightedNodeId(treeAudit.processed_tree.tree.root_id);
-        setNotice(
-          `${target.case_id} loaded · raw row and processed tree hashes verified.`,
-        );
       })
       .catch((error: Error) => {
-        if (active) setNotice(error.message);
+        if (active) setError(error.message);
       });
     return () => {
       active = false;
     };
-  }, []);
-
-  function changeCategory(nextCategory: string) {
-    setCategory(nextCategory);
-    const first = manifest?.cases.find(
-      (item) =>
-        nextCategory === 'ALL' || item.disease_category_key === nextCategory,
-    );
-    if (first) void loadCase(first.case_id);
-  }
-
-  function changeDataset(nextDataset: string) {
-    setDataset(nextDataset);
-    setCategory('ALL');
-    const first = manifest?.cases.find(
-      (item) => nextDataset === 'ALL' || item.dataset_name === nextDataset,
-    );
-    if (first) void loadCase(first.case_id);
-  }
+  }, [selectedCaseId]);
 
   return (
-    <main className="case-audit-page flex h-dvh flex-col overflow-hidden text-slate-950">
-      <header className="case-audit-header">
-        <div className="flex items-center gap-3">
-          <span className="brand-mark">
-            <Microscope />
-          </span>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300">
-              ClincForestBench · Data QA
-            </p>
-            <h1 className="text-lg font-semibold tracking-tight">
-              Case → Ground-truth tree inspector
-            </h1>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Badge className="border-emerald-300/30 bg-emerald-300/10 text-emerald-100">
-            <BadgeCheck /> {manifest?.case_count ?? 130} MVP CASES
-          </Badge>
-          <Link className="audit-nav-link" href="/arena">
-            Open Arena <ChevronRight />
-          </Link>
-        </div>
-      </header>
-
-      <details className="case-controls-disclosure">
-        <summary>
-          <span className="case-controls-title">
-            <Filter />
-            <span>
-              <b>Case controls</b>
-              <small>
-                {caseId || 'No case selected'}
-                {audit ? ` · ${audit.manifest_entry.pathology}` : ''}
-              </small>
-            </span>
-          </span>
-          <span className="case-controls-state">
-            <Check />
-            {manifest?.all_checks_pass
-              ? `${manifest.case_count} / ${manifest.case_count} verified`
-              : 'Loading'}
-            <ChevronDown className="disclosure-chevron" />
-          </span>
-        </summary>
-        <section className="case-audit-toolbar">
-          <label htmlFor="dataset-filter">
-            <span>
-              <Database /> Dataset
-            </span>
-            <select
-              disabled={!manifest || busy}
-              id="dataset-filter"
-              onChange={(event) => changeDataset(event.target.value)}
-              value={dataset}
-            >
-              <option value="ALL">All datasets ({manifest?.case_count ?? 0})</option>
-              {Object.entries(manifest?.dataset_case_counts ?? {}).map(
-                ([name, count]) => (
-                  <option key={name} value={name}>{name} ({count})</option>
-                ),
-              )}
-            </select>
-          </label>
-          <label htmlFor="category-filter">
-            <span>
-              <Filter /> Dataset-native category
-            </span>
-            <select
-              disabled={!manifest || busy}
-              id="category-filter"
-              onChange={(event) => changeCategory(event.target.value)}
-              value={category}
-            >
-              <option value="ALL">
-                All {manifest?.category_count ?? 0} categories
-              </option>
-              {categories.map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="case-picker" htmlFor="case-picker">
-            <span>
-              <Stethoscope /> Case and reference outcome
-            </span>
-            <select
-              disabled={!manifest || busy}
-              id="case-picker"
-              onChange={(event) => void loadCase(event.target.value)}
-              value={caseId}
-            >
-              {visibleCases.map((item) => (
-                <CaseOption item={item} key={item.case_id} />
-              ))}
-            </select>
-          </label>
-          <label htmlFor="research-key">
-            <span>
-              <KeyRound /> Research key
-            </span>
-            <Input
-              id="research-key"
-              onChange={(event) => setKey(event.target.value)}
-              type="password"
-              value={key}
-            />
-          </label>
-          <Button disabled={busy} onClick={() => void unlock()}>
-            {busy ? 'Loading…' : 'Load data'} <ArrowRight />
-          </Button>
-          <div className="audit-manifest-health">
-            <Check />
-            <span>
-              <b>
-                {manifest?.all_checks_pass
-                  ? `${manifest.case_count} / ${manifest.case_count} passed`
-                  : 'Awaiting audit'}
-              </b>
-              Raw-to-normalized checks
-            </span>
-          </div>
-        </section>
-      </details>
-
-      {audit && (
-        <aside className="dataset-capability-note">
-          <Database />
-          <div>
-            <b>
-              {audit.manifest_entry.dataset_name} ·{' '}
-              {audit.manifest_entry.generation_mode} ·{' '}
-              {audit.manifest_entry.case_type}
-            </b>
-            <span>{audit.processed_tree.semantics.description}</span>
-          </div>
-        </aside>
-      )}
-
+    <div className="case-audit-dashboard">
       {audit ? (
         <section className="case-audit-grid">
           <AuditPanel
@@ -327,7 +66,7 @@ export function ResearchDashboard() {
             <JsonDocument
               evidenceLabels={evidenceLabelsFromTree(audit.processed_tree)}
               filename={`${audit.manifest_entry.case_id}.raw.json`}
-              onNotice={setNotice}
+              onNotice={setLiveMessage}
               value={audit.raw_case.raw_row}
             />
           </AuditPanel>
@@ -345,7 +84,7 @@ export function ResearchDashboard() {
               defaultView="table"
               filename={`${audit.manifest_entry.case_id}.tree.json`}
               onNodeSelect={setHighlightedNodeId}
-              onNotice={setNotice}
+              onNotice={setLiveMessage}
               selectedNodeId={highlightedNodeId}
               value={audit.processed_tree}
             />
@@ -361,7 +100,7 @@ export function ResearchDashboard() {
             }
           >
             <GroundTruthTree
-              key={caseId}
+              key={selectedCaseId}
               onSelectedNodeIdChange={setHighlightedNodeId}
               selectedNodeId={highlightedNodeId}
               tree={audit.processed_tree}
@@ -371,23 +110,11 @@ export function ResearchDashboard() {
       ) : (
         <section className="audit-empty">
           <FileJson2 />
-          <b>Unlock the protected case manifest</b>
-          <span>The first case will open automatically.</span>
+          <b>{error || '正在读取病例'}</b>
         </section>
       )}
-
-      <p aria-live="polite" className="case-audit-notice">
-        {notice}
-      </p>
-    </main>
-  );
-}
-
-function CaseOption({ item }: { item: CaseTreeManifestEntry }) {
-  return (
-    <option value={item.case_id}>
-      {item.dataset_name} · {item.case_id} · {item.disease_category}
-    </option>
+      <span aria-live="polite" className="sr-only">{liveMessage}</span>
+    </div>
   );
 }
 

@@ -123,9 +123,9 @@ export function LandingExperience() {
         </motion.div>
 
         <div className="landing-stats">
-          <LandingStat value="130" label="Versioned cases" />
-          <LandingStat value="3" label="Dataset tracks" />
-          <LandingStat value="50·50·30" label="Track balance" />
+          <LandingStat value="170" label="Versioned cases" />
+          <LandingStat value="8" label="Dataset tracks" />
+          <LandingStat value="130+40" label="Classic · Temporal" />
           <LandingStat value="Sₙ" label="Belief checkpoints" />
         </div>
       </div>

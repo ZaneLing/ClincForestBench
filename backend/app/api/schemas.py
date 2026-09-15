@@ -54,3 +54,15 @@ class CreateModelRunRequest(BaseModel):
     model_id: str = Field(min_length=3, max_length=256)
     case_id: str = Field(min_length=1, max_length=128)
     max_questions: int = Field(default=30, ge=1, le=30)
+
+
+class CreateTemporalSessionRequest(BaseModel):
+    case_id: str = Field(min_length=1, max_length=128)
+
+
+class TemporalBeliefRequest(BaseModel):
+    diagnoses: list[str] = Field(min_length=1, max_length=30)
+
+
+class TemporalOrderRequest(BaseModel):
+    action_id: str = Field(min_length=1, max_length=256)

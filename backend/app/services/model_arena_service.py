@@ -307,13 +307,14 @@ class ModelArenaService:
             for item in decision_history
             if item["diagnoses"]
         ]
-        top1_streak = 0
-        if top1_history:
-            current_top1 = top1_history[-1]
-            for condition_id in reversed(top1_history):
-                if condition_id != current_top1:
-                    break
-                top1_streak += 1
+        rejected_attempts = [
+            {
+                "attempted_decision": item.parsed_decision,
+                "rejection": item.error,
+            }
+            for item in self.repository.model_interactions(run.run_id)[-3:]
+            if item.error
+        ]
         turn_payload = {
             "arena": {
                 "dataset": run.dataset_name,
@@ -321,36 +322,22 @@ class ModelArenaService:
                 "case_type": bundle.case_type,
                 "question_count": state.question_count,
                 "max_questions": run.max_questions,
+                "early_stop_policy": "MODEL_DECIDES",
+                "automatic_early_stop": False,
                 "must_finalize_now": state.question_count >= run.max_questions,
             },
             "patient_state": public_state,
             "diagnostic_progress": {
                 "previous_decisions": decision_history[-8:],
                 "top1_history": top1_history,
-                "current_top1_streak": top1_streak,
-                "recommend_finalize_now": (
-                    state.question_count >= 3 and top1_streak >= 3
-                ),
+                "rejected_attempts_to_correct": rejected_attempts,
             },
             "stopping_policy": {
-                "goal": (
-                    "Maximize final Top-1 accuracy while minimizing unnecessary "
-                    "questions; exhaustive history-taking is not the goal."
-                ),
-                "normal_target": "Usually finalize within 3-10 questions.",
-                "finalize_when": (
-                    "One outcome is clearly most likely and no AVAILABLE action "
-                    "is likely to change the Top-1 result."
-                ),
-                "stable_top1_rule": (
-                    "Strongly prefer final=true when the same Top-1 has remained "
-                    "stable for 3 turns, unless one specific high-yield action can "
-                    "realistically overturn it."
-                ),
-                "after_12_questions": (
-                    "Default to final=true. Continue only when two named leading "
-                    "outcomes remain and the selected action directly separates them."
-                ),
+                "policy": "MODEL_DECIDES",
+                "automatic_threshold": None,
+                "finalize_when": "Set final=true only when you judge the current evidence sufficient for one final answer.",
+                "continue_when": "You may keep acquiring non-repeated AVAILABLE evidence while it can improve the diagnosis.",
+                "stable_top1_rule": "Top-1 stability alone is not a reason to finalize.",
                 "hard_cap": run.max_questions,
             },
             "disease_or_outcome_library": self.cases.safe_condition_catalog(
@@ -369,9 +356,10 @@ class ModelArenaService:
         }
         system = (
             "You are playing ClincForestBench under exactly the same rules as a "
-            "human clinician. Your score rewards a correct early diagnosis and "
-            "penalizes unnecessary questions; 30 is an emergency ceiling, not a "
-            "target. Return one JSON object and no markdown, with diagnoses, "
+            "human clinician. There is no heuristic or automatic early-stop "
+            "threshold: you decide when the evidence is sufficient, and the action "
+            "limit is only a hard safety ceiling. Return one JSON object and no "
+            "markdown, with diagnoses, "
             "next_action_id, final, final_condition_id, and rationale directly at "
             "the top level. Never wrap them in required_response, response, or "
             "decision. Rank one or more unique ids from disease_or_outcome_library. "
@@ -384,10 +372,11 @@ class ModelArenaService:
             "for separating the leading candidates, not a merely possible or broad "
             "history question. When final=false, rationale must name the competing "
             "outcomes the action separates and explain how its answer could change "
-            "their order. Set final=true as soon as one unique answer is sufficiently "
-            "supported and another question is unlikely to change Top-1; then provide "
+            "their order. Set final=true when you judge one unique answer is sufficiently "
+            "supported; then provide "
             "exactly one final_condition_id and next_action_id=null. Follow the "
-            "stopping_policy and diagnostic_progress signals. Do not invent ids. Do "
+            "stopping_policy and diagnostic_progress signals. If a rejected attempt "
+            "is supplied, correct it rather than repeating it. Do not invent ids. Do "
             "not use probabilities. When must_finalize_now is true you must finalize."
         )
         return {

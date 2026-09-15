@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import {
   Background,
   BackgroundVariant,
@@ -15,6 +16,7 @@ import {
 } from '@xyflow/react';
 import {
   Activity,
+  Clock3,
   GitBranch,
   KeyRound,
   Network,
@@ -218,6 +220,9 @@ export function ForestDashboard() {
         <Badge>
           <Network /> Ground truth 与医生选择分离统计
         </Badge>
+        <Link className="audit-nav-link" href="/forest?mode=temporal">
+          Temporal Forest <Clock3 />
+        </Link>
       </header>
 
       <section className="forest-toolbar">

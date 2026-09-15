@@ -212,8 +212,13 @@ export function ModelArenaDashboard() {
       const latest = result.interactions.at(-1);
       if (latest) setSelectedInteractionId(latest.interaction_id);
       if (latest?.error) {
-        setAutoRun(false);
-        setNotice(latest.error);
+        const rejectedCount = trailingErrorCount(result.interactions);
+        if (rejectedCount >= 3) setAutoRun(false);
+        setNotice(
+          rejectedCount >= 3
+            ? `连续 ${rejectedCount} 次返回无效动作，已暂停：${latest.error}`
+            : `动作未执行，错误已回传给模型重新选择（${rejectedCount}/3）：${latest.error}`,
+        );
       } else if (result.run.status === 'COMPLETED') {
         setAutoRun(false);
         setNotice('');
@@ -426,6 +431,12 @@ export function ModelArenaDashboard() {
   );
 }
 
+function trailingErrorCount(items: Array<{ error?: string | null }>) {
+  let count = 0;
+  for (let index = items.length - 1; index >= 0 && items[index]?.error; index -= 1) count += 1;
+  return count;
+}
+
 function ModelRunSetup({
   activeRuns,
   busy,
@@ -477,6 +488,9 @@ function ModelRunSetup({
           <p>CLINCFORESTBENCH · MODEL LAB</p>
           <h1>模型测试</h1>
         </div>
+        <Link href="/model-arena?mode=temporal">
+          <Clock3 /> Temporal 轨迹与评测
+        </Link>
         <Badge className={status?.configured ? 'is-connected' : 'is-offline'}>
           <span /> OpenRouter {status?.configured ? '已连接' : '未配置'}
         </Badge>

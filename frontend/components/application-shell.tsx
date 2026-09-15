@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   BookOpenText,
   Bot,
+  FileClock,
   GitBranch,
   HeartPulse,
   History,
@@ -35,37 +36,43 @@ const navigation = [
   {
     href: '/arena',
     label: 'Arena',
-    detail: '选择数据集并进入竞技场',
+    detail: '8 个数据集进入竞技场',
     icon: HeartPulse,
   },
   {
     href: '/model-arena',
     label: '模型测试',
-    detail: 'OpenRouter 自动游玩',
+    detail: '经典 + Temporal 自动游玩',
     icon: Bot,
+  },
+  {
+    href: '/temporal',
+    label: 'Temporal Arena',
+    detail: '问询、检查、时钟推进与诊断',
+    icon: FileClock,
   },
   {
     href: '/history',
     label: '决策历史',
-    detail: '我的病例与每轮判断',
+    detail: '经典 / Temporal 每轮判断',
     icon: History,
   },
   {
     href: '/research',
     label: 'Case 查看',
-    detail: '原始数据、结构和树',
+    detail: '170 Case 原始数据和树',
     icon: GitBranch,
   },
   {
     href: '/forest',
     label: '森林查看',
-    detail: '医生群体决策统计',
+    detail: '经典 / Temporal 群体统计',
     icon: Trees,
   },
   {
     href: '/evidence',
     label: '数据集与规则',
-    detail: '原始字段、转换与玩法',
+    detail: '8 套字段、转换与玩法',
     icon: BookOpenText,
   },
   {
@@ -155,7 +162,7 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
           <div className="rounded-lg border border-cyan-200/10 bg-cyan-200/[0.04] px-3 py-2 group-data-[collapsible=icon]:hidden">
             <small className="block text-xs text-cyan-100/50">Dataset</small>
             <b className="mt-0.5 block text-xs font-medium text-cyan-50">
-              DDXPlus · Synthea · MedAgentBench · 130 cases
+              DDXPlus · Synthea · MedAgentBench · MIMIC · MC-MED · eICU · PMC · NEJM
             </b>
           </div>
         </SidebarFooter>

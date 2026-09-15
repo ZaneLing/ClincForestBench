@@ -10,6 +10,8 @@ available to local ETL code but are intentionally excluded from Git.
 | `eicu-crd-v2.0/` | eICU Collaborative Research Database v2.0 | ~5.1 GB | PhysioNet credentialed data; sharing is prohibited by the supplied license. |
 | `mimic-iv-ed-v2.2/` | MIMIC-IV-ED v2.2 | ~116 MB | PhysioNet credentialed data; sharing is prohibited by the supplied license. |
 | `mimic-iv-ecg/` | MIMIC-IV-ECG table snapshot | ~298 MB | Treat as credentialed because its identifiers link to MIMIC-IV. |
+| `mimiciv/` | MIMIC-IV v3.1 | ~37 GB | PhysioNet credentialed; local hospital/ICU backbone for Temporal v2. |
+| `mimic-iv-note/` | MIMIC-IV-Note v2.2 | ~5.1 GB | PhysioNet credentialed; retrospective text remains local-only. |
 
 Each child directory contains a tracked `README.source.md`. Supplied license,
 checksum, and non-patient data-dictionary files are retained where available.

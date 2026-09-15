@@ -12,6 +12,7 @@ import {
   ChevronRight,
   CircleDot,
   CircleAlert,
+  Clock3,
   CornerDownRight,
   Database,
   FlaskConical,
@@ -802,6 +803,27 @@ function DatasetSelection({
             </motion.button>
           );
         })}
+        <motion.div
+          animate={{ opacity: 1, y: 0 }}
+          className="arena-track-card track-temporal"
+          initial={{ opacity: 0, y: 16 }}
+          transition={{ delay: 0.24 }}
+          whileHover={{ y: -5 }}
+        >
+          <span className="arena-track-icon"><Activity /></span>
+          <span className="arena-track-count">40 CASES</span>
+          <small>TIME-AWARE DECISION MAKING</small>
+          <h2>Temporal v2</h2>
+          <h3>真实时间动态诊断森林</h3>
+          <p>选择检查、形成 pending、等待真实记录结果，再逐轮更新诊断；包含 MIMIC、MC-MED、eICU、PMC 与 NEJM CPC。</p>
+          <dl>
+            <div><dt>你的动作</dt><dd>下单、并行检查与等待</dd></div>
+            <div><dt>阶段判断</dt><dd>每次结果后的诊断排序</dd></div>
+          </dl>
+          <Link className="arena-track-select" href="/temporal?mode=arena">
+            <Clock3 />进入时间 Arena
+          </Link>
+        </motion.div>
       </div>
 
       <footer className="arena-case-launcher">

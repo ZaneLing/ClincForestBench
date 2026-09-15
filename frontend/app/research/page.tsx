@@ -1,5 +1,5 @@
-import { ResearchDashboard } from '@/features/forest/research-dashboard';
+import { ResearchRoot } from '@/features/forest/research-root';
 
 export default function ResearchPage() {
-  return <ResearchDashboard />;
+  return <ResearchRoot />;
 }

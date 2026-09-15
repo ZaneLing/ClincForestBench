@@ -352,7 +352,8 @@ body {
   .forest-branch div > span {
     @apply text-xs text-slate-500;
   }
-  .case-audit-page {
+  .case-audit-page,
+  .unified-research-page {
     @apply bg-[#edf3f5];
     background-image:
       radial-gradient(circle at 15% 0%, rgb(8 145 178 / 8%), transparent 28rem),
@@ -362,6 +363,65 @@ body {
       auto,
       32px 32px,
       32px 32px;
+  }
+  .unified-research-page {
+    @apply flex h-dvh min-h-0 flex-col overflow-hidden text-slate-950;
+  }
+  .unified-research-header {
+    @apply flex h-16 shrink-0 items-center justify-between gap-4 border-b border-cyan-900/60 bg-[#061d2a] px-4 text-white shadow-lg shadow-slate-950/10 lg:px-6;
+  }
+  .unified-research-brand {
+    @apply flex min-w-0 items-center gap-3;
+  }
+  .unified-research-brand > span {
+    @apply grid size-9 shrink-0 place-items-center rounded-lg border border-cyan-300/25 bg-cyan-300/10 text-cyan-200;
+  }
+  .unified-research-brand svg {
+    @apply size-4;
+  }
+  .unified-research-brand small,
+  .unified-research-brand h1 {
+    @apply block truncate;
+  }
+  .unified-research-brand small {
+    @apply text-xs font-semibold uppercase tracking-[0.12em] text-cyan-300/70;
+  }
+  .unified-research-brand h1 {
+    @apply text-base font-semibold tracking-tight;
+  }
+  .unified-case-selectors {
+    @apply flex min-w-0 items-center gap-2;
+  }
+  .unified-case-selectors label {
+    @apply flex min-w-0 items-center gap-1.5;
+  }
+  .unified-case-selectors label > span {
+    @apply flex shrink-0 items-center gap-1 text-xs text-cyan-100/60;
+  }
+  .unified-case-selectors label > span svg {
+    @apply size-3.5;
+  }
+  .unified-case-selectors select {
+    @apply h-8 min-w-0 rounded-lg border border-white/10 bg-white/10 px-2 text-xs text-white outline-none transition-[border-color,background-color,box-shadow] duration-150 focus:border-cyan-300/60 focus:bg-white/15 focus:ring-2 focus:ring-cyan-300/10 disabled:opacity-50;
+  }
+  .unified-case-selectors label:first-child select {
+    @apply w-44;
+  }
+  .unified-case-selectors label:nth-child(2) select {
+    @apply w-80;
+  }
+  .unified-case-selectors option {
+    @apply text-slate-950;
+  }
+  .unified-research-content,
+  .case-audit-dashboard {
+    @apply min-h-0 flex-1 overflow-hidden;
+  }
+  .case-audit-dashboard {
+    @apply flex h-full flex-col;
+  }
+  .unified-research-error {
+    @apply m-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800;
   }
   .case-audit-header {
     @apply flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-cyan-900/60 bg-[#061d2a] px-4 py-2 text-white shadow-lg shadow-slate-950/10 lg:px-6;
@@ -596,6 +656,42 @@ body {
   .ground-truth-tree-shell {
     @apply flex min-h-0 flex-1 flex-col gap-2;
   }
+  .tree-legend-disclosure,
+  .tree-node-disclosure {
+    @apply shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white;
+  }
+  .tree-legend-disclosure > summary,
+  .tree-node-disclosure > summary {
+    @apply flex cursor-pointer list-none items-center gap-2 px-2.5 py-1.5 text-xs text-slate-600 transition-colors duration-150 hover:bg-cyan-50;
+  }
+  .tree-legend-disclosure > summary::-webkit-details-marker,
+  .tree-node-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+  .tree-legend-disclosure > summary > span,
+  .tree-node-disclosure > summary > span {
+    @apply shrink-0 font-semibold text-cyan-800;
+  }
+  .tree-legend-disclosure > summary > small {
+    @apply min-w-0 flex-1 text-slate-400;
+  }
+  .tree-node-disclosure > summary > b {
+    @apply min-w-0 flex-1 truncate font-medium text-slate-800;
+  }
+  .tree-legend-disclosure > summary > svg,
+  .tree-node-disclosure > summary > svg {
+    @apply size-3.5 shrink-0 transition-transform duration-200;
+  }
+  .tree-legend-disclosure[open] > summary > svg,
+  .tree-node-disclosure[open] > summary > svg {
+    @apply rotate-180;
+  }
+  .tree-legend-disclosure > .tree-legend {
+    @apply border-t border-slate-100 px-2.5 py-2;
+  }
+  .tree-node-disclosure > .compact-tree-detail {
+    @apply rounded-none border-x-0 border-b-0;
+  }
   .tree-legend {
     @apply flex shrink-0 flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-slate-600;
   }
@@ -699,7 +795,7 @@ body {
     @apply relative min-h-0 flex-1 overflow-hidden rounded-xl border border-slate-200 bg-[#f8fbfc];
   }
   .ground-tree-circle {
-    @apply relative grid size-[58px] cursor-pointer place-items-center rounded-full border-4 text-white shadow-lg transition duration-200 hover:scale-110 hover:shadow-xl;
+    @apply relative grid size-[58px] cursor-pointer place-items-center rounded-full border-4 text-white shadow-lg transition-[transform,box-shadow] duration-200 hover:scale-110 hover:shadow-xl;
   }
   .ground-tree-circle.is-selected {
     @apply ring-4 ring-cyan-400/35 ring-offset-2;
@@ -1055,7 +1151,7 @@ body {
     @apply min-h-0 flex-1 gap-0;
   }
   .dataset-guide-tabs > [data-slot='tabs-list'] {
-    @apply h-16 w-full shrink-0 justify-start gap-2 rounded-none border-b border-slate-200 bg-white px-5 py-2;
+    @apply h-16 w-full shrink-0 justify-start gap-2 overflow-x-auto rounded-none border-b border-slate-200 bg-white px-5 py-2;
   }
   .dataset-guide-tabs > [data-slot='tabs-list'] > [data-slot='tabs-trigger'] {
     @apply h-full max-w-72 flex-none justify-start gap-3 rounded-xl border border-slate-200 px-3 text-left shadow-sm;
@@ -1136,6 +1232,183 @@ body {
   }
   .dataset-transform-pipeline > div > svg {
     @apply absolute -right-3 top-1/2 z-10 size-4 -translate-y-1/2 rounded-full bg-white text-cyan-700 shadow;
+  }
+  .dataset-model-contract {
+    @apply overflow-hidden rounded-2xl border border-amber-200 bg-white shadow-sm;
+  }
+  .dataset-model-contract > header {
+    @apply flex items-center gap-2 border-b border-amber-200 bg-amber-50 px-3 py-2.5;
+  }
+  .dataset-model-contract > header > svg {
+    @apply size-8 rounded-lg bg-amber-900 p-2 text-amber-100;
+  }
+  .dataset-model-contract header p {
+    @apply text-[10px] font-bold tracking-[0.14em] text-amber-700;
+  }
+  .dataset-model-contract header h3 {
+    @apply text-sm font-semibold text-amber-950;
+  }
+  .dataset-model-contract > div {
+    @apply grid grid-cols-5 gap-px bg-slate-200;
+  }
+  .dataset-model-contract article {
+    @apply min-w-0 bg-white px-3 py-2.5;
+  }
+  .dataset-model-contract article > span {
+    @apply font-mono text-[10px] font-bold text-amber-700;
+  }
+  .dataset-model-contract article > b {
+    @apply ml-1.5 text-xs font-semibold text-slate-900;
+  }
+  .dataset-model-contract article > p {
+    @apply mt-1 text-[11px] leading-4 text-slate-500;
+  }
+  .dataset-real-walkthrough {
+    @apply overflow-hidden rounded-2xl border border-cyan-900/15 bg-white shadow-[0_18px_55px_-42px_rgb(8_47_73/70%)];
+  }
+  .dataset-real-walkthrough-head {
+    @apply flex items-center gap-3 border-b border-cyan-900/10 bg-gradient-to-r from-[#082b38] via-[#0a3543] to-[#0b4250] px-4 py-3 text-white;
+  }
+  .dataset-real-icon {
+    @apply grid size-10 shrink-0 place-items-center rounded-xl border border-cyan-300/20 bg-cyan-300/10 text-cyan-200;
+  }
+  .dataset-real-icon svg {
+    @apply size-5;
+  }
+  .dataset-real-walkthrough-head > div:nth-child(2) {
+    @apply min-w-0 flex-1;
+  }
+  .dataset-real-walkthrough-head p {
+    @apply text-[10px] font-bold tracking-[0.16em] text-cyan-300;
+  }
+  .dataset-real-walkthrough-head h3 {
+    @apply mt-0.5 text-base font-semibold;
+  }
+  .dataset-real-walkthrough-head > div:nth-child(2) > span {
+    @apply mt-0.5 block text-xs text-slate-300;
+  }
+  .dataset-real-case-badge {
+    @apply flex shrink-0 flex-col items-end rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2;
+  }
+  .dataset-real-case-badge b {
+    @apply text-[10px] uppercase tracking-wider text-cyan-300;
+  }
+  .dataset-real-case-badge code {
+    @apply mt-0.5 font-mono text-xs text-white;
+  }
+  .dataset-real-state {
+    @apply flex min-h-28 items-center justify-center gap-2 px-5 text-sm text-slate-500;
+  }
+  .dataset-real-state > svg {
+    @apply size-4 text-cyan-700;
+  }
+  .dataset-real-state.is-error {
+    @apply flex-col text-rose-700;
+  }
+  .dataset-real-state.is-error small {
+    @apply text-xs text-slate-500;
+  }
+  .dataset-real-summary {
+    @apply grid grid-cols-4 gap-px border-b border-slate-200 bg-slate-200;
+  }
+  .dataset-real-summary > div {
+    @apply flex min-w-0 items-center gap-2 bg-slate-50 px-3 py-2;
+  }
+  .dataset-real-summary svg {
+    @apply size-4 shrink-0 text-cyan-700;
+  }
+  .dataset-real-summary span {
+    @apply min-w-0;
+  }
+  .dataset-real-summary small,
+  .dataset-real-summary b {
+    @apply block;
+  }
+  .dataset-real-summary small {
+    @apply text-[10px] uppercase tracking-wide text-slate-400;
+  }
+  .dataset-real-summary b {
+    @apply truncate text-xs font-semibold text-slate-700;
+  }
+  .dataset-real-steps {
+    @apply relative p-3;
+  }
+  .dataset-real-steps::before {
+    content: '';
+    @apply absolute bottom-7 left-[29px] top-7 w-px bg-cyan-200;
+  }
+  .dataset-real-step {
+    @apply relative mb-2 overflow-hidden rounded-xl border border-slate-200 bg-white last:mb-0;
+  }
+  .dataset-real-step[open] {
+    @apply border-cyan-300 shadow-[0_10px_30px_-24px_rgb(8_145_178/80%)];
+  }
+  .dataset-real-step > summary {
+    @apply flex cursor-pointer list-none items-center gap-3 px-3 py-2.5;
+  }
+  .dataset-real-step > summary::-webkit-details-marker {
+    display: none;
+  }
+  .dataset-real-step-index {
+    @apply z-10 grid size-8 shrink-0 place-items-center rounded-full border-4 border-white bg-cyan-800 font-mono text-[10px] font-bold text-white shadow;
+  }
+  .dataset-real-step-copy {
+    @apply flex min-w-0 flex-1 flex-col;
+  }
+  .dataset-real-step-copy b {
+    @apply text-sm font-semibold text-slate-900;
+  }
+  .dataset-real-step-copy small {
+    @apply mt-0.5 text-xs leading-4 text-slate-500;
+  }
+  .dataset-real-io {
+    @apply flex max-w-[38%] shrink-0 items-center gap-1.5 rounded-lg bg-slate-100 px-2 py-1 text-[10px];
+  }
+  .dataset-real-io code {
+    @apply min-w-0 truncate font-mono text-cyan-900;
+  }
+  .dataset-real-io span {
+    @apply shrink-0 text-cyan-600;
+  }
+  .dataset-real-step > summary > svg {
+    @apply size-4 shrink-0 text-slate-400 transition-transform;
+  }
+  .dataset-real-step[open] > summary > svg {
+    @apply rotate-180 text-cyan-700;
+  }
+  .dataset-real-artifact {
+    @apply border-t border-slate-200 bg-[#071b26] p-3;
+  }
+  .dataset-real-artifact > div {
+    @apply mb-2 flex items-center gap-2;
+  }
+  .dataset-real-artifact > div > span {
+    @apply rounded bg-cyan-300/10 px-1.5 py-0.5 text-[9px] font-bold tracking-[0.12em] text-cyan-300;
+  }
+  .dataset-real-artifact > div > b {
+    @apply font-mono text-[11px] font-medium text-slate-300;
+  }
+  .dataset-real-artifact pre {
+    @apply max-h-[420px] w-full overflow-x-hidden overflow-y-auto rounded-lg border border-white/10 bg-black/20 p-3 font-mono text-[11px] leading-5 text-slate-200;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .dataset-real-boundary {
+    @apply grid grid-cols-[auto_1fr_auto_1fr] items-start gap-2 border-t border-amber-200 bg-amber-50 px-4 py-3;
+  }
+  .dataset-real-boundary > svg {
+    @apply mt-0.5 size-4 text-amber-700;
+  }
+  .dataset-real-boundary b,
+  .dataset-real-boundary span {
+    @apply block;
+  }
+  .dataset-real-boundary b {
+    @apply text-xs font-semibold text-amber-950;
+  }
+  .dataset-real-boundary span {
+    @apply mt-0.5 text-[11px] leading-4 text-amber-900/75;
   }
   .dataset-guide-columns {
     @apply grid grid-cols-[minmax(600px,1.45fr)_minmax(360px,0.8fr)] items-start gap-3;
@@ -3100,6 +3373,48 @@ body {
   .model-resume-strip button {
     @apply h-7 shrink-0 bg-amber-300 text-xs text-amber-950 hover:bg-amber-200;
   }
+  .temporal-completed-runs {
+    @apply mx-4 mt-2 flex h-[62px] shrink-0 items-stretch overflow-hidden rounded-xl border border-emerald-300/15 bg-emerald-300/[0.045];
+  }
+  .temporal-completed-runs > header {
+    @apply flex w-64 shrink-0 items-center gap-2 border-r border-emerald-300/10 px-3;
+  }
+  .temporal-completed-runs > header > span {
+    @apply grid size-7 shrink-0 place-items-center rounded-lg bg-emerald-300/10 text-emerald-300;
+  }
+  .temporal-completed-runs svg {
+    @apply size-3.5;
+  }
+  .temporal-completed-runs header b,
+  .temporal-completed-runs header small {
+    @apply block;
+  }
+  .temporal-completed-runs header b {
+    @apply text-xs text-emerald-100;
+  }
+  .temporal-completed-runs header small {
+    @apply text-[9px] leading-3 text-emerald-200/45;
+  }
+  .temporal-completed-runs > div {
+    @apply flex min-w-0 flex-1 gap-px overflow-x-auto bg-emerald-300/10;
+  }
+  .temporal-completed-runs > div > button {
+    @apply flex min-w-48 flex-1 flex-col justify-center bg-[#061923] px-3 text-left transition hover:bg-emerald-300/10 disabled:opacity-50;
+  }
+  .temporal-completed-runs > div > button > span,
+  .temporal-completed-runs > div > button > b,
+  .temporal-completed-runs > div > button > small {
+    @apply block truncate;
+  }
+  .temporal-completed-runs > div > button > span {
+    @apply text-[8px] font-bold uppercase tracking-wider text-emerald-400;
+  }
+  .temporal-completed-runs > div > button > b {
+    @apply text-[10px] text-slate-100;
+  }
+  .temporal-completed-runs > div > button > small {
+    @apply font-mono text-[8px] text-slate-600;
+  }
   .model-setup-grid {
     @apply grid min-h-0 flex-1 grid-cols-[0.8fr_1.12fr_1fr] gap-2.5 p-3;
   }
@@ -3193,6 +3508,9 @@ body {
   }
   .model-dataset-picker {
     @apply grid grid-cols-3 gap-1.5 p-2;
+  }
+  .temporal-model-datasets {
+    @apply max-h-52 grid-cols-2 overflow-y-auto;
   }
   .model-dataset-picker > button {
     @apply flex min-w-0 flex-col items-start gap-1 rounded-xl border border-white/[0.06] bg-white/[0.025] p-2 text-left transition hover:border-cyan-300/25;
@@ -3482,6 +3800,487 @@ body {
   .model-run-toast button {
     @apply shrink-0 bg-amber-300 text-amber-950 hover:bg-amber-200;
   }
+  .temporal-model-path {
+    @apply min-h-0 flex-1 overflow-y-auto bg-slate-50 p-3 text-slate-900;
+  }
+  .temporal-model-path > div {
+    @apply relative flex min-w-0 items-start gap-2 pb-4;
+  }
+  .temporal-model-path > div:not(:last-child)::after {
+    content: '';
+    @apply absolute left-[7px] top-4 h-[calc(100%-10px)] w-px bg-cyan-900/20;
+  }
+  .temporal-model-path i {
+    @apply relative z-10 mt-0.5 size-3.5 shrink-0 rounded-full bg-cyan-700 ring-2 ring-white;
+  }
+  .temporal-model-path .is-initial i {
+    @apply bg-slate-700;
+  }
+  .temporal-model-path .is-pending i {
+    @apply animate-pulse bg-amber-500;
+  }
+  .temporal-model-path .modality-imaging i,
+  .temporal-model-path .modality-radiology i {
+    @apply bg-blue-600;
+  }
+  .temporal-model-path b,
+  .temporal-model-path small {
+    @apply block break-words;
+  }
+  .temporal-model-path b {
+    @apply text-xs text-slate-800;
+  }
+  .temporal-model-path small {
+    @apply mt-0.5 text-[10px] leading-4 text-slate-500;
+  }
+  .temporal-model-round {
+    @apply flex w-full shrink-0 gap-2 rounded-xl border border-white/[0.07] bg-white/[0.025] p-2 text-left transition hover:border-cyan-300/20;
+  }
+  .temporal-model-round.is-selected {
+    @apply border-cyan-300/40 bg-cyan-300/[0.07] shadow-[inset_3px_0_0_#22d3ee];
+  }
+  .temporal-model-round.has-error {
+    @apply border-amber-400/30 bg-amber-400/[0.06];
+  }
+  .temporal-model-round > span {
+    @apply grid size-8 shrink-0 place-items-center rounded-full border-2 border-cyan-400/40 bg-cyan-400/10 font-mono text-[10px] font-bold text-cyan-300;
+  }
+  .temporal-model-round > div {
+    @apply min-w-0 flex-1;
+  }
+  .temporal-model-round header {
+    @apply flex items-center justify-between gap-2;
+  }
+  .temporal-model-round header b {
+    @apply text-xs text-slate-200;
+  }
+  .temporal-model-round header small {
+    @apply font-mono text-[9px] text-slate-600;
+  }
+  .temporal-model-round ol {
+    @apply my-1.5 space-y-1;
+  }
+  .temporal-model-round li {
+    @apply flex items-center gap-1.5 text-[10px] text-slate-300;
+  }
+  .temporal-model-round li i {
+    @apply grid size-4 shrink-0 place-items-center rounded-full bg-violet-400/15 font-mono not-italic text-violet-300;
+  }
+  .temporal-model-round footer,
+  .temporal-model-round > div > p {
+    @apply rounded-lg bg-white/[0.035] p-1.5 text-[10px] text-slate-400;
+  }
+  .temporal-model-round footer span,
+  .temporal-model-round footer small {
+    @apply block break-words;
+  }
+  .temporal-model-round footer span {
+    @apply font-mono text-cyan-300;
+  }
+  .temporal-model-review {
+    @apply flex h-dvh min-h-0 flex-col overflow-hidden bg-[#020b12] text-slate-100;
+  }
+  .temporal-model-review > header {
+    @apply flex h-16 shrink-0 items-center gap-3 border-b border-cyan-300/10 bg-[#061923] px-4;
+  }
+  .temporal-model-review > header > a {
+    @apply flex h-8 items-center gap-1.5 rounded-lg border border-cyan-300/15 px-2.5 text-xs text-cyan-100;
+  }
+  .temporal-model-review > header svg {
+    @apply size-4;
+  }
+  .temporal-model-review > header > div {
+    @apply min-w-0 flex-1;
+  }
+  .temporal-model-review > header small,
+  .temporal-model-review > header h1 {
+    @apply block truncate;
+  }
+  .temporal-model-review > header small {
+    @apply text-xs text-cyan-400;
+  }
+  .temporal-model-review > header h1 {
+    @apply text-base font-semibold;
+  }
+  .temporal-model-review > header [data-slot='badge'] {
+    @apply gap-1.5 border-cyan-300/20 bg-cyan-300/10 text-cyan-100;
+  }
+  .temporal-model-review > header [data-slot='badge'].is-correct {
+    @apply border-emerald-300/25 bg-emerald-300/10 text-emerald-200;
+  }
+  .temporal-model-review > header button {
+    @apply h-8 text-xs;
+  }
+  .temporal-model-review > section {
+    @apply grid min-h-0 flex-1 grid-cols-[0.7fr_1.5fr_1.08fr] gap-px bg-cyan-300/10;
+  }
+  .temporal-model-review > section > article {
+    @apply flex min-h-0 min-w-0 flex-col overflow-hidden bg-[#07141e];
+  }
+  .temporal-review-rounds {
+    @apply min-h-0 flex-1 space-y-2 overflow-y-auto p-3;
+  }
+  .temporal-review-rounds > div {
+    @apply grid grid-cols-[32px_minmax(0,1fr)] gap-2 rounded-xl border border-white/[0.07] bg-white/[0.025] p-2;
+  }
+  .temporal-review-rounds > div > span {
+    @apply grid size-8 place-items-center rounded-full bg-violet-400/15 font-mono text-[10px] text-violet-300;
+  }
+  .temporal-review-rounds ol {
+    @apply space-y-1;
+  }
+  .temporal-review-rounds li {
+    @apply flex gap-1.5 break-words text-xs text-slate-300;
+  }
+  .temporal-review-rounds li i {
+    @apply grid size-4 shrink-0 place-items-center rounded-full bg-white/[0.06] font-mono text-[9px] not-italic;
+  }
+  .temporal-review-rounds > div > small {
+    @apply col-start-2 font-mono text-[10px] text-cyan-400;
+  }
+  .temporal-review-timeline {
+    @apply min-h-0 flex-1 overflow-y-auto;
+  }
+  .temporal-review-timeline-summary {
+    @apply grid grid-cols-[auto_auto_minmax(0,1fr)] items-baseline gap-1.5 border-b border-white/[0.07] bg-cyan-300/[0.035] px-3 py-2;
+  }
+  .temporal-review-timeline-summary b {
+    @apply font-mono text-lg text-cyan-300;
+  }
+  .temporal-review-timeline-summary span {
+    @apply text-xs text-slate-300;
+  }
+  .temporal-review-timeline-summary small {
+    @apply truncate text-right text-[9px] text-slate-600;
+  }
+  .temporal-review-turn {
+    @apply border-b border-white/[0.065];
+  }
+  .temporal-review-turn > summary {
+    @apply grid cursor-pointer list-none grid-cols-[32px_minmax(0,1fr)_auto] items-center gap-2 px-3 py-2 transition hover:bg-white/[0.035];
+  }
+  .temporal-review-turn > summary > i {
+    @apply grid size-8 place-items-center rounded-full bg-violet-400/15 font-mono text-[9px] font-bold not-italic text-violet-300;
+  }
+  .temporal-review-turn > summary span,
+  .temporal-review-turn > summary b,
+  .temporal-review-turn > summary small {
+    @apply block min-w-0;
+  }
+  .temporal-review-turn > summary b {
+    @apply truncate text-[11px] text-slate-200;
+  }
+  .temporal-review-turn > summary small {
+    @apply mt-0.5 truncate font-mono text-[9px] text-cyan-400;
+  }
+  .temporal-review-turn > summary > em {
+    @apply font-mono text-[8px] not-italic text-slate-600;
+  }
+  .temporal-review-turn[open] > summary {
+    @apply bg-violet-400/[0.055];
+  }
+  .temporal-review-turn > div {
+    @apply border-t border-white/[0.05] bg-black/10 px-3 py-2;
+  }
+  .temporal-review-turn ol {
+    @apply space-y-1;
+  }
+  .temporal-review-turn li {
+    @apply flex items-start gap-1.5 text-[10px] leading-4 text-slate-300;
+  }
+  .temporal-review-turn li i {
+    @apply mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-white/[0.06] font-mono text-[8px] not-italic text-slate-500;
+  }
+  .temporal-review-turn > div > p {
+    @apply mt-2 break-words border-l-2 border-cyan-400/30 pl-2 text-[10px] leading-4 text-slate-500;
+  }
+  .temporal-review-turn.has-error > summary > i {
+    @apply bg-amber-400/15 text-amber-300;
+  }
+  .temporal-model-review .temporal-history-tree {
+    @apply bg-slate-50 text-slate-900;
+  }
+  .temporal-model-reference-tree > div {
+    @apply rounded-lg px-1.5 pt-1.5 transition;
+  }
+  .temporal-model-reference-tree > div.is-model-observed {
+    @apply bg-cyan-50 ring-1 ring-inset ring-cyan-200;
+  }
+  .temporal-model-reference-tree > div.is-model-unobserved {
+    @apply opacity-35 grayscale;
+  }
+  .temporal-model-reference-tree > div.is-model-pending {
+    @apply bg-amber-50 opacity-80 ring-1 ring-inset ring-amber-300;
+  }
+  .temporal-model-reference-tree > div.is-model-observed > span > small {
+    @apply font-semibold text-cyan-700;
+  }
+  .temporal-model-reference-tree > div.is-model-pending > span > small {
+    @apply font-semibold text-amber-700;
+  }
+  .trajectory-comparison-canvas {
+    @apply relative min-h-0 flex-1 overflow-hidden bg-[#031019];
+  }
+  .trajectory-comparison-canvas .react-flow__controls {
+    @apply overflow-hidden rounded-lg border border-cyan-300/15 bg-[#0a202b] shadow-xl;
+  }
+  .trajectory-comparison-canvas .react-flow__controls-button {
+    @apply border-cyan-300/10 bg-[#0a202b] fill-cyan-100 hover:bg-cyan-300/10;
+  }
+  .trajectory-compare-legend {
+    @apply pointer-events-none absolute left-2 top-2 z-10 flex max-w-[calc(100%-16px)] flex-wrap gap-1 rounded-lg border border-white/10 bg-[#061923]/90 p-1.5 shadow-xl backdrop-blur;
+  }
+  .trajectory-compare-legend span {
+    @apply flex items-center gap-1 whitespace-nowrap rounded-md bg-white/[0.035] px-1.5 py-1 text-[8px] font-medium text-slate-300;
+  }
+  .trajectory-compare-legend i {
+    @apply size-2 rounded-full;
+  }
+  .trajectory-compare-legend i.is-shared {
+    @apply bg-cyan-400;
+  }
+  .trajectory-compare-legend i.is-gt-only {
+    @apply bg-slate-500;
+  }
+  .trajectory-compare-legend i.is-model-only {
+    @apply bg-violet-400;
+  }
+  .trajectory-compare-legend i.is-pending {
+    @apply bg-amber-400;
+  }
+  .trajectory-compare-legend i.is-reference {
+    @apply bg-red-500;
+  }
+  .trajectory-lane-labels {
+    @apply pointer-events-none absolute inset-x-0 top-12 z-10 grid grid-cols-[4fr_1fr] px-4 font-mono text-[8px] font-bold uppercase tracking-[0.16em] text-slate-600;
+  }
+  .trajectory-lane-labels span:last-child {
+    @apply text-center text-violet-400/80;
+  }
+  .trajectory-compare-node {
+    @apply grid size-10 place-items-center rounded-full border-2 font-mono text-[8px] font-black shadow-[0_7px_22px_rgba(0,0,0,0.38)] transition duration-200;
+  }
+  .trajectory-compare-node.status-gt-only {
+    @apply border-slate-500/60 bg-slate-700/70 text-slate-300 opacity-55;
+  }
+  .trajectory-compare-node.status-shared {
+    @apply border-cyan-200 bg-cyan-500 text-[#03202a] shadow-[0_0_0_5px_rgba(34,211,238,0.13),0_8px_24px_rgba(34,211,238,0.22)];
+  }
+  .trajectory-compare-node.status-model-only {
+    @apply border-violet-200 bg-violet-500 text-white shadow-[0_0_0_5px_rgba(167,139,250,0.12),0_8px_24px_rgba(124,58,237,0.25)];
+  }
+  .trajectory-compare-node.status-pending {
+    @apply border-amber-200 bg-amber-400 text-amber-950 shadow-[0_0_0_5px_rgba(251,191,36,0.12)];
+  }
+  .trajectory-compare-node.status-reference {
+    @apply size-12 border-red-200 bg-red-600 text-white shadow-[0_0_0_6px_rgba(239,68,68,0.14),0_8px_26px_rgba(220,38,38,0.28)];
+  }
+  .trajectory-compare-node.status-correct-final {
+    @apply border-emerald-200 bg-emerald-500 text-emerald-950 shadow-[0_0_0_5px_rgba(52,211,153,0.15)];
+  }
+  .trajectory-compare-node.is-selected {
+    @apply scale-110 ring-4 ring-white/40;
+  }
+  .trajectory-compare-node .react-flow__handle {
+    @apply pointer-events-none size-1.5 border-0 bg-transparent;
+  }
+  .trajectory-node-inspector {
+    @apply pointer-events-none absolute bottom-2 right-2 z-10 w-[min(270px,62%)] rounded-xl border bg-[#061923]/95 p-2 shadow-2xl backdrop-blur;
+  }
+  .trajectory-node-inspector span,
+  .trajectory-node-inspector b,
+  .trajectory-node-inspector small {
+    @apply block;
+  }
+  .trajectory-node-inspector span {
+    @apply text-[8px] font-bold uppercase tracking-[0.12em] text-cyan-400;
+  }
+  .trajectory-node-inspector b {
+    @apply mt-0.5 break-words text-[11px] leading-4 text-white;
+  }
+  .trajectory-node-inspector small {
+    @apply mt-0.5 line-clamp-3 break-words text-[9px] leading-3.5 text-slate-400;
+  }
+  .trajectory-node-inspector.status-reference {
+    @apply border-red-400/35;
+  }
+  .trajectory-node-inspector.status-model-only {
+    @apply border-violet-400/35;
+  }
+  .trajectory-node-inspector.status-shared {
+    @apply border-cyan-400/35;
+  }
+  .temporal-model-comparison {
+    @apply grid shrink-0 grid-cols-2 gap-2 border-t border-cyan-300/10 bg-[#061923] p-2;
+  }
+  .temporal-model-comparison span {
+    @apply min-w-0 rounded-lg bg-white/[0.04] p-2 text-[10px] text-slate-500;
+  }
+  .temporal-model-comparison b {
+    @apply mt-0.5 block break-words text-xs text-white;
+  }
+  .temporal-model-review .temporal-community {
+    @apply text-slate-100;
+  }
+  .temporal-model-review .temporal-community > div {
+    @apply bg-white/[0.04];
+  }
+  .temporal-model-review .temporal-community details {
+    @apply border-white/10;
+  }
+  .temporal-result-sidebar {
+    @apply min-h-0 flex-1 space-y-3 overflow-y-auto p-3;
+  }
+  .temporal-result-outcome {
+    @apply overflow-hidden rounded-xl bg-white/[0.035] ring-1 ring-inset ring-white/[0.08];
+  }
+  .temporal-result-outcome > header {
+    @apply flex items-center gap-2 border-b border-white/[0.07] px-3 py-2;
+  }
+  .temporal-result-outcome > header > span {
+    @apply grid size-8 shrink-0 place-items-center rounded-lg bg-red-400/10 text-red-300;
+  }
+  .temporal-result-outcome.is-correct > header > span {
+    @apply bg-emerald-400/10 text-emerald-300;
+  }
+  .temporal-result-outcome svg {
+    @apply size-4;
+  }
+  .temporal-result-outcome header small,
+  .temporal-result-outcome header b {
+    @apply block;
+  }
+  .temporal-result-outcome header small {
+    @apply text-[8px] font-bold tracking-[0.12em] text-slate-600;
+  }
+  .temporal-result-outcome header b {
+    @apply text-xs text-red-200;
+  }
+  .temporal-result-outcome.is-correct header b {
+    @apply text-emerald-200;
+  }
+  .temporal-result-outcome > p {
+    @apply grid grid-cols-[44px_minmax(0,1fr)] gap-2 px-3 py-1.5;
+  }
+  .temporal-result-outcome > p + p {
+    @apply border-t border-white/[0.045];
+  }
+  .temporal-result-outcome > p small {
+    @apply text-[9px] text-slate-600;
+  }
+  .temporal-result-outcome > p b {
+    @apply break-words text-[11px] leading-4 text-slate-200;
+  }
+  .temporal-result-warning {
+    @apply flex items-start gap-2 rounded-lg bg-amber-400/10 px-2.5 py-2 text-amber-200;
+  }
+  .temporal-result-warning > svg {
+    @apply mt-0.5 size-3.5 shrink-0;
+  }
+  .temporal-result-warning b,
+  .temporal-result-warning small {
+    @apply block;
+  }
+  .temporal-result-warning b {
+    @apply text-[10px];
+  }
+  .temporal-result-warning small {
+    @apply mt-0.5 text-[9px] leading-3.5 text-amber-200/65;
+  }
+  .temporal-result-metric-group {
+    @apply border-t border-white/[0.08] pt-2;
+  }
+  .temporal-result-metric-group h3 {
+    @apply mb-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-cyan-400;
+  }
+  .temporal-result-metric-group > div {
+    @apply grid grid-cols-2 gap-x-3 gap-y-1;
+  }
+  .temporal-result-metric-group span {
+    @apply flex min-w-0 items-baseline justify-between gap-2 border-b border-white/[0.045] py-1;
+  }
+  .temporal-result-metric-group small {
+    @apply min-w-0 text-[9px] leading-3 text-slate-600;
+  }
+  .temporal-result-metric-group b {
+    @apply shrink-0 font-mono text-[10px] text-slate-200;
+  }
+  .temporal-case-run-section {
+    @apply border-t border-white/[0.08] pt-2;
+  }
+  .temporal-case-run-section > header {
+    @apply flex items-center justify-between gap-2 pb-1.5;
+  }
+  .temporal-case-run-section header small,
+  .temporal-case-run-section header b {
+    @apply block;
+  }
+  .temporal-case-run-section header small {
+    @apply text-[8px] font-bold tracking-[0.12em] text-cyan-400;
+  }
+  .temporal-case-run-section header b {
+    @apply text-[10px] text-slate-300;
+  }
+  .temporal-case-run-section > header > span {
+    @apply rounded-full bg-cyan-300/10 px-2 py-0.5 font-mono text-[9px] text-cyan-300;
+  }
+  .temporal-case-run-section > div {
+    @apply space-y-1;
+  }
+  .temporal-case-run-section > div > a,
+  .temporal-case-run-section > div > div {
+    @apply grid grid-cols-[24px_minmax(0,1fr)_auto] items-center gap-2 px-1 py-1.5 text-left transition hover:bg-white/[0.035];
+  }
+  .temporal-case-run-section > div > a.is-current {
+    @apply bg-cyan-300/[0.055] shadow-[inset_2px_0_0_#22d3ee];
+  }
+  .temporal-case-run-section i {
+    @apply grid size-6 place-items-center rounded-full bg-red-400/10 font-mono text-[8px] font-bold not-italic text-red-300;
+  }
+  .temporal-case-run-section i.is-correct {
+    @apply bg-emerald-400/10 text-emerald-300;
+  }
+  .temporal-case-run-section span,
+  .temporal-case-run-section span b,
+  .temporal-case-run-section span small {
+    @apply block min-w-0;
+  }
+  .temporal-case-run-section span b {
+    @apply truncate text-[10px] text-slate-300;
+  }
+  .temporal-case-run-section span small {
+    @apply truncate text-[8px] text-slate-600;
+  }
+  .temporal-case-run-section em {
+    @apply text-[8px] not-italic text-slate-500;
+  }
+  .temporal-result-details {
+    @apply overflow-hidden border-t border-white/[0.08];
+  }
+  .temporal-result-details > summary {
+    @apply cursor-pointer list-none py-2 text-[10px] font-semibold text-slate-300;
+  }
+  .temporal-result-details > div {
+    @apply space-y-2 border-t border-white/[0.06] py-2;
+  }
+  .temporal-result-details p b,
+  .temporal-result-details p span,
+  .temporal-result-details em {
+    @apply block;
+  }
+  .temporal-result-details p b {
+    @apply text-[9px] text-slate-300;
+  }
+  .temporal-result-details p span,
+  .temporal-result-details em {
+    @apply mt-0.5 text-[9px] leading-3.5 text-slate-600;
+  }
+  .temporal-result-details em {
+    @apply border-l-2 border-amber-300/30 pl-2 not-italic;
+  }
+  .temporal-result-json .model-json-pane {
+    @apply max-h-[440px] overflow-auto whitespace-pre-wrap break-all border-t border-white/[0.06] p-2 text-[9px] leading-3.5;
+  }
   .model-archive-sheet {
     @apply gap-0 border-cyan-300/15 bg-[#061923] text-slate-100;
   }
@@ -3520,46 +4319,87 @@ body {
   }
 }
 
-@keyframes answer-in {
+@media (prefers-reduced-motion: no-preference) {
+  .unified-research-page :is(button, a, select, summary),
+  .case-audit-dashboard :is(button, select, summary),
+  .temporal-audit-page :is(button, a, select, summary) {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tree-legend-disclosure[open] > .tree-legend,
+  .tree-node-disclosure[open] > .compact-tree-detail,
+  .temporal-tree-disclosure.is-node[open] > .temporal-audit-node-inspector {
+    animation: audit-disclosure-in 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .compact-tree-canvas .react-flow__viewport,
+  .temporal-flow-canvas .react-flow__viewport {
+    will-change: transform;
+  }
+  .timeline-node,
+  .answer-reveal,
+  .tree-stage,
+  .case-tree-branch,
+  .temporal-flow-node.is-pending {
+    will-change: transform, opacity;
+  }
+  .compact-tree-canvas .react-flow__edge-path,
+  .temporal-flow-canvas .react-flow__edge-path {
+    transition: stroke 120ms linear, opacity 120ms linear;
+  }
+}
+
+@keyframes audit-disclosure-in {
   from {
     opacity: 0;
-    transform: translateY(-8px) scale(0.98);
+    transform: translate3d(0, -4px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes answer-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
 @keyframes path-in {
   from {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translate3d(-10px, 0, 0);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes tree-grow {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translate3d(0, 12px, 0) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
 @keyframes gentle-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgb(245 158 11 / 0%);
+    opacity: 0.82;
+    transform: scale(0.96);
   }
   50% {
-    box-shadow: 0 0 0 7px rgb(245 158 11 / 12%);
+    opacity: 1;
+    transform: scale(1.05);
   }
 }
 
@@ -3582,6 +4422,7 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -3730,5 +4571,1674 @@ body {
   .arena-track-card > p {
     margin-top: 0.4rem;
     line-height: 1.25rem;
+  }
+}
+
+@layer components {
+  .temporal-page {
+    @apply flex h-dvh min-h-0 flex-col overflow-hidden bg-[#eaf1f3] text-[#102b35];
+    background-image:
+      radial-gradient(circle at 72% -10%, rgb(8 145 178 / 12%), transparent 30rem),
+      linear-gradient(rgb(7 59 76 / 3%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(7 59 76 / 3%) 1px, transparent 1px);
+    background-size: auto, 28px 28px, 28px 28px;
+  }
+  .temporal-header {
+    @apply flex shrink-0 items-center justify-between gap-4 border-b border-cyan-950/70 bg-[#041c28] px-4 py-2 text-white shadow-lg shadow-slate-950/15;
+  }
+  .temporal-title,
+  .temporal-controls,
+  .temporal-player-bar,
+  .temporal-clock,
+  .temporal-play-buttons,
+  .temporal-title > span,
+  .temporal-ledger > header,
+  .temporal-inspector > header,
+  .temporal-detail-heading,
+  .temporal-pending-card > div,
+  .temporal-quality-card > div {
+    @apply flex items-center;
+  }
+  .temporal-title {
+    @apply min-w-0 gap-2.5;
+  }
+  .temporal-title > span {
+    @apply size-9 shrink-0 justify-center rounded-xl border border-cyan-300/25 bg-cyan-300/10 text-cyan-200;
+  }
+  .temporal-title > span svg {
+    @apply size-5;
+  }
+  .temporal-title small {
+    @apply block text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300/75;
+  }
+  .temporal-title h1 {
+    @apply truncate text-base font-semibold tracking-tight;
+  }
+  .temporal-controls {
+    @apply gap-2;
+  }
+  .temporal-controls label {
+    @apply flex items-center gap-1.5;
+  }
+  .temporal-controls label > span {
+    @apply text-xs text-cyan-100/55;
+  }
+  .temporal-controls select {
+    @apply h-8 max-w-52 rounded-lg border border-cyan-200/15 bg-white/10 px-2 text-xs text-cyan-50 outline-none transition focus:border-cyan-300;
+  }
+  .temporal-controls select option {
+    @apply text-slate-950;
+  }
+  .temporal-case-picker select {
+    @apply max-w-60;
+  }
+  .temporal-real-badge {
+    @apply h-8 border-emerald-300/20 bg-emerald-300/10 px-2 text-xs text-emerald-100;
+  }
+  .temporal-player-bar {
+    @apply shrink-0 gap-3 border-b border-slate-200 bg-white/95 px-4 py-2 shadow-sm;
+  }
+  .temporal-play-buttons {
+    @apply gap-1;
+  }
+  .temporal-play-buttons button {
+    @apply size-8 rounded-lg;
+  }
+  .temporal-play-buttons svg {
+    @apply size-4;
+  }
+  .temporal-clock {
+    @apply min-w-36 gap-1.5 text-xs;
+  }
+  .temporal-clock svg {
+    @apply size-4 text-cyan-700;
+  }
+  .temporal-clock b {
+    @apply font-mono text-sm text-cyan-950;
+  }
+  .temporal-clock span {
+    @apply font-mono text-slate-400;
+  }
+  .temporal-slider {
+    @apply flex-1;
+  }
+  .temporal-slider [data-slot='slider-track'] {
+    @apply h-1.5 bg-slate-200;
+  }
+  .temporal-slider [data-slot='slider-range'] {
+    @apply bg-cyan-600;
+  }
+  .temporal-slider [data-slot='slider-thumb'] {
+    @apply size-4 border-2 border-cyan-700 shadow-[0_0_0_4px_rgb(8_145_178/12%)];
+  }
+  .temporal-stage-count {
+    @apply min-w-24 text-right font-mono text-xs text-slate-500;
+  }
+  .temporal-stage-count span {
+    @apply font-bold text-cyan-800;
+  }
+  .temporal-workspace {
+    @apply grid min-h-0 flex-1 gap-2.5 overflow-hidden p-2.5;
+    grid-template-columns: minmax(225px, 0.52fr) minmax(500px, 1.45fr) minmax(280px, 0.68fr);
+  }
+  .temporal-ledger,
+  .temporal-canvas-panel,
+  .temporal-inspector {
+    @apply min-h-0 min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_50px_-34px_rgb(5_48_65/55%)];
+  }
+  .temporal-ledger,
+  .temporal-inspector {
+    @apply flex flex-col;
+  }
+  .temporal-ledger > header,
+  .temporal-inspector > header {
+    @apply shrink-0 gap-2 border-b border-slate-200 bg-slate-50/90 px-3 py-2;
+  }
+  .temporal-ledger > header > svg,
+  .temporal-inspector > header > svg {
+    @apply size-4 text-cyan-700;
+  }
+  .temporal-ledger > header span,
+  .temporal-inspector > header span {
+    @apply flex flex-col;
+  }
+  .temporal-ledger > header small,
+  .temporal-inspector > header small {
+    @apply text-xs font-semibold tracking-[0.12em] text-cyan-700;
+  }
+  .temporal-ledger > header b,
+  .temporal-inspector > header b {
+    @apply text-sm leading-4 text-slate-900;
+  }
+  .temporal-ledger-body {
+    @apply min-h-0 flex-1 space-y-1 overflow-y-auto p-2;
+  }
+  .temporal-ledger-row {
+    @apply grid w-full grid-cols-[10px_minmax(0,1fr)_auto] items-center gap-2 rounded-xl border border-transparent px-2 py-2 text-left transition;
+  }
+  .temporal-ledger-row:hover {
+    @apply border-cyan-200 bg-cyan-50/65;
+  }
+  .temporal-ledger-row.is-future {
+    @apply opacity-35;
+  }
+  .temporal-ledger-row.is-pending {
+    @apply border-amber-200/80 bg-amber-50/75;
+  }
+  .temporal-ledger-dot {
+    @apply size-2.5 rounded-full bg-cyan-500 shadow-[0_0_0_3px_rgb(6_182_212/12%)];
+  }
+  .temporal-ledger-copy {
+    @apply min-w-0;
+  }
+  .temporal-ledger-copy b,
+  .temporal-ledger-copy small {
+    @apply block truncate;
+  }
+  .temporal-ledger-copy b {
+    @apply text-xs font-semibold text-slate-800;
+  }
+  .temporal-ledger-copy small {
+    @apply mt-0.5 font-mono text-xs text-slate-400;
+  }
+  .temporal-ledger-time {
+    @apply text-right;
+  }
+  .temporal-ledger-time b,
+  .temporal-ledger-time small {
+    @apply block;
+  }
+  .temporal-ledger-time b {
+    @apply font-mono text-xs text-slate-700;
+  }
+  .temporal-ledger-time small {
+    @apply mt-0.5 text-xs font-bold text-slate-400;
+  }
+  .temporal-ledger-row.is-pending .temporal-ledger-time small {
+    @apply text-amber-700;
+  }
+  .temporal-canvas-panel {
+    @apply relative flex flex-col bg-[#f4f8f9];
+  }
+  .temporal-canvas-meta {
+    @apply flex h-9 shrink-0 items-center gap-2 border-b border-cyan-950/10 bg-[#0b3442] px-3 text-xs text-cyan-50;
+  }
+  .temporal-canvas-meta span {
+    @apply flex items-center gap-1.5 rounded-full bg-white/7 px-2 py-1;
+  }
+  .temporal-canvas-meta span:first-child {
+    @apply font-semibold;
+  }
+  .temporal-canvas-meta span:last-child {
+    @apply ml-auto min-w-0 truncate text-cyan-100/60;
+  }
+  .temporal-canvas-meta svg {
+    @apply size-3.5;
+  }
+  .temporal-flow-canvas {
+    @apply min-h-0 flex-1;
+  }
+  .temporal-flow-canvas .react-flow__controls {
+    @apply overflow-hidden rounded-lg border border-slate-200 shadow-sm;
+  }
+  .temporal-flow-node {
+    @apply relative grid size-14 place-items-center rounded-full border-2 border-white bg-cyan-600 text-white shadow-[0_8px_22px_-10px_rgb(8_47_73/80%)] ring-1 ring-cyan-800/20 transition;
+  }
+  .temporal-flow-node > svg {
+    @apply size-5;
+  }
+  .temporal-flow-node.is-selected {
+    @apply ring-4 ring-cyan-300/45;
+  }
+  .temporal-flow-node.is-pending {
+    @apply border-amber-200 bg-amber-500 ring-4 ring-amber-300/20;
+    animation: temporal-pending-pulse 1.5s ease-in-out infinite;
+  }
+  .temporal-flow-node > span {
+    @apply pointer-events-none absolute left-1/2 top-[calc(100%+8px)] z-20 hidden w-48 -translate-x-1/2 rounded-xl border border-cyan-100/15 bg-[#061d2a]/95 p-2 text-left text-cyan-50 shadow-xl;
+  }
+  .temporal-flow-node:hover > span,
+  .temporal-flow-node.is-selected > span {
+    @apply block;
+  }
+  .temporal-flow-node > span b,
+  .temporal-flow-node > span small {
+    @apply block overflow-hidden text-ellipsis;
+  }
+  .temporal-flow-node > span b {
+    @apply text-xs font-semibold leading-4;
+  }
+  .temporal-flow-node > span small {
+    @apply mt-1 font-mono text-xs text-cyan-200/65;
+  }
+  .temporal-flow-node .react-flow__handle {
+    @apply size-1.5 border-0 bg-cyan-900;
+  }
+  .temporal-flow-node.tone-context {
+    @apply bg-[#075985];
+  }
+  .temporal-flow-node.tone-lab {
+    @apply bg-[#0d9488];
+  }
+  .temporal-flow-node.tone-imaging {
+    @apply bg-[#2563eb];
+  }
+  .temporal-flow-node.tone-ecg {
+    @apply bg-[#7c3aed];
+  }
+  .temporal-flow-node.tone-history,
+  .temporal-flow-node.tone-exam {
+    @apply bg-[#0891b2];
+  }
+  .temporal-flow-node.tone-action {
+    @apply bg-[#164e63];
+  }
+  .temporal-flow-node.tone-intervention,
+  .temporal-flow-node.tone-diagnosis {
+    @apply bg-[#ea580c];
+  }
+  .temporal-flow-node.tone-reference {
+    @apply bg-[#dc2626] shadow-[0_0_0_5px_rgb(220_38_38/12%),0_10px_24px_-8px_rgb(127_29_29/80%)];
+  }
+  .temporal-legend {
+    @apply absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 flex-wrap items-center justify-center gap-2 rounded-full border border-slate-200 bg-white/94 px-3 py-1.5 text-xs text-slate-600 shadow-md backdrop-blur;
+  }
+  .temporal-legend span {
+    @apply flex items-center gap-1;
+  }
+  .temporal-legend i {
+    @apply size-2 rounded-full bg-cyan-700;
+  }
+  .temporal-legend i.tone-lab,
+  .temporal-ledger-dot.modality-lab {
+    @apply bg-teal-600;
+  }
+  .temporal-legend i.tone-imaging,
+  .temporal-ledger-dot.modality-imaging {
+    @apply bg-blue-600;
+  }
+  .temporal-legend i.tone-ecg,
+  .temporal-ledger-dot.modality-ecg {
+    @apply bg-violet-600;
+  }
+  .temporal-legend i.tone-pending {
+    @apply bg-amber-500;
+  }
+  .temporal-legend i.tone-intervention,
+  .temporal-ledger-dot.modality-intervention,
+  .temporal-ledger-dot.modality-diagnosis {
+    @apply bg-orange-600;
+  }
+  .temporal-legend i.tone-reference {
+    @apply bg-red-600;
+  }
+  .temporal-inspector-body {
+    @apply min-h-0 flex-1 space-y-2 overflow-y-auto p-2;
+  }
+  .temporal-detail-card,
+  .temporal-pending-card,
+  .temporal-quality-card,
+  .temporal-case-evaluation-card {
+    @apply rounded-xl border border-slate-200 bg-white p-2.5;
+  }
+  .temporal-detail-heading {
+    @apply gap-2;
+  }
+  .temporal-detail-icon {
+    @apply grid size-9 shrink-0 place-items-center rounded-xl bg-cyan-800 text-white;
+  }
+  .temporal-detail-icon svg {
+    @apply size-4;
+  }
+  .temporal-detail-heading > div {
+    @apply min-w-0;
+  }
+  .temporal-detail-heading small,
+  .temporal-detail-heading b,
+  .temporal-detail-heading span {
+    @apply block;
+  }
+  .temporal-detail-heading small {
+    @apply text-xs font-bold tracking-wider text-cyan-700;
+  }
+  .temporal-detail-heading b {
+    @apply mt-0.5 break-words text-sm leading-4 text-slate-900;
+  }
+  .temporal-detail-heading span {
+    @apply mt-0.5 text-xs text-slate-500;
+  }
+  .temporal-time-facts {
+    @apply mt-2 grid grid-cols-2 gap-1;
+  }
+  .temporal-time-facts > span {
+    @apply rounded-lg bg-slate-50 px-2 py-1.5;
+  }
+  .temporal-time-facts small,
+  .temporal-time-facts b {
+    @apply block;
+  }
+  .temporal-time-facts small {
+    @apply text-xs text-slate-500;
+  }
+  .temporal-time-facts b {
+    @apply mt-0.5 break-words font-mono text-xs leading-4 text-slate-800;
+  }
+  .temporal-detail-card pre {
+    @apply mt-2 max-h-52 overflow-y-auto overflow-x-hidden whitespace-pre-wrap break-all rounded-lg bg-[#071b25] p-2 font-mono text-xs leading-4 text-cyan-50;
+  }
+  .temporal-pending-card > div,
+  .temporal-quality-card > div {
+    @apply gap-1.5 text-slate-800;
+  }
+  .temporal-pending-card > div svg,
+  .temporal-quality-card > div svg {
+    @apply size-4 text-cyan-700;
+  }
+  .temporal-pending-card > div b,
+  .temporal-quality-card > div b {
+    @apply text-xs;
+  }
+  .temporal-pending-card > div span {
+    @apply ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800;
+  }
+  .temporal-pending-card > button {
+    @apply mt-1.5 flex w-full items-center justify-between gap-2 rounded-lg bg-amber-50 px-2 py-1.5 text-left transition hover:bg-amber-100;
+  }
+  .temporal-pending-card > button span {
+    @apply min-w-0;
+  }
+  .temporal-pending-card > button b,
+  .temporal-pending-card > button small {
+    @apply block truncate;
+  }
+  .temporal-pending-card > button b {
+    @apply text-xs text-slate-800;
+  }
+  .temporal-pending-card > button small {
+    @apply font-mono text-xs text-slate-400;
+  }
+  .temporal-pending-card > button em {
+    @apply shrink-0 font-mono text-xs font-semibold not-italic text-amber-700;
+  }
+  .temporal-pending-card > p {
+    @apply mt-2 text-xs text-slate-400;
+  }
+  .temporal-quality-card p {
+    @apply mt-1.5 flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5 text-xs;
+  }
+  .temporal-quality-card p span {
+    @apply text-slate-500;
+  }
+  .temporal-quality-card p b {
+    @apply font-mono text-slate-800;
+  }
+  .temporal-quality-card > small {
+    @apply mt-1.5 block rounded-lg bg-orange-50 px-2 py-1.5 text-xs leading-4 text-orange-900;
+  }
+  .temporal-case-evaluation-card > div:first-child {
+    @apply flex items-center gap-1.5 text-slate-800;
+  }
+  .temporal-case-evaluation-card > div:first-child svg {
+    @apply size-4 text-cyan-700;
+  }
+  .temporal-case-evaluation-card > div:first-child b {
+    @apply text-xs;
+  }
+  .temporal-case-evaluation-card > div:first-child span {
+    @apply ml-auto rounded-full bg-cyan-50 px-1.5 py-0.5 font-mono text-[9px] text-cyan-800;
+  }
+  .temporal-case-evaluation-grid {
+    @apply mt-2 grid grid-cols-2 gap-1;
+  }
+  .temporal-case-evaluation-grid > span {
+    @apply rounded-lg bg-slate-50 px-2 py-1.5;
+  }
+  .temporal-case-evaluation-grid small,
+  .temporal-case-evaluation-grid b {
+    @apply block;
+  }
+  .temporal-case-evaluation-grid small {
+    @apply text-[9px] text-slate-500;
+  }
+  .temporal-case-evaluation-grid b {
+    @apply font-mono text-xs text-cyan-800;
+  }
+  .temporal-case-evaluation-card > p {
+    @apply mt-2 rounded-lg bg-slate-50 p-2 text-[10px] leading-4 text-slate-500;
+  }
+  .temporal-case-evaluation-card > details {
+    @apply mt-2 border-t border-slate-100 pt-1.5 text-[10px];
+  }
+  .temporal-case-evaluation-card > details summary {
+    @apply cursor-pointer font-semibold text-cyan-800;
+  }
+  .temporal-case-evaluation-card > details > div {
+    @apply mt-2 space-y-2;
+  }
+  .temporal-case-evaluation-card > details p b,
+  .temporal-case-evaluation-card > details p span,
+  .temporal-case-evaluation-card > details em {
+    @apply block;
+  }
+  .temporal-case-evaluation-card > details p b {
+    @apply text-slate-700;
+  }
+  .temporal-case-evaluation-card > details p span,
+  .temporal-case-evaluation-card > details em {
+    @apply text-[9px] leading-3.5 text-slate-500;
+  }
+  .temporal-case-evaluation-card > details em {
+    @apply border-l-2 border-amber-300 pl-2 not-italic;
+  }
+  .temporal-empty-page {
+    @apply grid h-dvh place-items-center bg-[#eaf1f3] p-6;
+  }
+  .temporal-empty-page > div {
+    @apply max-w-lg rounded-3xl border border-cyan-900/10 bg-white p-8 text-center shadow-xl;
+  }
+  .temporal-empty-page svg {
+    @apply mx-auto size-12 text-cyan-700;
+  }
+  .temporal-empty-page p {
+    @apply mt-4 text-xs font-bold uppercase tracking-[0.14em] text-cyan-700;
+  }
+  .temporal-empty-page h1 {
+    @apply mt-1 text-2xl font-semibold text-slate-950;
+  }
+  .temporal-empty-page span {
+    @apply mt-3 block text-sm leading-6 text-slate-500;
+  }
+  .temporal-empty-page code {
+    @apply rounded bg-slate-100 px-1.5 py-1 font-mono text-xs text-cyan-800;
+  }
+}
+
+@keyframes temporal-pending-pulse {
+  0%, 100% {
+    opacity: 0.86;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@media (max-width: 1100px) {
+  .temporal-workspace {
+    grid-template-columns: minmax(190px, 0.42fr) minmax(470px, 1.2fr) minmax(250px, 0.58fr);
+  }
+  .temporal-real-badge {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .temporal-page {
+    overflow-x: auto;
+  }
+  .temporal-header,
+  .temporal-player-bar,
+  .temporal-workspace {
+    min-width: 900px;
+  }
+}
+
+@layer components {
+  .temporal-root {
+    @apply relative h-dvh min-h-0 overflow-hidden;
+  }
+  .temporal-mode-nav {
+    @apply fixed bottom-3 left-1/2 z-[80] flex -translate-x-1/2 items-center gap-1 rounded-xl border border-cyan-100/15 bg-[#031923]/95 p-1 text-xs text-cyan-100 shadow-2xl backdrop-blur;
+  }
+  .temporal-mode-nav a {
+    @apply flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition hover:bg-white/10;
+  }
+  .temporal-mode-nav a.is-active {
+    @apply bg-cyan-400 text-cyan-950 shadow-sm;
+  }
+  .temporal-mode-nav svg {
+    @apply size-3.5;
+  }
+  .track-temporal {
+    @apply border-cyan-300/35 bg-[linear-gradient(145deg,rgb(4_32_45/96%),rgb(8_73_86/94%))] text-white;
+  }
+  .track-temporal .arena-track-select {
+    @apply mt-auto flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-300 px-3 py-2 text-sm font-bold text-cyan-950 transition hover:bg-cyan-200;
+  }
+  .temporal-launcher {
+    @apply flex h-dvh min-h-0 flex-col gap-4 overflow-hidden bg-[#03131c] p-5 pb-16 text-white;
+    background-image: radial-gradient(circle at 50% -20%, rgb(34 211 238 / 18%), transparent 45rem);
+  }
+  .temporal-launcher > header {
+    @apply grid shrink-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-5;
+  }
+  .temporal-launcher > header > a {
+    @apply flex items-center gap-1.5 rounded-lg border border-cyan-100/15 px-3 py-2 text-xs text-cyan-100/75 transition hover:bg-white/5;
+  }
+  .temporal-launcher > header svg {
+    @apply size-4;
+  }
+  .temporal-launcher > header small {
+    @apply text-xs font-bold uppercase tracking-[0.16em] text-cyan-300;
+  }
+  .temporal-launcher > header h1 {
+    @apply mt-0.5 text-2xl font-semibold tracking-tight;
+  }
+  .temporal-launcher > header p {
+    @apply mt-1 text-sm text-cyan-50/55;
+  }
+  .temporal-launcher > header [data-slot='badge'] {
+    @apply border-cyan-300/20 bg-cyan-300/10 text-cyan-100;
+  }
+  .temporal-dataset-cards {
+    @apply grid min-h-0 flex-1 grid-cols-5 gap-3;
+  }
+  .temporal-dataset-cards > button {
+    @apply relative flex min-h-0 flex-col rounded-3xl border border-white/10 bg-white/[0.045] p-4 text-left transition hover:border-cyan-300/35 hover:bg-cyan-300/[0.07];
+  }
+  .temporal-dataset-cards > button.is-selected {
+    @apply border-cyan-300/65 bg-cyan-300/[0.11] shadow-[0_20px_60px_-32px_rgb(34_211_238/65%)];
+  }
+  .temporal-dataset-cards > button > span {
+    @apply mb-auto grid size-11 place-items-center rounded-2xl bg-cyan-300/10 text-cyan-200;
+  }
+  .temporal-dataset-cards svg {
+    @apply size-5;
+  }
+  .temporal-dataset-cards small {
+    @apply mt-5 text-xs font-bold tracking-[0.14em] text-cyan-200/45;
+  }
+  .temporal-dataset-cards b {
+    @apply mt-1 break-words text-lg leading-6 text-white;
+  }
+  .temporal-dataset-cards em {
+    @apply mt-2 text-xs not-italic text-cyan-200/55;
+  }
+  .temporal-launcher > footer {
+    @apply grid shrink-0 grid-cols-[minmax(260px,0.9fr)_minmax(320px,1.4fr)_auto] items-end gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3;
+  }
+  .temporal-launcher > footer label span,
+  .temporal-launcher > footer div b,
+  .temporal-launcher > footer div span {
+    @apply block;
+  }
+  .temporal-launcher > footer label span,
+  .temporal-launcher > footer div b {
+    @apply mb-1 text-xs font-bold text-cyan-200/60;
+  }
+  .temporal-launcher > footer select {
+    @apply h-9 w-full rounded-lg border border-cyan-100/15 bg-[#082633] px-3 text-xs text-white outline-none;
+  }
+  .temporal-launcher > footer div span {
+    @apply text-sm text-cyan-50/75;
+  }
+  .temporal-arena-page {
+    @apply flex h-dvh min-h-0 flex-col overflow-hidden bg-[#e7eff1] pb-14 text-slate-950;
+  }
+  .temporal-arena-header {
+    @apply flex h-14 shrink-0 items-center gap-3 border-b border-cyan-950/60 bg-[#041c28] px-3 text-white;
+  }
+  .temporal-arena-header > a {
+    @apply flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-cyan-100/70;
+  }
+  .temporal-arena-header svg {
+    @apply size-4;
+  }
+  .temporal-arena-header > div {
+    @apply min-w-0 flex-1;
+  }
+  .temporal-arena-header small,
+  .temporal-arena-header b {
+    @apply block truncate;
+  }
+  .temporal-arena-header small {
+    @apply text-xs uppercase tracking-[0.12em] text-cyan-300/60;
+  }
+  .temporal-arena-header b {
+    @apply text-sm;
+  }
+  .temporal-arena-header > span {
+    @apply flex items-center gap-1.5 rounded-full bg-cyan-300/10 px-3 py-1.5 font-mono text-xs text-cyan-100;
+  }
+  .temporal-arena-header button {
+    @apply border-white/15 bg-white/5 text-white hover:bg-white/10;
+    background-color: rgb(255 255 255 / 0.08) !important;
+    color: white !important;
+  }
+  .temporal-arena-grid {
+    @apply grid min-h-0 flex-1 gap-2 p-2;
+    grid-template-columns: minmax(190px, .48fr) minmax(480px, 1.45fr) minmax(300px, .82fr);
+  }
+  .temporal-arena-panel {
+    @apply flex min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_55px_-38px_rgb(5_48_65/60%)];
+  }
+  .temporal-panel-title {
+    @apply flex h-12 shrink-0 items-center gap-2 border-b border-slate-200 bg-slate-50 px-3;
+  }
+  .temporal-panel-title > span {
+    @apply grid size-8 place-items-center rounded-lg bg-cyan-950 text-cyan-200;
+  }
+  .temporal-panel-title svg {
+    @apply size-4;
+  }
+  .temporal-panel-title small,
+  .temporal-panel-title b {
+    @apply block;
+  }
+  .temporal-panel-title small {
+    @apply text-xs font-bold tracking-[0.12em] text-cyan-700;
+  }
+  .temporal-panel-title b {
+    @apply text-sm leading-4;
+  }
+  .doctor-path-tree {
+    @apply min-h-0 flex-1 overflow-y-auto p-4;
+  }
+  .doctor-path-tree > div {
+    @apply relative flex min-h-16 items-center gap-3 pb-4;
+  }
+  .doctor-path-tree > div:not(:last-child)::after {
+    content: '';
+    @apply absolute left-[17px] top-9 h-[calc(100%-24px)] w-0.5 bg-cyan-900/18;
+  }
+  .doctor-path-tree i {
+    @apply relative z-10 grid size-9 shrink-0 place-items-center rounded-full bg-cyan-800 text-xs font-bold not-italic text-white ring-4 ring-cyan-50;
+  }
+  .doctor-path-tree .tone-belief i {
+    @apply bg-violet-600;
+  }
+  .doctor-path-tree .tone-pending i {
+    @apply bg-amber-500;
+  }
+  .doctor-path-tree .tone-imaging i {
+    @apply bg-blue-600;
+  }
+  .doctor-path-tree span {
+    @apply min-w-0 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2;
+  }
+  .doctor-path-tree b,
+  .doctor-path-tree small {
+    @apply block break-words;
+  }
+  .doctor-path-tree b {
+    @apply text-xs leading-4 text-slate-800;
+  }
+  .doctor-path-tree small {
+    @apply mt-0.5 text-xs text-slate-400;
+  }
+  .temporal-state-scroll {
+    @apply min-h-0 flex-1 space-y-2 overflow-y-auto bg-slate-50/50 p-2;
+  }
+  .temporal-result-card {
+    @apply overflow-hidden rounded-xl border border-slate-200 bg-white;
+  }
+  .temporal-result-card > header {
+    @apply flex items-center gap-2 border-b border-slate-100 px-3 py-2;
+  }
+  .temporal-result-card > header > svg {
+    @apply size-4 shrink-0 text-cyan-700;
+  }
+  .temporal-result-card > header span {
+    @apply min-w-0 flex-1;
+  }
+  .temporal-result-card > header small,
+  .temporal-result-card > header b {
+    @apply block;
+  }
+  .temporal-result-card > header small {
+    @apply text-xs font-bold tracking-[0.08em] text-cyan-700;
+  }
+  .temporal-result-card > header b {
+    @apply truncate text-xs text-slate-900;
+  }
+  .temporal-result-card > header em {
+    @apply font-mono text-xs not-italic text-slate-500;
+  }
+  .temporal-result-card pre,
+  .temporal-audit-node-inspector pre,
+  .temporal-community pre {
+    @apply max-h-44 overflow-y-auto overflow-x-hidden whitespace-pre-wrap break-all bg-[#071b25] p-3 font-mono text-xs leading-4 text-cyan-50;
+  }
+  .temporal-result-card.is-imaging {
+    @apply border-blue-200 shadow-[0_10px_28px_-24px_rgb(37_99_235/70%)];
+  }
+  .temporal-result-card.is-initial {
+    @apply border-cyan-200;
+  }
+  .clinical-presentation {
+    @apply bg-white p-3 text-xs text-slate-700;
+  }
+  .clinical-presentation-headline {
+    @apply rounded-lg border border-cyan-100 bg-cyan-50 px-3 py-2 text-sm font-semibold leading-5 text-cyan-950;
+  }
+  .clinical-presentation-summary {
+    @apply mb-2 text-xs leading-5 text-slate-500;
+  }
+  .clinical-presentation > section + section {
+    @apply mt-3;
+  }
+  .clinical-presentation h4 {
+    @apply mb-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-cyan-700;
+  }
+  .clinical-presentation > section > p {
+    @apply whitespace-pre-wrap break-words rounded-lg bg-slate-50 px-3 py-2 leading-5 text-slate-700;
+  }
+  .clinical-result-rows {
+    @apply overflow-hidden rounded-lg border border-slate-200;
+  }
+  .clinical-result-rows > div {
+    @apply grid min-w-0 grid-cols-[minmax(110px,.8fr)_minmax(120px,1fr)_auto] items-center gap-2 border-b border-slate-100 px-2.5 py-1.5 last:border-b-0;
+  }
+  .clinical-result-rows > div:nth-child(even) {
+    @apply bg-slate-50/70;
+  }
+  .clinical-result-rows > div.is-abnormal {
+    @apply bg-red-50/80;
+  }
+  .clinical-result-rows span,
+  .clinical-result-rows b {
+    @apply min-w-0 break-words leading-4;
+  }
+  .clinical-result-rows span {
+    @apply text-slate-500;
+  }
+  .clinical-result-rows b {
+    @apply font-semibold text-slate-900;
+  }
+  .clinical-result-rows em {
+    @apply rounded-full bg-red-100 px-1.5 py-0.5 text-[10px] font-bold not-italic text-red-700;
+  }
+  .clinical-presentation-empty {
+    @apply p-3 text-xs text-slate-500;
+  }
+  .imaging-result-banner {
+    @apply flex items-center gap-2 bg-blue-50 px-3 py-2 text-blue-950;
+  }
+  .imaging-result-banner > svg {
+    @apply size-5 text-blue-600;
+  }
+  .imaging-result-banner b,
+  .imaging-result-banner small {
+    @apply block;
+  }
+  .imaging-result-banner b {
+    @apply text-xs;
+  }
+  .imaging-result-banner small {
+    @apply text-xs text-blue-700/70;
+  }
+  .temporal-action-dock {
+    @apply shrink-0 border-t border-slate-200 bg-white p-2;
+  }
+  .temporal-pending-strip {
+    @apply mb-2 flex max-h-14 gap-1.5 overflow-x-auto;
+  }
+  .temporal-pending-strip > span {
+    @apply flex min-w-48 shrink-0 items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-2 py-1 text-amber-950;
+  }
+  .temporal-pending-strip svg {
+    @apply size-3.5 text-amber-600;
+  }
+  .temporal-pending-strip b {
+    @apply min-w-0 flex-1 truncate text-xs;
+  }
+  .temporal-pending-strip small {
+    @apply font-mono text-xs text-amber-700;
+  }
+  .temporal-pending-strip em {
+    @apply px-2 py-1 text-xs not-italic text-slate-400;
+  }
+  .temporal-action-search {
+    @apply relative;
+  }
+  .temporal-action-search > svg {
+    @apply absolute left-2.5 top-2.5 size-4 text-slate-400;
+  }
+  .temporal-action-search input {
+    @apply h-9 pl-8 text-xs;
+  }
+  .temporal-action-pool {
+    @apply mt-2 grid max-h-36 grid-cols-2 gap-1.5 overflow-y-auto;
+  }
+  .temporal-action-pool > button {
+    @apply flex min-w-0 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-left transition hover:border-cyan-300 hover:bg-cyan-50;
+  }
+  .temporal-action-pool > button.is-selected {
+    @apply border-cyan-600 bg-cyan-50 ring-2 ring-cyan-500/10;
+  }
+  .temporal-action-pool > button > svg {
+    @apply size-4 shrink-0 text-cyan-700;
+  }
+  .temporal-action-pool b,
+  .temporal-action-pool small {
+    @apply block truncate;
+  }
+  .temporal-action-pool b {
+    @apply text-xs text-slate-800;
+  }
+  .temporal-action-pool small {
+    @apply text-xs text-slate-400;
+  }
+  .temporal-action-pool .modality-imaging {
+    @apply border-blue-200 bg-blue-50/60;
+  }
+  .temporal-action-buttons {
+    @apply mt-2 grid grid-cols-[minmax(180px,1fr)_auto] items-center gap-2;
+  }
+  .temporal-action-buttons button {
+    @apply h-8 text-xs;
+  }
+  .temporal-action-buttons > span {
+    @apply flex items-center gap-1 text-[10px] text-slate-500;
+  }
+  .temporal-action-buttons > span svg {
+    @apply size-3 text-cyan-700;
+  }
+  .temporal-belief-history {
+    @apply shrink-0 border-b border-slate-200 px-2 py-1.5;
+  }
+  .temporal-belief-history summary {
+    @apply cursor-pointer text-xs font-semibold text-slate-600;
+  }
+  .temporal-belief-history details > div {
+    @apply mt-1 grid grid-cols-[28px_1fr] gap-2 rounded-lg bg-slate-50 px-2 py-1 text-xs;
+  }
+  .temporal-belief-history details > div b {
+    @apply text-violet-700;
+  }
+  .temporal-diagnosis-current {
+    @apply min-h-24 flex-1 space-y-1 overflow-y-auto p-2;
+  }
+  .temporal-diagnosis-current > div {
+    @apply grid cursor-grab grid-cols-[24px_minmax(0,1fr)_24px_24px] items-center gap-1 rounded-lg border border-slate-200 bg-white px-1.5 py-1 shadow-sm;
+  }
+  .temporal-diagnosis-current > div > span {
+    @apply grid size-5 place-items-center rounded-full bg-violet-100 text-xs font-bold text-violet-700;
+  }
+  .temporal-diagnosis-current > div > b {
+    @apply truncate text-xs;
+  }
+  .temporal-diagnosis-current > div > button {
+    @apply grid size-6 place-items-center rounded text-slate-400 hover:bg-slate-100 hover:text-slate-900;
+  }
+  .temporal-diagnosis-current svg {
+    @apply size-3.5;
+  }
+  .temporal-diagnosis-current > p {
+    @apply rounded-xl border border-dashed border-slate-300 p-4 text-center text-xs text-slate-400;
+  }
+  .temporal-diagnosis-add {
+    @apply shrink-0 border-t border-slate-200 p-2;
+  }
+  .temporal-diagnosis-add input {
+    @apply h-8 text-xs;
+  }
+  .temporal-diagnosis-add > button {
+    @apply mt-1 w-full rounded-lg bg-cyan-50 px-2 py-1.5 text-left text-xs font-semibold text-cyan-900;
+  }
+  .temporal-diagnosis-add > div {
+    @apply mt-1.5 flex max-h-24 flex-wrap gap-1 overflow-y-auto;
+  }
+  .temporal-diagnosis-add > div button {
+    @apply rounded-full border border-slate-200 px-2 py-1 text-xs text-slate-600 hover:border-cyan-300 hover:text-cyan-800;
+  }
+  .temporal-belief-gate {
+    @apply shrink-0 border-t border-emerald-100 bg-emerald-50 p-2;
+  }
+  .temporal-belief-gate.is-required {
+    @apply border-amber-100 bg-amber-50;
+  }
+  .temporal-belief-gate > span {
+    @apply mb-1.5 block text-xs font-semibold text-slate-700;
+  }
+  .temporal-belief-gate button {
+    @apply mb-1 h-8 w-full text-xs;
+  }
+  .temporal-review-page {
+    @apply flex h-dvh min-h-0 flex-col overflow-hidden bg-[#e8eff1] pb-14 text-slate-950;
+  }
+  .temporal-review-page > header {
+    @apply flex h-16 shrink-0 items-center gap-4 bg-[#041c28] px-4 text-white;
+  }
+  .temporal-review-page > header > div:first-child {
+    @apply min-w-0 flex-1;
+  }
+  .temporal-review-page > header small,
+  .temporal-review-page > header h1 {
+    @apply block;
+  }
+  .temporal-review-page > header small {
+    @apply text-xs uppercase tracking-wider text-cyan-300/60;
+  }
+  .temporal-review-page > header h1 {
+    @apply text-lg font-semibold;
+  }
+  .temporal-review-page > header > div:nth-child(2) {
+    @apply flex items-center gap-2 text-sm;
+  }
+  .temporal-review-page > header .truth {
+    @apply text-red-300;
+  }
+  .temporal-review-page > section {
+    @apply grid min-h-0 flex-1 grid-cols-3 gap-2 p-2;
+  }
+  .temporal-review-page > section > article {
+    @apply flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white;
+  }
+  .doctor-review-path,
+  .compact-ground-truth,
+  .temporal-community {
+    @apply min-h-0 flex-1 overflow-y-auto p-3;
+  }
+  .doctor-review-path > div,
+  .compact-ground-truth > div {
+    @apply relative flex items-center gap-2 pb-3;
+  }
+  .doctor-review-path > div:not(:last-child)::after,
+  .compact-ground-truth > div:not(:last-child)::after {
+    content: '';
+    @apply absolute left-3 top-6 h-[calc(100%-18px)] w-px bg-cyan-900/20;
+  }
+  .doctor-review-path i,
+  .compact-ground-truth i {
+    @apply relative z-10 grid size-6 shrink-0 place-items-center rounded-full bg-cyan-700 text-xs not-italic text-white ring-2 ring-white;
+  }
+  .doctor-review-path b,
+  .doctor-review-path small,
+  .compact-ground-truth b,
+  .compact-ground-truth small {
+    @apply block;
+  }
+  .doctor-review-path b,
+  .compact-ground-truth b {
+    @apply break-words text-xs text-slate-800;
+  }
+  .doctor-review-path small,
+  .compact-ground-truth small {
+    @apply text-xs text-slate-400;
+  }
+  .compact-ground-truth .tone-reference i {
+    @apply bg-red-600 ring-4 ring-red-100;
+  }
+  .compact-ground-truth .modality-imaging i {
+    @apply bg-blue-600;
+  }
+  .temporal-community > b,
+  .temporal-community > span {
+    @apply block;
+  }
+  .temporal-community > b {
+    @apply text-xl text-cyan-950;
+  }
+  .temporal-community > span {
+    @apply mb-4 text-xs text-slate-500;
+  }
+  .temporal-community > div {
+    @apply relative mb-2 grid grid-cols-[minmax(0,1fr)_40px] items-center gap-2 overflow-hidden rounded-lg bg-slate-50 px-2 py-2 text-xs;
+  }
+  .temporal-community > div i {
+    @apply absolute bottom-0 left-0 h-0.5 bg-cyan-500;
+  }
+  .temporal-community > div b {
+    @apply text-right text-cyan-800;
+  }
+  .temporal-community details {
+    @apply mt-4 overflow-hidden rounded-xl border border-slate-200;
+  }
+  .temporal-community summary {
+    @apply cursor-pointer px-3 py-2 text-xs font-semibold;
+  }
+  .temporal-audit-page {
+    @apply flex h-dvh min-h-0 flex-col overflow-hidden bg-[#e7eff1] text-slate-950;
+  }
+  .temporal-audit-page.is-embedded {
+    @apply h-full;
+  }
+  .temporal-audit-header {
+    @apply grid h-16 shrink-0 grid-cols-[auto_minmax(200px,1fr)_auto_auto_minmax(240px,.7fr)] items-center gap-3 bg-[#041c28] px-3 text-white;
+  }
+  .temporal-audit-header > a {
+    @apply flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-cyan-100/70;
+  }
+  .temporal-audit-header svg {
+    @apply size-4;
+  }
+  .temporal-audit-header small,
+  .temporal-audit-header h1 {
+    @apply block truncate;
+  }
+  .temporal-audit-header small {
+    @apply text-xs uppercase tracking-[0.1em] text-cyan-300/60;
+  }
+  .temporal-audit-header h1 {
+    @apply text-base font-semibold;
+  }
+  .temporal-audit-header [data-slot='badge'] {
+    @apply border-cyan-300/20 bg-cyan-300/10 text-cyan-100;
+  }
+  .temporal-audit-header label span {
+    @apply mr-1.5 text-xs text-cyan-100/50;
+  }
+  .temporal-audit-header select {
+    @apply h-8 rounded-lg border border-white/10 bg-white/10 px-2 text-xs text-white outline-none;
+  }
+  .temporal-audit-header option {
+    @apply text-slate-950;
+  }
+  .temporal-audit-case select {
+    @apply w-full;
+  }
+  .temporal-audit-grid {
+    @apply grid min-h-0 flex-1 gap-2 p-2;
+    grid-template-columns: minmax(260px, .75fr) minmax(340px, 1fr) minmax(430px, 1.25fr);
+  }
+  .temporal-audit-grid > article {
+    @apply flex min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white;
+  }
+  .temporal-audit-panel-heading {
+    @apply flex h-12 shrink-0 items-center gap-2 border-b border-slate-200 bg-slate-50 px-3;
+  }
+  .temporal-audit-panel-heading > span {
+    @apply grid size-8 place-items-center rounded-lg bg-cyan-950 text-cyan-200;
+  }
+  .temporal-audit-panel-heading svg {
+    @apply size-4;
+  }
+  .temporal-audit-panel-heading small,
+  .temporal-audit-panel-heading b {
+    @apply block;
+  }
+  .temporal-audit-panel-heading small {
+    @apply text-xs font-bold tracking-[0.12em] text-cyan-700;
+  }
+  .temporal-audit-panel-heading b {
+    @apply text-sm;
+  }
+  .temporal-audit-note {
+    @apply shrink-0 border-b border-cyan-100 bg-cyan-50 px-3 py-2 text-xs leading-4 text-cyan-950;
+  }
+  .temporal-conversion-summary {
+    @apply flex shrink-0 gap-1.5 border-b border-slate-200 p-2;
+  }
+  .temporal-conversion-summary span {
+    @apply flex items-center gap-1 rounded-full bg-slate-100 px-2 py-1 text-xs text-slate-600;
+  }
+  .temporal-conversion-summary svg {
+    @apply size-3.5 text-cyan-700;
+  }
+  .temporal-audit-grid .json-document {
+    @apply min-h-0 flex-1;
+  }
+  .temporal-audit-grid .json-code-view,
+  .temporal-audit-grid .json-table-view {
+    @apply min-h-0 flex-1 overflow-y-auto overflow-x-hidden;
+  }
+  .temporal-audit-tree {
+    @apply relative flex min-h-0 flex-1 bg-[#f4f8f9];
+  }
+  .temporal-tree-disclosures {
+    @apply flex min-h-0 flex-1 flex-col gap-1.5 bg-slate-100 p-1.5;
+  }
+  .temporal-tree-disclosure {
+    @apply shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white;
+  }
+  .temporal-tree-disclosure > summary,
+  .temporal-tree-disclosure-toggle {
+    @apply flex h-8 cursor-pointer list-none items-center gap-2 px-2.5 text-xs transition-colors duration-150 hover:bg-cyan-50;
+  }
+  .temporal-tree-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+  .temporal-tree-disclosure > summary::before,
+  .temporal-tree-disclosure-toggle::before {
+    content: '›';
+    @apply inline-grid size-4 shrink-0 place-items-center font-mono text-sm text-cyan-700 transition-transform duration-200;
+  }
+  .temporal-tree-disclosure[open] > summary::before,
+  .temporal-tree-disclosure[data-open='true'] > .temporal-tree-disclosure-toggle::before {
+    @apply rotate-90;
+  }
+  .temporal-tree-disclosure > summary > span,
+  .temporal-tree-disclosure-toggle > span {
+    @apply shrink-0 font-semibold text-cyan-900;
+  }
+  .temporal-tree-disclosure > summary > small,
+  .temporal-tree-disclosure-toggle > small {
+    @apply min-w-0 flex-1 truncate text-right text-slate-400;
+  }
+  .temporal-tree-disclosure.is-canvas[data-open='true'] {
+    @apply flex min-h-48 flex-1 flex-col;
+  }
+  .temporal-tree-disclosure.is-canvas > .temporal-audit-tree {
+    @apply min-h-0 flex-1 border-t border-slate-200;
+  }
+  .temporal-tree-disclosure.is-node[open] {
+    @apply max-h-72;
+  }
+  .temporal-tree-disclosure.is-node > .temporal-audit-node-inspector {
+    @apply h-auto max-h-64 border-t border-slate-200;
+  }
+  .temporal-audit-metric-bar {
+    @apply grid h-10 shrink-0 grid-cols-4 items-stretch gap-px border-b border-slate-200 bg-slate-200;
+  }
+  .temporal-audit-metric-bar > span {
+    @apply min-w-0 bg-white px-2 py-1;
+  }
+  .temporal-audit-metric-bar small,
+  .temporal-audit-metric-bar b {
+    @apply block truncate;
+  }
+  .temporal-audit-metric-bar small {
+    @apply text-[8px] text-slate-400;
+  }
+  .temporal-audit-metric-bar b {
+    @apply font-mono text-[10px] text-cyan-800;
+  }
+  .temporal-audit-evaluation > details {
+    @apply shrink-0 border-b border-slate-200 bg-white text-[10px];
+  }
+  .temporal-audit-evaluation > details summary {
+    @apply cursor-pointer px-3 py-1.5 font-semibold text-cyan-800;
+  }
+  .temporal-audit-evaluation > details > div {
+    @apply grid max-h-48 grid-cols-2 gap-1.5 overflow-y-auto border-t border-slate-100 bg-slate-50 p-2;
+  }
+  .temporal-audit-evaluation > details p {
+    @apply rounded-lg bg-white p-2;
+  }
+  .temporal-audit-evaluation > details p span,
+  .temporal-audit-evaluation > details p b,
+  .temporal-audit-evaluation > details p small {
+    @apply block;
+  }
+  .temporal-audit-evaluation > details p span {
+    @apply text-[9px] text-slate-500;
+  }
+  .temporal-audit-evaluation > details p b {
+    @apply font-mono text-xs text-cyan-800;
+  }
+  .temporal-audit-evaluation > details p small {
+    @apply mt-1 text-[9px] leading-3.5 text-slate-500;
+  }
+  .temporal-audit-evaluation > details em {
+    @apply col-span-2 border-l-2 border-amber-300 pl-2 text-[9px] leading-3.5 not-italic text-amber-800;
+  }
+  .temporal-audit-tree > .temporal-flow-canvas {
+    @apply h-full min-h-0 w-full flex-1;
+  }
+  .temporal-audit-node-inspector {
+    @apply h-64 shrink-0 overflow-hidden border-t border-slate-200 bg-white;
+  }
+  .temporal-audit-node-inspector > header {
+    @apply flex items-center gap-2 px-3 py-2;
+  }
+  .temporal-audit-node-inspector > header > svg {
+    @apply size-4 text-cyan-700;
+  }
+  .temporal-audit-node-inspector > header small,
+  .temporal-audit-node-inspector > header b,
+  .temporal-audit-node-inspector > header span {
+    @apply block;
+  }
+  .temporal-audit-node-inspector > header small {
+    @apply text-xs font-bold text-cyan-700;
+  }
+  .temporal-audit-node-inspector > header b {
+    @apply text-xs;
+  }
+  .temporal-audit-node-inspector > header span {
+    @apply text-xs text-slate-400;
+  }
+  .temporal-audit-node-inspector > p {
+    @apply flex items-center gap-1.5 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-800;
+  }
+  .temporal-audit-node-inspector > p svg {
+    @apply size-4;
+  }
+  .temporal-audit-node-inspector pre {
+    @apply max-h-28;
+  }
+  .temporal-audit-reference-jump {
+    @apply absolute right-2 top-2 z-20 flex max-w-[58%] flex-col rounded-xl border border-red-200 bg-white/95 py-2 pl-11 pr-3 text-left shadow-lg backdrop-blur transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-px hover:border-red-400 hover:shadow-xl;
+  }
+  .temporal-audit-reference-jump > span {
+    @apply absolute left-2.5 top-1/2 grid size-7 -translate-y-1/2 place-items-center rounded-full bg-red-600 text-white shadow-[0_0_0_4px_rgb(254_226_226)];
+  }
+  .temporal-audit-reference-jump svg {
+    @apply size-3.5;
+  }
+  .temporal-audit-reference-jump small,
+  .temporal-audit-reference-jump b {
+    @apply block break-words;
+  }
+  .temporal-audit-reference-jump small {
+    @apply text-[10px] font-bold uppercase tracking-[0.08em] text-red-600;
+  }
+  .temporal-audit-reference-jump b {
+    @apply line-clamp-2 text-xs leading-4 text-red-950;
+  }
+  .temporal-audit-imaging-jump {
+    @apply absolute left-2 top-2 z-20 flex max-w-[38%] items-center gap-1.5 rounded-lg border border-blue-200 bg-white/95 px-2 py-1.5 text-blue-700 shadow-md backdrop-blur;
+  }
+  .temporal-audit-imaging-jump > svg {
+    @apply size-4 shrink-0;
+  }
+  .temporal-audit-imaging-jump select {
+    @apply h-6 min-w-0 max-w-full bg-transparent text-xs font-semibold text-blue-950 outline-none;
+  }
+  .temporal-audit-node-inspector.is-imaging,
+  .temporal-audit-node-inspector.is-diagnosis {
+    @apply flex flex-col;
+  }
+  .temporal-audit-node-inspector.is-imaging > header {
+    @apply border-b border-blue-100 bg-blue-50;
+  }
+  .temporal-audit-node-inspector.is-diagnosis > header {
+    @apply border-b border-red-100 bg-red-50;
+  }
+  .temporal-audit-node-inspector.is-diagnosis > header > svg {
+    @apply text-red-600;
+  }
+  .temporal-imaging-content,
+  .temporal-diagnosis-content {
+    @apply min-h-0 flex-1 overflow-y-auto p-2;
+  }
+  .temporal-image-unavailable {
+    @apply flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-2 text-amber-950;
+  }
+  .temporal-image-unavailable > svg {
+    @apply mt-0.5 size-4 shrink-0 text-amber-600;
+  }
+  .temporal-image-unavailable b,
+  .temporal-image-unavailable small {
+    @apply block;
+  }
+  .temporal-image-unavailable b {
+    @apply text-xs;
+  }
+  .temporal-image-unavailable small {
+    @apply mt-0.5 text-[10px] leading-4 text-amber-800/75;
+  }
+  .temporal-imaging-report {
+    @apply mt-2 rounded-lg border border-blue-200 bg-blue-50/60 p-2;
+  }
+  .temporal-imaging-report small {
+    @apply text-[10px] font-bold tracking-[0.08em] text-blue-600;
+  }
+  .temporal-imaging-report p {
+    @apply mt-1 whitespace-pre-wrap break-words text-xs leading-5 text-slate-800;
+  }
+  .temporal-imaging-content details,
+  .temporal-diagnosis-content details {
+    @apply mt-2 overflow-hidden rounded-lg border border-slate-200;
+  }
+  .temporal-imaging-content summary,
+  .temporal-diagnosis-content summary {
+    @apply cursor-pointer px-2 py-1.5 text-[10px] font-semibold text-slate-600;
+  }
+  .temporal-imaging-content pre,
+  .temporal-diagnosis-content pre {
+    @apply max-h-40 border-t border-slate-200;
+  }
+  .temporal-diagnosis-content > section {
+    @apply rounded-xl border border-red-200 bg-gradient-to-br from-red-50 to-white p-3;
+  }
+  .temporal-diagnosis-content > section > small {
+    @apply text-[10px] font-bold tracking-[0.12em] text-red-600;
+  }
+  .temporal-diagnosis-content h3 {
+    @apply mt-1 break-words text-base font-semibold leading-5 text-red-950;
+  }
+  .temporal-diagnosis-content > section > p {
+    @apply mt-1 text-[10px] text-red-600/70;
+  }
+  .temporal-diagnosis-content > section > div {
+    @apply mt-2 flex flex-wrap gap-1.5;
+  }
+  .temporal-diagnosis-content > section > div span {
+    @apply rounded-full bg-red-100 px-2 py-1 text-[10px] text-red-700;
+  }
+  .temporal-diagnosis-content ol {
+    @apply max-h-28 list-decimal space-y-1 overflow-y-auto border-t border-slate-200 py-2 pl-7 pr-2 text-[10px] text-slate-600;
+  }
+  .temporal-forest-page {
+    @apply flex h-dvh min-h-0 flex-col overflow-hidden bg-[#e7eff1] pb-14 text-slate-950;
+  }
+  .temporal-forest-page > header {
+    @apply flex h-16 shrink-0 items-center gap-3 bg-[#041c28] px-4 text-white;
+  }
+  .temporal-forest-page > header > div:first-child {
+    @apply flex min-w-0 flex-1 items-center gap-3;
+  }
+  .temporal-forest-page > header > div:first-child > span {
+    @apply grid size-9 shrink-0 place-items-center rounded-xl bg-cyan-300/10 text-cyan-200;
+  }
+  .temporal-forest-page > header svg {
+    @apply size-4;
+  }
+  .temporal-forest-page > header small,
+  .temporal-forest-page > header h1 {
+    @apply block truncate;
+  }
+  .temporal-forest-page > header small {
+    @apply text-xs uppercase tracking-[0.1em] text-cyan-200/60;
+  }
+  .temporal-forest-page > header h1 {
+    @apply text-base font-semibold;
+  }
+  .temporal-forest-page > header [data-slot='badge'],
+  .temporal-forest-page > header > a {
+    @apply flex shrink-0 items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs text-cyan-50;
+  }
+  .temporal-forest-toolbar {
+    @apply flex h-14 shrink-0 items-center gap-2 border-b border-slate-200 bg-white px-3;
+  }
+  .temporal-forest-toolbar label {
+    @apply flex items-center gap-1.5 text-xs text-slate-500;
+  }
+  .temporal-forest-toolbar select {
+    @apply h-8 max-w-72 rounded-lg border border-slate-200 bg-slate-50 px-2 text-xs font-semibold text-slate-800 outline-none;
+  }
+  .temporal-forest-summary {
+    @apply ml-auto flex items-center gap-1.5;
+  }
+  .temporal-forest-summary > span {
+    @apply flex items-center gap-1.5 rounded-lg bg-slate-100 px-2 py-1 text-xs text-slate-500;
+  }
+  .temporal-forest-summary svg {
+    @apply size-3.5 text-cyan-700;
+  }
+  .temporal-forest-summary b {
+    @apply text-slate-900;
+  }
+  .temporal-forest-grid {
+    @apply grid min-h-0 flex-1 grid-cols-3 gap-2 p-2;
+  }
+  .temporal-forest-grid > article {
+    @apply flex min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white;
+  }
+  .temporal-panel-title {
+    @apply flex h-12 shrink-0 items-center gap-2 border-b border-slate-200 bg-slate-50 px-3;
+  }
+  .temporal-panel-title > span {
+    @apply grid size-8 place-items-center rounded-lg bg-cyan-950 text-cyan-200;
+  }
+  .temporal-panel-title svg {
+    @apply size-4;
+  }
+  .temporal-panel-title small,
+  .temporal-panel-title b {
+    @apply block;
+  }
+  .temporal-panel-title small {
+    @apply text-xs font-bold tracking-[0.1em] text-cyan-700;
+  }
+  .temporal-panel-title b {
+    @apply text-sm;
+  }
+  .temporal-forest-tree,
+  .temporal-history-tree {
+    @apply min-h-0 flex-1 overflow-y-auto p-3;
+  }
+  .temporal-forest-tree > div,
+  .temporal-history-tree > div {
+    @apply relative flex min-w-0 items-center gap-2 pb-3;
+  }
+  .temporal-forest-tree > div:not(:last-child)::after,
+  .temporal-history-tree > div:not(:last-child)::after {
+    content: '';
+    @apply absolute left-[7px] top-4 h-[calc(100%-10px)] w-px bg-cyan-900/20;
+  }
+  .temporal-forest-tree i,
+  .temporal-history-tree i {
+    @apply relative z-10 size-3.5 shrink-0 rounded-full bg-cyan-700 ring-2 ring-white;
+  }
+  .temporal-forest-tree .tone-reference i,
+  .temporal-history-tree .tone-reference i {
+    @apply bg-red-600 ring-4 ring-red-100;
+  }
+  .temporal-forest-tree .modality-imaging i {
+    @apply bg-blue-600;
+  }
+  .temporal-forest-tree b,
+  .temporal-forest-tree small,
+  .temporal-history-tree b,
+  .temporal-history-tree small {
+    @apply block break-words;
+  }
+  .temporal-forest-tree b,
+  .temporal-history-tree b {
+    @apply text-xs text-slate-800;
+  }
+  .temporal-forest-tree small,
+  .temporal-history-tree small {
+    @apply text-xs text-slate-400;
+  }
+  .temporal-stage-tabs {
+    @apply flex shrink-0 gap-1 overflow-x-auto border-b border-slate-200 p-2;
+  }
+  .temporal-stage-tabs button {
+    @apply flex h-7 shrink-0 items-center gap-1 rounded-md bg-slate-100 px-2 text-xs font-semibold text-slate-500;
+  }
+  .temporal-stage-tabs button small {
+    @apply rounded-full bg-white px-1 text-[10px];
+  }
+  .temporal-stage-tabs button.is-active {
+    @apply bg-cyan-950 text-white;
+  }
+  .temporal-diagnosis-stats,
+  .temporal-action-stats {
+    @apply min-h-0 flex-1 overflow-y-auto p-3;
+  }
+  .temporal-diagnosis-stats > article {
+    @apply mb-2 rounded-xl border border-slate-100 bg-slate-50 p-2;
+  }
+  .temporal-diagnosis-stats header,
+  .temporal-diagnosis-stats footer {
+    @apply flex items-center justify-between gap-2 text-xs;
+  }
+  .temporal-diagnosis-stats header b {
+    @apply min-w-0 break-words text-slate-800;
+  }
+  .temporal-diagnosis-stats header span,
+  .temporal-diagnosis-stats footer {
+    @apply text-slate-500;
+  }
+  .temporal-diagnosis-stats > article > div {
+    @apply my-1.5 h-1.5 overflow-hidden rounded-full bg-slate-200;
+  }
+  .temporal-diagnosis-stats > article > div i {
+    @apply block h-full rounded-full bg-cyan-600;
+  }
+  .distribution-empty {
+    @apply grid min-h-0 flex-1 place-items-center p-6 text-center text-xs text-slate-400;
+  }
+  .temporal-forest-reference {
+    @apply m-3 mt-0 shrink-0 rounded-xl border border-red-200 bg-red-50 p-2.5;
+  }
+  .temporal-forest-reference span,
+  .temporal-forest-reference b,
+  .temporal-forest-reference small {
+    @apply block;
+  }
+  .temporal-forest-reference span,
+  .temporal-forest-reference small {
+    @apply text-xs text-red-500;
+  }
+  .temporal-forest-reference b {
+    @apply break-words text-sm text-red-800;
+  }
+  .temporal-action-stats > div {
+    @apply mb-2 grid grid-cols-[minmax(0,1fr)_90px_34px] items-center gap-2 rounded-lg bg-slate-50 p-2;
+  }
+  .temporal-action-stats span b,
+  .temporal-action-stats span small {
+    @apply block break-words text-xs;
+  }
+  .temporal-action-stats span small {
+    @apply text-slate-400;
+  }
+  .temporal-action-stats > div > i {
+    @apply h-1.5 overflow-hidden rounded-full bg-slate-200;
+  }
+  .temporal-action-stats > div > i em {
+    @apply block h-full rounded-full bg-cyan-600;
+  }
+  .temporal-action-stats strong {
+    @apply text-right text-xs text-cyan-800;
+  }
+  .temporal-action-stats > p {
+    @apply p-6 text-center text-xs text-slate-400;
+  }
+  .case-trajectory-evaluation {
+    @apply min-h-0 flex-1 overflow-y-auto p-3;
+  }
+  .case-trajectory-metrics {
+    @apply grid grid-cols-2 gap-1.5;
+  }
+  .case-trajectory-metrics > span {
+    @apply min-w-0 rounded-lg border border-slate-100 bg-slate-50 p-2;
+  }
+  .case-trajectory-metrics small,
+  .case-trajectory-metrics b {
+    @apply block truncate;
+  }
+  .case-trajectory-metrics small {
+    @apply text-[9px] text-slate-500;
+  }
+  .case-trajectory-metrics b {
+    @apply mt-0.5 font-mono text-sm text-cyan-800;
+  }
+  .trajectory-evaluation-empty {
+    @apply grid place-items-center rounded-xl border border-dashed border-cyan-900/20 bg-cyan-50/60 p-5 text-center;
+  }
+  .trajectory-evaluation-empty svg {
+    @apply mb-2 size-6 text-cyan-700;
+  }
+  .trajectory-evaluation-empty b,
+  .trajectory-evaluation-empty span {
+    @apply block;
+  }
+  .trajectory-evaluation-empty b {
+    @apply text-xs text-slate-800;
+  }
+  .trajectory-evaluation-empty span {
+    @apply mt-1 max-w-64 text-[10px] leading-4 text-slate-500;
+  }
+  .case-trajectory-runs {
+    @apply mt-2 space-y-1.5;
+  }
+  .case-trajectory-runs > a,
+  .case-trajectory-runs > div {
+    @apply grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-2 rounded-lg border border-slate-100 p-1.5 transition hover:border-cyan-200 hover:bg-cyan-50/60;
+  }
+  .case-trajectory-runs i {
+    @apply grid size-7 place-items-center rounded-full bg-red-100 font-mono text-[8px] font-bold not-italic text-red-700;
+  }
+  .case-trajectory-runs i.is-correct {
+    @apply bg-emerald-100 text-emerald-700;
+  }
+  .case-trajectory-runs span,
+  .case-trajectory-runs b,
+  .case-trajectory-runs small {
+    @apply block min-w-0;
+  }
+  .case-trajectory-runs b {
+    @apply truncate text-[10px] text-slate-800;
+  }
+  .case-trajectory-runs small {
+    @apply truncate text-[9px] text-slate-400;
+  }
+  .case-trajectory-runs strong {
+    @apply rounded-md bg-slate-100 px-1.5 py-1 text-[9px] text-slate-600;
+  }
+  .trajectory-metric-definitions {
+    @apply mt-2 overflow-hidden rounded-lg border border-slate-200 text-[10px];
+  }
+  .trajectory-metric-definitions summary,
+  .temporal-action-details summary {
+    @apply cursor-pointer px-2.5 py-2 font-semibold text-slate-700;
+  }
+  .trajectory-metric-definitions > div {
+    @apply space-y-2 border-t border-slate-200 bg-slate-50 p-2.5;
+  }
+  .trajectory-metric-definitions p b,
+  .trajectory-metric-definitions p span,
+  .trajectory-metric-definitions em {
+    @apply block;
+  }
+  .trajectory-metric-definitions p b {
+    @apply text-slate-800;
+  }
+  .trajectory-metric-definitions p span {
+    @apply mt-0.5 leading-4 text-slate-500;
+  }
+  .trajectory-metric-definitions em {
+    @apply border-l-2 border-amber-300 pl-2 leading-4 not-italic text-amber-800;
+  }
+  .temporal-action-details {
+    @apply mx-3 mb-2 shrink-0 overflow-hidden rounded-xl border border-slate-200 text-xs;
+  }
+  .temporal-action-details[open] {
+    @apply max-h-[42%] overflow-y-auto;
+  }
+  .temporal-action-details .temporal-action-stats {
+    @apply border-t border-slate-200 p-2;
+  }
+  .temporal-quality-json {
+    @apply m-3 mt-0 shrink-0 overflow-hidden rounded-xl border border-slate-200 text-xs;
+  }
+  .temporal-quality-json summary {
+    @apply cursor-pointer px-3 py-2 font-semibold;
+  }
+  .temporal-quality-json pre {
+    @apply max-h-32 overflow-auto whitespace-pre-wrap break-all border-t border-slate-200 bg-slate-950 p-2 text-[10px] text-cyan-100;
+  }
+  .temporal-history-page .history-panel-body {
+    @apply min-h-0 flex-1 overflow-hidden;
+  }
+  .temporal-history-page .history-panel-body > .json-document {
+    @apply h-full;
+  }
+  .temporal-history-page .history-panel-body > .decision-rounds {
+    @apply h-full overflow-y-auto;
+  }
+}
+
+@media (max-width: 1180px) {
+  .temporal-arena-grid {
+    grid-template-columns: minmax(175px, .42fr) minmax(430px, 1.25fr) minmax(280px, .72fr);
+  }
+  .temporal-audit-grid {
+    grid-template-columns: minmax(240px, .65fr) minmax(320px, .9fr) minmax(390px, 1.1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .temporal-launcher,
+  .temporal-arena-page,
+  .temporal-audit-page,
+  .temporal-review-page {
+    overflow-x: auto;
+  }
+  .temporal-launcher > header,
+  .temporal-launcher > footer,
+  .temporal-dataset-cards,
+  .temporal-arena-header,
+  .temporal-arena-grid,
+  .temporal-audit-header,
+  .temporal-audit-grid,
+  .temporal-review-page > header,
+  .temporal-review-page > section {
+    min-width: 1050px;
+  }
+  .temporal-forest-page {
+    overflow-x: auto;
+  }
+  .temporal-forest-page > header,
+  .temporal-forest-toolbar,
+  .temporal-forest-grid {
+    min-width: 1050px;
   }
 }

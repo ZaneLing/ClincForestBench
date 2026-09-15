@@ -115,7 +115,11 @@ def test_model_arena_runs_canonical_loop_and_persists_interactions(cases):
     )
     assert first_action["status"] == "AVAILABLE"
     assert second_action["status"] == "ALREADY_USED"
-    assert first_prompt["stopping_policy"]["normal_target"]
+    assert first_prompt["arena"]["early_stop_policy"] == "MODEL_DECIDES"
+    assert first_prompt["arena"]["automatic_early_stop"] is False
+    assert first_prompt["stopping_policy"]["automatic_threshold"] is None
+    assert "recommend_finalize_now" not in first_prompt["diagnostic_progress"]
+    assert "current_top1_streak" not in first_prompt["diagnostic_progress"]
     assert second_prompt["diagnostic_progress"]["previous_decisions"]
     assert second_prompt["diagnostic_progress"]["top1_history"] == [
         case.oracle.pathology

@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON := .venv/bin/python
 NODE_BIN := $(CURDIR)/.tools/node/bin
 
-.PHONY: setup venv node frontend-install preprocess-ddxplus preprocess-guidance2 preprocess-all test validate api web demo db-up db-down migrate
+.PHONY: setup venv node frontend-install preprocess-ddxplus preprocess-guidance2 preprocess-temporal validate-temporal-sources preprocess-all test validate api web demo db-up db-down migrate
 
 setup: venv node frontend-install
 
@@ -23,7 +23,15 @@ preprocess-ddxplus:
 preprocess-guidance2:
 	$(VENV_PYTHON) -m etl.build_guidance2_cases
 
-preprocess-all: preprocess-ddxplus preprocess-guidance2
+validate-temporal-sources:
+	$(VENV_PYTHON) -m etl.validate_mcmed_sources
+	$(VENV_PYTHON) -m etl.validate_mimic_sources
+	$(VENV_PYTHON) -m etl.validate_eicu_sources
+
+preprocess-temporal:
+	$(VENV_PYTHON) -m etl.build_temporal_mvp
+
+preprocess-all: preprocess-ddxplus preprocess-guidance2 preprocess-temporal
 
 test:
 	$(VENV_PYTHON) -m pytest -q

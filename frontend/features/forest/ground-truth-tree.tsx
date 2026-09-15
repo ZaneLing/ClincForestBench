@@ -17,6 +17,7 @@ import {
 import {
   Activity,
   Braces,
+  ChevronDown,
   CircleDot,
   GitBranch,
   MessageCircleQuestion,
@@ -70,27 +71,22 @@ export function GroundTruthTree({
 
   return (
     <div className="ground-truth-tree-shell">
-      <div className="tree-legend" aria-label="Node color legend">
-        <Legend tone="case" label="病例" />
-        <Legend tone="stage" label="阶段" />
-        <Legend tone="context" label="患者信息" />
-        <Legend tone="action" label="问询" />
-        <Legend tone="observation" label="结果" />
-        <Legend tone="diagnosis" label="鉴别诊断" />
-        <Legend tone="ground-truth" label="Ground truth" />
-      </div>
-
-      <div className="compact-tree-detail" aria-live="polite">
-        <span className={`compact-tree-detail-icon node-${nodeTone(selected)}`}>
-          {nodeIcon(selected)}
-        </span>
-        <div>
-          <small>{nodeCaption(selected)}</small>
-          <b>{selected.label}</b>
+      <details className="tree-legend-disclosure">
+        <summary>
+          <span>节点颜色图例</span>
+          <small>7 种节点</small>
+          <ChevronDown />
+        </summary>
+        <div className="tree-legend" aria-label="Node color legend">
+          <Legend tone="case" label="病例" />
+          <Legend tone="stage" label="阶段" />
+          <Legend tone="context" label="患者信息" />
+          <Legend tone="action" label="问询" />
+          <Legend tone="observation" label="结果" />
+          <Legend tone="diagnosis" label="鉴别诊断" />
+          <Legend tone="ground-truth" label="Ground truth" />
         </div>
-        <code>{selected.node_id}</code>
-        <NodeFacts node={selected} />
-      </div>
+      </details>
 
       <div className="compact-tree-canvas">
         <ReactFlow
@@ -122,6 +118,25 @@ export function GroundTruthTree({
           点击节点查看详情 · 滚轮缩放 · 拖动画布
         </p>
       </div>
+
+      <details className="tree-node-disclosure" key={selectedId} open>
+        <summary>
+          <span>节点内容</span>
+          <b>{selected.label}</b>
+          <ChevronDown />
+        </summary>
+        <div className="compact-tree-detail" aria-live="polite">
+          <span className={`compact-tree-detail-icon node-${nodeTone(selected)}`}>
+            {nodeIcon(selected)}
+          </span>
+          <div>
+            <small>{nodeCaption(selected)}</small>
+            <b>{selected.label}</b>
+          </div>
+          <code>{selected.node_id}</code>
+          <NodeFacts node={selected} />
+        </div>
+      </details>
     </div>
   );
 }

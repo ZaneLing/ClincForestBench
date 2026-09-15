@@ -1,5 +1,6 @@
-import { ModelArenaDashboard } from '@/features/model-arena/model-arena-dashboard';
+import { Suspense } from 'react';
+import { ModelArenaRoot } from '@/features/model-arena/model-arena-root';
 
 export default function ModelArenaPage() {
-  return <ModelArenaDashboard />;
+  return <Suspense fallback={null}><ModelArenaRoot /></Suspense>;
 }

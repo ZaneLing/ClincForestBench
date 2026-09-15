@@ -1,6 +1,6 @@
 # ClincForestBench
 
-This repository is the runnable structure described in [Guidance.md](docs/guides/Guidance.md) and [Guidance2.md](docs/guides/Guidance2.md): one deterministic Arena spanning DDXPlus diagnostic questioning, Synthea encounter evidence acquisition, and MedAgentBench FHIR workflow cases. The next-stage MC-MED/eICU plan is kept in [Guidance3](docs/guides/Guidance3_MC-MED_eICU.md).
+This repository is the runnable structure described in [Guidance.md](docs/guides/Guidance.md), [Guidance2.md](docs/guides/Guidance2.md), and the [Temporal Forest v2 guide](ClincForestBench_Temporal_Forest_v2_Guide.md): one deterministic Arena spanning the original three tracks plus local-only, time-aware MIMIC, MC-MED, eICU, PMC, and NEJM CPC case reconstruction.
 
 ## What is already wired
 
@@ -16,8 +16,9 @@ This repository is the runnable structure described in [Guidance.md](docs/guides
 - Pure animated benchmark home, account-gated three-track `/arena`, OpenRouter `/model-arena`, personal `/history`, population `/forest`, account `/admin`, full-screen result comparison, `/research` data-QA UI, and the unified `/evidence` dataset contract center in React/TypeScript.
 - Unified clinical visual system built with shadcn/ui primitives, Motion animation and React Flow diagnosis-tree canvases.
 - Seven-file Parquet export, replay bundle, and versioned analysis snapshot helpers.
+- Temporal Forest v2 canonical events with separate order/acquisition/availability/documentation times, pending actions, per-result belief checkpoints, observed-only result replay, source validation, and 40 local MVP case bundles.
 
-See [architecture.md](docs/architecture.md) and [guidance_traceability.md](docs/guidance_traceability.md) for the design-to-code map.
+See [architecture.md](docs/architecture.md), [guidance_traceability.md](docs/guidance_traceability.md), and the [Temporal v2 MVP status](docs/temporal_v2_mvp.md) for the design-to-code map and declared first-slice limits.
 
 ## Raw case → processed tree audit
 
@@ -29,7 +30,7 @@ Open `http://localhost:3000/research`. The first MVP case loads automatically in
 
 DDXPlus has no recorded lab, imaging, examination, procedure or treatment events, so the MVP does not fabricate them. The output is explicitly a canonical ground-truth **exposure tree**, not an observed clinician chronology. See [case_tree_schema.md](docs/case_tree_schema.md) for the schema and interpretation boundary.
 
-The same inspector now contains 130 cases across three tracks. Synthea is labeled `NATURAL_CSV_EXPORT`. MedAgentBench is labeled `OFFLINE_TASK_REPLAY`: this machine has no Docker/Java FHIR runtime, so the current MVP evaluates the task-derived workflow and never claims that a FHIR request returned a lab value or that a POST created a resource.
+The classic inspector contains 130 cases across three tracks. Its Temporal mode adds 40 local Cases from MIMIC, MC-MED, eICU, PMC, and NEJM CPC, for 170 inspectable Cases across eight dataset tracks. Synthea is labeled `NATURAL_CSV_EXPORT`. MedAgentBench is labeled `OFFLINE_TASK_REPLAY`: this machine has no Docker/Java FHIR runtime, so the current MVP evaluates the task-derived workflow and never claims that a FHIR request returned a lab value or that a POST created a resource.
 
 ## Concrete converted patient example
 
@@ -63,11 +64,13 @@ Playing now requires a registered physician account. Session creation ignores cl
 
 ## Frontend experience
 
-The opening screen is a chrome-free animated clinical-forest overview of the benchmark: a case grows into branches, doctors add independent paths, and patient trees assemble into a forest. It does not ask the visitor to choose a dataset. `Enter the Arena` opens the authenticated Arena route, where three large cards explain and select DDXPlus, Synthea, or MedAgentBench before a case begins.
+The opening screen is a chrome-free animated clinical-forest overview of the benchmark: a case grows into branches, doctors add independent paths, and patient trees assemble into a forest. It does not ask the visitor to choose a dataset. `Enter the Arena` opens the authenticated Arena route, where the classic tracks and the five-source Temporal track can be selected before a case begins.
 
 A collapsible system sidebar is shown on the working routes, but intentionally omitted from the home page. It links directly to the human Arena, Model Test, personal decision history, the three-column Case inspector, population forest analytics, the unified dataset/rules center, and the local account backend. The data center explains each source dataset, raw fields, raw-to-tree mapping, track-specific Arena rules, and fidelity boundary; the DDXPlus tab also resolves all 223 `E_*` identifiers to their clinical question, domain, data type, parent field, and coded value meanings.
 
 `/model-arena` reads the current OpenRouter catalog and groups selectable models by provider/company before dataset and case selection. A run advances one server-validated turn at a time: the model receives the current public patient state, recent decision evolution, explicit early-stopping signals, and the complete condition and action libraries; it returns one strict JSON decision, submits its ordered stage diagnosis, and either asks one currently available non-repeated high-yield action or finalizes one unique outcome. The normal target is 3–10 questions, stable Top-1 decisions are prompted to finalize, and 30 remains only a hard emergency ceiling. Invalid IDs, repeated diagnoses/questions, locked child actions, and attempts to exceed the cap are rejected by the canonical Arena state machine. The browser can auto-advance, pause, single-step, retry a failed round, and recover persisted active runs after a page reload.
+
+`/model-arena?mode=temporal` applies that same OpenRouter loop to all 40 Temporal Cases. Its contract uses clinical `ACTION` and `FINAL`: selecting a source-backed action advances simulation time and returns the recorded result synchronously, every newly visible state triggers a new ranked differential, and repeated or unavailable actions are rejected. The completed artifact retains every prompt, raw response, parsed JSON, state application, latency, and the same model/reference/community comparison used elsewhere.
 
 Every model request payload, raw OpenRouter response, extracted decision JSON, validation/application result, error, and latency is persisted without the API key. During play they are visible in a four-tab round inspector. Completion reuses the same three-tree comparison as human play—model path, Ground Truth, and a model-only case forest accumulated across completed model runs—and exports a versioned `clincforestbench.model-arena-run.v1` artifact containing the full exchange archive.
 
@@ -83,6 +86,12 @@ The result comparison matches nodes by canonical state hash. Shared states and e
 
 The Research case tree keeps a strict top-to-bottom diagnostic chronology: case → blue stage spine → stage-specific questions/context and returned observations → the complete final differential row. Every source diagnosis is an equal-size circular node carrying its original rank and probability; the pathology-matching ground-truth node is bright red while the remaining differential nodes are amber. Hovering or selecting a diagnosis reveals its probability. The canvas initially fits the complete patient tree; the mouse wheel zooms and dragging pans.
 
+`/temporal?mode=arena` is the doctor-playable Temporal Arena. A player reads a natural-language S0, submits a ranked differential, and chooses a concrete history question, examination, laboratory test, image, ECG, or record review. The same request advances the simulation clock to the source-backed availability time and renders the result as a clinical report—there is no wall-clock wait and no raw JSON in the doctor view. `/research?mode=temporal` is the Temporal section of Case 查看 and shows the exact local raw source slice, normalized Case JSON, ordered transformation rules, and complete tree. `/temporal?mode=timeline` retains the source-trajectory player. Imaging impressions and narrative imaging findings are stored and shown inside their result nodes.
+
+MIMIC-IV-Note and MIMIC-IV-ECG are modalities of a MIMIC admission case, not standalone pseudo-cases. ECG machine time is always labeled with its known clock uncertainty. eICU remains an `ICU_EARLY_CLINICAL_ASSESSMENT` task and uses ICU-admission offsets; `Performed`, `scored`, and obtain-option workflow markers are removed before Case construction, while clinically meaningful history, examination and laboratory rows become distinct actions. Interface-dependent missingness is never interpreted as “test not performed.” Every unrecorded action resolves to `UNOBSERVED_IN_RECORDED_EPISODE`, and no adapter calls an LLM to invent a patient result.
+
+PMC and NEJM CPC are narrative-sequence extensions, not timestamp-complete EHR cases. The converter preserves source sentences, extracts explicit intervals when present, and otherwise uses LOW-confidence monotonic order proxies solely for visualization. Their reference labels and chronology require clinician review before formal benchmark release.
+
 Both the source case and normalized Case Tree can be switched between wrapped JSON source and an indented, hierarchical two-column field table. Every object or array group has an independent disclosure arrow. Arrays, objects, and Python-literal arrays embedded in raw string fields are expanded item by item. Each differential entry uses its sequence number on the left and stacks the full diagnosis name above its probability on the right; every `E_*` value in the source table is annotated with its human-readable Evidence question. In the normalized table, clicking any `tree.nodes[*]` row or descendant field highlights the same node in the visual tree. Long keys and values wrap within their panel, so neither view introduces horizontal JSON scrolling.
 
 ## Quick start
@@ -93,6 +102,7 @@ The Python virtual environment and project-local Node runtime are isolated from 
 make setup
 make preprocess-ddxplus
 make preprocess-guidance2
+make preprocess-temporal
 make test
 ```
 
@@ -135,12 +145,13 @@ docker compose up --build
 - `data/processed/medagentbench/v2/mvp30_v1`: offline workflow bundles, raw task projections, and reference workflow trees.
 - `data/exports`: session-level Parquet exports and replay JSON.
 - `data/analysis_runs`: immutable analysis snapshots.
+- `data/processed/temporal/v2`: local-only source-validation reports, 40 case bundles, canonical Case/Event Parquet tables, three engineering replay paths per Case, doctor-session JSON, review HTML, and Temporal DAG JSON. These patient-level derivatives are intentionally ignored by Git.
 
 ## Repository and local-data layout
 
 Source code, configurations, migrations, tests, documentation, and small redistributable metadata are version controlled. Downloaded datasets live under `dataset/`, generated artifacts under `data/`, local model payloads under `model/`, and runnable API probes under `test/`.
 
-Credentialed clinical datasets are organized locally under `dataset/restricted/`: MC-MED v1.0.1, eICU-CRD v2.0, MIMIC-IV-ED v2.2, and the local MIMIC-IV-ECG table snapshot. Their patient-level CSV/GZIP payloads are deliberately excluded from Git. Only source notes, supplied license/checksum files, and non-patient schema metadata may be committed. See [the restricted-data catalog](dataset/restricted/README.md).
+Credentialed clinical datasets are organized locally under `dataset/restricted/`: MC-MED v1.0.1, eICU-CRD v2.0, MIMIC-IV v3.1, MIMIC-IV-Note v2.2, MIMIC-IV-ED v2.2, and the local MIMIC-IV-ECG table snapshot. Their patient-level CSV/GZIP payloads and all record-level Temporal derivatives are deliberately excluded from Git. Only source notes, supplied license/checksum files, and non-patient schema metadata may be committed. See [the restricted-data catalog](dataset/restricted/README.md).
 
 The public release has 5 unresolved evidence-parent references and known exact duplicate counts. They are explicitly versioned in `configs/ddxplus.yaml`; any change to those counts fails QA as source drift. The raw source is never edited.
 

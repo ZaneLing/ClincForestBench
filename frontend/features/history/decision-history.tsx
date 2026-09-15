@@ -7,6 +7,7 @@ import {
   Check,
   ChevronRight,
   CircleX,
+  Clock3,
   FileClock,
   GitBranch,
   History,
@@ -136,6 +137,9 @@ export function DecisionHistory() {
         <Badge className="history-count">
           <FileClock /> {entries.length} 个已完成病例
         </Badge>
+        <Link className="audit-nav-link" href="/history?mode=temporal">
+          Temporal history <Clock3 />
+        </Link>
       </header>
 
       <section className="history-toolbar">
