@@ -6,6 +6,7 @@ from typing import Optional
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from backend.app.api.schemas import (
     BeliefRequest,
@@ -636,6 +637,15 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     @application.get("/temporal/cases")
     def temporal_arena_cases():
         return container.temporal_arena.case_index()
+
+    @application.get("/temporal/media/{case_id}/{asset_name}")
+    def temporal_public_media(case_id: str, asset_name: str):
+        try:
+            return FileResponse(container.temporal_cases.public_media_path(case_id, asset_name))
+        except PermissionError as exc:
+            raise HTTPException(status_code=403, detail=str(exc)) from exc
+        except KeyError as exc:
+            raise translate_error(exc)
 
     @application.post("/temporal/sessions", status_code=201)
     def create_temporal_session(

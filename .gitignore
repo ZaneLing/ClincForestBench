@@ -43,6 +43,14 @@ dataset/restricted/**
 !dataset/restricted/*/SHA256SUMS.txt
 !dataset/restricted/*/machine_measurements_data_dictionary.csv
 
+# Public/research interaction benchmarks are downloaded locally for MVP ETL.
+# Keep source payloads out of Git because several are non-commercial, carry
+# conflicting metadata, contain large media, or have no declared data license.
+dataset/interaction/**
+!dataset/interaction/README.md
+!dataset/interaction/*/
+!dataset/interaction/*/README.source.md
+
 # Local model payloads are reproducible downloads, not source code.
 model/**
 !model/*/

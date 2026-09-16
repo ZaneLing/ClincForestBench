@@ -62,3 +62,17 @@ class TemporalCaseService:
             "manifest_entry": self._entries[case_id],
             "case": case.model_dump(mode="json"),
         }
+
+    def public_media_path(self, case_id: str, asset_name: str) -> Path:
+        """Resolve an explicitly public case asset without exposing bundle paths."""
+        if Path(asset_name).name != asset_name or asset_name in {"", ".", ".."}:
+            raise KeyError("Unknown Temporal media asset")
+        case = self.get(case_id)
+        if not str(case.source.get("access_class", "")).startswith("PUBLIC"):
+            raise PermissionError("This case media is not publicly accessible")
+        bundle = (self.root / self._entries[case_id]["path"]).resolve().parent
+        media_root = (bundle / "media").resolve()
+        asset = (media_root / asset_name).resolve()
+        if asset.parent != media_root or not asset.is_file():
+            raise KeyError("Unknown Temporal media asset")
+        return asset

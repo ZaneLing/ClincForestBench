@@ -22,6 +22,11 @@ export type ClinicalPresentation = {
   modality_label?: string;
   sections?: ClinicalPresentationBlock[];
   blocks?: ClinicalPresentationBlock[];
+  media?: Array<{
+    asset: string;
+    media_type: string;
+    caption: string;
+  }>;
 };
 
 export type TemporalEvent = {

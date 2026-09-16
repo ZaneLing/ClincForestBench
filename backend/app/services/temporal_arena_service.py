@@ -804,9 +804,15 @@ class TemporalArenaService:
     def _action_catalog(self, case: TemporalCase, session: dict) -> List[dict]:
         dataset = case.source.get("dataset_family")
         definitions: Dict[str, dict] = {}
-        for entry in self.cases.manifest().get("cases", []):
+        case_scoped = case.arena_config.get("action_catalog_scope") == "CASE"
+        entries = (
+            [{"case_id": case.case_id}]
+            if case_scoped
+            else self.cases.manifest().get("cases", [])
+        )
+        for entry in entries:
             other = self.cases.get(entry["case_id"])
-            if other.source.get("dataset_family") != dataset:
+            if not case_scoped and other.source.get("dataset_family") != dataset:
                 continue
             for event in other.timeline_events:
                 if (
@@ -832,11 +838,29 @@ class TemporalArenaService:
             for item in session["pending_actions"]
             if item.get("action_id")
         )
-        return [
+        available = [
             item
             for key, item in sorted(definitions.items())
             if key not in exhausted
         ]
+        if case.arena_config.get("sequential_actions") and available:
+            remaining_ids = {item["action_id"] for item in available}
+            next_event = min(
+                (
+                    event
+                    for event in case.timeline_events
+                    if event.action_id in remaining_ids
+                ),
+                key=lambda event: (
+                    event.order_min(),
+                    event.available_min(),
+                    event.event_id,
+                ),
+            )
+            return [
+                item for item in available if item["action_id"] == next_event.action_id
+            ]
+        return available
 
     def _diagnosis_catalog(self) -> List[str]:
         labels = []

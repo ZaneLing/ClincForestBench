@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import NextImage from 'next/image';
 import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowLeft,
@@ -25,7 +26,7 @@ import { useAuth } from '@/features/auth/auth-context';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { api } from '@/lib/api';
+import { API_BASE, api } from '@/lib/api';
 import type {
   ClinicalPresentation,
   TemporalArenaCase,
@@ -328,17 +329,17 @@ function DoctorPath({ state }: { state: TemporalArenaState }) {
 
 function ClinicalEventCard({ event }: { event: TemporalEvent }) {
   const imaging = event.clinical_concept.modality === 'IMAGING';
-  return <section className={`temporal-result-card ${imaging ? 'is-imaging' : ''}`}><header>{imaging ? <ImageIcon /> : modalityIcon(event.clinical_concept.modality)}<span><small>{event.presentation?.modality_label ?? event.clinical_concept.modality}</small><b>{event.presentation?.title ?? event.clinical_concept.display}</b></span><em>{formatArenaTime(event.arena_reveal_time_min ?? event.time.relative_available_min ?? event.time.relative_documented_min ?? 0)}</em></header>{imaging && <div className="imaging-result-banner"><ImageIcon /><span><b>影像结果 / 报告</b><small>以下为源病例中真实记录的影像文字报告。</small></span></div>}<PresentationBody presentation={event.presentation} /></section>;
+  return <section className={`temporal-result-card ${imaging ? 'is-imaging' : ''}`}><header>{imaging ? <ImageIcon /> : modalityIcon(event.clinical_concept.modality)}<span><small>{event.presentation?.modality_label ?? event.clinical_concept.modality}</small><b>{event.presentation?.title ?? event.clinical_concept.display}</b></span><em>{formatArenaTime(event.arena_reveal_time_min ?? event.time.relative_available_min ?? event.time.relative_documented_min ?? 0)}</em></header>{imaging && <div className="imaging-result-banner"><ImageIcon /><span><b>影像结果 / 报告</b><small>以下内容来自该源 Case 的实际发布记录。</small></span></div>}<PresentationBody caseId={event.case_id} presentation={event.presentation} /></section>;
 }
 
 function ResultCard({ title, presentation }: { title: string; presentation: ClinicalPresentation }) {
   return <section className="temporal-result-card is-initial"><header><HeartPulse /><span><small>医生首屏可见信息</small><b>{title}</b></span></header><PresentationBody presentation={presentation} /></section>;
 }
 
-function PresentationBody({ presentation }: { presentation?: ClinicalPresentation }) {
+function PresentationBody({ presentation, caseId }: { presentation?: ClinicalPresentation; caseId?: string }) {
   if (!presentation) return <div className="clinical-presentation-empty">本节点没有可展示的临床结果。</div>;
   const blocks = presentation.sections ?? presentation.blocks ?? [];
-  return <div className="clinical-presentation">{presentation.headline && <p className="clinical-presentation-headline">{presentation.headline}</p>}{presentation.summary && <p className="clinical-presentation-summary">{presentation.summary}</p>}{blocks.map((block, blockIndex) => <section key={`${block.title}-${blockIndex}`}><h4>{block.title}</h4>{block.kind === 'NARRATIVE' ? <p>{block.text}</p> : <div className="clinical-result-rows">{(block.rows ?? []).map((row, rowIndex) => <div className={row.flag === '异常' || row.flag === '偏高' || row.flag === '偏低' ? 'is-abnormal' : ''} key={`${row.label}-${rowIndex}`}><span>{row.label}</span><b>{row.value}{row.unit ? ` ${row.unit}` : ''}</b>{row.flag && <em>{row.flag}</em>}</div>)}</div>}</section>)}</div>;
+  return <div className="clinical-presentation">{presentation.headline && <p className="clinical-presentation-headline">{presentation.headline}</p>}{presentation.summary && <p className="clinical-presentation-summary">{presentation.summary}</p>}{caseId && presentation.media?.map((item) => <figure className="clinical-source-media" key={item.asset}><NextImage alt={item.caption} height={900} src={`${API_BASE}/temporal/media/${encodeURIComponent(caseId)}/${encodeURIComponent(item.asset)}`} unoptimized width={1200} /><figcaption>{item.caption}</figcaption></figure>)}{blocks.map((block, blockIndex) => <section key={`${block.title}-${blockIndex}`}><h4>{block.title}</h4>{block.kind === 'NARRATIVE' ? <p>{block.text}</p> : <div className="clinical-result-rows">{(block.rows ?? []).map((row, rowIndex) => <div className={row.flag === '异常' || row.flag === '偏高' || row.flag === '偏低' ? 'is-abnormal' : ''} key={`${row.label}-${rowIndex}`}><span>{row.label}</span><b>{row.value}{row.unit ? ` ${row.unit}` : ''}</b>{row.flag && <em>{row.flag}</em>}</div>)}</div>}</section>)}</div>;
 }
 
 function TemporalResultReview({ review, onNewCase }: { review: TemporalArenaReview; onNewCase: () => void }) {

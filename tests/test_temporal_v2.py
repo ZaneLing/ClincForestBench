@@ -197,16 +197,28 @@ def test_temporal_sidebar_indexes_share_the_complete_manifest(cases):
     ).json()
 
     manifest_ids = {item["case_id"] for item in manifest["cases"]}
-    assert manifest["case_count"] == 40
+    assert manifest["case_count"] >= 40
     assert {item["case_id"] for item in arena["cases"]} == manifest_ids
     assert {item["case_id"] for item in forest["cases"]} == manifest_ids
-    assert arena["dataset_case_counts"] == {
+    expected_base_counts = {
         "MC-MED v1.0.1": 10,
         "MIMIC-IV multimodal": 10,
         "NEJM CPC": 5,
         "PMC Case Reports": 5,
         "eICU-CRD v2.0": 10,
     }
+    for dataset, count in expected_base_counts.items():
+        assert arena["dataset_case_counts"][dataset] == count
+    if manifest.get("interaction_mvp", {}).get("status") == "READY":
+        for dataset in (
+            "MediScope",
+            "MedPI",
+            "PatientSim",
+            "Meddies Persona VIE",
+            "MedMemoryBench",
+            "MedDialogRubrics",
+        ):
+            assert arena["dataset_case_counts"][dataset] >= 1
     case_id = next(iter(manifest_ids))
     detail = client.get(
         f"/research/temporal/forest/cases/{case_id}",

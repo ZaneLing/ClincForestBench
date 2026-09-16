@@ -196,7 +196,7 @@ export function TemporalModelArenaDashboard() {
   const [selectedInteraction, setSelectedInteraction] = useState('');
   const [autoRun, setAutoRun] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [notice, setNotice] = useState('正在读取 40 个 Temporal Case…');
+  const [notice, setNotice] = useState('正在读取 Temporal Case…');
   const requestLock = useRef(false);
 
   useEffect(() => {
@@ -244,6 +244,13 @@ export function TemporalModelArenaDashboard() {
     return models.filter((item) => item.provider === providerId && (!needle || item.id.toLowerCase().includes(needle) || item.name.toLowerCase().includes(needle)));
   }, [models, providerId, query]);
   const datasets = useMemo(() => [...new Set(cases.map((item) => item.dataset_name))], [cases]);
+  const datasetCounts = useMemo(
+    () => cases.reduce<Record<string, number>>((counts, item) => {
+      counts[item.dataset_name] = (counts[item.dataset_name] ?? 0) + 1;
+      return counts;
+    }, {}),
+    [cases],
+  );
   const datasetCases = cases.filter((item) => item.dataset_name === dataset);
 
   function chooseProvider(value: string) {
@@ -337,7 +344,7 @@ export function TemporalModelArenaDashboard() {
     setNotice('');
   }
 
-  if (!detail) return <TemporalModelSetup activeRuns={activeRuns} busy={busy} caseId={caseId} cases={datasetCases} completedRuns={completedRuns} dataset={dataset} datasets={datasets} modelId={modelId} models={providerModels} notice={notice} onCase={setCaseId} onDataset={chooseDataset} onModel={setModelId} onProvider={chooseProvider} onQuery={setQuery} onResume={(value) => void resume(value)} onStart={() => void start()} providerId={providerId} providers={providers} query={query} status={status} />;
+  if (!detail) return <TemporalModelSetup activeRuns={activeRuns} busy={busy} caseId={caseId} cases={datasetCases} completedRuns={completedRuns} dataset={dataset} datasetCounts={datasetCounts} datasets={datasets} modelId={modelId} models={providerModels} notice={notice} onCase={setCaseId} onDataset={chooseDataset} onModel={setModelId} onProvider={chooseProvider} onQuery={setQuery} onResume={(value) => void resume(value)} onStart={() => void start()} providerId={providerId} providers={providers} query={query} status={status} />;
   if (detail.run.status === 'COMPLETED' && detail.review) return <TemporalModelReview detail={detail} onReset={reset} review={detail.review} />;
 
   const selected = detail.interactions.find((item) => item.interaction_id === selectedInteraction) ?? detail.interactions.at(-1);
@@ -359,16 +366,16 @@ function trailingErrorCount(items: Array<{ error?: string | null }>) {
   return count;
 }
 
-function TemporalModelSetup({ activeRuns, busy, caseId, cases, completedRuns, dataset, datasets, modelId, models, notice, onCase, onDataset, onModel, onProvider, onQuery, onResume, onStart, providerId, providers, query, status }: { activeRuns: RunSummary[]; busy: boolean; caseId: string; cases: TemporalArenaCase[]; completedRuns: RunSummary[]; dataset: string; datasets: string[]; modelId: string; models: OpenRouterModel[]; notice: string; onCase: (value: string) => void; onDataset: (value: string) => void; onModel: (value: string) => void; onProvider: (value: string) => void; onQuery: (value: string) => void; onResume: (value: string) => void; onStart: () => void; providerId: string; providers: OpenRouterProvider[]; query: string; status: OpenRouterStatus | null }) {
+function TemporalModelSetup({ activeRuns, busy, caseId, cases, completedRuns, dataset, datasetCounts, datasets, modelId, models, notice, onCase, onDataset, onModel, onProvider, onQuery, onResume, onStart, providerId, providers, query, status }: { activeRuns: RunSummary[]; busy: boolean; caseId: string; cases: TemporalArenaCase[]; completedRuns: RunSummary[]; dataset: string; datasetCounts: Record<string, number>; datasets: string[]; modelId: string; models: OpenRouterModel[]; notice: string; onCase: (value: string) => void; onDataset: (value: string) => void; onModel: (value: string) => void; onProvider: (value: string) => void; onQuery: (value: string) => void; onResume: (value: string) => void; onStart: () => void; providerId: string; providers: OpenRouterProvider[]; query: string; status: OpenRouterStatus | null }) {
   return <main className="model-setup-page">
     <header className="model-setup-header"><Link href="/model-arena"><ArrowLeft />普通数据集模型测试</Link><div><p>CLINCFORESTBENCH · TEMPORAL MODEL LAB</p><h1>时间病例模型测试</h1></div><Badge className={status?.configured ? 'is-connected' : 'is-offline'}><span />OpenRouter {status?.configured ? '已连接' : '未配置'}</Badge></header>
-    <section className="model-setup-intro"><span className="model-setup-hero-icon"><Clock3 /></span><div><p>DYNAMIC TEMPORAL DIAGNOSTIC SIMULATION</p><h2>让模型面对会随临床动作推进、逐步揭示真实结果的时间树。</h2><small>40 个 Case 已同步；每轮只返回一个 JSON，疾病和动作不可重复，最多 30 个动作，可随时锁定诊断。</small></div></section>
+    <section className="model-setup-intro"><span className="model-setup-hero-icon"><Clock3 /></span><div><p>DYNAMIC TEMPORAL DIAGNOSTIC SIMULATION</p><h2>让模型面对会随临床动作推进、逐步揭示真实结果的时间树。</h2><small>{Object.values(datasetCounts).reduce((sum, count) => sum + count, 0)} 个 Case 已同步；每轮只返回一个 JSON，疾病和动作不可重复，最多 30 个动作，可随时锁定诊断。</small></div></section>
     {activeRuns.length > 0 && <section className="model-resume-strip"><span><RefreshCw /></span><div><b>发现 {activeRuns.length} 个未完成的时间模型测试</b><small>{activeRuns[0].model_id} · {activeRuns[0].case_id} · {activeRuns[0].interaction_count} turns</small></div><Button disabled={busy} onClick={() => onResume(activeRuns[0].run_id)} size="sm"><Play />恢复测试</Button></section>}
     {completedRuns.length > 0 && <section className="temporal-completed-runs"><header><span><CheckCircle2 /></span><div><b>最近完成的真实模型轨迹</b><small>点击查看逐轮路径、参考树高亮和轨迹指标</small></div></header><div>{completedRuns.slice(0, 6).map((run) => <button disabled={busy} key={run.run_id} onClick={() => onResume(run.run_id)} type="button"><span>{run.provider}</span><b>{run.model_id}</b><small>{run.case_id} · {run.interaction_count} turns</small></button>)}</div></section>}
     <section className="model-setup-grid">
       <article className="model-setup-card provider-card"><header><span>01</span><div><p>COMPANY</p><h3>选择模型公司</h3></div></header><div className="provider-picker">{providers.map((item) => <button className={item.id === providerId ? 'is-selected' : ''} key={item.id} onClick={() => onProvider(item.id)} type="button"><span><Bot /></span><b>{item.name}</b><small>{item.model_count}</small></button>)}</div></article>
       <article className="model-setup-card model-picker-card"><header><span>02</span><div><p>MODEL</p><h3>选择 OpenRouter 模型</h3></div></header><div className="model-search-box"><Search /><Input onChange={(event) => onQuery(event.target.value)} placeholder="搜索模型名或 ID" value={query} /></div><div className="openrouter-model-list">{models.map((item) => <button className={item.id === modelId ? 'is-selected' : ''} key={item.id} onClick={() => onModel(item.id)} type="button"><span>{item.id === modelId ? <CheckCircle2 /> : <Bot />}</span><div><b>{item.name}</b><small>{item.id}</small></div></button>)}</div></article>
-      <article className="model-setup-card case-picker-card"><header><span>03</span><div><p>TEMPORAL CASE</p><h3>选择新数据集与病例</h3></div></header><div className="model-dataset-picker temporal-model-datasets">{datasets.map((name) => <button className={dataset === name ? 'is-selected' : ''} key={name} onClick={() => onDataset(name)} type="button"><Database /><b>{name}</b><small>{casesCount(name)} · dynamic tree</small></button>)}</div><label className="model-case-select"><span><Stethoscope />Case</span><select onChange={(event) => onCase(event.target.value)} value={caseId}>{cases.map((item) => <option key={item.case_id} value={item.case_id}>{item.case_id} · {item.eligible_event_count} actions · T+{Math.round(item.max_time_min)}m</option>)}</select></label><div className="model-rule-strip"><span><b>30</b><small>动作硬上限</small></span><span><b>SYNC</b><small>模拟时间推进</small></span><span><b>1 JSON</b><small>每轮输出</small></span></div><Button className="model-launch-button" disabled={busy || !modelId || !caseId || !status?.configured} onClick={onStart}>{busy ? <RefreshCw className="animate-spin" /> : <Send />}{busy ? '正在创建…' : '开始自动模拟'}</Button></article>
+      <article className="model-setup-card case-picker-card"><header><span>03</span><div><p>TEMPORAL CASE</p><h3>选择新数据集与病例</h3></div></header><div className="model-dataset-picker temporal-model-datasets">{datasets.map((name) => <button className={dataset === name ? 'is-selected' : ''} key={name} onClick={() => onDataset(name)} type="button"><Database /><b>{name}</b><small>{datasetCounts[name] ?? 0} cases · dynamic tree</small></button>)}</div><label className="model-case-select"><span><Stethoscope />Case</span><select onChange={(event) => onCase(event.target.value)} value={caseId}>{cases.map((item) => <option key={item.case_id} value={item.case_id}>{item.case_id} · {item.eligible_event_count} actions · T+{Math.round(item.max_time_min)}m</option>)}</select></label><div className="model-rule-strip"><span><b>30</b><small>动作硬上限</small></span><span><b>SYNC</b><small>模拟时间推进</small></span><span><b>1 JSON</b><small>每轮输出</small></span></div><Button className="model-launch-button" disabled={busy || !modelId || !caseId || !status?.configured} onClick={onStart}>{busy ? <RefreshCw className="animate-spin" /> : <Send />}{busy ? '正在创建…' : '开始自动模拟'}</Button></article>
     </section>
     {notice && <div className="model-setup-notice"><CircleAlert />{notice}</div>}<footer className="model-setup-footer"><KeyRound />API Key 只从后端 test/.env 读取；受限病例与交互日志保持本地。</footer>
   </main>;
@@ -712,6 +719,5 @@ function PanelTitle({ icon, kicker, title }: { icon: React.ReactNode; kicker: st
 function Json({ value }: { value: unknown }) { return <pre className="model-json-pane">{JSON.stringify(value ?? null, null, 2)}</pre>; }
 function summarize(value: unknown) { const text = JSON.stringify(value); return text.length > 180 ? `${text.slice(0, 180)}…` : text; }
 function summarizeEvent(event: TemporalEvent) { const result = event.result; const value = result.text ?? result.report_text ?? result.value ?? result.result; if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return String(value); return summarize(value ?? result); }
-function casesCount(name: string) { if (name.includes('PMC') || name.includes('NEJM')) return '5 cases'; return '10 cases'; }
 function extractPrompt(payload: Record<string, unknown>) { const messages = payload.messages; if (!Array.isArray(messages)) return payload; const system = messages.find((item) => typeof item === 'object' && item !== null && (item as { role?: string }).role === 'system') as { content?: unknown } | undefined; const user = messages.find((item) => typeof item === 'object' && item !== null && (item as { role?: string }).role === 'user') as { content?: unknown } | undefined; let situation = user?.content; if (typeof situation === 'string') { try { situation = JSON.parse(situation); } catch { /* retain provider text */ } } return { model: payload.model, system_instruction: system?.content, situation }; }
 function download(value: unknown, filename: string) { const blob = new Blob([JSON.stringify(value ?? null, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const anchor = document.createElement('a'); anchor.href = url; anchor.download = filename; anchor.click(); URL.revokeObjectURL(url); }

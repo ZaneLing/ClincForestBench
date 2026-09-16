@@ -36,7 +36,7 @@ const navigation = [
   {
     href: '/arena',
     label: 'Arena',
-    detail: '8 个数据集进入竞技场',
+    detail: '14 个数据集进入竞技场',
     icon: HeartPulse,
   },
   {
@@ -60,7 +60,7 @@ const navigation = [
   {
     href: '/research',
     label: 'Case 查看',
-    detail: '170 Case 原始数据和树',
+    detail: '188 Case 原始数据和树',
     icon: GitBranch,
   },
   {
@@ -72,7 +72,7 @@ const navigation = [
   {
     href: '/evidence',
     label: '数据集与规则',
-    detail: '8 套字段、转换与玩法',
+    detail: '14 套字段、转换与玩法',
     icon: BookOpenText,
   },
   {
@@ -162,7 +162,7 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
           <div className="rounded-lg border border-cyan-200/10 bg-cyan-200/[0.04] px-3 py-2 group-data-[collapsible=icon]:hidden">
             <small className="block text-xs text-cyan-100/50">Dataset</small>
             <b className="mt-0.5 block text-xs font-medium text-cyan-50">
-              DDXPlus · Synthea · MedAgentBench · MIMIC · MC-MED · eICU · PMC · NEJM
+              DDXPlus · Synthea · MedAgentBench · MIMIC · MC-MED · eICU · PMC · NEJM · consultation · persona · memory · rubric
             </b>
           </div>
         </SidebarFooter>

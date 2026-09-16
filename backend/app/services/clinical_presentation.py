@@ -221,6 +221,15 @@ def initial_state_presentation(
 def event_presentation(event: CanonicalTemporalEvent) -> dict[str, Any]:
     result = event.result
     blocks: list[dict[str, Any]] = []
+    patient_answer = result.get("patient_answer")
+    if _has_value(patient_answer):
+        blocks.append(
+            {
+                "title": "患者回答",
+                "kind": "NARRATIVE",
+                "text": _format_value(patient_answer),
+            }
+        )
     components = result.get("components")
     if isinstance(components, list):
         rows = []
@@ -307,6 +316,10 @@ def event_presentation(event: CanonicalTemporalEvent) -> dict[str, Any]:
         "time_is_sequence_proxy",
         "specimen_id",
         "panel_abnormal",
+        "patient_answer",
+        "media_asset",
+        "media_type",
+        "caption",
     }
     generic_rows = [
         {"label": _humanize_key(key), "value": _format_value(value)}
@@ -323,11 +336,21 @@ def event_presentation(event: CanonicalTemporalEvent) -> dict[str, Any]:
                 "text": "源病例仅记录了该项目完成，未提供具有临床解释价值的结果；该条目不应进入医生可选动作。",
             }
         )
+    media = []
+    if _has_value(result.get("media_asset")):
+        media.append(
+            {
+                "asset": _text(result.get("media_asset")),
+                "media_type": _text(result.get("media_type")) or "image/jpeg",
+                "caption": _text(result.get("caption")) or "源病例影像",
+            }
+        )
     return {
         "title": _clinical_label(event.clinical_concept.display),
         "summary": summary,
         "modality_label": modality_label(event.clinical_concept.modality),
         "blocks": blocks,
+        "media": media,
     }
 
 

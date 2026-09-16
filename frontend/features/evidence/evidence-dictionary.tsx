@@ -47,7 +47,13 @@ type DatasetName =
   | 'MC-MED v1.0.1'
   | 'eICU-CRD v2.0'
   | 'PMC Case Reports'
-  | 'NEJM CPC';
+  | 'NEJM CPC'
+  | 'MediScope'
+  | 'MedPI'
+  | 'PatientSim'
+  | 'Meddies Persona VIE'
+  | 'MedMemoryBench'
+  | 'MedDialogRubrics';
 
 type DatasetGuide = {
   name: DatasetName;
@@ -354,6 +360,151 @@ const GUIDES: DatasetGuide[] = [
     exampleCaseId: 'CFB_NEJM_26559575',
     exampleKind: 'TEMPORAL',
   },
+  {
+    name: 'MediScope',
+    shortName: 'MSCOPE',
+    title: '多模态问诊回放树',
+    subtitle: '把公开多轮医生—患者问诊和配对报告图像拆成逐轮可玩的临床轨迹。',
+    source: 'PulseMind public MedDiagnose.parquet curated subset',
+    cases: 3,
+    caseType: 'MULTIMODAL_CONSULTATION_REPLAY',
+    playerAction: '查看报告原图或选择源对话中的医生问句',
+    checkpoint: '每个患者原始回答后更新疾病排序',
+    truth: 'Source dialogue diagnostic-conclusion proxy',
+    fields: [
+      { field: 'diagnose', source: 'MedDiagnose.parquet', meaning: '带患者/医生标签的中文多轮对话', mapsTo: 'S0 + consultation action/result pairs' },
+      { field: 'image.bytes', source: 'MedDiagnose.parquet', meaning: '与该行对话配对的 JPEG 检查报告', mapsTo: 'imaging result node + local media asset' },
+      { field: '患者 turn', source: 'diagnose', meaning: '患者首述或对医生问题的原始回答', mapsTo: 'initial state / patient answer' },
+      { field: '医生 question', source: 'diagnose', meaning: '源对话中实际出现的问句', mapsTo: 'case-scoped action catalog' },
+    ],
+    pipeline: [
+      { title: '读取多模态行', detail: '保留原始对话与图像哈希，不拆散行级配对。' },
+      { title: '切分说话轮次', detail: '按患者/医生标签解析；首个实质患者陈述作为 S0。' },
+      { title: '配对问答', detail: '医生问句只绑定其后真实患者回答，不生成额外症状。' },
+      { title: '生成图像节点', detail: '原始 JPEG 进入右侧节点；对话中的诊断结论仅作为受保护 reference。' },
+    ],
+    rules: ['动作只来自当前 Case 的源医生问句。', '报告图像可直接查看，不用占位图代替。', '对话顺序只是轮次，不宣称分钟级临床时间。', '结论来自源对话，并非独立专家裁决。'],
+    boundary: '当前仅使用 PulseMind 公开精选子集，不等同于论文所述完整 MediScope；树中没有模型补写的患者回答。',
+    exampleCaseId: 'CFB_MEDISCOPE_0016',
+    exampleKind: 'TEMPORAL',
+  },
+  {
+    name: 'MedPI',
+    shortName: 'MEDPI',
+    title: '多轮 Consultation 树',
+    subtitle: '保留合成患者 profile、完整消息轮次和评测维度，重放诊断型问诊。',
+    source: 'MedPI patients + conversations + messages + dimensions',
+    cases: 3,
+    caseType: 'MULTI_TURN_CONSULTATION_REPLAY',
+    playerAction: '从该次源对话的医生问句中继续问诊',
+    checkpoint: '每轮真实患者消息后提交排序',
+    truth: 'Synthetic encounter reason; not adjudicated diagnosis',
+    fields: [
+      { field: 'patient_id / conversation_id', source: 'CSV + JSONL', meaning: '患者与对话外键', mapsTo: 'case provenance' },
+      { field: 'messages[].role/content', source: 'conversations_messages.jsonl', meaning: '完整医生—患者消息流', mapsTo: 'S0 + ordered Q/A events' },
+      { field: 'encounter_objective', source: 'patients.csv', meaning: '本次会话任务类型', mapsTo: 'case selection / initial context' },
+      { field: 'encounter_reason', source: 'patients.csv', meaning: '合成会话主题标签', mapsTo: 'protected proxy reference' },
+      { field: 'dimension', source: 'dimensions.csv', meaning: '适用问诊评测维度', mapsTo: 'queryable evaluation context' },
+    ],
+    pipeline: [{ title: '连接表', detail: '按 conversation 与 patient 外键合并 profile、消息和任务元数据。' }, { title: '筛选诊断会话', detail: '只选 completed、objective=diagnosis 且有至少 3 组问答的对话。' }, { title: '抽取 Q/A', detail: '保留源医生问句，并绑定下一条源患者回答。' }, { title: '隔离标签', detail: 'encounter reason 不在游玩时暴露，结束后按 proxy reference 展示。' }],
+    rules: ['可选问题限定在当前会话实际出现的医生问句。', '同一问题不可重复。', '问句内可能包含多个子问题，MVP 保持源轮次粒度。', '许可元数据冲突时按更严格的非商业边界处理。'],
+    boundary: 'MedPI 是合成问诊；encounter reason 是任务标签，不应作为真实临床金标准。',
+    exampleCaseId: 'CFB_MEDPI_COMTLL33AD643860',
+    exampleKind: 'TEMPORAL',
+  },
+  {
+    name: 'PatientSim',
+    shortName: 'PSIM',
+    title: 'Persona 患者问询树',
+    subtitle: '将官方公开 demo profile 的主诉、阳性/阴性现病史和社会背景变为可问询分支。',
+    source: 'PatientSim official GitHub demo_data.json',
+    cases: 3,
+    caseType: 'PERSONA_CONSULTATION_MVP',
+    playerAction: '询问病史、用药、过敏、生活方式或家庭支持',
+    checkpoint: '每个 profile 回答后更新判断',
+    truth: 'Public demo profile diagnosis',
+    fields: [
+      { field: 'chiefcomplaint', source: 'demo_data.json', meaning: '患者主诉', mapsTo: 'S0 chief complaint' },
+      { field: 'present_illness_positive / negative', source: 'demo_data.json', meaning: '现病史阳性与阴性信息', mapsTo: 'separate history actions' },
+      { field: 'medical_history / medication / allergies', source: 'demo_data.json', meaning: '既往史、用药和过敏', mapsTo: 'persona answer branches' },
+      { field: 'tobacco / living_situation / family_medical_history', source: 'demo_data.json', meaning: '行为和社会背景', mapsTo: 'persona context branches' },
+      { field: 'diagnosis', source: 'demo_data.json', meaning: '官方 demo 诊断', mapsTo: 'protected reference' },
+    ],
+    pipeline: [{ title: '读取官方 Demo', detail: '当前只采用仓库公开的 3 个 profile。' }, { title: '定义 S0', detail: '人口学信息、主诉与到院方式先暴露。' }, { title: '展开 Profile', detail: '每个有值的病史字段成为独立可问询动作。' }, { title: '标记 Persona', detail: '采用官方轴名称记录静态 MVP 策略，不冒充上游随机配对。' }],
+    rules: ['患者回答逐字来自公开 profile 字段。', 'MVP 是确定性回放，不调用生成式患者代理。', '问题可自由选择且不可重复。', '完整 PatientSim 数据需自行取得 PhysioNet 凭证并接受 DUA。'],
+    boundary: '未下载或再分发 PhysioNet 受控患者级数据；persona 轴仅用于展示接口可扩展性。',
+    exampleCaseId: 'CFB_PATIENTSIM_PATIENT_MI',
+    exampleKind: 'TEMPORAL',
+  },
+  {
+    name: 'Meddies Persona VIE',
+    shortName: 'MEDDIES',
+    title: '越南语 Persona 树',
+    subtitle: '把文化背景、沟通风格、健康素养、症状与就医障碍组织为患者分支。',
+    source: 'Meddies/meddies-persona-vie Dataset Viewer MVP rows',
+    cases: 3,
+    caseType: 'PERSONA_CONSULTATION_REPLAY',
+    playerAction: '用源语言询问症状、病史、行为和社会障碍',
+    checkpoint: '每个 persona 字段揭示后提交排序',
+    truth: 'Profile chronic-condition codes, not current diagnosis',
+    fields: [
+      { field: 'demographics', source: 'viewer row', meaning: '年龄、性别、族裔、语言及方言', mapsTo: 'S0 + communication profile' },
+      { field: 'llm_fields.presenting_symptoms', source: 'viewer row', meaning: '症状名称、持续时间、严重度和进展', mapsTo: 'symptom Q/A events' },
+      { field: 'communication_style / social_barriers', source: 'viewer row', meaning: '表达方式与就医障碍', mapsTo: 'persona context' },
+      { field: 'medical_history / medications / lifestyle', source: 'viewer row', meaning: '长期病史与行为背景', mapsTo: 'history branches' },
+    ],
+    pipeline: [{ title: '保留完整 Persona', detail: 'MVP 下载 12 个 Viewer 样本，选前 3 个生成树。' }, { title: '主诉作为 S0', detail: '首屏包含人口学和沟通画像。' }, { title: '细化症状', detail: '将每个 presenting symptom 组织为可问询结果。' }, { title: '分离 Reference', detail: '慢病编码只用于 profile 参考，不当作本次确诊。' }],
+    rules: ['界面保留越南语问题与源字段回答。', '行动库按 Case 隔离。', '沟通风格在 MVP 中作为显式状态而非生成控制器。', '当前疾病 reference 不参与正式诊断准确率声明。'],
+    boundary: '这是 CC-BY-NC 4.0 的合成 persona 样本；慢病编码不等于本次症状的裁决诊断。',
+    exampleCaseId: 'CFB_MEDDIES_48A3B083_374B_4076_ADA4_5A0D9EBC6F76',
+    exampleKind: 'TEMPORAL',
+  },
+  {
+    name: 'MedMemoryBench',
+    shortName: 'MEMORY',
+    title: '纵向记忆生长树',
+    subtitle: '以 persona 最早事件为 T0，按真实记录日期逐步解锁长期健康事件、陷阱与查询。',
+    source: 'MedMemoryBench English core Parquet tables',
+    cases: 3,
+    caseType: 'LONGITUDINAL_MEMORY_REPLAY',
+    playerAction: '按时间顺序调阅下一条纵向健康事件',
+    checkpoint: '每个日期事件后更新疾病状态判断',
+    truth: 'Synthetic persona disease type',
+    fields: [
+      { field: 'persona_id / type_name', source: 'personas.parquet', meaning: '合成人物主键与疾病人物类型', mapsTo: 'case identity / protected reference' },
+      { field: 'event_id / event_date / event', source: 'events.parquet', meaning: '纵向事件编号、日期与叙述', mapsTo: 'ordered temporal result nodes' },
+      { field: 'triggered_by', source: 'events.parquet', meaning: '事件间显式触发引用', mapsTo: 'result provenance / causal context' },
+      { field: 'trap_events / queries', source: 'companion parquets', meaning: '记忆陷阱和评测问题', mapsTo: 'queryable evaluation context' },
+    ],
+    pipeline: [{ title: '连接五表', detail: '按 persona_id 合并人物、事件、陷阱、查询和临床总结。' }, { title: '确定日历 T0', detail: '最早 event_date 为首屏，其余日期转成相对分钟。' }, { title: '顺序解锁', detail: '每次只显示下一条未调阅的纵向事件，不能跨越未来。' }, { title: '形成记忆树', detail: '保留最多 30 个后续事件，并附带 trap/query 评测上下文。' }],
+    rules: ['动作严格按 event_date 顺序出现。', '点击后立即模拟推进，不进行现实等待。', 'MVP 不下载大型 dialogues Parquet，只使用核心结构化事件。', '疾病类型是合成 persona 标签，不是真实患者确诊。'],
+    boundary: '日期是真实源字段，分钟仅是统一显示换算；上游许可证信息冲突时采取更严格的非商业共享方式。',
+    exampleCaseId: 'CFB_MEDMEMORY_01',
+    exampleKind: 'TEMPORAL',
+  },
+  {
+    name: 'MedDialogRubrics',
+    shortName: 'RUBRIC',
+    title: '专家问诊动作参考树',
+    subtitle: '把工作簿中的专家问诊要点转为动作节点，并用病例原文事实作确定性回答。',
+    source: 'MedDialogRubrics_v1.xlsx',
+    cases: 3,
+    caseType: 'EXPERT_ACTION_REFERENCE_REPLAY',
+    playerAction: '选择专家整理过的问诊要点',
+    checkpoint: '每个病历事实返回后更新诊断排序',
+    truth: 'Expert-refined synthetic case label',
+    fields: [
+      { field: '主诉', source: 'Excel Sheet1', meaning: '开局患者主诉', mapsTo: 'S0 chief complaint' },
+      { field: '病历', source: 'Excel Sheet1', meaning: '完整合成病例事实', mapsTo: 'hidden source-fact pool' },
+      { field: '问诊要点', source: 'Excel Sheet1', meaning: '专家优化过的 JSON 要点列表', mapsTo: 'expert action nodes + rubrics' },
+      { field: '科室 / 诊断', source: 'Excel Sheet1', meaning: '专科和病例标签', mapsTo: 'initial context / protected reference' },
+    ],
+    pipeline: [{ title: '读取工作簿', detail: '从真实 Excel 行解析主诉、病历、科室、诊断与问诊要点。' }, { title: '隐藏完整病历', detail: '首屏只给主诉，病历拆成可逐步揭示的原文事实。' }, { title: '建立专家动作', detail: '每个问诊要点成为带类别与权重的参考动作。' }, { title: '绑定源事实', detail: 'MVP 用字符 bigram 选择最相关病历句，并保留匹配分数供复核。' }],
+    rules: ['问诊动作来自专家要点，不允许模型自由编造 action_id。', '回答来自同一 Excel 病历原文。', '匹配是可审计 MVP，需要临床人员复核后才能正式计分。', '未声明许可证的数据文件和派生病例不提交仓库。'],
+    boundary: '工作簿为合成病例；类别和事实匹配由确定性规则派生，不宣称为经专家逐条验证的标准答案。',
+    exampleCaseId: 'CFB_MDR_0002',
+    exampleKind: 'TEMPORAL',
+  },
 ];
 
 export function EvidenceDictionary() {
@@ -384,7 +535,7 @@ export function EvidenceDictionary() {
       <header className="dataset-guide-header">
         <span className="brand-mark"><BookOpenText /></span>
         <div><p>ClincForestBench · Data contract</p><h1>数据集、转换与 Arena 规则</h1></div>
-        <Badge><ShieldCheck /> 8 DATASET CONTRACTS</Badge>
+        <Badge><ShieldCheck /> 14 DATASET CONTRACTS</Badge>
       </header>
 
       <Tabs className="dataset-guide-tabs" onValueChange={(value) => setDatasetName(value as DatasetName)} value={datasetName}>

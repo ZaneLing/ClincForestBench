@@ -7,13 +7,13 @@ for the first local restricted-data slice.
 | Guide phase | MVP implementation |
 | --- | --- |
 | 1. Source validation | Three independent validators report file presence, schema, row count, temporal-field null rate, and key join coverage. |
-| 2. Dataset adapters | `MCMEDTemporalAdapter`, `MIMICTemporalAdapter`, `EICUTemporalAdapter`, `PMCTemporalAdapter`, and `NEJMTemporalAdapter` implement candidate listing and canonical Case construction. MIMIC Note, ECG, and ED are linked modalities. PMC/NEJM are explicitly labeled narrative-sequence extensions. |
+| 2. Dataset adapters | The five base adapters plus MediScope, MedPI, PatientSim, Meddies, MedMemoryBench, and MedDialogRubrics implement candidate listing and canonical Case construction. MIMIC Note, ECG, and ED are linked modalities. PMC/NEJM are explicitly labeled narrative-sequence extensions. |
 | 3. Canonical event layer | Every event keeps distinct order, acquisition, availability, documentation, start, and end fields plus relative minutes and confidence. |
 | 4. Candidate scoring | Local candidate reports retain evidence/modality counts and the adapter-specific eligibility screen. |
 | 5. Human review | Every selected Case has a standalone `review.html`. Medical adjudication is still a manual gate and is not marked complete by code. |
 | 6. Temporal engine | `TemporalReplayEnvironment` preserves pending/TAT semantics for offline replay. The doctor/model Arena executes each clinical action synchronously, advances simulation time to the source-backed availability point, captures a new belief checkpoint, and never imposes wall-clock waiting. |
 | 7. Graph builder | Every Case has a realized Temporal DAG with separate action/result nodes and latency edges; temporal state hashing includes visible evidence, pending actions, and a five-minute time bucket. |
-| 8. MVP test | Each of the 40 Cases includes `FAST_TARGETED`, `BROAD_WORKUP`, and `CONTEXT_FIRST` engineering paths; all report zero synthetic results. |
+| 8. MVP test | Each of the 58 Cases includes engineering replay paths; interaction trees preserve published/synthetic-source answers and report zero newly generated clinical results. |
 | 9. Export | Local outputs include canonical Case/Event Parquet, per-Case JSON/Parquet/HTML, a manifest, summary, and graph index. |
 
 ## Local MVP inventory
@@ -24,6 +24,12 @@ for the first local restricted-data slice.
 - 10 eICU early-assessment Cases using ICU-admission offsets.
 - 5 PMC patient-narrative Case MVPs.
 - 5 NEJM CPC PubMed-record Case MVPs.
+- 3 MediScope multimodal consultation Case MVPs.
+- 3 MedPI multi-turn consultation Case MVPs.
+- 3 PatientSim public-demo persona Case MVPs.
+- 3 Meddies Vietnamese persona Case MVPs.
+- 3 MedMemoryBench longitudinal memory Case MVPs.
+- 3 MedDialogRubrics expert-action-reference Case MVPs.
 
 The browser route `/temporal?mode=arena` is a doctor-playable Arena: submit S0,
 choose a concrete question/exam/test, receive its source-backed result in the same
@@ -34,7 +40,7 @@ their result nodes. MIMIC ECG clock uncertainty, eICU interface-dependent
 missingness, and post-intervention exclusions remain visible rather than being
 silently normalized away.
 
-The same 40-Case manifest is now the single source for every working module:
+The same 58-Case manifest is now the single source for every working module:
 `/research?mode=temporal` (raw-to-tree audit), `/forest?mode=temporal`
 (checkpoint/action distributions), `/history?mode=temporal` (the signed-in
 doctor's completed runs), `/evidence` (dataset contracts and field mapping), and
@@ -42,7 +48,7 @@ doctor's completed runs), `/evidence` (dataset contracts and field mapping), and
 
 ## Deliberate first-slice limits
 
-- The 40 generated Cases and doctor-session artifacts are local derivatives and are not tracked
+- The 58 generated Cases and doctor-session artifacts are local derivatives and are not tracked
   in Git.
 - Review pages are generated, but a clinician must still adjudicate each
   reference and presentation-section extraction before a formal benchmark

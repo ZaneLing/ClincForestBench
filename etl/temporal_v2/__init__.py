@@ -4,6 +4,14 @@ from .eicu import EICUTemporalAdapter
 from .mcmed import MCMEDTemporalAdapter
 from .mimic import MIMICTemporalAdapter
 from .narrative import NEJMTemporalAdapter, PMCTemporalAdapter
+from .interaction import (
+    MediScopeTemporalAdapter,
+    MedPITemporalAdapter,
+    PatientSimTemporalAdapter,
+    MeddiesTemporalAdapter,
+    MedMemoryBenchTemporalAdapter,
+    MedDialogRubricsTemporalAdapter,
+)
 
 __all__ = [
     "MCMEDTemporalAdapter",
@@ -11,4 +19,10 @@ __all__ = [
     "EICUTemporalAdapter",
     "PMCTemporalAdapter",
     "NEJMTemporalAdapter",
+    "MediScopeTemporalAdapter",
+    "MedPITemporalAdapter",
+    "PatientSimTemporalAdapter",
+    "MeddiesTemporalAdapter",
+    "MedMemoryBenchTemporalAdapter",
+    "MedDialogRubricsTemporalAdapter",
 ]

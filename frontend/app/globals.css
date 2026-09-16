@@ -5324,6 +5324,18 @@ body {
   .clinical-presentation > section > p {
     @apply whitespace-pre-wrap break-words rounded-lg bg-slate-50 px-3 py-2 leading-5 text-slate-700;
   }
+  .clinical-source-media,
+  .temporal-source-image {
+    @apply mb-2 overflow-hidden rounded-xl border border-blue-200 bg-slate-950;
+  }
+  .clinical-source-media img,
+  .temporal-source-image img {
+    @apply h-auto max-h-[420px] w-full object-contain;
+  }
+  .clinical-source-media figcaption,
+  .temporal-source-image figcaption {
+    @apply bg-blue-50 px-2 py-1.5 text-[10px] leading-4 text-blue-800;
+  }
   .clinical-result-rows {
     @apply overflow-hidden rounded-lg border border-slate-200;
   }

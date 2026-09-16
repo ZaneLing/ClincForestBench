@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import NextImage from 'next/image';
 import {
   ArrowLeft,
   Braces,
@@ -15,7 +16,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { JsonDocument } from '@/features/forest/research-dashboard';
-import { api } from '@/lib/api';
+import { API_BASE, api } from '@/lib/api';
 import { TemporalCanvas } from './temporal-dashboard';
 import type {
   TemporalCaseDetail,
@@ -190,6 +191,7 @@ export function TemporalCaseInspector({
               <details className="temporal-tree-disclosure is-node" key={selectedNodeId} open>
                 <summary><span>节点内容</span><small>{selectedNode?.label ?? '点击树节点查看'}</small></summary>
                 <NodeInspector
+                  caseId={caseData.case_id}
                   event={selectedEvent}
                   initialState={caseData.initial_state}
                   node={selectedNode}
@@ -227,7 +229,7 @@ function AuditHeading({ icon, step, title }: { icon: React.ReactNode; step: stri
   return <header className="temporal-audit-panel-heading"><span>{icon}</span><div><small>{step}</small><b>{title}</b></div></header>;
 }
 
-function NodeInspector({ node, event, initialState }: { node?: { node_type: string; label: string; subtitle: string; reveal_time_min: number; temporal_confidence: string; lane: string; data: Record<string, unknown> }; event?: TemporalEvent; initialState: Record<string, unknown> }) {
+function NodeInspector({ caseId, node, event, initialState }: { caseId: string; node?: { node_type: string; label: string; subtitle: string; reveal_time_min: number; temporal_confidence: string; lane: string; data: Record<string, unknown> }; event?: TemporalEvent; initialState: Record<string, unknown> }) {
   const result = event?.result ?? (node?.node_type === 'CONTEXT' ? initialState : node?.data) ?? {};
   const imaging = event?.clinical_concept.modality === 'IMAGING' || node?.lane === 'IMAGING';
   const diagnosis = node?.node_type === 'REFERENCE';
@@ -242,7 +244,7 @@ function NodeInspector({ node, event, initialState }: { node?: { node_type: stri
         </div>
       </header>
       {imaging ? (
-        <ImagingNodeContent result={result} />
+        <ImagingNodeContent caseId={caseId} result={result} />
       ) : diagnosis ? (
         <DiagnosisNodeContent diagnosis={node.label} result={result} />
       ) : (
@@ -252,7 +254,7 @@ function NodeInspector({ node, event, initialState }: { node?: { node_type: stri
   );
 }
 
-function ImagingNodeContent({ result }: { result: Record<string, unknown> }) {
+function ImagingNodeContent({ caseId, result }: { caseId: string; result: Record<string, unknown> }) {
   const report = firstText(
     result.impression,
     result.report_text,
@@ -260,15 +262,11 @@ function ImagingNodeContent({ result }: { result: Record<string, unknown> }) {
     result.findings,
     result.text,
   );
+  const asset = firstText(result.media_asset);
+  const caption = firstText(result.caption) ?? '源病例中配对发布的检查报告图像';
   return (
     <div className="temporal-imaging-content">
-      <section className="temporal-image-unavailable">
-        <ImageOff />
-        <span>
-          <b>当前源数据没有影像像素文件</b>
-          <small>本地 Case 仅含报告文本，没有可渲染的 DICOM、JPG 或 PNG；系统不会用示意图冒充患者影像。</small>
-        </span>
-      </section>
+      {asset ? <figure className="temporal-source-image"><NextImage alt={caption} height={900} src={`${API_BASE}/temporal/media/${encodeURIComponent(caseId)}/${encodeURIComponent(asset)}`} unoptimized width={1200} /><figcaption>{caption}</figcaption></figure> : <section className="temporal-image-unavailable"><ImageOff /><span><b>当前源数据没有影像像素文件</b><small>本地 Case 仅含报告文本，没有可渲染的 DICOM、JPG 或 PNG；系统不会用示意图冒充患者影像。</small></span></section>}
       <section className="temporal-imaging-report">
         <small>RADIOLOGY IMPRESSION / SOURCE NARRATIVE</small>
         <p>{report ?? '该节点没有可用的报告正文。'}</p>

@@ -1,7 +1,7 @@
 # Architecture and data boundaries
 
 ```text
-dataset/{ddxplus,synthea,medagentbench} (read-only sources)
+dataset/{ddxplus,synthea,medagentbench,restricted,interaction} (read-only sources)
         │ versioned converters + manifests
         ▼
 data/raw ── ETL/QA ──► data/processed (Parquet + train-only priors)
@@ -67,3 +67,23 @@ model to synthesize a result. MIMIC ECG clock uncertainty, eICU
 interface-dependent missingness, and post-intervention exclusions are
 first-class metadata. All record-level inputs and outputs remain Git-ignored
 and are reachable only through research-key endpoints in the local API.
+
+## Interaction, persona, memory, and rubric adapters
+
+Six additional adapters emit the same `TemporalCase` contract:
+
+```text
+MediScope / MedPI ─────────────► source-authored consultation Q/A branches
+PatientSim / Meddies ──────────► case-scoped persona profile branches
+MedMemoryBench ────────────────► date-ordered, one-next-event-at-a-time tree
+MedDialogRubrics ──────────────► expert inquiry action + source-fact response
+                                      │
+                                      ▼
+                         canonical event → action/result DAG
+```
+
+All six use a Case-scoped action catalog so one patient cannot receive another
+patient's source-authored answer. MedMemoryBench additionally sets sequential
+unlocking. MediScope media is served only when the Case declares a `PUBLIC*`
+access class and the requested filename resolves inside that Case's media
+directory. Proxy labels remain marked non-adjudicated in both JSON and UI.
