@@ -31,6 +31,11 @@ from backend.app.services.case_tree_service import CaseTreeService
 from backend.app.services.export_service import ExportService
 from backend.app.services.forest_analytics_service import ForestAnalyticsService
 from backend.app.services.graph_builder import build_case_graph
+from backend.app.services.localization_service import (
+    localization_status,
+    localize_payload,
+    source_text,
+)
 from backend.app.services.model_arena_service import ModelArenaService
 from backend.app.services.review_service import ReviewService
 from backend.app.services.state_reducer import replay_session
@@ -106,7 +111,7 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     application.state.container = container
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+        allow_origin_regex=r"^https?://(?:localhost|127\.0\.0\.1)(?::\d+)?$",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -157,6 +162,10 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
             "temporal_case_count": container.temporal_cases.manifest()["case_count"],
         }
 
+    @application.get("/locales")
+    def locales():
+        return localization_status(container.cases.root)
+
     @application.post("/auth/register", status_code=201)
     def register(request: AccountCredentials):
         try:
@@ -193,20 +202,20 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         return None
 
     @application.get("/cases")
-    def list_cases():
+    def list_cases(lang: str = "en"):
         # Safe inventory: no pathology, quality score, differential or truth.
-        return {
+        return localize_payload({
             "case_ids": container.cases.case_ids(),
             "cases": container.cases.case_summaries(),
-        }
+        }, lang)
 
     @application.get("/cases/{case_id}/catalog")
-    def case_catalog(case_id: str):
+    def case_catalog(case_id: str, lang: str = "en"):
         # Case-local closed answer vocabulary and action metadata contain no
         # truth values or reference outcome for the selected case.
         try:
             bundle = container.cases.get(case_id)
-            return {
+            return localize_payload({
                 "case": next(
                     item
                     for item in container.cases.case_summaries()
@@ -220,21 +229,23 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
                         if item.evidence_id != bundle.initial_evidence.evidence_id
                     }
                 ),
-            }
+            }, lang)
         except KeyError as exc:
             raise translate_error(exc)
 
     @application.get("/catalog/conditions")
-    def conditions():
+    def conditions(lang: str = "en"):
         # A closed answer vocabulary is required for structured beliefs and is
         # not a case-specific oracle.
-        return {"conditions": container.cases.safe_condition_catalog()}
+        return localize_payload(
+            {"conditions": container.cases.safe_condition_catalog()}, lang
+        )
 
     @application.get("/catalog/evidences")
-    def evidences():
+    def evidences(lang: str = "en"):
         # Evidence definitions explain public dataset codes and contain no
         # case-specific truth, diagnosis, or oracle probabilities.
-        return {
+        return localize_payload({
             "evidences": [
                 definition.model_dump(mode="json")
                 for _, definition in sorted(
@@ -242,11 +253,12 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
                     key=lambda item: int(item[0].split("_")[1]),
                 )
             ]
-        }
+        }, lang)
 
     @application.post("/sessions", status_code=201)
     def create_session(
         request: CreateSessionRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         case_id = request.case_id or container.cases.case_ids()[0]
@@ -266,36 +278,54 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
                 belief_capture_mode=request.belief_capture_mode,
                 random_seed=request.random_seed,
             )
-            return {
+            return localize_payload({
                 "session": session.model_dump(mode="json"),
                 "state": container.arena.state(session.session_id).public_payload(),
-            }
+            }, lang)
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
     @application.get("/sessions/{session_id}")
-    def get_session(session_id: str, username: str = Depends(current_username)):
+    def get_session(
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
+    ):
         assert_session_owner(session_id, username)
         try:
-            return container.arena.get_session(session_id).model_dump(mode="json")
+            return localize_payload(
+                container.arena.get_session(session_id).model_dump(mode="json"),
+                lang,
+            )
         except KeyError as exc:
             raise translate_error(exc)
 
     @application.get("/sessions/{session_id}/state")
-    def get_state(session_id: str, username: str = Depends(current_username)):
+    def get_state(
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
+    ):
         assert_session_owner(session_id, username)
         try:
-            return container.arena.state(session_id).public_payload()
+            return localize_payload(
+                container.arena.state(session_id).public_payload(), lang
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
     @application.get("/sessions/{session_id}/available-evidences")
     def available_evidences(
-        session_id: str, username: str = Depends(current_username)
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
     ):
         assert_session_owner(session_id, username)
         try:
-            return container.arena.available_actions(session_id).model_dump(mode="json")
+            return localize_payload(
+                container.arena.available_actions(session_id).model_dump(mode="json"),
+                lang,
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -303,6 +333,7 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     def ask_evidence(
         session_id: str,
         request: EvidenceActionRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         assert_session_owner(session_id, username)
@@ -318,7 +349,7 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
                 client_timestamp=request.client_timestamp,
                 latency_ms=request.latency_ms,
             )
-            return {
+            return localize_payload({
                 "result_type": result.result_type.value,
                 "observation": result.observation.model_dump(mode="json") if result.observation else None,
                 "answer_text": human_readable_response(
@@ -329,7 +360,7 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
                 "state_after_hash": result.state_after_hash,
                 "state": result.state.public_payload(),
                 "message": result.message,
-            }
+            }, lang)
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -337,14 +368,20 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     def submit_belief(
         session_id: str,
         request: BeliefRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         assert_session_owner(session_id, username)
         try:
-            return container.arena.submit_belief(
-                session_id, request.belief, request.client_event_id,
-                request.client_timestamp,
-            ).model_dump(mode="json")
+            return localize_payload(
+                container.arena.submit_belief(
+                    session_id,
+                    request.belief,
+                    request.client_event_id,
+                    request.client_timestamp,
+                ).model_dump(mode="json"),
+                lang,
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -352,19 +389,25 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     def finalize(
         session_id: str,
         request: FinalizeRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         assert_session_owner(session_id, username)
         try:
-            return container.arena.finalize(
-                session_id, request.belief, request.client_event_id
-            ).model_dump(mode="json")
+            return localize_payload(
+                container.arena.finalize(
+                    session_id, request.belief, request.client_event_id
+                ).model_dump(mode="json"),
+                lang,
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
     @application.get("/sessions/{session_id}/review")
     def completed_review(
-        session_id: str, username: str = Depends(current_username)
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
     ):
         assert_session_owner(session_id, username)
         try:
@@ -375,7 +418,7 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
             review["community_final_diagnoses"] = container.forest.case_detail(
                 review["case_id"]
             )["final_diagnoses"]
-            return review
+            return localize_payload(review, lang)
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -390,7 +433,9 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
             raise translate_error(exc)
 
     @application.get("/me/history")
-    def personal_history(username: str = Depends(current_username)):
+    def personal_history(
+        lang: str = "en", username: str = Depends(current_username)
+    ):
         sessions = [
             item
             for item in container.repository.all_sessions()
@@ -427,11 +472,12 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
                     "is_correct": review["comparison"]["is_correct"],
                 }
             )
-        return {"username": username, "sessions": result}
+        return localize_payload({"username": username, "sessions": result}, lang)
 
     @application.get("/me/history/{session_id}")
     def personal_history_detail(
         session_id: str,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         assert_session_owner(session_id, username)
@@ -439,29 +485,29 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         try:
             artifact = container.reviews.completed_session_artifact(session_id)
             tree_audit = container.case_trees.get(session.case_id)
-            return {
+            return localize_payload({
                 "session_id": session_id,
                 "case_id": session.case_id,
                 "ground_truth_tree": tree_audit["processed_tree"],
                 "decision_json": artifact,
                 "belief_rounds": artifact["belief_history"],
-            }
+            }, lang)
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
     @application.get(
         "/research/forest/cases", dependencies=[Depends(research_access)]
     )
-    def forest_cases():
-        return container.forest.case_index()
+    def forest_cases(lang: str = "en"):
+        return localize_payload(container.forest.case_index(), lang)
 
     @application.get(
         "/research/forest/cases/{case_id}",
         dependencies=[Depends(research_access)],
     )
-    def forest_case(case_id: str):
+    def forest_case(case_id: str, lang: str = "en"):
         try:
-            return container.forest.case_detail(case_id)
+            return localize_payload(container.forest.case_detail(case_id), lang)
         except KeyError as exc:
             raise translate_error(exc)
 
@@ -483,9 +529,9 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     @application.get(
         "/model-arena/runs", dependencies=[Depends(research_access)]
     )
-    def model_arena_runs(case_id: Optional[str] = None):
+    def model_arena_runs(case_id: Optional[str] = None, lang: str = "en"):
         try:
-            return container.model_arena.list_runs(case_id)
+            return localize_payload(container.model_arena.list_runs(case_id), lang)
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -494,10 +540,15 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         status_code=201,
         dependencies=[Depends(research_access)],
     )
-    def create_model_arena_run(request: CreateModelRunRequest):
+    def create_model_arena_run(
+        request: CreateModelRunRequest, lang: str = "en"
+    ):
         try:
-            return container.model_arena.create_run(
-                request.model_id, request.case_id, request.max_questions
+            return localize_payload(
+                container.model_arena.create_run(
+                    request.model_id, request.case_id, request.max_questions
+                ),
+                lang,
             )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
@@ -506,9 +557,9 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         "/model-arena/runs/{run_id}",
         dependencies=[Depends(research_access)],
     )
-    def model_arena_run(run_id: str):
+    def model_arena_run(run_id: str, lang: str = "en"):
         try:
-            return container.model_arena.detail(run_id)
+            return localize_payload(container.model_arena.detail(run_id), lang)
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -516,18 +567,22 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         "/model-arena/runs/{run_id}/step",
         dependencies=[Depends(research_access)],
     )
-    def step_model_arena_run(run_id: str):
+    def step_model_arena_run(run_id: str, lang: str = "en"):
         try:
-            return container.model_arena.step(run_id)
+            return localize_payload(container.model_arena.step(run_id), lang)
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
     @application.get(
         "/temporal-model-arena/runs", dependencies=[Depends(research_access)]
     )
-    def temporal_model_arena_runs(case_id: Optional[str] = None):
+    def temporal_model_arena_runs(
+        case_id: Optional[str] = None, lang: str = "en"
+    ):
         try:
-            return container.temporal_model_arena.list_runs(case_id)
+            return localize_payload(
+                container.temporal_model_arena.list_runs(case_id), lang
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -536,10 +591,15 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         status_code=201,
         dependencies=[Depends(research_access)],
     )
-    def create_temporal_model_arena_run(request: CreateModelRunRequest):
+    def create_temporal_model_arena_run(
+        request: CreateModelRunRequest, lang: str = "en"
+    ):
         try:
-            return container.temporal_model_arena.create_run(
-                request.model_id, request.case_id, request.max_questions
+            return localize_payload(
+                container.temporal_model_arena.create_run(
+                    request.model_id, request.case_id, request.max_questions
+                ),
+                lang,
             )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
@@ -548,9 +608,11 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         "/temporal-model-arena/runs/{run_id}",
         dependencies=[Depends(research_access)],
     )
-    def temporal_model_arena_run(run_id: str):
+    def temporal_model_arena_run(run_id: str, lang: str = "en"):
         try:
-            return container.temporal_model_arena.detail(run_id)
+            return localize_payload(
+                container.temporal_model_arena.detail(run_id), lang
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -558,9 +620,11 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         "/temporal-model-arena/runs/{run_id}/step",
         dependencies=[Depends(research_access)],
     )
-    def step_temporal_model_arena_run(run_id: str):
+    def step_temporal_model_arena_run(run_id: str, lang: str = "en"):
         try:
-            return container.temporal_model_arena.step(run_id)
+            return localize_payload(
+                container.temporal_model_arena.step(run_id), lang
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
@@ -602,41 +666,43 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     @application.get(
         "/research/cases/{case_id}", dependencies=[Depends(research_access)]
     )
-    def research_case(case_id: str):
+    def research_case(case_id: str, lang: str = "en"):
         try:
-            return container.cases.get(case_id).model_dump(mode="json")
+            return localize_payload(
+                container.cases.get(case_id).model_dump(mode="json"), lang
+            )
         except KeyError as exc:
             raise translate_error(exc)
 
     @application.get(
         "/research/case-trees", dependencies=[Depends(research_access)]
     )
-    def research_case_tree_manifest():
-        return container.case_trees.manifest()
+    def research_case_tree_manifest(lang: str = "en"):
+        return container.case_trees.manifest(lang)
 
     @application.get(
         "/research/temporal/cases", dependencies=[Depends(research_access)]
     )
-    def temporal_case_manifest():
-        return container.temporal_cases.manifest()
+    def temporal_case_manifest(lang: str = "en"):
+        return container.temporal_cases.manifest(lang)
 
     @application.get(
         "/research/temporal/cases/{case_id}",
         dependencies=[Depends(research_access)],
     )
-    def temporal_case_detail(case_id: str):
+    def temporal_case_detail(case_id: str, lang: str = "en"):
         try:
-            detail = container.temporal_cases.detail(case_id)
+            detail = container.temporal_cases.detail(case_id, lang)
             detail["trajectory_evaluation"] = container.temporal_arena.forest_detail(
                 case_id
             )["trajectory_evaluation"]
-            return detail
+            return localize_payload(detail, lang)
         except KeyError as exc:
             raise translate_error(exc)
 
     @application.get("/temporal/cases")
-    def temporal_arena_cases():
-        return container.temporal_arena.case_index()
+    def temporal_arena_cases(lang: str = "en"):
+        return localize_payload(container.temporal_arena.case_index(), lang)
 
     @application.get("/temporal/media/{case_id}/{asset_name}")
     def temporal_public_media(case_id: str, asset_name: str):
@@ -650,19 +716,26 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     @application.post("/temporal/sessions", status_code=201)
     def create_temporal_session(
         request: CreateTemporalSessionRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.create(request.case_id, username)
+            return localize_payload(
+                container.temporal_arena.create(request.case_id, username), lang
+            )
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
     @application.get("/temporal/sessions/{session_id}")
     def temporal_session(
-        session_id: str, username: str = Depends(current_username)
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.get(session_id, username)
+            return localize_payload(
+                container.temporal_arena.get(session_id, username), lang
+            )
         except PermissionError as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
         except (KeyError, ValueError) as exc:
@@ -672,11 +745,17 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     def temporal_belief(
         session_id: str,
         request: TemporalBeliefRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.submit_belief(
-                session_id, username, request.diagnoses
+            return localize_payload(
+                container.temporal_arena.submit_belief(
+                    session_id,
+                    username,
+                    [source_text(item, lang) for item in request.diagnoses],
+                ),
+                lang,
             )
         except PermissionError as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
@@ -687,11 +766,15 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     def temporal_order(
         session_id: str,
         request: TemporalOrderRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.order(
-                session_id, username, request.action_id
+            return localize_payload(
+                container.temporal_arena.order(
+                    session_id, username, request.action_id
+                ),
+                lang,
             )
         except PermissionError as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
@@ -700,10 +783,14 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
 
     @application.post("/temporal/sessions/{session_id}/wait")
     def temporal_wait(
-        session_id: str, username: str = Depends(current_username)
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.wait(session_id, username)
+            return localize_payload(
+                container.temporal_arena.wait(session_id, username), lang
+            )
         except PermissionError as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
         except (KeyError, ValueError) as exc:
@@ -713,11 +800,17 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
     def temporal_finalize(
         session_id: str,
         request: TemporalBeliefRequest,
+        lang: str = "en",
         username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.finalize(
-                session_id, username, request.diagnoses
+            return localize_payload(
+                container.temporal_arena.finalize(
+                    session_id,
+                    username,
+                    [source_text(item, lang) for item in request.diagnoses],
+                ),
+                lang,
             )
         except PermissionError as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
@@ -726,25 +819,35 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
 
     @application.get("/temporal/sessions/{session_id}/review")
     def temporal_review(
-        session_id: str, username: str = Depends(current_username)
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.review(session_id, username)
+            return localize_payload(
+                container.temporal_arena.review(session_id, username), lang
+            )
         except PermissionError as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
         except (KeyError, ValueError) as exc:
             raise translate_error(exc)
 
     @application.get("/me/temporal-history")
-    def temporal_history(username: str = Depends(current_username)):
-        return container.temporal_arena.history(username)
+    def temporal_history(
+        lang: str = "en", username: str = Depends(current_username)
+    ):
+        return localize_payload(container.temporal_arena.history(username), lang)
 
     @application.get("/me/temporal-history/{session_id}")
     def temporal_history_detail(
-        session_id: str, username: str = Depends(current_username)
+        session_id: str,
+        lang: str = "en",
+        username: str = Depends(current_username),
     ):
         try:
-            return container.temporal_arena.review(session_id, username)
+            return localize_payload(
+                container.temporal_arena.review(session_id, username), lang
+            )
         except PermissionError as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
         except (KeyError, ValueError) as exc:
@@ -754,16 +857,18 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         "/research/temporal/forest/cases",
         dependencies=[Depends(research_access)],
     )
-    def temporal_forest_cases():
-        return container.temporal_arena.forest_index()
+    def temporal_forest_cases(lang: str = "en"):
+        return localize_payload(container.temporal_arena.forest_index(), lang)
 
     @application.get(
         "/research/temporal/forest/cases/{case_id}",
         dependencies=[Depends(research_access)],
     )
-    def temporal_forest_case(case_id: str):
+    def temporal_forest_case(case_id: str, lang: str = "en"):
         try:
-            return container.temporal_arena.forest_detail(case_id)
+            return localize_payload(
+                container.temporal_arena.forest_detail(case_id), lang
+            )
         except KeyError as exc:
             raise translate_error(exc)
 
@@ -771,42 +876,51 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         "/research/cases/{case_id}/tree-audit",
         dependencies=[Depends(research_access)],
     )
-    def research_case_tree(case_id: str):
+    def research_case_tree(case_id: str, lang: str = "en"):
         try:
-            return container.case_trees.get(case_id)
+            return container.case_trees.get(case_id, lang)
         except KeyError as exc:
             raise translate_error(exc)
 
     @application.get(
         "/research/cases/{case_id}/graph", dependencies=[Depends(research_access)]
     )
-    def research_graph(case_id: str):
+    def research_graph(case_id: str, lang: str = "en"):
         try:
             container.cases.get(case_id)
             sessions = container.repository.all_sessions()
-            return build_case_graph(
-                case_id,
-                sessions,
-                {s.session_id: container.repository.events(s.session_id) for s in sessions},
-                {s.session_id: container.repository.states(s.session_id) for s in sessions},
-            ).model_dump(mode="json")
+            return localize_payload(
+                build_case_graph(
+                    case_id,
+                    sessions,
+                    {
+                        s.session_id: container.repository.events(s.session_id)
+                        for s in sessions
+                    },
+                    {
+                        s.session_id: container.repository.states(s.session_id)
+                        for s in sessions
+                    },
+                ).model_dump(mode="json"),
+                lang,
+            )
         except KeyError as exc:
             raise translate_error(exc)
 
     @application.get(
         "/research/sessions/{session_id}", dependencies=[Depends(research_access)]
     )
-    def research_session(session_id: str):
+    def research_session(session_id: str, lang: str = "en"):
         try:
             session = container.repository.get_session(session_id)
-            return {
+            return localize_payload({
                 "session": session.model_dump(mode="json"),
                 "case": container.cases.get(session.case_id).model_dump(mode="json"),
                 "events": [e.model_dump(mode="json") for e in container.repository.events(session_id)],
                 "states": [s.model_dump(mode="json") for s in container.repository.states(session_id)],
                 "beliefs": [b.model_dump(mode="json") for b in container.repository.beliefs(session_id)],
                 "replay_final_state": replay_session(session_id, container.cases, container.repository).model_dump(mode="json"),
-            }
+            }, lang)
         except (KeyError, AssertionError) as exc:
             raise translate_error(exc)
 

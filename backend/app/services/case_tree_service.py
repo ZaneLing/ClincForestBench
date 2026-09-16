@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 
+from backend.app.services.localization_service import localize_payload
 from etl.common import load_json, path_from_root
 
 
@@ -69,16 +70,16 @@ class CaseTreeService:
         }
         self._entries = {item["case_id"]: item for item in entries}
 
-    def manifest(self) -> dict:
-        return self._manifest
+    def manifest(self, locale: str | None = None) -> dict:
+        return localize_payload(self._manifest, locale)
 
-    def get(self, case_id: str) -> dict:
+    def get(self, case_id: str, locale: str | None = None) -> dict:
         try:
             entry = self._entries[case_id]
         except KeyError as exc:
             raise KeyError(f"Unknown case tree: {case_id}") from exc
-        return {
+        return localize_payload({
             "manifest_entry": entry,
             "raw_case": load_json(self.root / entry["raw_case_path"]),
             "processed_tree": load_json(self.root / entry["tree_path"]),
-        }
+        }, locale)

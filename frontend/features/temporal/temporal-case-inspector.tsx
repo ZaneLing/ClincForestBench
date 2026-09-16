@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import NextImage from 'next/image';
 import {
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { JsonDocument } from '@/features/forest/research-dashboard';
+import { useLanguage } from '@/features/i18n/language-context';
 import { API_BASE, api } from '@/lib/api';
 import { TemporalCanvas } from './temporal-dashboard';
 import type {
@@ -31,6 +32,7 @@ export function TemporalCaseInspector({
   embedded?: boolean;
   selectedCaseId?: string;
 }) {
+  const { isChinese } = useLanguage();
   const [manifest, setManifest] = useState<TemporalManifest | null>(null);
   const [detail, setDetail] = useState<TemporalCaseDetail | null>(null);
   const [dataset, setDataset] = useState('ALL');
@@ -40,7 +42,7 @@ export function TemporalCaseInspector({
   const [error, setError] = useState('');
   const [liveMessage, setLiveMessage] = useState('');
 
-  async function loadCase(value: string) {
+  const loadCase = useCallback(async (value: string) => {
     if (!value) return;
     try {
       const result = await api<TemporalCaseDetail>(
@@ -56,9 +58,9 @@ export function TemporalCaseInspector({
         )?.node_id ?? result.case.temporal_graph.root_id,
       );
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Case 读取失败');
+      setError(error instanceof Error ? error.message : (isChinese ? 'Case 读取失败' : 'Failed to load case'));
     }
-  }
+  }, [isChinese]);
 
   useEffect(() => {
     if (embedded) return;
@@ -70,7 +72,7 @@ export function TemporalCaseInspector({
       const first = result.cases.find((item) => item.case_id === requested) ?? result.cases[0];
       if (first) void loadCase(first.case_id);
     }).catch((reason: Error) => setError(reason.message));
-  }, [embedded]);
+  }, [embedded, loadCase]);
 
   useEffect(() => {
     if (!selectedCaseId) return;
@@ -96,7 +98,7 @@ export function TemporalCaseInspector({
     return () => {
       active = false;
     };
-  }, [selectedCaseId]);
+  }, [loadCase, selectedCaseId]);
 
   const entries = useMemo(
     () => (manifest?.cases ?? []).filter((item) => dataset === 'ALL' || item.dataset_name === dataset),
@@ -120,10 +122,10 @@ export function TemporalCaseInspector({
     <RootElement className={`temporal-audit-page ${embedded ? 'is-embedded' : ''}`}>
       {!embedded && (
         <header className="temporal-audit-header">
-          <Link href="/research"><ArrowLeft />统一 Case 查看</Link>
-          <div><small>ClincForestBench · Temporal conversion audit</small><h1>原始数据 → 规范事件 → 动态树</h1></div>
+          <Link href="/research"><ArrowLeft />{isChinese ? '统一 Case 查看' : 'All cases'}</Link>
+          <div><small>ClincForestBench · Temporal conversion audit</small><h1>{isChinese ? '原始数据 → 规范事件 → 动态树' : 'Source data → canonical events → dynamic tree'}</h1></div>
           <Badge><ShieldCheck />{manifest?.case_count ?? 0} CASES</Badge>
-          <label><span>数据源</span><select onChange={(event) => { const value = event.target.value; setDataset(value); const first = manifest?.cases.find((item) => value === 'ALL' || item.dataset_name === value); if (first) void loadCase(first.case_id); }} value={dataset}><option value="ALL">全部数据源</option>{Object.entries(manifest?.dataset_case_counts ?? {}).map(([name, count]) => <option key={name} value={name}>{name} · {count}</option>)}</select></label>
+          <label><span>{isChinese ? '数据源' : 'Dataset'}</span><select onChange={(event) => { const value = event.target.value; setDataset(value); const first = manifest?.cases.find((item) => value === 'ALL' || item.dataset_name === value); if (first) void loadCase(first.case_id); }} value={dataset}><option value="ALL">{isChinese ? '全部数据源' : 'All datasets'}</option>{Object.entries(manifest?.dataset_case_counts ?? {}).map(([name, count]) => <option key={name} value={name}>{name} · {count}</option>)}</select></label>
           <label className="temporal-audit-case"><span>Case</span><select onChange={(event) => void loadCase(event.target.value)} value={caseId}>{entries.map((item) => <option key={item.case_id} value={item.case_id}>{item.case_id} · {item.event_count} events</option>)}</select></label>
         </header>
       )}
@@ -131,11 +133,11 @@ export function TemporalCaseInspector({
       {caseData ? (
         <section className="temporal-audit-grid">
           <article>
-            <AuditHeading icon={<Database />} step="1 · RAW" title="原始病例与实际取用字段" />
+            <AuditHeading icon={<Database />} step="1 · RAW" title={isChinese ? '原始病例与实际取用字段' : 'Source case and selected fields'} />
             <JsonDocument filename={`${caseId}.raw.json`} onNotice={setLiveMessage} value={caseData.raw_source} />
           </article>
           <article>
-            <AuditHeading icon={<Braces />} step="2 · NORMALIZE" title="规范 Case 与转换说明" />
+            <AuditHeading icon={<Braces />} step="2 · NORMALIZE" title={isChinese ? '规范 Case 与转换说明' : 'Canonical case and transformation'} />
             <div className="temporal-conversion-summary">
               <span><FileClock />T0: {formatAuditValue(caseData.anchor.anchor_type)}</span>
               <span><GitBranch />{caseData.timeline_events.length} events</span>
@@ -144,7 +146,7 @@ export function TemporalCaseInspector({
             <JsonDocument defaultView="table" filename={`${caseId}.conversion.json`} onNotice={setLiveMessage} value={{ transformation: caseData.transformation, anchor: caseData.anchor, initial_state: caseData.initial_state, timeline_events: caseData.timeline_events, hidden_evidence_pool: caseData.hidden_evidence_pool, temporal_quality: caseData.temporal_quality, arena_config: caseData.arena_config }} />
           </article>
           <article className="temporal-audit-tree-panel">
-            <AuditHeading icon={<GitBranch />} step="3 · GRAPH" title="完整时间树与节点内容" />
+            <AuditHeading icon={<GitBranch />} step="3 · GRAPH" title={isChinese ? '完整时间树与节点内容' : 'Complete timeline and node content'} />
             {detail.trajectory_evaluation && <CaseEvaluationSummary evaluation={detail.trajectory_evaluation} />}
             <div className="temporal-tree-disclosures">
               <section className="temporal-tree-disclosure is-canvas" data-open={treeExpanded}>
@@ -154,7 +156,7 @@ export function TemporalCaseInspector({
                   onClick={() => setTreeExpanded((value) => !value)}
                   type="button"
                 >
-                  <span>完整时间树</span><small>{caseData.temporal_graph.nodes.length} nodes</small>
+                  <span>{isChinese ? '完整时间树' : 'Complete timeline tree'}</span><small>{caseData.temporal_graph.nodes.length} nodes</small>
                 </button>
                 {treeExpanded && <div className="temporal-audit-tree">
                   <TemporalCanvas caseData={caseData} currentTime={maxTime} onInspect={setSelectedNodeId} selectedNodeId={selectedNodeId} />
@@ -162,13 +164,13 @@ export function TemporalCaseInspector({
                     <label className="temporal-audit-imaging-jump">
                       <ImageIcon />
                       <select
-                        aria-label="选择影像报告节点"
+                        aria-label={isChinese ? '选择影像报告节点' : 'Select imaging report node'}
                         onChange={(event) => {
                           if (event.target.value) setSelectedNodeId(event.target.value);
                         }}
                         value={imagingNodes.some((node) => node.node_id === selectedNodeId) ? selectedNodeId : ''}
                       >
-                        <option value="">影像报告 · {imagingNodes.length} 项</option>
+                        <option value="">{isChinese ? '影像报告' : 'Imaging reports'} · {imagingNodes.length}</option>
                         {imagingNodes.map((node) => (
                           <option key={node.node_id} value={node.node_id}>{node.label}</option>
                         ))}
@@ -182,14 +184,14 @@ export function TemporalCaseInspector({
                       type="button"
                     >
                       <span><Stethoscope /></span>
-                      <small>最终参考诊断 · 点击查看</small>
+                      <small>{isChinese ? '最终参考诊断 · 点击查看' : 'Final reference diagnosis · inspect'}</small>
                       <b>{referenceNode.label}</b>
                     </button>
                   )}
                 </div>}
               </section>
               <details className="temporal-tree-disclosure is-node" key={selectedNodeId} open>
-                <summary><span>节点内容</span><small>{selectedNode?.label ?? '点击树节点查看'}</small></summary>
+                <summary><span>{isChinese ? '节点内容' : 'Node content'}</span><small>{selectedNode?.label ?? (isChinese ? '点击树节点查看' : 'Select a tree node')}</small></summary>
                 <NodeInspector
                   caseId={caseData.case_id}
                   event={selectedEvent}
@@ -200,28 +202,29 @@ export function TemporalCaseInspector({
             </div>
           </article>
         </section>
-      ) : <section className="audit-empty"><FileClock /><b>{error || '正在加载本地病例'}</b></section>}
+      ) : <section className="audit-empty"><FileClock /><b>{error || (isChinese ? '正在加载本地病例' : 'Loading local case')}</b></section>}
       <span aria-live="polite" className="sr-only">{liveMessage}</span>
     </RootElement>
   );
 }
 
 function CaseEvaluationSummary({ evaluation }: { evaluation: NonNullable<TemporalCaseDetail['trajectory_evaluation']> }) {
+  const { isChinese } = useLanguage();
   const metric = (key: string) => {
     const value = evaluation.aggregate[key];
-    if (typeof value !== 'number') return '待生成';
+    if (typeof value !== 'number') return isChinese ? '待生成' : 'Pending';
     if (key.includes('count')) return value.toFixed(2);
     if (key.includes('reciprocal_rank')) return value.toFixed(3);
     return `${Math.round(value * 100)}%`;
   };
   return <div className="temporal-audit-evaluation">
     <div className="temporal-audit-metric-bar">
-      <span><small>完成轨迹</small><b>{evaluation.completed_trajectory_count}</b></span>
+      <span><small>{isChinese ? '完成轨迹' : 'Completed runs'}</small><b>{evaluation.completed_trajectory_count}</b></span>
       <span><small>Top-1</small><b>{metric('exact_top1_accuracy')}</b></span>
-      <span><small>GT 重合</small><b>{metric('mean_recorded_action_overlap_rate')}</b></span>
-      <span><small>错误早停</small><b>{metric('premature_finalization_proxy_rate')}</b></span>
+      <span><small>{isChinese ? 'GT 重合' : 'GT overlap'}</small><b>{metric('mean_recorded_action_overlap_rate')}</b></span>
+      <span><small>{isChinese ? '错误早停' : 'Premature stop'}</small><b>{metric('premature_finalization_proxy_rate')}</b></span>
     </div>
-    <details><summary>本 Case 的全部指标与口径</summary><div>{evaluation.metric_definitions.map((item) => <p key={item.key}><span>{item.label}</span><b>{metric(item.key)}</b><small>{item.description}</small></p>)}{evaluation.interpretation_limits.map((item) => <em key={item}>{item}</em>)}</div></details>
+    <details><summary>{isChinese ? '本 Case 的全部指标与口径' : 'All case metrics and definitions'}</summary><div>{evaluation.metric_definitions.map((item) => <p key={item.key}><span>{item.label}</span><b>{metric(item.key)}</b><small>{item.description}</small></p>)}{evaluation.interpretation_limits.map((item) => <em key={item}>{item}</em>)}</div></details>
   </div>;
 }
 
@@ -230,6 +233,7 @@ function AuditHeading({ icon, step, title }: { icon: React.ReactNode; step: stri
 }
 
 function NodeInspector({ caseId, node, event, initialState }: { caseId: string; node?: { node_type: string; label: string; subtitle: string; reveal_time_min: number; temporal_confidence: string; lane: string; data: Record<string, unknown> }; event?: TemporalEvent; initialState: Record<string, unknown> }) {
+  const { isChinese } = useLanguage();
   const result = event?.result ?? (node?.node_type === 'CONTEXT' ? initialState : node?.data) ?? {};
   const imaging = event?.clinical_concept.modality === 'IMAGING' || node?.lane === 'IMAGING';
   const diagnosis = node?.node_type === 'REFERENCE';
@@ -239,7 +243,7 @@ function NodeInspector({ caseId, node, event, initialState }: { caseId: string; 
         {imaging ? <ImageIcon /> : diagnosis ? <Stethoscope /> : <FileClock />}
         <div>
           <small>{node?.node_type ?? 'NODE'} · {node?.temporal_confidence ?? '—'}</small>
-          <b>{node?.label ?? '点击树节点查看'}</b>
+          <b>{node?.label ?? (isChinese ? '点击树节点查看' : 'Select a tree node')}</b>
           <span>{node?.subtitle}</span>
         </div>
       </header>
@@ -255,6 +259,7 @@ function NodeInspector({ caseId, node, event, initialState }: { caseId: string; 
 }
 
 function ImagingNodeContent({ caseId, result }: { caseId: string; result: Record<string, unknown> }) {
+  const { isChinese } = useLanguage();
   const report = firstText(
     result.impression,
     result.report_text,
@@ -263,16 +268,16 @@ function ImagingNodeContent({ caseId, result }: { caseId: string; result: Record
     result.text,
   );
   const asset = firstText(result.media_asset);
-  const caption = firstText(result.caption) ?? '源病例中配对发布的检查报告图像';
+  const caption = firstText(result.caption) ?? (isChinese ? '源病例中配对发布的检查报告图像' : 'Image published with the source case');
   return (
     <div className="temporal-imaging-content">
-      {asset ? <figure className="temporal-source-image"><NextImage alt={caption} height={900} src={`${API_BASE}/temporal/media/${encodeURIComponent(caseId)}/${encodeURIComponent(asset)}`} unoptimized width={1200} /><figcaption>{caption}</figcaption></figure> : <section className="temporal-image-unavailable"><ImageOff /><span><b>当前源数据没有影像像素文件</b><small>本地 Case 仅含报告文本，没有可渲染的 DICOM、JPG 或 PNG；系统不会用示意图冒充患者影像。</small></span></section>}
+      {asset ? <figure className="temporal-source-image"><NextImage alt={caption} height={900} src={`${API_BASE}/temporal/media/${encodeURIComponent(caseId)}/${encodeURIComponent(asset)}`} unoptimized width={1200} /><figcaption>{caption}</figcaption></figure> : <section className="temporal-image-unavailable"><ImageOff /><span><b>{isChinese ? '当前源数据没有影像像素文件' : 'No image pixels are available in the source data'}</b><small>{isChinese ? '本地 Case 仅含报告文本，没有可渲染的 DICOM、JPG 或 PNG；系统不会用示意图冒充患者影像。' : 'This case contains report text only. The system does not substitute illustrative images for patient imaging.'}</small></span></section>}
       <section className="temporal-imaging-report">
         <small>RADIOLOGY IMPRESSION / SOURCE NARRATIVE</small>
-        <p>{report ?? '该节点没有可用的报告正文。'}</p>
+        <p>{report ?? (isChinese ? '该节点没有可用的报告正文。' : 'No report narrative is available for this node.')}</p>
       </section>
       <details>
-        <summary>查看原始影像字段</summary>
+        <summary>{isChinese ? '查看原始影像字段' : 'View source imaging fields'}</summary>
         <pre>{JSON.stringify(result, null, 2)}</pre>
       </details>
     </div>
@@ -280,6 +285,7 @@ function ImagingNodeContent({ caseId, result }: { caseId: string; result: Record
 }
 
 function DiagnosisNodeContent({ diagnosis, result }: { diagnosis: string; result: Record<string, unknown> }) {
+  const { isChinese } = useLanguage();
   const codes = asRecord(result.diagnosis_codes);
   const icd10 = firstText(codes.icd10);
   const icd9 = firstText(codes.icd9);
@@ -306,12 +312,12 @@ function DiagnosisNodeContent({ diagnosis, result }: { diagnosis: string; result
       </section>
       {supporting.length > 0 && (
         <details>
-          <summary>来源记录中的相关诊断 · {supporting.length}</summary>
+          <summary>{isChinese ? '来源记录中的相关诊断' : 'Related diagnoses in source record'} · {supporting.length}</summary>
           <ol>{supporting.map((value, index) => <li key={`${value}-${index}`}>{value}</li>)}</ol>
         </details>
       )}
       <details>
-        <summary>查看完整诊断字段</summary>
+        <summary>{isChinese ? '查看完整诊断字段' : 'View complete diagnosis fields'}</summary>
         <pre>{JSON.stringify(result, null, 2)}</pre>
       </details>
     </div>

@@ -14,10 +14,12 @@ import {
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { api } from '@/lib/api';
+import { useLanguage } from '@/features/i18n/language-context';
 import type { CaseTreeAudit } from './case-tree-types';
 import { GroundTruthTree } from './ground-truth-tree';
 
 export function ResearchDashboard({ selectedCaseId }: { selectedCaseId: string }) {
+  const { isChinese } = useLanguage();
   const [audit, setAudit] = useState<CaseTreeAudit | null>(null);
   const [highlightedNodeId, setHighlightedNodeId] = useState('');
   const [error, setError] = useState('');
@@ -49,12 +51,12 @@ export function ResearchDashboard({ selectedCaseId }: { selectedCaseId: string }
       {audit ? (
         <section className="case-audit-grid">
           <AuditPanel
-            eyebrow="1 · Source"
+            eyebrow={isChinese ? '1 · 原始数据' : '1 · Source'}
             icon={<Database />}
-            title="原始病例数据"
+            title={isChinese ? '原始病例数据' : 'Source case data'}
           >
             <div className="audit-file-meta">
-              <span>Unparsed source row</span>
+              <span>{isChinese ? '未解析源记录' : 'Unparsed source row'}</span>
               <code>
                 {audit.raw_case.provenance.source_task_id ??
                   audit.raw_case.provenance.source_encounter_id ??
@@ -72,12 +74,12 @@ export function ResearchDashboard({ selectedCaseId }: { selectedCaseId: string }
           </AuditPanel>
 
           <AuditPanel
-            eyebrow="2 · Transform"
+            eyebrow={isChinese ? '2 · 转换' : '2 · Transform'}
             icon={<Braces />}
             title={
               audit.manifest_entry.case_type === 'WORKFLOW_FOREST'
-                ? '规范化 Workflow Tree'
-                : '规范化 Case Tree'
+                ? (isChinese ? '规范化 Workflow Tree' : 'Normalized workflow tree')
+                : (isChinese ? '规范化 Case Tree' : 'Normalized case tree')
             }
           >
             <JsonDocument
@@ -91,12 +93,12 @@ export function ResearchDashboard({ selectedCaseId }: { selectedCaseId: string }
           </AuditPanel>
 
           <AuditPanel
-            eyebrow="3 · Visual QA"
+            eyebrow={isChinese ? '3 · 可视化质检' : '3 · Visual QA'}
             icon={<GitBranch />}
             title={
               audit.manifest_entry.case_type === 'WORKFLOW_FOREST'
-                ? 'Ground-truth 工作流树'
-                : 'Ground-truth 诊断树'
+                ? (isChinese ? 'Ground-truth 工作流树' : 'Ground-truth workflow tree')
+                : (isChinese ? 'Ground-truth 诊断树' : 'Ground-truth diagnostic tree')
             }
           >
             <GroundTruthTree
@@ -110,7 +112,7 @@ export function ResearchDashboard({ selectedCaseId }: { selectedCaseId: string }
       ) : (
         <section className="audit-empty">
           <FileJson2 />
-          <b>{error || '正在读取病例'}</b>
+          <b>{error || (isChinese ? '正在读取病例' : 'Loading case')}</b>
         </section>
       )}
       <span aria-live="polite" className="sr-only">{liveMessage}</span>
@@ -160,17 +162,20 @@ export function JsonDocument({
   onNodeSelect?: (nodeId: string) => void;
   selectedNodeId?: string;
 }) {
+  const { isChinese } = useLanguage();
   const content = JSON.stringify(value, null, 2);
   const [collapsedPaths, setCollapsedPaths] = useState<Set<string>>(
     () => new Set(),
   );
   async function copy() {
     await navigator.clipboard.writeText(content);
-    onNotice(`${filename} copied to clipboard.`);
+    onNotice(
+      isChinese ? `${filename} 已复制到剪贴板。` : `${filename} copied to clipboard.`,
+    );
   }
   const rows = useMemo(
-    () => flattenJson(value, evidenceLabels),
-    [evidenceLabels, value],
+    () => flattenJson(value, evidenceLabels, isChinese),
+    [evidenceLabels, isChinese, value],
   );
   const visibleRows = useMemo(
     () =>
@@ -202,7 +207,7 @@ export function JsonDocument({
               <Code2 /> JSON
             </TabsTrigger>
             <TabsTrigger value="table">
-              <Rows3 /> 结构化表格
+              <Rows3 /> {isChinese ? '结构化表格' : 'Table'}
             </TabsTrigger>
           </TabsList>
           <button onClick={() => void copy()} type="button">
@@ -217,8 +222,8 @@ export function JsonDocument({
         <table>
           <thead>
             <tr>
-              <th>字段 / 序号</th>
-              <th>内容</th>
+              <th>{isChinese ? '字段 / 序号' : 'Field / index'}</th>
+              <th>{isChinese ? '内容' : 'Value'}</th>
             </tr>
           </thead>
           <tbody>
@@ -236,7 +241,7 @@ export function JsonDocument({
                     {row.container ? (
                       <button
                         aria-expanded={!collapsedPaths.has(row.path)}
-                        aria-label={`${collapsedPaths.has(row.path) ? '展开' : '收起'} ${row.key}`}
+                        aria-label={`${collapsedPaths.has(row.path) ? (isChinese ? '展开' : 'Expand') : (isChinese ? '收起' : 'Collapse')} ${row.key}`}
                         className="json-disclosure"
                         onClick={() => togglePath(row.path)}
                         type="button"
@@ -254,7 +259,7 @@ export function JsonDocument({
                       <button
                         className="json-node-link"
                         onClick={() => onNodeSelect(row.linkedNodeId!)}
-                        title={`在右侧树中定位 ${row.linkedNodeId}`}
+                        title={`${isChinese ? '在右侧树中定位' : 'Locate in tree'} ${row.linkedNodeId}`}
                         type="button"
                       >
                         <code>{row.key}</code>
@@ -307,6 +312,7 @@ type StructuredRow = {
 function flattenJson(
   value: unknown,
   evidenceLabels: Record<string, string> = {},
+  isChinese = false,
 ): StructuredRow[] {
   const rows: StructuredRow[] = [];
 
@@ -330,7 +336,9 @@ function flattenJson(
           path,
           depth,
           value: normalized.length
-            ? `${embedded ? '由字符串解析 · ' : ''}${normalized.length} 项`
+            ? isChinese
+              ? `${embedded ? '由字符串解析 · ' : ''}${normalized.length} 项`
+              : `${embedded ? 'Parsed from string · ' : ''}${normalized.length} items`
             : '[]',
           container: true,
           ancestors,
@@ -384,7 +392,9 @@ function flattenJson(
           path,
           depth,
           value: entries.length
-            ? `${embedded ? '由字符串解析 · ' : ''}${entries.length} 个字段`
+            ? isChinese
+              ? `${embedded ? '由字符串解析 · ' : ''}${entries.length} 个字段`
+              : `${embedded ? 'Parsed from string · ' : ''}${entries.length} fields`
             : '{}',
           container: true,
           ancestors,

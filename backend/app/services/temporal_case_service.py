@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Dict
 
 from backend.app.domain.temporal import TemporalCase
+from backend.app.services.localization_service import localize_payload
 from etl.common import load_json, path_from_root
 
 
@@ -42,8 +43,8 @@ class TemporalCaseService:
         self._manifest["status"] = "READY"
         self._entries = {item["case_id"]: item for item in self._manifest["cases"]}
 
-    def manifest(self) -> dict:
-        return self._manifest
+    def manifest(self, locale: str | None = None) -> dict:
+        return localize_payload(self._manifest, locale)
 
     def get(self, case_id: str) -> TemporalCase:
         if case_id in self._cache:
@@ -56,12 +57,12 @@ class TemporalCaseService:
         self._cache[case_id] = case
         return case
 
-    def detail(self, case_id: str) -> dict:
+    def detail(self, case_id: str, locale: str | None = None) -> dict:
         case = self.get(case_id)
-        return {
+        return localize_payload({
             "manifest_entry": self._entries[case_id],
             "case": case.model_dump(mode="json"),
-        }
+        }, locale)
 
     def public_media_path(self, case_id: str, asset_name: str) -> Path:
         """Resolve an explicitly public case asset without exposing bundle paths."""

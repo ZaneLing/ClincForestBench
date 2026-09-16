@@ -6,6 +6,7 @@ import { ChevronRight, Database, Microscope, Stethoscope } from 'lucide-react';
 import { api } from '@/lib/api';
 import type { TemporalManifest } from '@/features/temporal/types';
 import { TemporalCaseInspector } from '@/features/temporal/temporal-case-inspector';
+import { useLanguage } from '@/features/i18n/language-context';
 import type { CaseTreeManifest } from './case-tree-types';
 import { ResearchDashboard } from './research-dashboard';
 
@@ -18,6 +19,7 @@ type UnifiedCaseEntry = {
 };
 
 export function ResearchRoot() {
+  const { isChinese } = useLanguage();
   const [entries, setEntries] = useState<UnifiedCaseEntry[]>([]);
   const [dataset, setDataset] = useState('');
   const [entryKey, setEntryKey] = useState('');
@@ -97,12 +99,12 @@ export function ResearchRoot() {
           <span><Microscope /></span>
           <div>
             <small>ClincForestBench · Case Inspector</small>
-            <h1>病例转换与 Ground-truth 树</h1>
+            <h1>{isChinese ? '病例转换与 Ground-truth 树' : 'Case conversion and ground-truth trees'}</h1>
           </div>
         </div>
         <div className="unified-case-selectors">
           <label htmlFor="unified-dataset-picker">
-            <span><Database />数据集</span>
+            <span><Database />{isChinese ? '数据集' : 'Dataset'}</span>
             <select
               disabled={!entries.length}
               id="unified-dataset-picker"
@@ -128,7 +130,7 @@ export function ResearchRoot() {
             </select>
           </label>
           <Link className="audit-nav-link" href="/arena">
-            进入 Arena <ChevronRight />
+            {isChinese ? '进入 Arena' : 'Open Arena'} <ChevronRight />
           </Link>
         </div>
       </header>
@@ -141,7 +143,7 @@ export function ResearchRoot() {
         ) : selected ? (
           <ResearchDashboard key={selected.key} selectedCaseId={selected.caseId} />
         ) : (
-          <section className="audit-empty"><Database /><b>正在读取病例索引</b></section>
+          <section className="audit-empty"><Database /><b>{isChinese ? '正在读取病例索引' : 'Loading case index'}</b></section>
         )}
       </section>
     </main>

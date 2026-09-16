@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Background,
   BackgroundVariant,
@@ -38,6 +38,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { api } from '@/lib/api';
+import { useLanguage } from '@/features/i18n/language-context';
 import type {
   TemporalCase,
   TemporalCaseDetail,
@@ -55,6 +56,7 @@ type TemporalFlowNode = Node<FlowData, 'temporalNode'>;
 const nodeTypes = { temporalNode: TemporalNode };
 
 export function TemporalDashboard() {
+  const { isChinese } = useLanguage();
   const [manifest, setManifest] = useState<TemporalManifest | null>(null);
   const [detail, setDetail] = useState<TemporalCaseDetail | null>(null);
   const [dataset, setDataset] = useState('ALL');
@@ -62,12 +64,12 @@ export function TemporalDashboard() {
   const [currentTime, setCurrentTime] = useState(0);
   const [selectedNodeId, setSelectedNodeId] = useState('');
   const [playing, setPlaying] = useState(false);
-  const [notice, setNotice] = useState('正在读取本地 Temporal v2 MVP…');
+  const [notice, setNotice] = useState(isChinese ? '正在读取本地 Temporal v2 MVP…' : 'Loading local Temporal v2 MVP…');
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  async function loadCase(nextCaseId: string) {
+  const loadCase = useCallback(async (nextCaseId: string) => {
     setPlaying(false);
-    setNotice('正在组装真实时间事件…');
+    setNotice(isChinese ? '正在组装真实时间事件…' : 'Assembling observed temporal events…');
     try {
       const next = await api<TemporalCaseDetail>(
         `/research/temporal/cases/${nextCaseId}`,
@@ -82,12 +84,12 @@ export function TemporalDashboard() {
         )?.node_id ?? next.case.temporal_graph.root_id,
       );
       setNotice(
-        `${nextCaseId} · ${next.case.timeline_events.length} 个真实事件 · 0 个合成结果`,
+        `${nextCaseId} · ${next.case.timeline_events.length} ${isChinese ? '个真实事件 · 0 个合成结果' : 'observed events · 0 synthetic results'}`,
       );
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'Case 读取失败');
+      setNotice(error instanceof Error ? error.message : (isChinese ? 'Case 读取失败' : 'Failed to load case'));
     }
-  }
+  }, [isChinese]);
 
   useEffect(() => {
     void api<TemporalManifest>('/research/temporal/cases', {
@@ -96,7 +98,7 @@ export function TemporalDashboard() {
       .then(async (nextManifest) => {
         setManifest(nextManifest);
         if (!nextManifest.cases.length) {
-          setNotice('Temporal v2 尚未生成，请先运行 make preprocess-temporal。');
+          setNotice(isChinese ? 'Temporal v2 尚未生成，请先运行 make preprocess-temporal。' : 'Temporal v2 has not been built. Run make preprocess-temporal first.');
           return;
         }
         await loadCase(nextManifest.cases[0].case_id);
@@ -105,7 +107,7 @@ export function TemporalDashboard() {
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, []);
+  }, [isChinese, loadCase]);
 
   const caseData = detail?.case ?? null;
   const thresholds = useMemo(
@@ -166,9 +168,9 @@ export function TemporalDashboard() {
         <div>
           <FileClock />
           <p>Temporal Forest v2</p>
-          <h1>本地受控数据尚未转换</h1>
+          <h1>{isChinese ? '本地受控数据尚未转换' : 'Controlled local data has not been converted'}</h1>
           <span>
-            运行 <code>{manifest.build_command}</code> 后，本页面会读取 15 个本地 MVP Case。
+            {isChinese ? '运行' : 'Run'} <code>{manifest.build_command}</code> {isChinese ? '后，本页面会读取本地 MVP Case。' : 'to build the local MVP cases.'}
           </span>
         </div>
       </main>
@@ -182,12 +184,12 @@ export function TemporalDashboard() {
           <span><BrainCircuit /></span>
           <div>
             <small>ClincForestBench · Temporal Forest v2</small>
-            <h1>真实时间驱动的动态诊断树</h1>
+            <h1>{isChinese ? '真实时间驱动的动态诊断树' : 'Observed-time dynamic diagnostic tree'}</h1>
           </div>
         </div>
         <div className="temporal-controls">
           <label>
-            <span>数据源</span>
+            <span>{isChinese ? '数据源' : 'Dataset'}</span>
             <select
               onChange={(event) => {
                 const value = event.target.value;
@@ -199,7 +201,7 @@ export function TemporalDashboard() {
               }}
               value={dataset}
             >
-              <option value="ALL">全部 · {manifest?.case_count ?? 0}</option>
+              <option value="ALL">{isChinese ? '全部' : 'All'} · {manifest?.case_count ?? 0}</option>
               {Object.entries(manifest?.dataset_case_counts ?? {}).map(
                 ([name, count]) => (
                   <option key={name} value={name}>{name} · {count}</option>
@@ -229,18 +231,18 @@ export function TemporalDashboard() {
       <section className="temporal-player-bar">
         <div className="temporal-play-buttons">
           <Button
-            aria-label="从头播放"
+            aria-label={isChinese ? '从头播放' : 'Replay from start'}
             onClick={() => { setCurrentTime(0); setPlaying(true); }}
             size="icon"
             variant="outline"
           ><RotateCcw /></Button>
           <Button
-            aria-label={playing ? '暂停' : '播放'}
+            aria-label={playing ? (isChinese ? '暂停' : 'Pause') : (isChinese ? '播放' : 'Play')}
             onClick={() => setPlaying((value) => !value)}
             size="icon"
           >{playing ? <Pause /> : <Play />}</Button>
           <Button
-            aria-label="下一时间节点"
+            aria-label={isChinese ? '下一时间节点' : 'Next time point'}
             onClick={stepForward}
             size="icon"
             variant="outline"
@@ -250,7 +252,7 @@ export function TemporalDashboard() {
           <Clock3 /><b>{formatTime(currentTime)}</b><span>/ {formatTime(maxTime)}</span>
         </div>
         <Slider
-          aria-label="临床时间"
+          aria-label={isChinese ? '临床时间' : 'Clinical time'}
           className="temporal-slider"
           max={Math.max(maxTime, 1)}
           min={0}
@@ -275,7 +277,7 @@ export function TemporalDashboard() {
         <aside className="temporal-ledger">
           <header>
             <History />
-            <span><small>EVENT LEDGER</small><b>真实事件账本</b></span>
+            <span><small>EVENT LEDGER</small><b>{isChinese ? '真实事件账本' : 'Observed event ledger'}</b></span>
           </header>
           <div className="temporal-ledger-body">
             {(caseData?.timeline_events ?? []).map((event) => {
@@ -289,7 +291,7 @@ export function TemporalDashboard() {
                     : 'future';
               return (
                 <button
-                  aria-label={`查看 ${event.clinical_concept.display}`}
+                  aria-label={`${isChinese ? '查看' : 'Inspect'} ${event.clinical_concept.display}`}
                   className={`temporal-ledger-row is-${status}`}
                   key={event.event_id}
                   onClick={() =>
@@ -336,12 +338,12 @@ export function TemporalDashboard() {
           )}
           <div className="temporal-legend">
             <Legend tone="context" label="S0" />
-            <Legend tone="lab" label="化验" />
-            <Legend tone="imaging" label="影像" />
+            <Legend tone="lab" label={isChinese ? '化验' : 'Lab'} />
+            <Legend tone="imaging" label={isChinese ? '影像' : 'Imaging'} />
             <Legend tone="ecg" label="ECG" />
-            <Legend tone="pending" label="等待结果" />
-            <Legend tone="intervention" label="状态改变干预" />
-            <Legend tone="reference" label="回顾性参考" />
+            <Legend tone="pending" label={isChinese ? '等待结果' : 'Pending'} />
+            <Legend tone="intervention" label={isChinese ? '状态改变干预' : 'Intervention'} />
+            <Legend tone="reference" label={isChinese ? '回顾性参考' : 'Reference'} />
           </div>
         </section>
 
@@ -350,7 +352,7 @@ export function TemporalDashboard() {
             <Stethoscope />
             <span>
               <small>STATE @ {formatTime(currentTime)}</small>
-              <b>节点与时间语义</b>
+              <b>{isChinese ? '节点与时间语义' : 'Node and timing semantics'}</b>
             </span>
           </header>
           <div className="temporal-inspector-body">
@@ -369,7 +371,7 @@ export function TemporalDashboard() {
                   </span>
                   <div>
                     <small>{selectedNode?.node_type ?? 'STATE'}</small>
-                    <b>{selectedNode?.label ?? '选择一个节点'}</b>
+                    <b>{selectedNode?.label ?? (isChinese ? '选择一个节点' : 'Select a node')}</b>
                     <span>{selectedNode?.subtitle}</span>
                   </div>
                 </div>
@@ -412,18 +414,18 @@ export function TemporalDashboard() {
                   </button>
                 ))
               ) : (
-                <p>当前没有等待中的结果。</p>
+                <p>{isChinese ? '当前没有等待中的结果。' : 'No results are currently pending.'}</p>
               )}
             </section>
 
             <section className="temporal-quality-card">
-              <div><TriangleAlert /><b>时间质量与边界</b></div>
+              <div><TriangleAlert /><b>{isChinese ? '时间质量与边界' : 'Temporal quality and limits'}</b></div>
               <p>
                 <span>Anchor</span>
                 <b>{String(caseData?.temporal_quality.anchor_confidence ?? '—')}</b>
               </p>
               <p>
-                <span>核心事件</span>
+                <span>{isChinese ? '核心事件' : 'Core events'}</span>
                 <b>
                   {String(
                     caseData?.temporal_quality.core_event_minimum_confidence ??
@@ -436,14 +438,14 @@ export function TemporalDashboard() {
               ))}
             </section>
             {detail?.trajectory_evaluation && <section className="temporal-case-evaluation-card">
-              <div><GitBranch /><b>此 Case 的轨迹评估</b><span>{detail.trajectory_evaluation.completed_trajectory_count} runs</span></div>
+              <div><GitBranch /><b>{isChinese ? '此 Case 的轨迹评估' : 'Case trajectory evaluation'}</b><span>{detail.trajectory_evaluation.completed_trajectory_count} runs</span></div>
               {detail.trajectory_evaluation.status === 'READY' ? <div className="temporal-case-evaluation-grid">
-                <span><small>Top-1</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.exact_top1_accuracy)}</b></span>
-                <span><small>GT 节点重合</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.mean_recorded_action_overlap_rate)}</b></span>
-                <span><small>证据揭示</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.mean_source_evidence_reveal_coverage)}</b></span>
-                <span><small>错误早停</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.premature_finalization_proxy_rate)}</b></span>
-              </div> : <p>还没有完成轨迹；评估协议已经绑定，完成后自动计算。</p>}
-              <details><summary>指标口径与解释限制</summary><div>{detail.trajectory_evaluation.metric_definitions.map((item) => <p key={item.key}><b>{item.label}</b><span>{item.description}</span></p>)}{detail.trajectory_evaluation.interpretation_limits.map((item) => <em key={item}>{item}</em>)}</div></details>
+                <span><small>Top-1</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.exact_top1_accuracy, isChinese)}</b></span>
+                <span><small>{isChinese ? 'GT 节点重合' : 'GT overlap'}</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.mean_recorded_action_overlap_rate, isChinese)}</b></span>
+                <span><small>{isChinese ? '证据揭示' : 'Evidence reveal'}</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.mean_source_evidence_reveal_coverage, isChinese)}</b></span>
+                <span><small>{isChinese ? '错误早停' : 'Premature stop'}</small><b>{evaluationPercent(detail.trajectory_evaluation.aggregate.premature_finalization_proxy_rate, isChinese)}</b></span>
+              </div> : <p>{isChinese ? '还没有完成轨迹；评估协议已经绑定，完成后自动计算。' : 'No completed trajectories yet; metrics are computed after completion.'}</p>}
+              <details><summary>{isChinese ? '指标口径与解释限制' : 'Metric definitions and interpretation limits'}</summary><div>{detail.trajectory_evaluation.metric_definitions.map((item) => <p key={item.key}><b>{item.label}</b><span>{item.description}</span></p>)}{detail.trajectory_evaluation.interpretation_limits.map((item) => <em key={item}>{item}</em>)}</div></details>
             </section>}
           </div>
         </aside>
@@ -630,17 +632,18 @@ function TimeFacts({
   node: TemporalGraphNode;
   event?: TemporalEvent;
 }) {
+  const { isChinese } = useLanguage();
   return (
     <div className="temporal-time-facts">
-      <span><small>节点时间</small><b>{formatTime(node.game_time_min)}</b></span>
-      <span><small>置信度</small><b>{node.temporal_confidence}</b></span>
+      <span><small>{isChinese ? '节点时间' : 'Node time'}</small><b>{formatTime(node.game_time_min)}</b></span>
+      <span><small>{isChinese ? '置信度' : 'Confidence'}</small><b>{node.temporal_confidence}</b></span>
       {event && (
         <>
-          <span><small>下单</small><b>{nullableTime(event.time.relative_order_min)}</b></span>
-          <span><small>采集</small><b>{nullableTime(event.time.relative_acquired_min)}</b></span>
-          <span><small>可见</small><b>{nullableTime(event.time.relative_available_min)}</b></span>
+          <span><small>{isChinese ? '下单' : 'Ordered'}</small><b>{nullableTime(event.time.relative_order_min, isChinese)}</b></span>
+          <span><small>{isChinese ? '采集' : 'Acquired'}</small><b>{nullableTime(event.time.relative_acquired_min, isChinese)}</b></span>
+          <span><small>{isChinese ? '可见' : 'Available'}</small><b>{nullableTime(event.time.relative_available_min, isChinese)}</b></span>
           <span>
-            <small>重放</small>
+            <small>{isChinese ? '重放' : 'Replay'}</small>
             <b>{event.arena.temporal_replay_mode.replaceAll('_', ' ')}</b>
           </span>
         </>
@@ -678,8 +681,8 @@ function firstNumber(...values: Array<number | null | undefined>) {
   return values.find((value): value is number => typeof value === 'number') ?? 0;
 }
 
-function nullableTime(value?: number | null) {
-  return typeof value === 'number' ? formatTime(value) : '未提供';
+function nullableTime(value: number | null | undefined, isChinese: boolean) {
+  return typeof value === 'number' ? formatTime(value) : (isChinese ? '未提供' : 'Not provided');
 }
 
 function formatTime(value: number) {
@@ -735,6 +738,6 @@ function humanize(value: string) {
     .replace(/^./, (letter) => letter.toUpperCase());
 }
 
-function evaluationPercent(value: number | null | undefined) {
-  return typeof value === 'number' ? `${Math.round(value * 100)}%` : '待生成';
+function evaluationPercent(value: number | null | undefined, isChinese: boolean) {
+  return typeof value === 'number' ? `${Math.round(value * 100)}%` : (isChinese ? '待生成' : 'Pending');
 }

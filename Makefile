@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON := .venv/bin/python
 NODE_BIN := $(CURDIR)/.tools/node/bin
 
-.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp validate-temporal-sources preprocess-all test validate api web demo db-up db-down migrate
+.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp translate-cases validate-temporal-sources preprocess-all test validate api web demo db-up db-down migrate
 
 setup: venv node frontend-install
 
@@ -39,6 +39,9 @@ preprocess-temporal:
 
 preprocess-interaction-mvp:
 	$(VENV_PYTHON) -m etl.build_interaction_mvp
+
+translate-cases:
+	$(VENV_PYTHON) tools/build_case_translations.py
 
 preprocess-all: preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp
 
