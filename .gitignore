@@ -34,6 +34,15 @@ dataset/**/*.csv
 dataset/**/*.csv.gz
 dataset/**/*.zip
 dataset/**/*.xml
+dataset/**/*.jsonl
+dataset/**/*.xlsx
+dataset/**/*.tar
+dataset/**/*.tar.gz
+dataset/**/*.tgz
+dataset/**/*.zst
+dataset/**/*.sqlite
+dataset/**/*.db
+dataset/SHA256SUMS.local.txt
 dataset/restricted/**
 !dataset/restricted/README.md
 !dataset/restricted/*/

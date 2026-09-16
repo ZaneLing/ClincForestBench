@@ -1,6 +1,6 @@
 # ClincForestBench
 
-This repository is the runnable structure described in [Guidance.md](docs/guides/Guidance.md), [Guidance2.md](docs/guides/Guidance2.md), and the [Temporal Forest v2 guide](ClincForestBench_Temporal_Forest_v2_Guide.md): one deterministic Arena spanning classic diagnosis/workflow tracks, time-aware EHR and narrative cases, plus consultation, persona, longitudinal-memory, and expert-action-reference MVPs.
+This repository is the runnable structure described in [Guidance.md](docs/guides/Guidance.md), [Guidance2.md](docs/guides/Guidance2.md), and the [Temporal Forest v2 guide](docs/guides/Temporal_Forest_v2_Guide.md): one deterministic Arena spanning classic diagnosis/workflow tracks, time-aware EHR and narrative cases, plus consultation, persona, longitudinal-memory, and expert-action-reference MVPs.
 
 ## What is already wired
 
@@ -100,13 +100,18 @@ The Python virtual environment and project-local Node runtime are isolated from 
 
 ```bash
 make setup
+make download-data
 make preprocess-ddxplus
 make preprocess-guidance2
 make preprocess-temporal
-make download-interaction-mvp
 make preprocess-interaction-mvp
 make test
 ```
+
+`make download-data` is the reproducible public-data entry point. It restores
+the large Git-ignored core datasets and the interaction MVP slice. Use
+`./download_data.sh --help` for smaller profiles and the explicit,
+credential-gated PhysioNet mode. See [data setup](docs/data_setup.md).
 
 Start the two development processes in separate terminals:
 
@@ -117,7 +122,10 @@ make web
 
 Open `http://localhost:3000`. API docs are at `http://localhost:8000/docs`. The local research key defaults to `local-research-only`; replace it with `RESEARCH_API_KEY` before shared use.
 
-Model Test also requires `OPENROUTER_API_KEY` in either the project `.env` or `test/.env`. The secret is loaded only by FastAPI; the status endpoint exposes only whether it is configured.
+Model Test also requires `OPENROUTER_API_KEY` in the project `.env`. The
+standalone API probes use `tools/api_smoke/.env`. Neither file is tracked. The
+secret is loaded only by FastAPI; the status endpoint exposes only whether it
+is configured.
 
 Choose `Enter the Arena`, then register a throwaway doctor account before selecting a dataset and case. The SQLite database created by `make api` is `data/clincforestbench.db`.
 
@@ -151,7 +159,11 @@ docker compose up --build
 
 ## Repository and local-data layout
 
-Source code, configurations, migrations, tests, documentation, and small redistributable metadata are version controlled. Downloaded datasets live under `dataset/`, generated artifacts under `data/`, local model payloads under `model/`, and runnable API probes under `test/`.
+Source code, configurations, migrations, tests, documentation, and small
+redistributable metadata are version controlled. Downloaded datasets live
+under `dataset/`, generated artifacts under `data/`, local model payloads under
+`model/`, operational scripts under `scripts/`, and standalone API probes
+under `tools/api_smoke/`. See the complete [repository layout](docs/repository_layout.md).
 
 Credentialed clinical datasets are organized locally under `dataset/restricted/`: MC-MED v1.0.1, eICU-CRD v2.0, MIMIC-IV v3.1, MIMIC-IV-Note v2.2, MIMIC-IV-ED v2.2, and the local MIMIC-IV-ECG table snapshot. Their patient-level CSV/GZIP payloads and all record-level Temporal derivatives are deliberately excluded from Git. Only source notes, supplied license/checksum files, and non-patient schema metadata may be committed. See [the restricted-data catalog](dataset/restricted/README.md).
 

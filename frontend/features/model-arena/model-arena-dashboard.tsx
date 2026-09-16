@@ -114,7 +114,7 @@ export function ModelArenaDashboard() {
         setNotice(
           nextStatus.configured
             ? ''
-            : '后端未读取到 OPENROUTER_API_KEY，请检查 test/.env。',
+            : '后端未读取到 OPENROUTER_API_KEY，请检查项目 .env 或 tools/api_smoke/.env。',
         );
       })
       .catch((error: Error) => {
@@ -619,7 +619,7 @@ function ModelRunSetup({
 
       {notice && <div className="model-setup-notice"><CircleAlert /> {notice}</div>}
       <footer className="model-setup-footer">
-        <KeyRound /> API Key 只由后端从 test/.env 读取，不会发送给浏览器或写入回合记录。
+        <KeyRound /> API Key 只由后端从本地 .env 读取，不会发送给浏览器或写入回合记录。
       </footer>
     </main>
   );

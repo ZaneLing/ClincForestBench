@@ -1,7 +1,7 @@
 # Temporal Forest v2 MVP status
 
 This implementation follows
-[`ClincForestBench_Temporal_Forest_v2_Guide.md`](../ClincForestBench_Temporal_Forest_v2_Guide.md)
+[`Temporal_Forest_v2_Guide.md`](guides/Temporal_Forest_v2_Guide.md)
 for the first local restricted-data slice.
 
 | Guide phase | MVP implementation |

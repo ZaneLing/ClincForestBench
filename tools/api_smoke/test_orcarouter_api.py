@@ -27,7 +27,7 @@ def main() -> int:
         from openai import OpenAI
     except ImportError:
         print(
-            "错误：依赖未安装。请执行：python -m pip install -r test/requirements.txt",
+            "错误：依赖未安装。请执行：python -m pip install -r tools/api_smoke/requirements.txt",
             file=sys.stderr,
         )
         return 3

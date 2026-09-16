@@ -16,5 +16,5 @@ class Settings(BaseSettings):
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
     openrouter_timeout_seconds: int = 180
     model_config = SettingsConfigDict(
-        env_file=(".env", "test/.env"), extra="ignore"
+        env_file=(".env", "tools/api_smoke/.env"), extra="ignore"
     )

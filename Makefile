@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON := .venv/bin/python
 NODE_BIN := $(CURDIR)/.tools/node/bin
 
-.PHONY: setup venv node frontend-install download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp validate-temporal-sources preprocess-all test validate api web demo db-up db-down migrate
+.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp validate-temporal-sources preprocess-all test validate api web demo db-up db-down migrate
 
 setup: venv node frontend-install
 
@@ -12,13 +12,16 @@ venv:
 	$(VENV_PYTHON) -m pip install -e '.[dev]'
 
 node:
-	bash scripts/bootstrap_node.sh
+	bash scripts/dev/bootstrap_node.sh
 
 frontend-install: node
 	cd frontend && PATH="$(NODE_BIN):$$PATH" npm ci
 
+download-data:
+	bash download_data.sh
+
 download-interaction-mvp:
-	bash scripts/download_interaction_mvp.sh
+	bash scripts/data/download_interaction_mvp.sh
 
 preprocess-ddxplus:
 	$(VENV_PYTHON) -m etl.run_pipeline
@@ -53,7 +56,7 @@ web:
 	cd frontend && PATH="$(NODE_BIN):$$PATH" npm run dev
 
 demo:
-	$(VENV_PYTHON) scripts/demo_arena.py
+	$(VENV_PYTHON) scripts/demo/demo_arena.py
 
 db-up:
 	docker compose up -d postgres

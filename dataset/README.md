@@ -3,6 +3,26 @@
 Downloaded or refreshed through 2026-09-08. These files are research data,
 not a source of clinical advice.
 
+From a fresh clone, run `./download_data.sh` at the repository root to restore
+the public core datasets and interaction MVP source slice. Large payloads stay
+Git-ignored. Credentialed sources require the separate
+`./download_data.sh restricted` mode and independent PhysioNet authorization;
+see `docs/data_setup.md` for profiles and directory contracts.
+
+## Catalog by benchmark role
+
+| Category | Local datasets | Storage policy |
+| --- | --- | --- |
+| Synthetic diagnosis and EHR | `ddxplus/`, `synthea/` | small schemas/source notes tracked; bulk tables downloaded |
+| Agent workflow | `medagentbench/` | compact upstream task release tracked |
+| Narrative cases and references | `pmc_case_reports/`, `nejm_cpc/`, `clinical_guidelines/` | provenance and small query metadata tracked; corpora downloaded |
+| Consultation, persona, memory, rubrics | `interaction/` | provenance tracked; source rows and media downloaded locally |
+| Credentialed longitudinal/critical care | `restricted/` | licenses/checksums/schema notes tracked; all patient-level records local only |
+
+The physical directory names remain stable because ETL manifests use them as
+source contracts. New organizational categories are expressed here and in the
+download profiles rather than by hiding path changes inside adapters.
+
 ## `synthea/`
 
 Official Synthea CSV sample data with 1,171 synthetic patients. The original

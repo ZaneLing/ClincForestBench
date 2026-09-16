@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DATA_DIR="$ROOT_DIR/dataset/interaction"
+FORCE="${CFB_FORCE_DOWNLOAD:-0}"
 
 download() {
   local url="$1"
   local output="$2"
+  local partial="${output}.part"
   mkdir -p "$(dirname "$output")"
+  if [[ -s "$output" && "$FORCE" != "1" ]]; then
+    echo "[skip] ${output#$ROOT_DIR/}"
+    return
+  fi
+  [[ "$FORCE" == "1" ]] && rm -f "$partial"
+  echo "[download] ${output#$ROOT_DIR/}"
   curl --fail --location --retry 4 --retry-delay 2 --continue-at - \
-    --output "$output" "$url"
+    --output "$partial" "$url"
+  mv "$partial" "$output"
 }
 
 download_rows() {
@@ -18,15 +27,23 @@ download_rows() {
   local split="$3"
   local length="$4"
   local output="$5"
+  local partial="${output}.part"
   mkdir -p "$(dirname "$output")"
+  if [[ -s "$output" && "$FORCE" != "1" ]]; then
+    echo "[skip] ${output#$ROOT_DIR/}"
+    return
+  fi
+  [[ "$FORCE" == "1" ]] && rm -f "$partial"
+  echo "[download] ${output#$ROOT_DIR/}"
   curl --fail --location --retry 4 --get \
     --data-urlencode "dataset=$repo" \
     --data-urlencode "config=$config" \
     --data-urlencode "split=$split" \
     --data-urlencode "offset=0" \
     --data-urlencode "length=$length" \
-    --output "$output" \
+    --output "$partial" \
     "https://datasets-server.huggingface.co/rows"
+  mv "$partial" "$output"
 }
 
 download "https://huggingface.co/datasets/AQ-MedAI/PulseMind/raw/main/README.md" \
@@ -43,8 +60,10 @@ for file in patients.csv conversations.csv dimensions.csv conversations_messages
     "$DATA_DIR/medpi/$file"
 done
 
-if [[ -d "$DATA_DIR/patientsim/source/.git" ]]; then
+if [[ -d "$DATA_DIR/patientsim/source/.git" && "$FORCE" == "1" ]]; then
   git -C "$DATA_DIR/patientsim/source" pull --ff-only
+elif [[ -d "$DATA_DIR/patientsim/source/.git" ]]; then
+  echo "[skip] dataset/interaction/patientsim/source"
 elif [[ ! -e "$DATA_DIR/patientsim/source" ]]; then
   git clone --depth 1 https://github.com/dek924/PatientSim.git \
     "$DATA_DIR/patientsim/source"
@@ -70,9 +89,18 @@ download "https://huggingface.co/datasets/AQ-MedAI/MedDialogRubrics/raw/main/REA
 download "https://huggingface.co/datasets/AQ-MedAI/MedDialogRubrics/resolve/main/MedDialogRubrics_v1.xlsx" \
   "$DATA_DIR/meddialogrubrics/MedDialogRubrics_v1.xlsx"
 
+if command -v shasum >/dev/null 2>&1; then
+  checksum=(shasum -a 256)
+elif command -v sha256sum >/dev/null 2>&1; then
+  checksum=(sha256sum)
+else
+  echo "Neither shasum nor sha256sum is installed." >&2
+  exit 1
+fi
+
 find "$DATA_DIR" -type f ! -path '*/.git/*' ! -name 'SHA256SUMS.local.txt' -print0 \
   | sort -z \
-  | xargs -0 shasum -a 256 \
+  | xargs -0 "${checksum[@]}" \
   > "$DATA_DIR/SHA256SUMS.local.txt"
 
 echo "Interaction MVP sources downloaded to $DATA_DIR"

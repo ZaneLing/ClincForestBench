@@ -220,7 +220,7 @@ export function TemporalModelArenaDashboard() {
       const first = caseIndex.cases[0];
       setDataset(first?.dataset_name ?? '');
       setCaseId(first?.case_id ?? '');
-      setNotice(nextStatus.configured ? '' : '后端未读取到 OPENROUTER_API_KEY，请检查 test/.env。');
+      setNotice(nextStatus.configured ? '' : '后端未读取到 OPENROUTER_API_KEY，请检查项目 .env 或 tools/api_smoke/.env。');
       const requestedRun = new URLSearchParams(window.location.search).get('run');
       if (requestedRun && runIndex.runs.some((item) => item.run_id === requestedRun)) {
         setBusy(true);
@@ -377,7 +377,7 @@ function TemporalModelSetup({ activeRuns, busy, caseId, cases, completedRuns, da
       <article className="model-setup-card model-picker-card"><header><span>02</span><div><p>MODEL</p><h3>选择 OpenRouter 模型</h3></div></header><div className="model-search-box"><Search /><Input onChange={(event) => onQuery(event.target.value)} placeholder="搜索模型名或 ID" value={query} /></div><div className="openrouter-model-list">{models.map((item) => <button className={item.id === modelId ? 'is-selected' : ''} key={item.id} onClick={() => onModel(item.id)} type="button"><span>{item.id === modelId ? <CheckCircle2 /> : <Bot />}</span><div><b>{item.name}</b><small>{item.id}</small></div></button>)}</div></article>
       <article className="model-setup-card case-picker-card"><header><span>03</span><div><p>TEMPORAL CASE</p><h3>选择新数据集与病例</h3></div></header><div className="model-dataset-picker temporal-model-datasets">{datasets.map((name) => <button className={dataset === name ? 'is-selected' : ''} key={name} onClick={() => onDataset(name)} type="button"><Database /><b>{name}</b><small>{datasetCounts[name] ?? 0} cases · dynamic tree</small></button>)}</div><label className="model-case-select"><span><Stethoscope />Case</span><select onChange={(event) => onCase(event.target.value)} value={caseId}>{cases.map((item) => <option key={item.case_id} value={item.case_id}>{item.case_id} · {item.eligible_event_count} actions · T+{Math.round(item.max_time_min)}m</option>)}</select></label><div className="model-rule-strip"><span><b>30</b><small>动作硬上限</small></span><span><b>SYNC</b><small>模拟时间推进</small></span><span><b>1 JSON</b><small>每轮输出</small></span></div><Button className="model-launch-button" disabled={busy || !modelId || !caseId || !status?.configured} onClick={onStart}>{busy ? <RefreshCw className="animate-spin" /> : <Send />}{busy ? '正在创建…' : '开始自动模拟'}</Button></article>
     </section>
-    {notice && <div className="model-setup-notice"><CircleAlert />{notice}</div>}<footer className="model-setup-footer"><KeyRound />API Key 只从后端 test/.env 读取；受限病例与交互日志保持本地。</footer>
+    {notice && <div className="model-setup-notice"><CircleAlert />{notice}</div>}<footer className="model-setup-footer"><KeyRound />API Key 只从后端本地 .env 读取；受限病例与交互日志保持本地。</footer>
   </main>;
 }
 

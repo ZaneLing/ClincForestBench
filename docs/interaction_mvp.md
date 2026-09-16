@@ -19,7 +19,7 @@ those modules consume the shared Temporal manifest.
 
 ```bash
 make preprocess-temporal
-make download-interaction-mvp
+./download_data.sh interaction
 make preprocess-interaction-mvp
 ```
 
