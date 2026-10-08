@@ -1,5 +1,7 @@
 # ClincForestBench
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 A reproducible clinical decision benchmark that records how physicians and models acquire evidence, revise diagnoses, and build a shared forest of decision paths. Source-backed patient responses are deterministic; models choose actions but do not generate patient results.
 
 **Status: runnable research MVP; clinical adjudication and large-scale evaluation are still pending.** The current local manifests contain **188 Cases across 14 dataset tracks**. Generated patient-level artifacts are excluded from Git and must be rebuilt locally.
