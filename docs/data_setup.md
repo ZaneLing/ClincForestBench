@@ -53,7 +53,17 @@ PhysioNet serves those files.
 
 ## Build generated benchmark artifacts
 
-After data download and environment setup:
+For the public classic tracks (130 Cases), after downloading `core`:
+
+```bash
+make setup
+make preprocess-ddxplus
+make preprocess-guidance2
+```
+
+For the complete 188-Case local MVP, download both public profiles and obtain
+the credentialed sources first. The default `all` download alone does not
+provide the restricted inputs required by the Temporal builder:
 
 ```bash
 make setup
@@ -63,3 +73,11 @@ make validate
 
 Generated artifacts are written beneath `data/processed/` and can always be
 rebuilt from the source directories. They are not synchronized through Git.
+The full test suite expects the Temporal and interaction artifacts as well as
+the classic tracks. `make preprocess-all` builds the base Temporal manifest
+before merging the interaction slice. When rebuilding individual steps, run
+`make preprocess-interaction-mvp` again after `make preprocess-temporal`.
+
+The Node bootstrap used by `make setup` currently targets macOS. On other
+platforms, provide Node 22.13+ and install the Python and frontend dependencies
+directly. See the root [quick start](../README.md#quick-start).

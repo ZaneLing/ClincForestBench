@@ -1,5 +1,8 @@
 .DS_Store
 .env
+.env.*
+!.env.example
+.trae/
 .venv/
 .tools/
 __pycache__/

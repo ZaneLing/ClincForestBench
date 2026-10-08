@@ -8,7 +8,7 @@ case "$machine" in
   x86_64) node_arch="x64" ;;
   *) echo "Unsupported architecture: $machine" >&2; exit 1 ;;
 esac
-target=".tools/node-${node_version#v}-darwin-${node_arch}"
+target=".tools/node-${node_version}-darwin-${node_arch}"
 if [ ! -x "$target/bin/node" ]; then
   mkdir -p .tools
   temporary="$(mktemp -d)"
@@ -17,4 +17,3 @@ if [ ! -x "$target/bin/node" ]; then
 fi
 ln -sfn "$(basename "$target")" .tools/node
 .tools/node/bin/node --version
-
