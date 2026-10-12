@@ -5,6 +5,7 @@ installation, verification commands, and release boundaries.
 
 | Document | Use it for |
 | --- | --- |
+| [Visit protocol](encounter_protocol.md) / [中文](encounter_protocol.zh-CN.md) | Shared operation/inquiry libraries, required reasons, missing-result termination, diagnosis, prescriptions and mapping audits |
 | [Local development](development.md) | One-command startup, launcher options, logs, and validation |
 | [Application guide](application_guide.md) | Arena behavior, model rounds, case inspection, result comparison, exports, and localization |
 | [Data setup](data_setup.md) | Public/restricted download profiles and ordered artifact rebuilding |

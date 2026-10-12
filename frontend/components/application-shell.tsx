@@ -46,19 +46,25 @@ const navigation = [
   {
     href: '/model-arena',
     label: { en: 'Model testing', zh: '模型测试' },
-    detail: { en: 'Classic + Temporal autoplay', zh: '经典 + Temporal 自动游玩' },
+    detail: {
+      en: 'Classic + Temporal autoplay',
+      zh: '经典 + Temporal 自动游玩',
+    },
     icon: Bot,
   },
   {
-    href: '/temporal',
-    label: { en: 'Temporal Arena', zh: '时序竞技场' },
-    detail: { en: 'History, tests, time, diagnosis', zh: '问询、检查、时钟推进与诊断' },
+    href: '/temporal?mode=timeline',
+    label: { en: 'Source timeline', zh: '源轨迹回放' },
+    detail: {
+      en: 'Recorded clinical event timeline',
+      zh: '已记录的临床事件时间线',
+    },
     icon: FileClock,
   },
   {
     href: '/history',
     label: { en: 'Decision history', zh: '决策历史' },
-    detail: { en: 'Classic / Temporal decisions', zh: '经典 / Temporal 每轮判断' },
+    detail: { en: 'Visits, actions and reasons', zh: '就诊、操作与原因轨迹' },
     icon: History,
   },
   {
@@ -70,7 +76,7 @@ const navigation = [
   {
     href: '/forest',
     label: { en: 'Forest explorer', zh: '森林查看' },
-    detail: { en: 'Classic / Temporal cohorts', zh: '经典 / Temporal 群体统计' },
+    detail: { en: 'Action and rationale branches', zh: '操作与原因分支统计' },
     icon: Trees,
   },
   {
@@ -92,7 +98,13 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
   const { account, logout } = useAuth();
   const { isChinese } = useLanguage();
 
-  if (pathname === '/') return <><LanguageSwitcher />{children}</>;
+  if (pathname === '/')
+    return (
+      <>
+        <LanguageSwitcher />
+        {children}
+      </>
+    );
 
   return (
     <SidebarProvider className="bench-app-shell" defaultOpen>
@@ -113,12 +125,14 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
         <SidebarSeparator className="bg-cyan-100/10" />
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>{isChinese ? '系统导航' : 'Navigation'}</SidebarGroupLabel>
+            <SidebarGroupLabel>
+              {isChinese ? '系统导航' : 'Navigation'}
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {navigation.map((item) => {
                   const Icon = item.icon;
-                  const active = pathname.startsWith(item.href);
+                  const active = pathname.startsWith(item.href.split('?')[0]);
                   return (
                     <SidebarMenuItem key={item.href}>
                       <SidebarMenuButton
@@ -150,8 +164,18 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
               <UserRound />
             </span>
             <div>
-              <small>{account ? (isChinese ? '当前医生' : 'Current clinician') : (isChinese ? '医生账户' : 'Clinician account')}</small>
-              <b>{account?.username ?? (isChinese ? '未登录' : 'Signed out')}</b>
+              <small>
+                {account
+                  ? isChinese
+                    ? '当前医生'
+                    : 'Current clinician'
+                  : isChinese
+                    ? '医生账户'
+                    : 'Clinician account'}
+              </small>
+              <b>
+                {account?.username ?? (isChinese ? '未登录' : 'Signed out')}
+              </b>
             </div>
             {account && (
               <button
@@ -168,7 +192,8 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
           <div className="rounded-lg border border-cyan-200/10 bg-cyan-200/[0.04] px-3 py-2 group-data-[collapsible=icon]:hidden">
             <small className="block text-xs text-cyan-100/50">Dataset</small>
             <b className="mt-0.5 block text-xs font-medium text-cyan-50">
-              DDXPlus · Synthea · MedAgentBench · MIMIC · MC-MED · eICU · PMC · NEJM · consultation · persona · memory · rubric
+              DDXPlus · Synthea · MedAgentBench · MIMIC · MC-MED · eICU · PMC ·
+              NEJM · consultation · persona · memory · rubric
             </b>
           </div>
         </SidebarFooter>

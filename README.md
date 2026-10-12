@@ -55,6 +55,12 @@ MIMIC Note, ECG, and ED are linked modalities, not separately counted dataset tr
 
 ## Quick start
 
+The physician Arena now uses a unified Visit protocol: shared examination and
+inquiry libraries, required reasons at each step, persisted termination on a
+missing examination, diagnosis at any time, and optional post-diagnosis plans.
+The 188-case local inventory currently yields 309 operation and 397 inquiry
+items. See the [protocol and mapping guide](docs/encounter_protocol.md).
+
 ### 1. Install and build the public classic tracks
 
 The bundled bootstrap targets **macOS (Apple Silicon or Intel)** and installs a project-local Node runtime. Python **3.9+** is required. On other platforms, use a compatible Node installation (**22.13+**) and install the Python/frontend dependencies directly; the current Node bootstrap downloads macOS binaries.

@@ -27,6 +27,8 @@ GOOGLE_MODEL = "google-translate-gtx"
 GOOGLE_SEPARATOR = "\n[[[CFB_TRANSLATION_SPLIT]]]\n"
 
 PROTECTED_KEYS = {
+    "unit",
+    "units",
     "access_class",
     "action",
     "action_id",

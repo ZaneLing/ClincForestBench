@@ -1,5 +1,5 @@
-import { ArenaShell } from '@/features/arena/arena-shell';
+import { EncounterArena } from '@/features/arena/encounter-arena';
 
 export default function ArenaPage() {
-  return <ArenaShell />;
+  return <EncounterArena />;
 }

@@ -14,6 +14,8 @@ DEFAULT_LOCALE = "en"
 
 # These values are contracts used by the API or frontend, not display copy.
 PROTECTED_KEYS = {
+    "unit",
+    "units",
     "access_class",
     "action",
     "action_id",
@@ -101,6 +103,9 @@ def translations_for(locale: str) -> dict[str, str]:
                 for source, target in document.get("translations", {}).items()
             }
         )
+    overrides = path_from_root("locales/cases/encounter-overrides.json")
+    if overrides.exists():
+        translations.update(load_json(overrides).get(normalized, {}))
     return translations
 
 

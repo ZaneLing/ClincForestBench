@@ -1,0 +1,216 @@
+id	category	en	zh	aliases
+CBC	Laboratory	Complete blood count	血常规	ORDER_CBC|CBC|Complete blood count with differential
+BMP	Laboratory	Basic metabolic panel	基础代谢检查	ORDER_BMP|BMP
+CMP	Laboratory	Comprehensive metabolic panel	综合代谢检查	ORDER_CMP|CMP
+ELECTROLYTES	Laboratory	Electrolytes	电解质检查	ORDER_ELECTROLYTES
+RENAL	Laboratory	Renal function panel	肾功能检查	ORDER_RENAL_FUNCTION
+LIVER	Laboratory	Liver function panel	肝功能检查	ORDER_LIVER_FUNCTION|Hepatic function panel
+LIPIDS	Laboratory	Lipid panel	血脂检查	Lipid profile
+COAGULATION	Laboratory	Coagulation panel	凝血功能检查	ORDER_COAGULATION
+ABG	Laboratory	Arterial blood gas	动脉血气分析	ORDER_ABG
+VBG	Laboratory	Venous blood gas	静脉血气分析	ORDER_VBG
+URINALYSIS	Laboratory	Urinalysis	尿常规	ORDER_URINALYSIS|ORDER_LAB_URINALYSIS|尿液检查
+URINE_MICRO	Laboratory	Urine microscopy	尿沉渣镜检	""
+UACR	Laboratory	Urine albumin creatinine ratio	尿白蛋白肌酐比	Microalbumin Creatinine Ratio
+URINE_PROTEIN	Laboratory	24-hour urine protein	24小时尿蛋白定量	""
+STOOL	Laboratory	Stool examination	粪便常规	""
+FOBT	Laboratory	Fecal occult blood test	粪便隐血试验	""
+CALPROTECTIN	Laboratory	Fecal calprotectin	粪便钙卫蛋白	""
+GLUCOSE	Laboratory	Blood glucose	血糖	Glucose
+HBA1C	Laboratory	Hemoglobin A1c	糖化血红蛋白	Hemoglobin A1c/Hemoglobin.total in Blood
+OGTT	Laboratory	Oral glucose tolerance test	口服葡萄糖耐量试验	""
+KETONES	Laboratory	Blood ketones	血酮体	Beta-hydroxybutyrate
+INSULIN	Laboratory	Insulin	胰岛素	""
+C_PEPTIDE	Laboratory	C-peptide	C肽	""
+SODIUM	Laboratory	Sodium	血钠	""
+POTASSIUM	Laboratory	Potassium	血钾	""
+CHLORIDE	Laboratory	Chloride	血氯	""
+BICARBONATE	Laboratory	Bicarbonate	碳酸氢根	Carbon Dioxide
+CALCIUM	Laboratory	Total calcium	总钙	Calcium
+IONIZED_CA	Laboratory	Ionized calcium	离子钙	""
+MAGNESIUM	Laboratory	Magnesium	血镁	""
+PHOSPHATE	Laboratory	Phosphate	血磷	Phosphorus
+CREATININE	Laboratory	Creatinine	肌酐	""
+BUN	Laboratory	Blood urea nitrogen	尿素氮	Urea Nitrogen
+URIC_ACID	Laboratory	Uric acid	尿酸	""
+OSMOLALITY	Laboratory	Serum osmolality	血浆渗透压	""
+ALT	Laboratory	Alanine aminotransferase	丙氨酸氨基转移酶	ALT
+AST	Laboratory	Aspartate aminotransferase	天冬氨酸氨基转移酶	AST
+ALP	Laboratory	Alkaline phosphatase	碱性磷酸酶	""
+GGT	Laboratory	Gamma-glutamyl transferase	γ谷氨酰转移酶	""
+BILIRUBIN	Laboratory	Bilirubin	胆红素	""
+ALBUMIN	Laboratory	Albumin	白蛋白	""
+TOTAL_PROTEIN	Laboratory	Total protein	总蛋白	""
+LDH	Laboratory	Lactate dehydrogenase	乳酸脱氢酶	""
+AMYLASE	Laboratory	Amylase	淀粉酶	""
+LIPASE	Laboratory	Lipase	脂肪酶	ORDER_LIPASE
+LACTATE	Laboratory	Lactate	乳酸	ORDER_LACTATE
+TROPONIN	Laboratory	Cardiac troponin	心肌肌钙蛋白	ORDER_TROPONIN|Troponin I, High Sensitivity
+CK	Laboratory	Creatine kinase	肌酸激酶	""
+CKMB	Laboratory	CK-MB	肌酸激酶同工酶	""
+BNP	Laboratory	B-type natriuretic peptide	B型钠尿肽	BNP
+NT_PRO_BNP	Laboratory	NT-proBNP	N末端B型钠尿肽前体	""
+CRP	Laboratory	C-reactive protein	C反应蛋白	ORDER_CRP
+ESR	Laboratory	Erythrocyte sedimentation rate	红细胞沉降率	""
+PCT	Laboratory	Procalcitonin	降钙素原	""
+D_DIMER	Laboratory	D-dimer	D二聚体	ORDER_D_DIMER
+PT_INR	Laboratory	Prothrombin time and INR	凝血酶原时间及INR	""
+APTT	Laboratory	Activated partial thromboplastin time	活化部分凝血活酶时间	""
+FIBRINOGEN	Laboratory	Fibrinogen	纤维蛋白原	""
+RETICULOCYTES	Laboratory	Reticulocyte count	网织红细胞计数	""
+SMEAR	Laboratory	Peripheral blood smear	外周血涂片	""
+IRON	Laboratory	Iron studies	铁代谢检查	""
+FERRITIN	Laboratory	Ferritin	铁蛋白	""
+B12	Laboratory	Vitamin B12	维生素B12	""
+FOLATE	Laboratory	Folate	叶酸	""
+VITAMIN_D	Laboratory	25-hydroxyvitamin D	25羟维生素D	""
+TSH	Endocrinology	Thyroid stimulating hormone	促甲状腺激素	TSH
+FREE_T4	Endocrinology	Free thyroxine	游离甲状腺素	Free T4
+FREE_T3	Endocrinology	Free triiodothyronine	游离三碘甲状腺原氨酸	Free T3
+CORTISOL	Endocrinology	Cortisol	皮质醇	""
+ACTH	Endocrinology	Adrenocorticotropic hormone	促肾上腺皮质激素	""
+PTH	Endocrinology	Parathyroid hormone	甲状旁腺激素	""
+PROLACTIN	Endocrinology	Prolactin	泌乳素	""
+SEX_HORMONES	Endocrinology	Sex hormone panel	性激素检查	""
+ALDOSTERONE	Endocrinology	Aldosterone and renin	醛固酮及肾素	""
+METANEPHRINES	Endocrinology	Metanephrines	甲氧基肾上腺素类检查	""
+HCG	Obstetrics	Pregnancy test (hCG)	妊娠试验（hCG）	ORDER_PREGNANCY_TEST|POCT BHCG (Pregnancy test)
+BLOOD_CULTURE	Microbiology	Blood culture	血培养	ORDER_BLOOD_CULTURE
+URINE_CULTURE	Microbiology	Urine culture	尿培养	ORDER_URINE_CULTURE
+SPUTUM_CULTURE	Microbiology	Sputum culture	痰培养	""
+STOOL_CULTURE	Microbiology	Stool culture	粪便培养	""
+WOUND_CULTURE	Microbiology	Wound culture	伤口分泌物培养	""
+CSF_CULTURE	Microbiology	Cerebrospinal fluid culture	脑脊液培养	""
+GRAM_STAIN	Microbiology	Gram stain	革兰染色	""
+RESP_PANEL	Microbiology	Respiratory pathogen panel	呼吸道病原体检测	Rapid Influenza A/B, RSV and COVID-19 Panel
+COVID	Microbiology	SARS-CoV-2 test	新冠病毒检测	""
+INFLUENZA	Microbiology	Influenza test	流感病毒检测	""
+HIV	Microbiology	HIV screening	HIV筛查	""
+HEPATITIS	Microbiology	Viral hepatitis panel	病毒性肝炎检测	""
+SYPHILIS	Microbiology	Syphilis testing	梅毒检测	""
+TB	Microbiology	Tuberculosis testing	结核病检测	""
+HPYLORI	Microbiology	Helicobacter pylori test	幽门螺杆菌检测	""
+CDIFF	Microbiology	Clostridioides difficile test	艰难梭菌检测	""
+STI	Microbiology	Sexually transmitted infection panel	性传播感染检测	""
+FUNGAL	Microbiology	Fungal studies	真菌检测	""
+PARASITES	Microbiology	Parasite examination	寄生虫检查	""
+ANA	Immunology	Antinuclear antibodies	抗核抗体	""
+ENA	Immunology	Extractable nuclear antigen antibodies	抗可提取核抗原抗体	""
+DSDNA	Immunology	Anti-double-stranded DNA	抗双链DNA抗体	""
+COMPLEMENT	Immunology	Complement C3 and C4	补体C3及C4	""
+RF	Immunology	Rheumatoid factor	类风湿因子	""
+CCP	Immunology	Anti-CCP antibodies	抗环瓜氨酸肽抗体	""
+ANCA	Immunology	ANCA	抗中性粒细胞胞质抗体	""
+IGE	Immunology	Immunoglobulin E	免疫球蛋白E	""
+IMMUNOGLOBULINS	Immunology	Immunoglobulin panel	免疫球蛋白检查	""
+ALLERGENS	Immunology	Allergen testing	过敏原检测	""
+SPEP	Hematology	Serum protein electrophoresis	血清蛋白电泳	""
+LIGHT_CHAINS	Hematology	Serum free light chains	血清游离轻链	""
+COOMBS	Hematology	Direct antiglobulin test	直接抗人球蛋白试验	""
+BLOOD_TYPE	Hematology	Blood group and antibody screen	血型及不规则抗体筛查	""
+CROSSMATCH	Hematology	Crossmatch	交叉配血	""
+TOXICOLOGY	Toxicology	Toxicology screen	毒物筛查	""
+DRUG_LEVEL	Toxicology	Therapeutic drug monitoring	治疗药物浓度监测	""
+ETHANOL	Toxicology	Blood alcohol	血乙醇	""
+COHB	Toxicology	Carboxyhemoglobin	碳氧血红蛋白	""
+HEAVY_METALS	Toxicology	Heavy metal testing	重金属检测	""
+TUMOR_MARKERS	Oncology	Tumor marker panel	肿瘤标志物检查	""
+PSA	Oncology	Prostate specific antigen	前列腺特异抗原	""
+AFP	Oncology	Alpha-fetoprotein	甲胎蛋白	""
+GENETIC	Genetics	Genetic testing	遗传学检测	""
+KARYOTYPE	Genetics	Karyotyping	染色体核型分析	""
+FLOW_CYTOMETRY	Hematology	Flow cytometry	流式细胞术	""
+CXR	Imaging	Chest X-ray	胸部X线检查	ORDER_CXR|Chest radiograph
+ABD_XR	Imaging	Abdominal X-ray	腹部X线检查	""
+BONE_XR	Imaging	Bone or joint X-ray	骨关节X线检查	""
+CT_HEAD	Imaging	Head CT	头颅CT	ORDER_CT_HEAD
+CT_CHEST	Imaging	Chest CT	胸部CT	ORDER_CT_CHEST
+CT_ABDOMEN	Imaging	Abdominal and pelvic CT	腹盆部CT	ORDER_CT_ABDOMEN
+CTPA	Imaging	CT pulmonary angiography	CT肺动脉造影	ORDER_CTPA
+CTA	Imaging	CT angiography	CT血管造影	""
+CT_SPINE	Imaging	Spine CT	脊柱CT	""
+MRI_BRAIN	Imaging	Brain MRI	头颅MRI	""
+MRI_SPINE	Imaging	Spine MRI	脊柱MRI	""
+MRI_ABDOMEN	Imaging	Abdominal MRI	腹部MRI	""
+MRI_JOINT	Imaging	Joint MRI	关节MRI	""
+MRCP	Imaging	MR cholangiopancreatography	磁共振胰胆管成像	""
+US_ABDOMEN	Imaging	Abdominal ultrasound	腹部超声	""
+US_RENAL	Imaging	Renal ultrasound	肾脏超声	""
+US_PELVIS	Imaging	Pelvic ultrasound	盆腔超声	""
+US_THYROID	Imaging	Thyroid ultrasound	甲状腺超声	""
+US_BREAST	Imaging	Breast ultrasound	乳腺超声	""
+DVT_US	Imaging	Venous Doppler ultrasound	静脉多普勒超声	""
+CAROTID_US	Imaging	Carotid Doppler ultrasound	颈动脉多普勒超声	""
+FAST	Imaging	FAST ultrasound	创伤重点超声检查	""
+MAMMOGRAPHY	Imaging	Mammography	乳腺钼靶检查	""
+DEXA	Imaging	Bone density scan	骨密度检查	""
+PET_CT	Nuclear medicine	PET-CT	正电子发射断层显像CT	""
+BONE_SCAN	Nuclear medicine	Bone scintigraphy	骨显像	""
+VQ_SCAN	Nuclear medicine	Ventilation-perfusion scan	肺通气灌注显像	""
+THYROID_SCAN	Nuclear medicine	Thyroid scintigraphy	甲状腺核素显像	""
+ECG	Cardiology	12-lead electrocardiogram	十二导联心电图	ORDER_ECG|Electrocardiogram|12-lead ECG
+ECHO	Cardiology	Echocardiography	超声心动图	ORDER_ECHO
+TEE	Cardiology	Transesophageal echocardiography	经食管超声心动图	""
+HOLTER	Cardiology	Ambulatory ECG monitoring	动态心电图	""
+ABPM	Cardiology	Ambulatory blood pressure monitoring	动态血压监测	""
+STRESS_TEST	Cardiology	Cardiac stress test	心脏负荷试验	""
+CORONARY_ANGIO	Cardiology	Coronary angiography	冠状动脉造影	""
+CARDIAC_CATH	Cardiology	Cardiac catheterization	心导管检查	""
+SPIROMETRY	Respiratory	Spirometry	肺通气功能检查	""
+DLCO	Respiratory	Lung diffusion capacity	肺弥散功能检查	""
+PEAK_FLOW	Respiratory	Peak expiratory flow	呼气峰流量	""
+SLEEP_STUDY	Respiratory	Polysomnography	多导睡眠监测	""
+BRONCHOSCOPY	Endoscopy	Bronchoscopy	支气管镜检查	""
+GASTROSCOPY	Endoscopy	Upper gastrointestinal endoscopy	胃镜检查	""
+COLONOSCOPY	Endoscopy	Colonoscopy	结肠镜检查	""
+ERCP	Endoscopy	ERCP	内镜逆行胰胆管造影	""
+CAPSULE	Endoscopy	Capsule endoscopy	胶囊内镜检查	""
+CYSTOSCOPY	Endoscopy	Cystoscopy	膀胱镜检查	""
+LARYNGOSCOPY	Endoscopy	Laryngoscopy	喉镜检查	""
+EEG	Neurology	Electroencephalography	脑电图	""
+EMG	Neurology	Electromyography	肌电图	""
+NCS	Neurology	Nerve conduction study	神经传导检查	""
+LP	Sampling	Lumbar puncture and CSF examination	腰椎穿刺及脑脊液检查	""
+THORACENTESIS	Sampling	Thoracentesis and pleural fluid analysis	胸腔穿刺及胸水分析	""
+PARACENTESIS	Sampling	Paracentesis and ascitic fluid analysis	腹腔穿刺及腹水分析	""
+ARTHROCENTESIS	Sampling	Arthrocentesis and synovial fluid analysis	关节穿刺及滑液分析	""
+BIOPSY	Pathology	Tissue biopsy and histopathology	组织活检及病理检查	""
+BONE_MARROW	Pathology	Bone marrow examination	骨髓检查	""
+CYTOLOGY	Pathology	Cytology	细胞学检查	""
+PAP	Gynecology	Cervical cytology and HPV testing	宫颈细胞学及HPV检测	""
+COLPOSCOPY	Gynecology	Colposcopy	阴道镜检查	""
+FETAL_US	Obstetrics	Obstetric ultrasound	产科超声	""
+FETAL_MONITOR	Obstetrics	Fetal heart rate monitoring	胎心监护	""
+SEMEN	Reproductive medicine	Semen analysis	精液分析	""
+URODYNAMICS	Urology	Urodynamic study	尿动力学检查	""
+VISUAL_ACUITY	Ophthalmology	Visual acuity examination	视力检查	""
+FUNDOSCOPY	Ophthalmology	Fundoscopy	眼底检查	""
+TONOMETRY	Ophthalmology	Intraocular pressure measurement	眼压检查	""
+SLIT_LAMP	Ophthalmology	Slit lamp examination	裂隙灯检查	""
+OCT	Ophthalmology	Optical coherence tomography	光学相干断层扫描	""
+AUDIOMETRY	ENT	Audiometry	听力检查	""
+OTOSCOPY	ENT	Otoscopy	耳镜检查	""
+TYMPANOMETRY	ENT	Tympanometry	声导抗检查	""
+VESTIBULAR	ENT	Vestibular function testing	前庭功能检查	""
+DERMOSCOPY	Dermatology	Dermoscopy	皮肤镜检查	""
+SKIN_SCRAPING	Dermatology	Skin scraping microscopy	皮肤刮屑镜检	""
+VITALS	Physical examination	Vital signs	生命体征测量	""
+PHYSICAL	Physical examination	Physical examination	体格检查	REVIEW_PHYSICAL_EXAM
+CARDIAC_EXAM	Physical examination	Cardiovascular examination	心血管系统查体	""
+LUNG_EXAM	Physical examination	Respiratory examination	呼吸系统查体	""
+ABD_EXAM	Physical examination	Abdominal examination	腹部查体	""
+NEURO_EXAM	Physical examination	Neurological examination	神经系统查体	""
+MSK_EXAM	Physical examination	Musculoskeletal examination	肌肉骨骼系统查体	""
+SKIN_EXAM	Physical examination	Skin examination	皮肤查体	""
+MENTAL_EXAM	Physical examination	Mental status examination	精神状态检查	""
+RECTAL_EXAM	Physical examination	Digital rectal examination	直肠指检	""
+PELVIC_EXAM	Physical examination	Pelvic examination	妇科查体	""
+ORAL_EXAM	Physical examination	Oral and dental examination	口腔及牙科检查	""
+ORTHOSTATIC	Physical examination	Orthostatic vital signs	体位性生命体征检查	""
+GCS	Physical examination	Glasgow Coma Scale	格拉斯哥昏迷评分	""
+COGNITIVE	Neurology	Cognitive assessment	认知功能评估	""
+REPORT_IMAGE	Records	Review uploaded examination report	查看上传的检查报告	查看患者上传的检查报告原图
+RECORDED_LAB	Records	Review recorded laboratory report	查阅既往化验报告	""
+RECORDED_IMAGING	Records	Review recorded imaging report	查阅既往影像报告	""
+RECORDED_PROCEDURE	Records	Review recorded procedure	查阅既往操作记录	""
+RECORDED_EXAM	Records	Review recorded examination	查阅既往体检记录	""

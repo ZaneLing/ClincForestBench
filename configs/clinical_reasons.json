@@ -1,0 +1,62 @@
+{
+  "operation:CBC": [
+    ["Assess whether anemia, infection or a blood-cell disorder supports my suspected diagnosis.", "评估贫血、感染或血细胞异常是否支持当前怀疑的诊断。"],
+    ["Use the blood-cell pattern to distinguish competing causes of the presentation.", "通过血细胞变化模式区分导致当前表现的不同病因。"],
+    ["Look for potentially urgent anemia or platelet abnormalities.", "检查是否存在需要紧急关注的贫血或血小板异常。"],
+    ["Establish blood counts to assess severity or suitability for treatment.", "了解血细胞基线，以评估严重程度或治疗适用性。"]
+  ],
+  "operation:ECG": [
+    ["Look for an electrical cardiac explanation of the current symptoms.", "寻找能够解释当前症状的心脏电活动异常。"],
+    ["Distinguish rhythm or conduction abnormalities from other possible causes.", "区分心律、传导异常与其他可能病因。"],
+    ["Look for an urgent arrhythmia or ischemic pattern.", "检查是否有紧急心律失常或缺血性改变。"],
+    ["Assess baseline rhythm and conduction before treatment.", "评估治疗前的基础心律及传导状态。"]
+  ],
+  "Imaging": [
+    ["Look for a structural finding that supports the suspected diagnosis.", "寻找支持当前怀疑诊断的结构性异常。"],
+    ["Clarify the anatomical site and distinguish competing structural causes.", "明确解剖部位并区分可能的结构性病因。"],
+    ["Investigate a suspected acute lesion or complication that may need urgent care.", "排查可能需要紧急处理的急性病变或并发症。"],
+    ["Determine the extent of a lesion or obtain information needed for a treatment decision.", "了解病变范围，或取得治疗决策所需的信息。"]
+  ],
+  "Laboratory": [
+    ["Look for biochemical or cellular evidence supporting the suspected diagnosis.", "寻找支持怀疑诊断的生化或细胞学证据。"],
+    ["Use the measured pattern to distinguish plausible causes of the presentation.", "依据检测结果的模式鉴别当前表现的可能病因。"],
+    ["Check for a critical abnormality that could change the urgency of care.", "排查可能改变处理紧急程度的危急异常。"],
+    ["Assess organ function, severity or a baseline needed for treatment.", "评估器官功能、严重程度或治疗前所需的基线。"]
+  ],
+  "Physical examination": [
+    ["Look for a physical sign supporting my working diagnosis.", "寻找支持当前诊断假设的体征。"],
+    ["Use the location or pattern of signs to distinguish competing diagnoses.", "利用体征的部位和分布模式鉴别诊断。"],
+    ["Assess clinical instability or a physical warning sign.", "评估病情是否不稳定或存在警示体征。"],
+    ["Assess functional impairment and the severity of the presentation.", "评估功能受损程度及当前病情严重程度。"]
+  ],
+  "Microbiology": [
+    ["Look for evidence of the suspected infectious cause.", "寻找所怀疑感染病因的证据。"],
+    ["Distinguish potential pathogens or infectious from noninfectious causes.", "区分可能的病原体，或鉴别感染与非感染性病因。"],
+    ["Investigate a potentially serious or transmissible infection.", "排查可能严重或具有传播风险的感染。"],
+    ["Obtain organism information relevant to selecting or adjusting treatment.", "获取有助于选择或调整治疗的病原体信息。"]
+  ],
+  "Symptoms": [
+    ["Check whether the symptom pattern fits my current diagnostic hypothesis.", "判断症状特点是否符合当前诊断假设。"],
+    ["Clarify onset, course or triggers to distinguish possible causes.", "通过起病、病程或诱因的细节区分可能病因。"],
+    ["Identify symptom features that could indicate an urgent condition.", "识别可能提示紧急情况的症状特征。"],
+    ["Understand symptom burden and its effect on daily function.", "了解症状负担及其对日常功能的影响。"]
+  ],
+  "Medication and allergy": [
+    ["Check whether a medicine or exposure could explain the presentation.", "判断用药或相关暴露能否解释当前表现。"],
+    ["Distinguish disease progression from a drug effect or adherence problem.", "鉴别疾病进展、药物作用与用药依从性问题。"],
+    ["Identify a potentially serious adverse reaction or allergy.", "识别潜在严重药物不良反应或过敏。"],
+    ["Assess interactions, prior response or constraints on treatment choices.", "评估相互作用、既往疗效或治疗选择的限制。"]
+  ],
+  "History": [
+    ["Identify prior conditions that support my working diagnosis.", "了解能够支持当前诊断假设的既往疾病。"],
+    ["Compare prior episodes and risk factors across possible diagnoses.", "结合既往发作和风险因素比较可能诊断。"],
+    ["Identify a high-risk history that could change the urgency of evaluation.", "识别可能改变评估紧急程度的高风险病史。"],
+    ["Identify comorbidities that affect severity or treatment choices.", "识别影响严重程度或治疗选择的合并疾病。"]
+  ],
+  "Exposure": [
+    ["Check whether an exposure could explain the current illness.", "判断相关暴露能否解释当前疾病。"],
+    ["Distinguish occupational, environmental or contact-related causes.", "鉴别职业、环境或接触相关病因。"],
+    ["Identify ongoing exposure or an urgent risk to the patient.", "识别持续暴露或对患者的紧急风险。"],
+    ["Assess exposure intensity and implications for subsequent care.", "评估暴露程度及其对后续诊疗的影响。"]
+  ]
+}

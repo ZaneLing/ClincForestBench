@@ -1,11 +1,12 @@
 FROM python:3.12-slim
 
 WORKDIR /app
-COPY pyproject.toml alembic.ini ./
+COPY pyproject.toml alembic.ini README.md ./
 COPY backend ./backend
 COPY etl ./etl
 COPY analysis ./analysis
 COPY configs ./configs
+COPY locales ./locales
 COPY migrations ./migrations
 RUN python -m pip install --no-cache-dir .
 

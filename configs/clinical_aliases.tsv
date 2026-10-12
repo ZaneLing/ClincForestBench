@@ -1,0 +1,42 @@
+target	alias
+operation:CBC	Complete blood count and differential
+operation:CMP	Metabolic Panel, Comprehensive
+operation:BMP	Metabolic Panel, Basic
+operation:LIVER	Hepatic Function Panel A
+operation:LIPIDS	Lipid Panel With Calculated LDL
+operation:COAGULATION	Coagulation function
+operation:COAGULATION	DIC Screen
+operation:ABG	Arterial blood gas analysis
+operation:VBG	Blood Gases, Venous
+operation:TSH	TSH W/ Reflex FT4
+operation:MAGNESIUM	Magnesium, Serum/Plasma
+operation:CK	Creatine Kinase, Total
+operation:LDH	LDH Total,Serum/Plasma
+operation:HIV	HIV Antigen/Antibody Screen
+operation:PHOSPHATE	Phosphorus, Serum/Plasma
+operation:URIC_ACID	Uric Acid, Serum/Plasma
+operation:PT_INR	Prothrombin Time
+operation:APTT	Partial Thromboplastin Time
+operation:LACTATE	Sepsis Protocol Lactate
+operation:CKMB	CK, MB (Mass)
+operation:ESR	ESR (Sedimentation Rate)
+operation:CT_HEAD	CT HEAD WO IV CONTRAST
+operation:CT_HEAD	CT HEAD W/O CONTRAST
+operation:CT_SPINE	CT C-SPINE W/O CONTRAST Q311 CT SPINE
+operation:CXR	Plain chest X-ray
+operation:ECHO	Transthoracic echocardiography
+operation:SPIROMETRY	Spirometry (procedure)
+operation:SPIROMETRY	Measurement of respiratory function (procedure)
+operation:PHYSICAL	Brief general examination (procedure)
+operation:SMEAR	Peripheral blood smear interpretation
+operation:HCG	Standard pregnancy test
+operation:FETAL_US	Ultrasound scan for fetal viability
+operation:FETAL_MONITOR	Auscultation of the fetal heart
+operation:COGNITIVE	Total score [MMSE]
+operation:ALT	Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma
+operation:AST	Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma
+operation:ALBUMIN	Albumin [Mass/volume] in Serum or Plasma
+operation:BILIRUBIN	Bilirubin.total [Mass/volume] in Serum or Plasma
+inquiry:SMOKING	Tobacco smoking status NHIS
+inquiry:MEDICATIONS	Medication Reconciliation (procedure)
+inquiry:RECORDS	Review of systems (procedure)

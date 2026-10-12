@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON := .venv/bin/python
 NODE_BIN := $(CURDIR)/.tools/node/bin
 
-.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp translate-cases validate-temporal-sources preprocess-all test validate start api web demo db-up db-down migrate
+.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp translate-cases validate-temporal-sources preprocess-all test validate audit-encounters start api web demo db-up db-down migrate
 
 setup: venv node frontend-install
 
@@ -47,6 +47,9 @@ preprocess-all: preprocess-ddxplus preprocess-guidance2 preprocess-temporal prep
 
 test:
 	$(VENV_PYTHON) -m pytest -q
+
+audit-encounters:
+	$(VENV_PYTHON) -m analysis.audit_encounter_mapping
 
 validate: test
 	cd frontend && PATH="$(NODE_BIN):$$PATH" npm run lint

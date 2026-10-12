@@ -932,6 +932,9 @@ def create_app(case_service: Optional[CaseService] = None) -> FastAPI:
         except (KeyError, FileExistsError) as exc:
             raise translate_error(exc)
 
+    from backend.app.api.encounters import register_encounter_routes
+
+    register_encounter_routes(application, container, current_username, research_access)
     return application
 
 
