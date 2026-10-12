@@ -73,6 +73,15 @@ Prescriptions record the physician's plan; the application does not execute it.
 
 ## Persistence, history and analysis
 
+The Case Inspector (`/research`) defaults to the same inquiry/operation catalog
+and source bindings as the Arena. Select a case, search or filter the library,
+and inspect recorded answers, missing items, source IDs, partial panels and source
+treatments. Both languages share the Arena result renderer and localization.
+The inspector is read-only: missing items describe the termination rule but do
+not create or end visits. The original source/tree audit remains a separate view.
+`GET /research/encounter-cases` and `GET /research/encounter-cases/{case_id}`
+require research access; the physician catalog still does not reveal availability.
+
 New encounters are stored in local `data/encounters.db` (ignored by Git), separate
 from the original account/session database. Transactions serialize mutations;
 client event IDs make retries idempotent. Access is bound to the authenticated

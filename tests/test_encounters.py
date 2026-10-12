@@ -20,6 +20,57 @@ def action(item_id, event_id="step", reason_id="support", **kwargs):
     return ActionRequest(item_id=item_id, client_event_id=event_id, reason_id=reason_id, **kwargs)
 
 
+@pytest.mark.parametrize("locale", ["en", "zh-CN"])
+def test_inspector_matches_arena_for_every_case_and_binding(catalog, locale):
+    svc = EncounterService(catalog, ":memory:")
+    for case_id in catalog.visits:
+        source_before = json.dumps(catalog.bindings[case_id], ensure_ascii=False)
+        inspection = catalog.inspection(case_id, locale)
+        doc = {"case_id": case_id, "visit": catalog.visits[case_id], "diagnoses": [],
+               "events": [{"records": rows} for rows in catalog.bindings[case_id].values()]}
+        view = svc.view(doc, locale)
+        assert inspection["visit"] == view["visit"]
+        assert list(inspection["bindings"].values()) == [e["records"] for e in view["events"]]
+        assert set(inspection["bindings"]) <= set(catalog.items)
+        for kind in ("inquiry", "operation"):
+            expected = [i for i in catalog.items.values() if i["kind"] == kind]
+            assert inspection["counts"][kind] == {
+                "total": len(expected),
+                "recorded": sum(bool(inspection["bindings"].get(i["id"])) for i in expected),
+            }
+        assert len(inspection["treatments"]) == len(catalog.treatments[case_id])
+        assert source_before == json.dumps(catalog.bindings[case_id], ensure_ascii=False)
+    assert svc.forest()["session_count"] == 0
+
+
+def test_inspector_routes_are_research_only_read_only_and_share_global_catalog(cases):
+    client = TestClient(create_app(cases))
+    index_route = "/research/encounter-cases"
+    case_route = index_route + "/DDX_TEST_0021752"
+    assert client.get(index_route).status_code == 403
+    assert client.get(case_route).status_code == 403
+    headers = {"X-Research-Key": "local-research-only"}
+    index = client.get(index_route, headers=headers).json()
+    assert {row["source"] for row in index["cases"]} == {"classic", "temporal"}
+    assert len(index["cases"]) == 188
+    for locale in ("en", "zh-CN"):
+        response = client.get(case_route, params={"lang": locale}, headers=headers)
+        assert response.status_code == 200
+        data = response.json()
+        assert data["bindings"]["inquiry:CHIEF"]
+        assert "inquiry:ONSET" not in data["bindings"]
+    assert client.get(index_route + "/not-a-case", headers=headers).status_code == 404
+    assert client.get("/research/encounter-forest", headers=headers).json()["session_count"] == 0
+    token = client.post("/auth/register", json={"username": "inspector-test", "password": "test-password"}).json()["token"]
+    client.headers["Authorization"] = f"Bearer {token}"
+    assert client.get(index_route).status_code == 403
+    arena_catalog = client.get("/encounters/catalog").json()
+    assert index["items"] == arena_catalog["items"]
+    assert {c["case_id"] for c in index["cases"]} == {c["case_id"] for c in arena_catalog["cases"]}
+    assert "bindings" not in arena_catalog
+    assert client.get("/encounters/history").json() == []
+
+
 def test_all_sources_accounted_for_and_catalog_bilingual(catalog, cases):
     assert len(catalog.visits) == len(cases.cases) + len(catalog.temporal.manifest()["cases"])
     assert len([i for i in catalog.items.values() if i["kind"] == "operation"]) > 200

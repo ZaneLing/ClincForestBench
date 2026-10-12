@@ -20,6 +20,12 @@ from backend.app.services.localization_service import localize_payload
 VERSION = "encounter-libraries.v1"
 
 
+def localized_records(records, locale):
+    """One result presentation contract for the arena and read-only inspector."""
+    return [{**r, "result": localize_payload(r["result"], locale),
+             "source_label": localize_payload(r.get("source_label", ""), locale)} for r in records]
+
+
 def bilingual(text: str) -> dict:
     return {locale: localize_payload(text, locale) for locale in ("en", "zh-CN")}
 
@@ -248,3 +254,21 @@ class EncounterCatalog:
                 "cases": [{"case_id": cid, "mapped_actions": len(self.bindings[cid]),
                            "dispositions": dict(Counter(a["disposition"] for a in self.audit[cid])),
                            "sources": self.audit[cid]} for cid in self.visits]}
+
+    def inspection(self, case_id, locale):
+        visit = self.visits[case_id]
+        bindings = self.bindings[case_id]
+        return {
+            "catalog_version": VERSION,
+            "visit": localize_payload(visit, locale),
+            "bindings": {item_id: localized_records(records, locale)
+                         for item_id, records in bindings.items()},
+            "counts": {kind: {"total": sum(i["kind"] == kind for i in self.items.values()),
+                              "recorded": sum(self.items[key]["kind"] == kind and bool(rows)
+                                              for key, rows in bindings.items())}
+                       for kind in ("inquiry", "operation")},
+            "treatments": [{**r, "label": localize_payload(r["label"], locale),
+                            "result": localize_payload(r["result"], locale)}
+                           for r in self.treatments[case_id]],
+            "audit": self.audit[case_id],
+        }

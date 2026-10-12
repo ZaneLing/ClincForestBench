@@ -8,7 +8,7 @@ import threading
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from backend.app.services.encounter_catalog import VERSION, bilingual
+from backend.app.services.encounter_catalog import VERSION, bilingual, localized_records
 from backend.app.services.localization_service import localize_payload
 
 
@@ -154,8 +154,7 @@ class EncounterService:
         for event in doc["events"]:
             visible = {k: v for k, v in event.items() if k != "command"}
             if "records" in event:
-                visible["records"] = [{**r, "result": localize_payload(r["result"], locale),
-                                       "source_label": localize_payload(r.get("source_label", ""), locale)} for r in event["records"]]
+                visible["records"] = localized_records(event["records"], locale)
             result["events"].append(visible)
         result["prescription_available"] = bool(doc["diagnoses"] and self.catalog.treatments[doc["case_id"]])
         return result

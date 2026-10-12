@@ -1,0 +1,46 @@
+.case-library-shell .case-library-toolbar {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.7fr) minmax(160px, 1fr) minmax(
+      260px,
+      auto
+    );
+  align-items: end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.case-library-toolbar label {
+  min-width: 0;
+}
+.case-library-shell .case-library-toolbar .enc-tabs {
+  margin: 0;
+}
+.case-library-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.case-library-shell .enc-items button[aria-pressed='true'] {
+  border-color: #0f766e;
+  background: #f0fdfa;
+  color: #134e4a;
+}
+.case-source-id {
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 10px;
+}
+.case-library-source {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+@container (max-width: 850px) {
+  .case-library-shell .case-library-toolbar {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+    gap: 8px;
+  }
+  .case-library-toolbar > .enc-tabs {
+    grid-column: 1 / -1;
+  }
+}

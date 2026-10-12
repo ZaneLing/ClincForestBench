@@ -95,6 +95,18 @@ def register_encounter_routes(app, container, current_username, research_access)
     def mapping():
         return service().catalog.report()
 
+    @app.get("/research/encounter-cases", dependencies=[Depends(research_access)])
+    def inspection_catalog():
+        catalog = service().catalog
+        return {"items": list(catalog.items.values()),
+                "cases": [{"case_id": cid, "dataset": visit["dataset"],
+                           "source": "classic" if cid in catalog.cases.cases else "temporal"}
+                          for cid, visit in catalog.visits.items()]}
+
+    @app.get("/research/encounter-cases/{case_id}", dependencies=[Depends(research_access)])
+    def inspect_case(case_id: str, lang: str = "en"):
+        return invoke(lambda: service().catalog.inspection(case_id, lang))
+
     @app.get("/research/encounter-forest", dependencies=[Depends(research_access)])
     def forest():
         return service().forest()
