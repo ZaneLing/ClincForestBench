@@ -71,7 +71,7 @@ const navigation = [
   {
     href: '/research',
     label: { en: 'Case inspector', zh: 'Case 查看' },
-    detail: { en: 'Inquiry and operation mappings', zh: '问询、操作与病例结果映射' },
+    detail: { en: 'Questions and examination results', zh: '问询回答与检查结果' },
     icon: GitBranch,
   },
   {

@@ -73,12 +73,14 @@ Prescriptions record the physician's plan; the application does not execute it.
 
 ## Persistence, history and analysis
 
-The Case Inspector (`/research`) defaults to the same inquiry/operation catalog
-and source bindings as the Arena. Select a case, search or filter the library,
-and inspect recorded answers, missing items, source IDs, partial panels and source
-treatments. Both languages share the Arena result renderer and localization.
-The inspector is read-only: missing items describe the termination rule but do
-not create or end visits. The original source/tree audit remains a separate view.
+The Case Inspector (`/research`) uses the same inquiry/operation catalog and
+source bindings as the Arena. After selecting a case, recorded questions and
+answers appear directly in two color-coded columns: teal inquiries and violet
+examinations/procedures. Mobile screens switch between the two groups. Long
+content is paginated without page scrolling. Missing items, source IDs, coverage
+statistics, treatment panels and audit controls are not displayed. Partial panels
+retain their qualifier and component names. Both languages share the Arena result
+renderer and localization. The inspector is read-only and never changes visits.
 `GET /research/encounter-cases` and `GET /research/encounter-cases/{case_id}`
 require research access; the physician catalog still does not reveal availability.
 
