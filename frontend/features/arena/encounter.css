@@ -605,6 +605,26 @@
 .enc-workspace .enc-timeline {
   min-height: 0;
 }
+.enc-step-status {
+  display: block;
+  flex-shrink: 0;
+  color: #0f766e;
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+.enc-next-actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 5px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+.enc-next-actions small {
+  color: #64748b;
+  font-size: 11px;
+}
 .enc-workspace .enc-step {
   flex: 1;
   min-height: 0;

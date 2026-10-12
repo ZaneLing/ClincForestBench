@@ -57,7 +57,8 @@ MIMIC Note, ECG, and ED are linked modalities, not separately counted dataset tr
 
 The physician Arena now uses a unified Visit protocol: shared examination and
 inquiry libraries, required reasons at each step, persisted termination on a
-missing examination, diagnosis at any time, and optional post-diagnosis plans.
+missing inquiry answer or examination result, diagnosis at any time during an
+active visit, and optional post-diagnosis plans.
 The 188-case local inventory currently yields 309 operation and 397 inquiry
 items. See the [protocol and mapping guide](docs/encounter_protocol.md).
 

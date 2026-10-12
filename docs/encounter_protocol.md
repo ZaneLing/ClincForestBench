@@ -59,12 +59,13 @@ item, never hidden outcomes. They are prompts for physician self-report, not
 inferred physician reasoning. Exports retain the exact offered options, selected
 reason, free text, current diagnoses, timestamps, source result and catalog version.
 
-An unrecorded operation immediately sets `TERMINATED_MISSING_RESULT` and persists
-the attempted action and reason. The session then rejects further mutations.
-An unrecorded inquiry returns `NOT_RECORDED` and permits further questioning.
+An unrecorded operation **or inquiry** immediately sets `TERMINATED_MISSING_RESULT`
+and persists the attempted action, reason, and preceding trajectory. The event
+returns `NOT_RECORDED`; the session then rejects further mutations. Recorded
+results are shown immediately, with a control to choose the next inquiry or exam.
 Recorded negatives and non-applicable answers do not terminate a visit.
 
-Diagnosis can be selected from the shared disease list or typed freely. It can
+During an active visit, diagnosis can be selected from the shared disease list or typed freely. It can
 be revised and does not immediately close the visit. Cases with source treatment
 records offer an optional prescription/treatment-plan field after diagnosis.
 Completing a visit requires a diagnosis but never requires a prescription.

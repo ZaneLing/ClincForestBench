@@ -38,36 +38,46 @@ def test_all_sources_accounted_for_and_catalog_bilingual(catalog, cases):
         assert {e.event_id for e in case.timeline_events} <= {a["source_id"] for a in catalog.audit[case.case_id]}
 
 
-def test_missing_exam_terminates_atomically_and_survives_restart(catalog, tmp_path):
+@pytest.mark.parametrize("item_id", ["operation:CT_HEAD", "inquiry:FINANCES", "inquiry:ONSET"])
+def test_missing_result_terminates_atomically_and_survives_restart(catalog, tmp_path, item_id):
     database = tmp_path / "encounters.db"
     svc = EncounterService(catalog, database)
     doc = svc.create("DDX_TEST_0021752", "alice", "visit")
-    request = action("operation:CT_HEAD")
+    # Preserve the answered question and the failed next step, not only the terminal event.
+    svc.act(doc["id"], "alice", action("inquiry:CHIEF", event_id="answered"))
+    request = action(item_id)
     ended = svc.act(doc["id"], "alice", request)
     assert ended["status"] == "TERMINATED_MISSING_RESULT"
-    assert ended["events"][0]["reason_id"] == "support"
-    assert ended["events"][0]["records"] == []
-    assert len(ended["events"][0]["reason_options"]) == 5
+    assert ended["completed_at"]
+    assert len(ended["events"]) == 2
+    assert ended["events"][0]["records"]
+    assert ended["events"][-1]["reason_id"] == "support"
+    assert ended["events"][-1]["records"] == []
+    assert ended["events"][-1]["result_status"] == "NOT_RECORDED"
+    assert len(ended["events"][-1]["reason_options"]) == 5
     assert svc.act(doc["id"], "alice", request) == ended
     with pytest.raises(ValueError, match="already closed"):
         svc.diagnose(doc["id"], "alice", DiagnosisRequest(diagnoses=["Asthma"], client_event_id="late"))
+    with pytest.raises(ValueError, match="already closed"):
+        svc.act(doc["id"], "alice", action("inquiry:CHIEF", event_id="late-action"))
+    with pytest.raises(ValueError, match="already closed"):
+        svc.finish(doc["id"], "alice", EventRequest(client_event_id="late-finish"))
     reopened = EncounterService(catalog, database)
     assert reopened.get(doc["id"], "alice") == ended
     with pytest.raises(KeyError):
         reopened.get(doc["id"], "bob")
     assert reopened.history("alice")[0]["status"] == "TERMINATED_MISSING_RESULT"
+    if item_id.startswith("inquiry:"):
+        assert reopened.forest()["missing_inquiry_counts"] == {item_id: 1}
 
 
-def test_reason_validation_missing_inquiry_and_diagnosis_anytime(catalog):
+def test_reason_validation_and_diagnosis_anytime(catalog):
     svc = EncounterService(catalog, ":memory:")
     doc = svc.create("DDX_TEST_0021752", "alice", "visit")
     with pytest.raises(ValueError, match="offered"):
         svc.act(doc["id"], "alice", action("operation:CBC", reason_id="invented"))
     with pytest.raises(ValueError, match="other reason"):
         svc.act(doc["id"], "alice", action("operation:CBC", reason_id="other"))
-    current = svc.act(doc["id"], "alice", action("inquiry:FINANCES"))
-    assert current["status"] == "ACTIVE"
-    assert current["events"][0]["result_status"] == "NOT_RECORDED"
     request = DiagnosisRequest(diagnoses=["Custom diagnosis 自定义诊断"], client_event_id="diagnosis")
     current = svc.diagnose(doc["id"], "alice", request)
     assert current["diagnoses"] == request.diagnoses
@@ -144,6 +154,32 @@ def test_shared_menu_and_visit_do_not_expose_synthea_diagnosis(catalog, cases):
     assert "truth" not in json.dumps(catalog.items)
     assert "available" not in json.dumps(catalog.items)
     assert "operation:CXR" in catalog.bindings[next(cid for cid, rows in catalog.bindings.items() if "operation:CXR" in rows)]
+
+
+@pytest.mark.parametrize("locale", ["en", "zh-CN"])
+def test_next_question_returns_answer_or_ends_case_over_http(cases, locale):
+    client = TestClient(create_app(cases))
+    token = client.post("/auth/register", json={"username": "next-question", "password": "test-password"}).json()["token"]
+    client.headers["Authorization"] = f"Bearer {token}"
+    visit = client.post("/encounters", json={"case_id": "DDX_TEST_0021752", "client_event_id": "new"}).json()
+    route = f"/encounters/{visit['id']}"
+    answered = client.post(route + f"/actions?lang={locale}", json=action("inquiry:CHIEF", event_id="first").model_dump())
+    assert answered.status_code == 200
+    assert answered.json()["status"] == "ACTIVE"
+    assert answered.json()["events"][-1]["records"]
+    request = action("inquiry:ONSET", event_id="next", reason_id="differentiate").model_dump()
+    ended = client.post(route + f"/actions?lang={locale}", json=request)
+    assert ended.status_code == 200
+    assert ended.json()["status"] == "TERMINATED_MISSING_RESULT"
+    assert ended.json()["completed_at"]
+    assert ended.json()["events"][-1]["result_status"] == "NOT_RECORDED"
+    assert ended.json()["events"][-1]["reason_id"] == "differentiate"
+    assert client.post(route + f"/actions?lang={locale}", json=request).json() == ended.json()
+    assert client.get(route + f"?lang={locale}").json() == ended.json()
+    exported = client.get(route + "/export").json()
+    assert [event["item"]["id"] for event in exported["events"]] == ["inquiry:CHIEF", "inquiry:ONSET"]
+    assert client.get("/encounters/history").json()[0]["status"] == "TERMINATED_MISSING_RESULT"
+    assert client.post(route + "/actions", json=action("inquiry:FINANCES", event_id="too-late").model_dump()).status_code == 409
 
 
 def test_encounter_routes_auth_ownership_history_export_and_reason_required(cases):

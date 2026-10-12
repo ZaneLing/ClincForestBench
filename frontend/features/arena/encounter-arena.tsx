@@ -49,6 +49,7 @@ type Entry = {
 };
 type Visit = {
   id: string;
+  created_at: string;
   case_id: string;
   status: string;
   diagnoses: string[];
@@ -155,8 +156,8 @@ const statuses: Record<string, [string, string]> = {
   ACTIVE: ['In progress', '进行中'],
   COMPLETED: ['Completed', '已完成'],
   TERMINATED_MISSING_RESULT: [
-    'Ended: result not recorded',
-    '已终止：病例未记录该检查',
+    'Case ended: no recorded answer or result',
+    '病例已结束：没有答案或检查结果',
   ],
   PRESENT: ['Present', '存在'],
   ABSENT: ['Absent', '不存在'],
@@ -262,6 +263,7 @@ function EncounterDialog({
     <dialog
       ref={ref}
       className="enc-dialog"
+      aria-busy={busy}
       aria-labelledby={title}
       onCancel={(e) => {
         e.preventDefault();
@@ -321,6 +323,7 @@ function EncounterWorkspace({
   const [libraryPage, setLibraryPage] = useState(0);
   const [pageSize, setPageSize] = useState(4);
   const libraryBody = useRef<HTMLDivElement>(null);
+  const librarySearch = useRef<HTMLInputElement>(null);
   const [stepIndex, setStepIndex] = useState<number | null>(null);
   const [pane, setPane] = useState<'patient' | 'library' | 'result'>('library');
   const [prescriptionOpen, setPrescriptionOpen] = useState(false);
@@ -351,6 +354,7 @@ function EncounterWorkspace({
         .then((v) => {
           if (live) {
             setVisit(v);
+            setPane(v.events.length ? 'result' : 'library');
             setPrescription(v.prescription ?? '');
           }
         })
@@ -418,17 +422,38 @@ function EncounterWorkspace({
     setVisit(next);
     setStepIndex(null);
     setPane('result');
-    setHistory(await api<History[]>('/encounters/history'));
+    // The mutation already returned the saved visit. Never hold the result dialog
+    // open waiting for a second, unrelated history request.
+    const saved = {
+      id: next.id,
+      case_id: next.case_id,
+      status: next.status,
+      created_at: next.created_at,
+      diagnoses: next.diagnoses,
+    };
+    setHistory((rows) =>
+      rows.some((row) => row.id === next.id)
+        ? rows.map((row) => (row.id === next.id ? saved : row))
+        : [saved, ...rows],
+    );
   }
   async function choose(item: Item) {
-    setReasons(
-      await api<Reason[]>(`/encounters/reasons/${encodeURIComponent(item.id)}`),
-    );
     setSelected(item);
+    setReasons([]);
     setReasonId('');
     setReasonText('');
     setReasonDetails(false);
     setHypothesis('');
+    setReasons(
+      await api<Reason[]>(`/encounters/reasons/${encodeURIComponent(item.id)}`),
+    );
+  }
+  function continueVisit() {
+    setPane('library');
+    setQuery('');
+    setCategory('');
+    setLibraryPage(0);
+    requestAnimationFrame(() => librarySearch.current?.focus());
   }
   async function download() {
     const data = await api<object>(`/encounters/${visit!.id}/export`);
@@ -659,8 +684,8 @@ function EncounterWorkspace({
           {visit.status === 'TERMINATED_MISSING_RESULT' && (
             <output className="enc-ended">
               {t(
-                'The selected examination has no recorded result in this case. This visit has ended; your choice, reason and full trajectory have been saved.',
-                '该病例没有所选检查的记录结果，本次就诊已终止。所选检查、原因及完整轨迹已保存。',
+                'This case has no answer or result for the selected item. The case has ended and the complete trajectory is saved. Choose another visit to continue.',
+                '所选问题或检查在此病例中没有答案或结果。病例已结束，完整轨迹已保存。请点击“选择其他病例”继续。',
               )}
             </output>
           )}
@@ -761,6 +786,7 @@ function EncounterWorkspace({
               <label className="enc-search">
                 <Search size={18} />
                 <input
+                  ref={librarySearch}
                   aria-label={t('Search clinical library', '搜索临床目录')}
                   placeholder={t(
                     'Search in English or Chinese',
@@ -790,8 +816,8 @@ function EncounterWorkspace({
               </select>
               <p className="enc-muted">
                 {t(
-                  'Choose an item, then record why you chose it.',
-                  '选择项目后，请记录本次选择的原因。',
+                  'Click an item and choose a reason. A missing answer or result ends the case.',
+                  '点击项目并选择原因后返回结果；没有答案或结果则结束病例。',
                 )}
               </p>
               <div className="enc-items" ref={libraryBody}>
@@ -836,7 +862,32 @@ function EncounterWorkspace({
               </div>
             </section>
             <section className="enc-card enc-timeline">
-              <h2>{t('Decision trajectory', '诊疗决策轨迹')}</h2>
+              <h2>
+                {t('Answers & decision trajectory', '问答结果与决策轨迹')}
+              </h2>
+              {busy && (
+                <output className="enc-step-status">
+                  {t('Processing your selection…', '正在处理你的选择…')}
+                </output>
+              )}
+              {!busy && visit.events[currentStep]?.type === 'ACTION' && (
+                <output className="enc-step-status">
+                  {visit.events[currentStep].result_status === 'RECORDED'
+                    ? t(
+                        `Step ${visit.events[currentStep].sequence}: answer / result returned below.`,
+                        `第 ${visit.events[currentStep].sequence} 步：答案 / 结果已返回，见下方。`,
+                      )
+                    : visit.status === 'TERMINATED_MISSING_RESULT'
+                      ? t(
+                          'No answer / result. This case has ended.',
+                          '没有答案 / 结果，病例已结束。',
+                        )
+                      : t(
+                          'No recorded answer / result in this step.',
+                          '该历史步骤没有记录答案 / 结果。',
+                        )}
+                </output>
+              )}
               {!!visit.events.length && (
                 <div className="enc-step-controls">
                   <select
@@ -909,7 +960,10 @@ function EncounterWorkspace({
                     )}
                     {event.result_status === 'NOT_RECORDED' && (
                       <p className="enc-missing">
-                        {t('Not recorded in this case.', '该病例未记载。')}
+                        {t(
+                          'No recorded answer or result. The choice and reason are saved in the trajectory.',
+                          '该病例没有此项答案或结果；所选项目及原因已保存到轨迹。',
+                        )}
                       </p>
                     )}
                     {event.records?.map((r, i) => (
@@ -938,6 +992,26 @@ function EncounterWorkspace({
                   </PagedReader>
                 </article>
               ))}
+              {active && !!visit.events.length && (
+                <div className="enc-next-actions">
+                  <button
+                    className="enc-primary"
+                    disabled={busy}
+                    onClick={continueVisit}
+                  >
+                    {t(
+                      'Choose the next inquiry / examination',
+                      '继续选择问询 / 检查',
+                    )}
+                  </button>
+                  <small>
+                    {t(
+                      'Or use Diagnosis above to record your diagnosis.',
+                      '也可点击顶部“诊断”记录当前诊断。',
+                    )}
+                  </small>
+                </div>
+              )}
             </section>
           </div>
           {prescriptionOpen && active && (
@@ -1026,8 +1100,23 @@ function EncounterWorkspace({
           <p>
             {t('Why do you want to choose this step?', '为什么选择这一步？')}
           </p>
-          {!reasonDetails && (
-            <fieldset>
+          {!reasons.length && (
+            <output className="enc-muted">
+              {busy
+                ? t('Loading reasons…', '正在加载原因选项…')
+                : t(
+                    'Reasons could not be loaded. Please retry.',
+                    '原因选项加载失败，请重试。',
+                  )}
+            </output>
+          )}
+          {!busy && !reasons.length && (
+            <button onClick={() => run(() => choose(selected))}>
+              {t('Retry', '重试')}
+            </button>
+          )}
+          {!!reasons.length && !reasonDetails && (
+            <fieldset disabled={busy}>
               <legend className="enc-muted">
                 {t('Select one reason', '请选择一个原因')}
               </legend>
@@ -1102,7 +1191,14 @@ function EncounterWorkspace({
               })
             }
           >
-            {t('Record reason and perform step', '记录原因并执行')}
+            {busy
+              ? reasons.length
+                ? t('Retrieving answer / result…', '正在获取答案 / 结果…')
+                : t('Loading reasons…', '正在加载原因选项…')
+              : t(
+                  'Record reason and get answer / result',
+                  '记录原因并获取答案 / 结果',
+                )}
           </button>
         </EncounterDialog>
       )}

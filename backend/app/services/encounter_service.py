@@ -93,7 +93,7 @@ class EncounterService:
             if any(e.get("item", {}).get("id") == request.item_id for e in doc["events"]):
                 raise ValueError("This item has already been selected")
             records = self.catalog.bindings[doc["case_id"]].get(request.item_id, [])
-            if not records and item["kind"] == "operation":
+            if not records:
                 doc.update(status="TERMINATED_MISSING_RESULT", completed_at=now())
             return {"type": "ACTION", "item": item, "reason_options": reasons,
                     "reason_generator_version": "clinical-reason-profiles.v1",
@@ -170,7 +170,7 @@ class EncounterService:
         with self.lock:
             documents = [json.loads(row[0]) for row in self.connection.execute("SELECT document FROM encounters")]
         nodes, edges = {}, {}
-        reasons, terminations = {}, {}
+        reasons, terminations, missing_inquiries = {}, {}, {}
         for doc in documents:
             parent = doc["case_id"]
             nodes.setdefault(parent, {"id": parent, "label": parent, "count": 0})["count"] += 1
@@ -182,6 +182,8 @@ class EncounterService:
                     reasons[event["reason_id"]] = reasons.get(event["reason_id"], 0) + 1
                     if event["result_status"] == "NOT_RECORDED" and event["item"]["kind"] == "operation":
                         terminations[event["item"]["id"]] = terminations.get(event["item"]["id"], 0) + 1
+                    if event["result_status"] == "NOT_RECORDED" and event["item"]["kind"] == "inquiry":
+                        missing_inquiries[event["item"]["id"]] = missing_inquiries.get(event["item"]["id"], 0) + 1
                 child = hashlib.sha256(f"{parent}/{label}".encode()).hexdigest()[:24]
                 nodes.setdefault(child, {"id": child, "label": label, "count": 0,
                                          "item": event.get("item"), "event_type": event["type"],
@@ -189,4 +191,5 @@ class EncounterService:
                 edges.setdefault((parent, child), {"source": parent, "target": child, "count": 0})["count"] += 1
                 parent = child
         return {"nodes": list(nodes.values()), "edges": list(edges.values()), "session_count": len(documents),
-                "reason_counts": reasons, "missing_examination_counts": terminations}
+                "reason_counts": reasons, "missing_examination_counts": terminations,
+                "missing_inquiry_counts": missing_inquiries}
