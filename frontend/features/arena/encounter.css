@@ -108,7 +108,7 @@
 }
 .enc-grow {
   flex: 1;
-  min-width: 240px;
+  min-width: min(240px, 100%);
 }
 .enc-between {
   justify-content: space-between;
@@ -168,10 +168,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 650px;
-  overflow: auto;
   margin-top: 15px;
-  padding-right: 5px;
 }
 .enc-items button {
   display: flex;
@@ -293,6 +290,12 @@
   font-size: 12px;
   color: #64748b;
 }
+.enc-history span:last-child {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .enc-overlay {
   position: fixed;
   inset: 0;
@@ -376,10 +379,388 @@
   .enc-card {
     padding: 18px;
   }
-  .enc-items {
-    max-height: 360px;
-  }
   .enc-dialog {
     padding: 24px;
+  }
+}
+
+/* A visit is a viewport-sized workspace. Long evidence flows into pages. */
+.enc-page {
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.enc-page :is(input, select, textarea) {
+  min-width: 0;
+  max-width: 100%;
+}
+.enc-page svg {
+  flex-shrink: 0;
+}
+.enc-lobby .enc-history {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+}
+.enc-lobby .enc-card > h2:not(:first-child) {
+  margin-top: 28px;
+}
+.enc-workspace {
+  height: 100%;
+  max-width: none;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: #f0f5f5;
+}
+.enc-workspace .enc-heading {
+  margin: 0;
+  flex-shrink: 0;
+  gap: 8px;
+}
+.enc-workspace .enc-heading h1 {
+  font-size: 23px;
+  margin: 0;
+}
+.enc-workspace .enc-heading > div > p:not(.enc-eyebrow) {
+  font-size: 12px;
+  margin-top: 3px;
+}
+.enc-workspace .enc-heading .enc-row {
+  font-size: 12px;
+}
+.enc-workspace .enc-card {
+  margin: 0;
+  padding: 16px;
+  min-width: 0;
+  min-height: 0;
+}
+.enc-workspace .enc-card h2 {
+  font-size: 16px;
+  margin: 0 0 12px;
+  flex-shrink: 0;
+}
+.enc-workspace button {
+  font-size: 13px;
+  padding: 8px 10px;
+}
+.enc-workspace :is(input, select) {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.enc-workspace .enc-visit-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  padding: 10px 16px;
+}
+.enc-visit-bar .enc-row {
+  gap: 8px;
+}
+.enc-visit-bar h2 {
+  margin: 2px 0 0 !important;
+  font-size: 14px !important;
+}
+.enc-visit-bar .enc-eyebrow {
+  font-size: 10px;
+}
+.enc-workspace .enc-columns {
+  flex: 1;
+  min-height: 0;
+  gap: 12px;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.15fr) minmax(0, 1.3fr);
+}
+.enc-columns > .enc-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.enc-workspace .enc-tabs {
+  margin: 0 0 10px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.enc-workspace .enc-tabs button {
+  font-size: 12px;
+  padding: 8px 6px;
+  gap: 4px;
+}
+.enc-workspace .enc-search {
+  margin-bottom: 8px;
+}
+.enc-workspace .enc-search input {
+  padding-left: 34px;
+}
+.enc-workspace .enc-search > svg {
+  top: 11px;
+  left: 10px;
+}
+.enc-library > .enc-muted {
+  font-size: 11px;
+  margin-top: 8px;
+}
+.enc-workspace .enc-items {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.enc-items button {
+  height: 70px;
+  width: 100%;
+}
+.enc-items strong {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.enc-items small {
+  font-size: 10px;
+  line-height: 1.2;
+}
+.enc-library-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.enc-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 10px;
+  flex-shrink: 0;
+}
+.enc-pagination span {
+  color: #64748b;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.enc-page .enc-pagination button {
+  padding: 6px;
+}
+.enc-reader {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  flex-direction: column;
+}
+.enc-reader-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+.enc-reader-viewport:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: -2px;
+}
+.enc-reader-flow {
+  column-fill: auto;
+  column-gap: 24px;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.enc-reader-flow :is(.enc-result, .enc-values) {
+  display: block;
+}
+.enc-reader-flow .enc-result,
+.enc-reader-flow .enc-result > div {
+  break-inside: avoid-column;
+}
+.enc-reader-flow .enc-result > div {
+  min-width: 0;
+  margin-bottom: 12px;
+}
+.enc-reader-flow :is(h3, dt) {
+  break-after: avoid;
+}
+.enc-reader-flow p {
+  margin-bottom: 12px;
+}
+.enc-reader-flow .enc-answer {
+  margin: 10px 0;
+  padding: 10px;
+  box-decoration-break: clone;
+}
+.enc-section-label {
+  color: #0f766e;
+  font-weight: 650;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 12px;
+  margin: 16px 0 8px;
+}
+.enc-workspace .enc-timeline {
+  min-height: 0;
+}
+.enc-workspace .enc-step {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  margin: 12px 0 0;
+  border: 0;
+}
+.enc-step-controls {
+  flex-shrink: 0;
+}
+.enc-step-controls .enc-pagination {
+  justify-content: space-between;
+  padding-top: 6px;
+}
+.enc-workspace :is(.enc-ended, .enc-error) {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+.enc-pane-tabs {
+  display: none;
+}
+.enc-dialog {
+  width: min(680px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 24px;
+}
+.enc-dialog .enc-reason-option {
+  padding: 8px 10px;
+  margin: 6px 0;
+  font-size: 13px;
+}
+.enc-dialog fieldset {
+  margin: 12px 0;
+}
+.enc-dialog h2 {
+  font-size: 20px;
+}
+.enc-dialog textarea {
+  resize: vertical;
+}
+.enc-dialog .enc-detail-toggle {
+  font-size: 12px;
+  color: #0f766e;
+  border: 0;
+  padding: 4px 0;
+}
+.enc-dialog label:has(textarea),
+.enc-dialog label:has(input:not([type='radio'])) {
+  margin: 12px 0;
+}
+.enc-dialog .enc-reason-option {
+  line-height: 1.45;
+}
+
+@container (max-width: 1000px) {
+  .enc-workspace {
+    padding: 12px;
+    gap: 10px;
+  }
+  .enc-pane-tabs {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .enc-pane-tabs button {
+    flex: 1;
+    font-size: 12px;
+  }
+  .enc-pane-tabs button[aria-pressed='true'] {
+    background: #134e4a;
+    color: white;
+    border-color: #134e4a;
+  }
+  .enc-workspace .enc-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .enc-columns[data-pane='patient'] > :not(.enc-patient),
+  .enc-columns[data-pane='library'] > :not(.enc-library),
+  .enc-columns[data-pane='result'] > :not(.enc-timeline) {
+    display: none;
+  }
+}
+@container (max-width: 550px) {
+  .enc-workspace {
+    padding: 10px;
+    gap: 8px;
+  }
+  .enc-workspace .enc-heading h1 {
+    font-size: 19px;
+  }
+  .enc-workspace .enc-heading :is(.enc-eyebrow, .enc-row),
+  .enc-workspace .enc-heading > div > p:not(.enc-eyebrow) {
+    display: none;
+  }
+  .enc-workspace .enc-visit-bar {
+    padding: 10px;
+    gap: 8px;
+  }
+  .enc-visit-bar > .enc-row {
+    width: 100%;
+  }
+  .enc-visit-bar > .enc-row:last-child {
+    gap: 5px;
+  }
+  .enc-visit-bar button {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  .enc-workspace .enc-card {
+    padding: 12px;
+  }
+}
+@media (max-height: 700px) {
+  .enc-workspace .enc-library > h2,
+  .enc-workspace .enc-library > .enc-muted {
+    display: none;
+  }
+  .enc-workspace {
+    padding-block: 10px;
+    gap: 8px;
+  }
+  .enc-workspace .enc-heading :is(.enc-eyebrow, p:not(.enc-eyebrow)) {
+    display: none;
+  }
+  .enc-workspace .enc-card h2 {
+    margin-bottom: 8px;
+  }
+  .enc-dialog {
+    padding: 16px 20px;
+  }
+  .enc-dialog h2 {
+    margin: 0 24px 6px 0;
+    font-size: 17px;
+  }
+  .enc-dialog > label {
+    margin: 8px 0;
+  }
+  .enc-dialog textarea {
+    height: 54px;
+  }
+}
+@media (max-height: 600px) {
+  .enc-workspace .enc-heading {
+    display: none;
+  }
+  .enc-workspace .enc-visit-bar .enc-eyebrow {
+    display: none;
+  }
+  .enc-dialog .enc-eyebrow {
+    display: none;
+  }
+  .enc-dialog .enc-reason-option {
+    padding: 6px 8px;
+    font-size: 12px;
+    line-height: 1.35;
   }
 }

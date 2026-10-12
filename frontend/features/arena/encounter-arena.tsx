@@ -16,6 +16,7 @@ import { useAuth } from '@/features/auth/auth-context';
 import { AuthGate } from '@/features/auth/auth-gate';
 import { useLanguage } from '@/features/i18n/language-context';
 import { api, eventId, API_BASE } from '@/lib/api';
+import { PageControls, PagedReader } from './paged-reader';
 import './encounter.css';
 
 type Label = { en: string; 'zh-CN': string };
@@ -310,12 +311,20 @@ function EncounterWorkspace({
   const [reasons, setReasons] = useState<Reason[]>([]);
   const [reasonId, setReasonId] = useState('');
   const [reasonText, setReasonText] = useState('');
+  const [reasonDetails, setReasonDetails] = useState(false);
   const [hypothesis, setHypothesis] = useState('');
   const [diagnosisOpen, setDiagnosisOpen] = useState(false);
   const [diagnosis, setDiagnosis] = useState('');
   const [prescription, setPrescription] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [libraryPage, setLibraryPage] = useState(0);
+  const [pageSize, setPageSize] = useState(4);
+  const libraryBody = useRef<HTMLDivElement>(null);
+  const [stepIndex, setStepIndex] = useState<number | null>(null);
+  const [pane, setPane] = useState<'patient' | 'library' | 'result'>('library');
+  const [prescriptionOpen, setPrescriptionOpen] = useState(false);
+  const [historyPage, setHistoryPage] = useState(0);
   const storageKey = `clincforestbench.encounter.${account?.username ?? ''}`;
 
   useEffect(() => {
@@ -372,6 +381,23 @@ function EncounterWorkspace({
   ];
   const used = new Set(visit?.events.map((e) => e.item?.id));
   const active = visit?.status === 'ACTIVE';
+  const currentStep = Math.min(
+    stepIndex ?? (visit?.events.length ?? 1) - 1,
+    (visit?.events.length ?? 1) - 1,
+  );
+  const libraryPages = Math.max(1, Math.ceil(items.length / pageSize));
+  const safeLibraryPage = Math.min(libraryPage, libraryPages - 1);
+
+  useEffect(() => {
+    const element = libraryBody.current;
+    if (!element) return;
+    const observer = new ResizeObserver(() => {
+      if (element.clientHeight)
+        setPageSize(Math.max(1, Math.floor((element.clientHeight + 8) / 78)));
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [visit?.id]);
 
   async function run(action: () => Promise<void>) {
     setBusy(true);
@@ -390,6 +416,8 @@ function EncounterWorkspace({
       body: JSON.stringify({ ...body, client_event_id: eventId(path) }),
     });
     setVisit(next);
+    setStepIndex(null);
+    setPane('result');
     setHistory(await api<History[]>('/encounters/history'));
   }
   async function choose(item: Item) {
@@ -399,6 +427,7 @@ function EncounterWorkspace({
     setSelected(item);
     setReasonId('');
     setReasonText('');
+    setReasonDetails(false);
     setHypothesis('');
   }
   async function download() {
@@ -418,7 +447,7 @@ function EncounterWorkspace({
   if (!account) return <AuthGate />;
 
   return (
-    <main className="enc-page">
+    <main className={`enc-page ${visit ? 'enc-workspace' : 'enc-lobby'}`}>
       <header className="enc-heading">
         <div>
           <p className="enc-eyebrow">CLINCFORESTBENCH / VISIT</p>
@@ -450,7 +479,7 @@ function EncounterWorkspace({
           {error}
         </div>
       )}
-      {(historyOnly || !visit) && (
+      {!visit && (
         <section className="enc-card">
           {!historyOnly && (
             <>
@@ -506,6 +535,12 @@ function EncounterWorkspace({
                         }),
                       });
                       setVisit(v);
+                      setStepIndex(null);
+                      setPane('patient');
+                      setKind('inquiry');
+                      setQuery('');
+                      setCategory('');
+                      setLibraryPage(0);
                       setPrescription('');
                       localStorage.setItem(storageKey, v.id);
                     })
@@ -518,7 +553,7 @@ function EncounterWorkspace({
           )}
           <h2>{t('Saved trajectories', '已保存轨迹')}</h2>
           <div className="enc-history">
-            {history.map((h) => (
+            {history.slice(historyPage * 8, historyPage * 8 + 8).map((h) => (
               <button
                 key={h.id}
                 disabled={busy}
@@ -526,6 +561,8 @@ function EncounterWorkspace({
                   run(async () => {
                     const v = await api<Visit>(`/encounters/${h.id}`);
                     setVisit(v);
+                    setStepIndex(null);
+                    setPane('result');
                     setPrescription(v.prescription ?? '');
                     localStorage.setItem(storageKey, v.id);
                   })
@@ -543,11 +580,21 @@ function EncounterWorkspace({
               <p>{t('No saved visits yet.', '暂无已保存就诊。')}</p>
             )}
           </div>
+          <PageControls
+            page={historyPage}
+            pages={Math.max(1, Math.ceil(history.length / 8))}
+            onChange={setHistoryPage}
+            chinese={zh}
+            label={t('Saved trajectories', '已保存轨迹')}
+          />
         </section>
       )}
       {visit && (
         <>
-          <section className="enc-card">
+          <section
+            className="enc-card enc-visit-bar"
+            aria-label={t('Visit controls', '就诊操作')}
+          >
             <div className="enc-row enc-between">
               <div>
                 <span className="enc-eyebrow">
@@ -559,26 +606,6 @@ function EncounterWorkspace({
                 {statuses[visit.status]?.[zh ? 1 : 0]}
               </span>
             </div>
-            <ResultValue
-              value={visit.visit.demographics}
-              chinese={zh}
-              caseId={visit.case_id}
-            />
-            <div className="enc-presentation">
-              <ResultValue
-                value={visit.visit.presentation}
-                chinese={zh}
-                caseId={visit.case_id}
-              />
-            </div>
-            {visit.visit.track_type === 'WORKFLOW_FOREST' && (
-              <p>
-                {t(
-                  'This source contains offline workflow instructions; they are not patient examination results.',
-                  '该来源为离线工作流指令，内容不代表患者检查结果。',
-                )}
-              </p>
-            )}
             <div className="enc-row">
               <button
                 disabled={busy || !active}
@@ -595,10 +622,29 @@ function EncounterWorkspace({
                 <Download size={17} />
                 {t('Export trajectory', '导出轨迹')}
               </button>
+              {!!visit.diagnoses.length && active && (
+                <>
+                  {visit.prescription_available && (
+                    <button
+                      disabled={busy}
+                      onClick={() => setPrescriptionOpen(true)}
+                    >
+                      {t('Prescription', '处方')}
+                    </button>
+                  )}
+                  <button
+                    disabled={busy}
+                    onClick={() => run(() => update('finish', {}))}
+                  >
+                    {t('Complete visit', '完成本次就诊')}
+                  </button>
+                </>
+              )}
               <button
                 disabled={busy}
                 onClick={() => {
                   setVisit(null);
+                  setHistoryPage(0);
                   localStorage.removeItem(storageKey);
                   setHistory([]);
                   void run(async () =>
@@ -609,12 +655,6 @@ function EncounterWorkspace({
                 {t('Choose another visit', '选择其他病例')}
               </button>
             </div>
-            {!!visit.diagnoses.length && (
-              <p>
-                <strong>{t('Current diagnosis: ', '当前诊断：')}</strong>
-                {visit.diagnoses.join(' · ')}
-              </p>
-            )}
           </section>
           {visit.status === 'TERMINATED_MISSING_RESULT' && (
             <output className="enc-ended">
@@ -624,7 +664,65 @@ function EncounterWorkspace({
               )}
             </output>
           )}
-          <div className="enc-columns">
+          <nav
+            className="enc-pane-tabs"
+            aria-label={t('Workspace panels', '工作区分栏')}
+          >
+            {(['patient', 'library', 'result'] as const).map((value) => (
+              <button
+                key={value}
+                aria-pressed={pane === value}
+                onClick={() => setPane(value)}
+              >
+                {
+                  {
+                    patient: t('Visit information', '首诊信息'),
+                    library: t('Choose a step', '问询 / 检查'),
+                    result: t('Results & trajectory', '结果 / 轨迹'),
+                  }[value]
+                }
+              </button>
+            ))}
+          </nav>
+          <div className="enc-columns" data-pane={pane}>
+            <section className="enc-card enc-patient">
+              <h2>{t('Visit information', '首诊信息')}</h2>
+              <PagedReader
+                key={visit.id}
+                chinese={zh}
+                label={t('Visit information', '首诊信息')}
+              >
+                <ResultValue
+                  value={visit.visit.demographics}
+                  chinese={zh}
+                  caseId={visit.case_id}
+                />
+                <h3 className="enc-section-label">
+                  {t('Initial presentation', '首诊描述')}
+                </h3>
+                <ResultValue
+                  value={visit.visit.presentation}
+                  chinese={zh}
+                  caseId={visit.case_id}
+                />
+                {visit.visit.track_type === 'WORKFLOW_FOREST' && (
+                  <p className="enc-missing">
+                    {t(
+                      'This source contains offline workflow instructions, not patient examination results.',
+                      '该来源为离线工作流指令，内容不代表患者检查结果。',
+                    )}
+                  </p>
+                )}
+                {!!visit.diagnoses.length && (
+                  <>
+                    <h3 className="enc-section-label">
+                      {t('Current diagnosis', '当前诊断')}
+                    </h3>
+                    <p>{visit.diagnoses.join(' · ')}</p>
+                  </>
+                )}
+              </PagedReader>
+            </section>
             <section className="enc-card enc-library">
               <h2>
                 <ClipboardList size={20} />
@@ -635,6 +733,7 @@ function EncounterWorkspace({
                   aria-pressed={kind === 'inquiry'}
                   onClick={() => {
                     setKind('inquiry');
+                    setLibraryPage(0);
                     setCategory('');
                   }}
                 >
@@ -648,6 +747,7 @@ function EncounterWorkspace({
                   aria-pressed={kind === 'operation'}
                   onClick={() => {
                     setKind('operation');
+                    setLibraryPage(0);
                     setCategory('');
                   }}
                 >
@@ -667,13 +767,19 @@ function EncounterWorkspace({
                     '支持中英文搜索',
                   )}
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setLibraryPage(0);
+                  }}
                 />
               </label>
               <select
                 aria-label={t('Category', '分类')}
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                  setLibraryPage(0);
+                }}
               >
                 <option value="">{t('All categories', '全部分类')}</option>
                 {availableCategories.map((c) => (
@@ -688,31 +794,80 @@ function EncounterWorkspace({
                   '选择项目后，请记录本次选择的原因。',
                 )}
               </p>
-              <div className="enc-items">
-                {items.map((item) => (
-                  <button
-                    key={item.id}
-                    disabled={busy || !active || used.has(item.id)}
-                    onClick={() => run(() => choose(item))}
-                  >
-                    <strong>{item.label[locale]}</strong>
-                    <small>
-                      {zh
-                        ? (categories[item.category] ?? item.category)
-                        : item.category}
-                      {used.has(item.id)
-                        ? t(' · Already selected', ' · 已选择')
-                        : ''}
-                    </small>
-                  </button>
-                ))}
+              <div className="enc-items" ref={libraryBody}>
+                {items
+                  .slice(
+                    safeLibraryPage * pageSize,
+                    (safeLibraryPage + 1) * pageSize,
+                  )
+                  .map((item) => (
+                    <button
+                      key={item.id}
+                      title={item.label[locale]}
+                      disabled={busy || !active || used.has(item.id)}
+                      onClick={() => run(() => choose(item))}
+                    >
+                      <strong>{item.label[locale]}</strong>
+                      <small>
+                        {zh
+                          ? (categories[item.category] ?? item.category)
+                          : item.category}
+                        {used.has(item.id)
+                          ? t(' · Already selected', ' · 已选择')
+                          : ''}
+                      </small>
+                    </button>
+                  ))}
                 {!items.length && (
                   <p>{t('No matching items.', '没有匹配项目。')}</p>
                 )}
               </div>
+              <div className="enc-library-footer">
+                <small className="enc-muted">
+                  {items.length} {t('items', '项')}
+                </small>
+                <PageControls
+                  page={safeLibraryPage}
+                  pages={libraryPages}
+                  onChange={setLibraryPage}
+                  chinese={zh}
+                  label={t('Clinical library', '临床目录')}
+                />
+              </div>
             </section>
             <section className="enc-card enc-timeline">
               <h2>{t('Decision trajectory', '诊疗决策轨迹')}</h2>
+              {!!visit.events.length && (
+                <div className="enc-step-controls">
+                  <select
+                    aria-label={t('Choose a recorded step', '查看已记录步骤')}
+                    value={currentStep}
+                    onChange={(event) =>
+                      setStepIndex(Number(event.target.value))
+                    }
+                  >
+                    {visit.events.map((event, index) => (
+                      <option key={event.id} value={index}>
+                        {event.sequence}.{' '}
+                        {event.item?.label[locale] ??
+                          {
+                            DIAGNOSIS: t('Diagnosis', '诊断'),
+                            PRESCRIPTION: t('Prescription', '处方'),
+                            COMPLETE: t('Visit completed', '就诊完成'),
+                          }[event.type] ??
+                          event.type}
+                      </option>
+                    ))}
+                  </select>
+                  <PageControls
+                    page={currentStep}
+                    pages={visit.events.length}
+                    onChange={setStepIndex}
+                    chinese={zh}
+                    label={t('Recorded steps', '已记录步骤')}
+                  />
+                </div>
+              )}
               {!visit.events.length && (
                 <p className="enc-muted">
                   {t(
@@ -721,10 +876,12 @@ function EncounterWorkspace({
                   )}
                 </p>
               )}
-              {visit.events.map((event) => (
+              {visit.events.slice(currentStep, currentStep + 1).map((event) => (
                 <article key={event.id} className="enc-step">
-                  <span className="enc-step-number">{event.sequence}</span>
-                  <div>
+                  <PagedReader
+                    chinese={zh}
+                    label={t('Step details', '步骤详情')}
+                  >
                     <h3>
                       {event.item?.label[locale] ??
                         {
@@ -778,14 +935,33 @@ function EncounterWorkspace({
                     <small className="enc-muted">
                       {new Date(event.timestamp).toLocaleTimeString(locale)}
                     </small>
-                  </div>
+                  </PagedReader>
                 </article>
               ))}
             </section>
           </div>
-          {!!visit.diagnoses.length && active && (
-            <section className="enc-card">
-              <h2>{t('After diagnosis', '诊断之后')}</h2>
+          {prescriptionOpen && active && (
+            <EncounterDialog
+              title="enc-prescription-title"
+              busy={busy}
+              onClose={() => setPrescriptionOpen(false)}
+            >
+              <button
+                className="enc-close"
+                aria-label={t('Close', '关闭')}
+                disabled={busy}
+                onClick={() => setPrescriptionOpen(false)}
+              >
+                <X />
+              </button>
+              {error && (
+                <p role="alert" className="enc-error">
+                  {error}
+                </p>
+              )}
+              <h2 id="enc-prescription-title">
+                {t('After diagnosis', '诊断之后')}
+              </h2>
               {visit.prescription_available && (
                 <>
                   <label>
@@ -806,27 +982,23 @@ function EncounterWorkspace({
                   <button
                     disabled={busy || !prescription.trim()}
                     onClick={() =>
-                      run(() => update('prescription', { text: prescription }))
+                      run(async () => {
+                        await update('prescription', { text: prescription });
+                        setPrescriptionOpen(false);
+                      })
                     }
                   >
                     {t('Save prescription', '保存处方')}
                   </button>
                 </>
               )}
-              <button
-                className="enc-primary"
-                disabled={busy}
-                onClick={() => run(() => update('finish', {}))}
-              >
-                {t('Complete visit', '完成本次就诊')}
-              </button>
               <p className="enc-muted">
                 {t(
                   'You may continue investigating or revise the diagnosis before completing the visit.',
                   '完成前仍可继续问询、检查或修改诊断。',
                 )}
               </p>
-            </section>
+            </EncounterDialog>
           )}
         </>
       )}
@@ -854,37 +1026,65 @@ function EncounterWorkspace({
           <p>
             {t('Why do you want to choose this step?', '为什么选择这一步？')}
           </p>
-          <fieldset>
-            <legend className="enc-muted">
-              {t('Select one reason', '请选择一个原因')}
-            </legend>
-            {reasons.map((r) => (
-              <label className="enc-reason-option" key={r.id}>
-                <input
-                  type="radio"
-                  name="reason"
-                  checked={reasonId === r.id}
-                  onChange={() => setReasonId(r.id)}
+          {!reasonDetails && (
+            <fieldset>
+              <legend className="enc-muted">
+                {t('Select one reason', '请选择一个原因')}
+              </legend>
+              {reasons.map((r) => (
+                <label className="enc-reason-option" key={r.id}>
+                  <input
+                    type="radio"
+                    name="reason"
+                    checked={reasonId === r.id}
+                    onChange={() => {
+                      setReasonId(r.id);
+                      if (r.id === 'other') setReasonDetails(true);
+                    }}
+                  />
+                  {r.label[locale]}
+                </label>
+              ))}
+            </fieldset>
+          )}
+          <button
+            className="enc-detail-toggle"
+            disabled={busy}
+            onClick={() => setReasonDetails(!reasonDetails)}
+          >
+            {reasonDetails
+              ? t('Back to reasons', '返回原因选项')
+              : t(
+                  'Add explanation or hypothesis (optional)',
+                  '补充说明或诊断假设（可选）',
+                )}
+          </button>
+          {reasonDetails && (
+            <>
+              <p className="enc-reason">
+                {reasons.find((r) => r.id === reasonId)?.label[locale] ??
+                  t(
+                    'Choose a reason before submitting.',
+                    '提交前请先选择原因。',
+                  )}
+              </p>
+              <label>
+                {t('Additional explanation', '补充说明')}
+                {reasonId === 'other' && ' *'}
+                <textarea
+                  value={reasonText}
+                  onChange={(e) => setReasonText(e.target.value)}
                 />
-                {r.label[locale]}
               </label>
-            ))}
-          </fieldset>
-          <label>
-            {t('Additional explanation', '补充说明')}
-            {reasonId === 'other' && ' *'}
-            <textarea
-              value={reasonText}
-              onChange={(e) => setReasonText(e.target.value)}
-            />
-          </label>
-          <label>
-            {t('Suspected diagnosis (optional)', '当前怀疑诊断（可选）')}
-            <input
-              value={hypothesis}
-              onChange={(e) => setHypothesis(e.target.value)}
-            />
-          </label>
+              <label>
+                {t('Suspected diagnosis (optional)', '当前怀疑诊断（可选）')}
+                <input
+                  value={hypothesis}
+                  onChange={(e) => setHypothesis(e.target.value)}
+                />
+              </label>
+            </>
+          )}
           <button
             className="enc-primary"
             disabled={

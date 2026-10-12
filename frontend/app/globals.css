@@ -145,7 +145,8 @@ body {
 }
 
 @layer components {
-  .bench-app-shell {
+  .bench-app-shell,
+  [data-slot='sidebar'][data-mobile='true'] {
     --sidebar: #061d2a;
     --sidebar-foreground: #d9f6fb;
     --sidebar-primary: #22d3ee;
@@ -154,10 +155,28 @@ body {
     --sidebar-accent-foreground: #ecfeff;
     --sidebar-border: rgb(165 243 252 / 12%);
     --sidebar-ring: #22d3ee;
+  }
+  .bench-app-shell {
     @apply h-dvh min-h-0 overflow-hidden;
   }
   .app-shell-content {
-    @apply relative min-h-0 min-w-0 flex-1 overflow-hidden;
+    @apply relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden;
+  }
+  .app-shell-page {
+    @apply relative min-h-0 min-w-0 flex-1 overflow-auto;
+    container-type: inline-size;
+    overscroll-behavior: contain;
+  }
+  .mobile-shell-bar {
+    @apply shrink-0 items-center gap-2 border-b border-cyan-900 bg-[#061d2a] px-3 py-2 text-sm text-cyan-50;
+  }
+  .mobile-shell-bar > span {
+    flex: 1;
+  }
+  @media (max-width: 767px) {
+    .mobile-shell-bar {
+      display: flex;
+    }
   }
   .bench-app-shell [data-slot='sidebar-inner'] {
     background-image:

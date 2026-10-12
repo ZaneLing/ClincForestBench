@@ -4,6 +4,7 @@ import { ApplicationShell } from '@/components/application-shell';
 import { AuthProvider } from '@/features/auth/auth-context';
 import { LanguageProvider } from '@/features/i18n/language-context';
 import './globals.css';
+import './responsive.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

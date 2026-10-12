@@ -29,6 +29,7 @@ import {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/features/auth/auth-context';
 import {
@@ -93,6 +94,22 @@ const navigation = [
   },
 ];
 
+function SidebarRouteLink({
+  onClick,
+  ...props
+}: React.ComponentProps<typeof Link>) {
+  const { setOpenMobile } = useSidebar();
+  return (
+    <Link
+      {...props}
+      onClick={(event) => {
+        onClick?.(event);
+        if (!event.defaultPrevented) setOpenMobile(false);
+      }}
+    />
+  );
+}
+
 export function ApplicationShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { account, logout } = useAuth();
@@ -138,7 +155,7 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
                       <SidebarMenuButton
                         className="bench-sidebar-link h-11"
                         isActive={active}
-                        render={<Link href={item.href} />}
+                        render={<SidebarRouteLink href={item.href} />}
                         tooltip={isChinese ? item.label.zh : item.label.en}
                       >
                         <Icon />
@@ -200,8 +217,14 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
         <SidebarRail />
       </Sidebar>
       <div className="app-shell-content">
-        <SidebarTrigger className="mobile-sidebar-trigger md:hidden" />
-        {children}
+        <div className="mobile-shell-bar md:hidden">
+          <SidebarTrigger
+            aria-label={isChinese ? '打开导航' : 'Open navigation'}
+          />
+          <span>ClincForestBench</span>
+          <LanguageSwitcher />
+        </div>
+        <div className="app-shell-page">{children}</div>
       </div>
     </SidebarProvider>
   );

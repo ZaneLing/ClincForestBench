@@ -63,7 +63,7 @@ export function LandingExperience() {
             独立的决策路径由此生长、分叉，并汇聚成可比较的临床决策森林。
           </p>
           <div className="landing-cta-row">
-            <Button render={<Link href="/arena" />} size="lg">
+            <Button nativeButton={false} render={<Link href="/arena" />} size="lg">
               <Stethoscope /> Enter the Arena
               <ArrowRight />
             </Button>
@@ -123,9 +123,9 @@ export function LandingExperience() {
         </motion.div>
 
         <div className="landing-stats">
-          <LandingStat value="170" label="Versioned cases" />
-          <LandingStat value="8" label="Dataset tracks" />
-          <LandingStat value="130+40" label="Classic · Temporal" />
+          <LandingStat value="188" label="Versioned cases" />
+          <LandingStat value="14" label="Dataset tracks" />
+          <LandingStat value="130+58" label="Classic · Temporal" />
           <LandingStat value="Sₙ" label="Belief checkpoints" />
         </div>
       </div>

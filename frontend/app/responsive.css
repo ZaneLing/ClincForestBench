@@ -1,0 +1,345 @@
+/* Shared sizing uses available content width, including a collapsed sidebar. */
+.bench-app-shell {
+  min-height: 0;
+}
+[data-slot='sidebar'][data-mobile='true'] {
+  background: #061d2a;
+  color: #d9f6fb;
+  width: min(288px, calc(100vw - 32px));
+}
+.app-shell-page > :not(.enc-page) {
+  height: 100%;
+  max-width: 100%;
+}
+.app-shell-page :is(select, input, textarea) {
+  min-width: 0;
+  max-width: 100%;
+}
+.app-shell-page :is(header, section, article, form) {
+  min-width: 0;
+}
+.app-shell-page :is(h1, h2, h3, p, label) {
+  overflow-wrap: anywhere;
+}
+.temporal-root {
+  display: flex;
+  flex-direction: column;
+}
+.temporal-root > .temporal-mode-nav {
+  position: static;
+  transform: none;
+  translate: none;
+  width: 100%;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 0;
+  box-shadow: none;
+}
+.temporal-root > :not(.temporal-mode-nav) {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+}
+.case-audit-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.history-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.temporal-workspace {
+  grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.5fr) minmax(0, 0.85fr);
+}
+.temporal-audit-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.dataset-contract-hero {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+}
+.dataset-guide-columns {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+.dataset-guide-scroll {
+  min-width: 0;
+}
+.dataset-guide-tabs {
+  min-width: 0;
+  gap: 0;
+}
+.dataset-guide-tabs > [role='tablist'] {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 76px;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 0;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+.dataset-guide-tabs > [role='tablist'] > [role='tab'] {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 170px;
+  height: 44px;
+  padding: 8px 12px;
+}
+.unified-research-header {
+  height: auto;
+  min-height: 64px;
+  flex-wrap: wrap;
+  padding-block: 10px;
+}
+.unified-case-selectors {
+  flex-wrap: wrap;
+}
+.app-shell-page
+  :is(
+    .history-toolbar,
+    .forest-toolbar,
+    .admin-toolbar,
+    .temporal-controls,
+    .temporal-forest-toolbar
+  ) {
+  flex-wrap: wrap;
+}
+.app-shell-page
+  :is(.history-header, .forest-header, .admin-header, .temporal-header) {
+  flex-wrap: wrap;
+}
+.admin-table-scroll {
+  overflow: auto;
+}
+.admin-table-scroll table {
+  min-width: 640px;
+}
+.provider-picker {
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+}
+
+@container (max-width: 1100px) {
+  .case-audit-toolbar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+  }
+  .case-audit-grid,
+  .history-grid,
+  .temporal-workspace,
+  .temporal-audit-grid,
+  .temporal-forest-grid,
+  .model-setup-grid,
+  .model-run-grid,
+  .forest-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: minmax(400px, auto);
+    overflow: auto;
+    align-content: start;
+  }
+  .case-audit-grid > *,
+  .history-grid > *,
+  .temporal-workspace > *,
+  .temporal-audit-grid > *,
+  .temporal-forest-grid > *,
+  .model-setup-grid > *,
+  .model-run-grid > *,
+  .forest-workspace > * {
+    min-height: 400px;
+    max-height: 650px;
+  }
+  .temporal-page,
+  .temporal-audit-page,
+  .temporal-forest-page {
+    overflow-x: hidden;
+  }
+  .temporal-header,
+  .temporal-player-bar,
+  .temporal-workspace,
+  .temporal-audit-header,
+  .temporal-audit-grid,
+  .temporal-forest-page > header,
+  .temporal-forest-toolbar,
+  .temporal-forest-grid {
+    min-width: 0;
+  }
+  .temporal-player-bar {
+    flex-wrap: wrap;
+    height: auto;
+    gap: 10px;
+    padding-block: 10px;
+  }
+  .temporal-controls {
+    width: 100%;
+  }
+  .temporal-controls select {
+    flex: 1;
+    width: 100%;
+  }
+  .dataset-contract-hero,
+  .dataset-guide-columns {
+    grid-template-columns: minmax(0, 1fr);
+    overflow: visible;
+  }
+  .dataset-transform-pipeline {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .dataset-real-io {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .result-body {
+    grid-template-columns: minmax(0, 1fr);
+    overflow: auto;
+  }
+}
+
+@container (max-width: 600px) {
+  .dataset-contract-hero dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .model-setup-intro {
+    height: auto;
+    min-height: 128px;
+    padding: 16px;
+    gap: 12px;
+  }
+  .model-setup-intro h2 {
+    font-size: 17px;
+  }
+  .model-setup-hero-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .model-setup-header > div {
+    flex-basis: 160px;
+  }
+  .model-setup-footer {
+    height: auto;
+    min-height: 28px;
+    padding-block: 8px;
+  }
+  .dataset-model-contract > div,
+  .dataset-real-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .unified-case-selectors {
+    width: 100%;
+    gap: 8px;
+  }
+  .unified-case-selectors label {
+    width: 100%;
+  }
+  .unified-case-selectors label > span {
+    width: 65px;
+  }
+  .unified-case-selectors label select {
+    width: 100%;
+    flex: 1;
+  }
+  .unified-research-header,
+  .history-header,
+  .forest-header,
+  .admin-header,
+  .dataset-guide-header,
+  .temporal-header {
+    padding: 12px;
+    gap: 10px;
+  }
+  .history-toolbar,
+  .forest-toolbar,
+  .admin-toolbar {
+    padding: 12px;
+    gap: 8px;
+  }
+  .history-toolbar > label,
+  .forest-toolbar > label,
+  .admin-toolbar > label {
+    flex: 1 1 140px;
+  }
+  .case-audit-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .dataset-guide-header > [data-slot='badge'] {
+    display: none;
+  }
+  .dataset-guide-scroll {
+    padding: 12px;
+  }
+  .dataset-real-walkthrough-head,
+  .dataset-real-summary {
+    flex-wrap: wrap;
+  }
+  .dataset-real-artifact {
+    overflow: auto;
+  }
+  .model-setup-header,
+  .model-run-header {
+    height: auto;
+    min-height: 58px;
+    flex-wrap: wrap;
+    padding-block: 10px;
+  }
+  .model-run-context-bar {
+    height: auto;
+    flex-wrap: wrap;
+    padding-block: 8px;
+  }
+  .forest-summary {
+    flex-wrap: wrap;
+  }
+  .temporal-title,
+  .temporal-controls {
+    flex-wrap: wrap;
+  }
+  .temporal-player-bar .temporal-slider {
+    flex-basis: 100%;
+  }
+  .auth-gate {
+    overflow: auto;
+    padding: 16px;
+  }
+}
+
+/* The landing illustration must not impose a desktop-width canvas on phones. */
+@media (max-width: 767px) {
+  .bench-landing {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .landing-content {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    overflow: visible;
+    padding-top: 70px;
+  }
+  .landing-copy,
+  .landing-stats {
+    width: 100%;
+    min-width: 0;
+  }
+  .landing-content > * {
+    flex-shrink: 0;
+  }
+  .landing-copy h1 {
+    font-size: clamp(28px, 9vw, 54px);
+  }
+  .landing-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    min-height: 140px;
+  }
+  .diagnostic-orbit {
+    width: 100%;
+    min-width: 0;
+    min-height: 320px;
+    height: 360px;
+    overflow: hidden;
+  }
+  .landing-cta-row {
+    flex-wrap: wrap;
+  }
+}

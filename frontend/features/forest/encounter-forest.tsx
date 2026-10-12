@@ -48,7 +48,7 @@ export function EncounterForest() {
       <details
         key={id}
         open={depth < 2}
-        style={{ marginLeft: depth ? 20 : 0, padding: '8px 0' }}
+        style={{ marginLeft: depth > 0 && depth < 5 ? 16 : 0, padding: '8px 0' }}
       >
         <summary>
           {node.item?.label[locale] ??

@@ -69,7 +69,7 @@ export function TemporalForestDashboard() {
   const distribution = stage === 'FINAL' ? detail?.final_diagnoses ?? [] : detail?.stages.find((item) => item.checkpoint === stage)?.diagnoses ?? [];
 
   return <main className="temporal-forest-page">
-    <header><div><span><Trees /></span><div><small>ClincForestBench · Temporal population analytics</small><h1>时间决策森林</h1></div></div><Badge><Clock3 />40 TEMPORAL CASES</Badge><Link href="/forest"><ArrowLeft />普通病例森林</Link></header>
+    <header><div><span><Trees /></span><div><small>ClincForestBench · Temporal population analytics</small><h1>时间决策森林</h1></div></div><Badge><Clock3 />{cases.length || '…'} TEMPORAL CASES</Badge><Link href="/forest"><ArrowLeft />普通病例森林</Link></header>
     <section className="temporal-forest-toolbar">
       <label><span>Dataset</span><select onChange={(event) => { const value = event.target.value; setDataset(value); const first = cases.find((item) => value === 'ALL' || item.dataset_name === value); if (first) void loadCase(first.case_id); }} value={dataset}>{datasets.map((name) => <option key={name} value={name}>{name === 'ALL' ? `全部 · ${cases.length}` : `${name} · ${cases.filter((item) => item.dataset_name === name).length}`}</option>)}</select></label>
       <label><span>Case</span><select onChange={(event) => void loadCase(event.target.value)} value={caseId}>{visible.map((item) => <option key={item.case_id} value={item.case_id}>{item.case_id} · {item.completed_session_count} plays</option>)}</select></label>
