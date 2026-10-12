@@ -10,7 +10,7 @@ A reproducible clinical decision benchmark that records how physicians and model
 
 ## Project progress
 
-Repository status reviewed on **2026-10-08**.
+Repository status reviewed on **2026-10-12**.
 
 Local verification on that date: `make validate` passed (Python tests,
 frontend lint, and production build). Browser end-to-end behavior and the
@@ -72,15 +72,17 @@ This builds the 130 classic Cases. Downloaded inputs and generated outputs stay 
 
 ### 2. Run the application
 
-Start these in separate terminals:
+Start both services with one command:
 
 ```bash
-make api
+./start.command
 ```
 
-```bash
-make web
-```
+On macOS, you can also double-click `start.command` in Finder. The launcher
+installs missing local dependencies, waits for both services, opens the browser,
+and shuts everything down together when you press `Ctrl-C`. Use `make start` as
+the equivalent terminal command. Separate `make api` and `make web` commands
+remain available for split-terminal development.
 
 Open [the application](http://localhost:3000) or [API documentation](http://localhost:8000/docs). Register a local physician account to enter the Arena.
 
@@ -169,6 +171,7 @@ The Compose profile uses PostgreSQL, applies migrations, and mounts local `data/
 ## Documentation
 
 - [Documentation index](docs/README.md)
+- [Local development and one-command launcher](docs/development.md)
 - [Application guide](docs/application_guide.md)
 - [Dataset setup and download profiles](docs/data_setup.md)
 - [Architecture and API/data boundaries](docs/architecture.md)

@@ -5,6 +5,7 @@
 .trae/
 .venv/
 .tools/
+.run/
 __pycache__/
 *.py[cod]
 .pytest_cache/

@@ -5,6 +5,7 @@
 .DS_Store
 .venv
 .tools
+.run
 .pytest_cache
 __pycache__
 frontend/node_modules

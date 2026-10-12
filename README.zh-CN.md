@@ -10,7 +10,7 @@
 
 ## 项目进展
 
-仓库状态核对日期：**2026-10-08**。
+仓库状态核对日期：**2026-10-12**。
 
 当日已通过 `make validate`，包括 Python 测试、前端静态检查和生产构建。本次文档更新未重新验证浏览器端到端流程及 Docker/PostgreSQL 配置。
 
@@ -70,15 +70,16 @@ make preprocess-guidance2
 
 ### 2. 运行应用
 
-分别在两个终端中启动：
+一条命令同时启动前后端：
 
 ```bash
-make api
+./start.command
 ```
 
-```bash
-make web
-```
+在 macOS 中也可以直接在 Finder 双击 `start.command`。脚本会自动补齐缺失的
+本地依赖、等待两个服务就绪、打开浏览器，并在按下 `Ctrl-C` 时统一停止前后端。
+终端中也可使用等价命令 `make start`；需要分开调试服务时，原有的 `make api`
+和 `make web` 仍然可用。
 
 打开[应用](http://localhost:3000)或 [API 文档](http://localhost:8000/docs)。注册本地医生账户后即可进入 Arena。
 
@@ -167,6 +168,7 @@ Compose 配置使用 PostgreSQL、执行数据库迁移，并挂载本地 `data/
 ## 项目文档
 
 - [文档索引](docs/README.md)
+- [本地开发和一键启动说明](docs/development.zh-CN.md)
 - [应用指南](docs/application_guide.md)
 - [数据准备和下载配置](docs/data_setup.md)
 - [架构及 API/数据边界](docs/architecture.md)

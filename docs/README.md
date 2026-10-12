@@ -5,6 +5,7 @@ installation, verification commands, and release boundaries.
 
 | Document | Use it for |
 | --- | --- |
+| [Local development](development.md) | One-command startup, launcher options, logs, and validation |
 | [Application guide](application_guide.md) | Arena behavior, model rounds, case inspection, result comparison, exports, and localization |
 | [Data setup](data_setup.md) | Public/restricted download profiles and ordered artifact rebuilding |
 | [Repository layout](repository_layout.md) | Directory responsibilities and what belongs in Git |

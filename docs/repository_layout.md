@@ -16,7 +16,7 @@ small and auditable, while `download_data.sh` recreates permitted sources.
 | `docs/` | architecture, schemas, guides, and data contracts | tracked |
 | `examples/` | small, reviewable example records | tracked |
 | `scripts/data/` | dataset download helpers | tracked |
-| `scripts/dev/` | local development bootstrap | tracked |
+| `scripts/dev/` | local runtime launcher and development bootstrap | tracked |
 | `scripts/demo/` | command-line demonstrations | tracked |
 | `tools/api_smoke/` | optional external-provider connectivity probes | scripts tracked; `.env` ignored |
 | `tools/build_case_translations.py` | public/restricted case dictionary generator | tracked |
@@ -27,10 +27,11 @@ small and auditable, while `download_data.sh` recreates permitted sources.
 | `data/exports/` | session exports | ignored |
 | `data/analysis_runs/` | local evaluation runs | ignored |
 | `model/` | optional local model weights | weights ignored; small model metadata tracked |
-| `.trae/`, `.tools/`, `.venv/` | local editor state and development runtimes | ignored |
+| `.run/`, `.trae/`, `.tools/`, `.venv/` | runtime logs, local editor state, and development runtimes | ignored |
 
 Start with the root [README](../README.md) for project status and setup, the
 [documentation index](README.md) for navigation, and the
+[local development guide](development.md) for startup or the
 [application guide](application_guide.md) for detailed UI behavior.
 
 Do not move raw patient-level files into source directories to bypass ignore

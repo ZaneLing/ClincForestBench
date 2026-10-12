@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON := .venv/bin/python
 NODE_BIN := $(CURDIR)/.tools/node/bin
 
-.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp translate-cases validate-temporal-sources preprocess-all test validate api web demo db-up db-down migrate
+.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp translate-cases validate-temporal-sources preprocess-all test validate start api web demo db-up db-down migrate
 
 setup: venv node frontend-install
 
@@ -51,6 +51,9 @@ test:
 validate: test
 	cd frontend && PATH="$(NODE_BIN):$$PATH" npm run lint
 	cd frontend && PATH="$(NODE_BIN):$$PATH" npm run build
+
+start:
+	bash scripts/dev/start_app.sh
 
 api:
 	ARENA_REPOSITORY=sqlite DATABASE_URL=sqlite:///data/clincforestbench.db $(VENV_PYTHON) -m uvicorn backend.app.main:app --reload --port 8000
