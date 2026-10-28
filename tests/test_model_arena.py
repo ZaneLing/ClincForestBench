@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+import pytest
 
 from backend.app.main import create_app
 
@@ -18,11 +19,12 @@ def _completion(decision):
     }
 
 
-def test_model_arena_runs_canonical_loop_and_persists_interactions(cases):
+@pytest.mark.parametrize("dataset", ["DDXPlus", "MIMIC", "MedMemoryBench"])
+def test_model_arena_runs_canonical_loop_and_persists_interactions(cases, dataset):
     app = create_app(cases)
     service = app.state.container.model_arena
     service.settings.openrouter_api_key = "test-key"
-    case = cases.get(cases.case_ids()[0])
+    case = next(case for case in cases.cases.values() if case.dataset.name == dataset)
     environment = app.state.container.arena._new_environment(case.case_id)
     environment.reset(case.case_id)
     action_id = next(

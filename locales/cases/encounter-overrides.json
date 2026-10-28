@@ -1,5 +1,5 @@
 {
-  "en": {"Delta": "Weight change"},
+  "en": {"Delta": "Weight change", "体重变化": "Weight change"},
   "zh-CN": {
     "Have you breastfed one of your children for more than 9 months?": "是否曾为某个孩子母乳喂养超过9个月？",
     "Do you have Parkinson’s disease?": "是否患有帕金森病？",
@@ -7,6 +7,8 @@
     "FEV1/FVC": "第一秒用力呼气容积与用力肺活量比值（FEV1/FVC）",
     "ABO/RH (ARI)": "ABO及Rh血型（ARI）",
     "Delta": "体重变化",
+    "CORTISOL, SERUM": "血清皮质醇",
+    "Cortisol,Serum": "血清皮质醇",
     "Yes": "是",
     "No": "否",
     "Not applicable": "不适用",

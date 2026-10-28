@@ -14,6 +14,7 @@ class CaseTreeService:
         ("data/manifests/mvp50_tree_manifest.json", "DDXPlus", "DIAGNOSTIC_QUESTIONING", "SOURCE_ASSERTED"),
         ("data/manifests/synthea_mvp50_tree_manifest.json", "Synthea", "DIAGNOSTIC_EVIDENCE_ACQUISITION", "NATURAL_CSV_EXPORT"),
         ("data/manifests/medagentbench_mvp30_tree_manifest.json", "MedAgentBench", "WORKFLOW_FOREST", "OFFLINE_TASK_REPLAY"),
+        ("data/manifests/evidence_mvp58_tree_manifest.json", "Source evidence", "DIAGNOSTIC_EVIDENCE_ACQUISITION", "SOURCE_BACKED_EVIDENCE"),
     )
 
     def __init__(self, root: Path | None = None) -> None:

@@ -62,7 +62,7 @@ export function PatientPathTree({
         <span>
           <b>{state.dataset_name}</b> dataset
         </span>
-        {state.demographics.age > 0 && (
+        {state.demographics.age != null && state.demographics.age !== '' && (
           <span>
             <b>{state.demographics.age}</b> years
           </span>
@@ -133,7 +133,7 @@ function buildPatientPath(
       title: 'Patient',
       question: `Case ${state.case_id}`,
       answer:
-        state.demographics.age > 0
+        state.demographics.age != null && state.demographics.age !== ''
           ? `${state.demographics.age} years · ${state.demographics.sex}`
           : `${state.dataset_name} · ${state.case_type}`,
       status: 'PATIENT',

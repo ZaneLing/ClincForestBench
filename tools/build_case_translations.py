@@ -43,6 +43,18 @@ PROTECTED_KEYS = {
     "condition_id",
     "dataset",
     "dataset_version",
+    "evidence_id",
+    "code_question",
+    "parent_evidence_id",
+    "mapping_version",
+    "source_id",
+    "source",
+    "target",
+    "catalog_version",
+    "protocol",
+    "runtime_status",
+    "semantic_role",
+    "action_kind",
     "documented_time",
     "edge_id",
     "edge_type",
@@ -90,7 +102,7 @@ PROTECTED_KEYS = {
 
 ID_LIKE = re.compile(
     r"^(?:[A-Z][A-Z0-9_-]{2,}|[A-Za-z]+://|(?:GET|POST|PUT|PATCH|DELETE)\s+[/\{].*|"
-    r"[0-9a-f]{32,}|[A-Za-z]\w*(?:\.[A-Za-z]\w*)+|"
+    r"[0-9a-f]{32,}|CFB_E::.*|[A-Za-z]\w*(?:\.[A-Za-z0-9]\w*)+|"
     r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}|"
     r"\d{4}-\d{2}-\d{2}(?:T.*)?|[\w./-]+\.(?:json|csv|parquet|png|jpg|jpeg|dcm))$",
     re.IGNORECASE,
@@ -109,6 +121,15 @@ HAS_EAST_ASIAN_SCRIPT = re.compile(
 ENGLISH_WORD = re.compile(r"[A-Za-z][A-Za-z'-]*")
 ENGLISH_OVERRIDES = {
     "Nạo VA": "Adenoidectomy",
+}
+EVIDENCE_COPY = {
+    "Unordered source-backed evidence. No simulated clock, waiting, source-order requirement, or invented results.":
+        "无时序源证据；不设置模拟时钟、等待或源顺序要求，不补造结果。",
+    "Independent action/result branches. Layout order is not a clinical sequence.":
+        "独立动作与结果分支；布局顺序不代表临床先后顺序。",
+    "Source dataset": "来源数据集",
+    "Dataset-specific workflow taxonomy": "数据集专属工作流分类",
+    "CORTISOL, SERUM": "血清皮质醇",
 }
 
 
@@ -129,7 +150,7 @@ def manifest_case_paths() -> list[Path]:
         ROOT / "data/manifests/mvp50_manifest.json",
         ROOT / "data/manifests/synthea_mvp50_manifest.json",
         ROOT / "data/manifests/medagentbench_mvp30_manifest.json",
-        ROOT / "data/processed/temporal/v2/manifest.json",
+        ROOT / "data/manifests/evidence_mvp58_manifest.json",
     ]
     for manifest_path in manifests:
         if not manifest_path.exists():
@@ -143,6 +164,7 @@ def manifest_case_paths() -> list[Path]:
         ROOT / "data/manifests/mvp50_tree_manifest.json",
         ROOT / "data/manifests/synthea_mvp50_tree_manifest.json",
         ROOT / "data/manifests/medagentbench_mvp30_tree_manifest.json",
+        ROOT / "data/manifests/evidence_mvp58_tree_manifest.json",
     ]
     for manifest_path in tree_manifests:
         if not manifest_path.exists():
@@ -183,6 +205,10 @@ def collect_strings(
 ) -> Iterable[tuple[str, bool]]:
     if isinstance(value, dict):
         for child_key, child in value.items():
+            # Bilingual catalog labels already have their own display contract.
+            # Private provenance and duplicate global catalogs are not case copy.
+            if child_key in {"source_provenance", "catalog_items", "outcome_catalog", "action_space"}:
+                continue
             yield from collect_strings(child, source_is_non_english, child_key)
     elif isinstance(value, list):
         for child in value:
@@ -198,9 +224,13 @@ def collect_strings(
 
 
 def is_restricted_case(path: Path, document: dict[str, Any]) -> bool:
-    if "temporal" not in path.parts:
+    if "evidence" not in path.parts and "temporal" not in path.parts:
         return False
-    access_class = str(document.get("source", {}).get("access_class", ""))
+    source = document.get("source_provenance", {}).get(
+        "source", document.get("provenance", document.get("source", {})))
+    access_class = str(source.get("access_class", ""))
+    # Missing access metadata on raw rows and trees defaults to the private
+    # corpus. Public exposure must be positively asserted by the source.
     return not access_class.startswith("PUBLIC")
 
 
@@ -213,7 +243,9 @@ def collect_corpora() -> dict[str, tuple[list[str], list[str]]]:
         document = json.loads(path.read_text(encoding="utf-8"))
         scope = "private" if is_restricted_case(path, document) else "public"
         all_text, non_english_text = corpora[scope]
-        source_name = str(document.get("source", {}).get("dataset_family", ""))
+        source = document.get("source_provenance", {}).get(
+            "source", document.get("provenance", document.get("source", {})))
+        source_name = str(source.get("dataset_family", ""))
         source_is_non_english = "VIE" in source_name.upper()
         for text, needs_english in collect_strings(document, source_is_non_english):
             all_text.add(text)
@@ -623,6 +655,44 @@ def write_locale(
     temporary_path.replace(output_path)
 
 
+def reconcile_existing_locales(scope: str = "all") -> None:
+    """Repartition existing translations without provider requests.
+
+    Public output only includes positively public corpus strings. Reverse
+    English overlays and bilingual action catalogs supply equivalent labels.
+    Missing translations abort before any dictionary is replaced.
+    """
+    from backend.app.services.case_service import CaseService
+    from backend.app.services.encounter_catalog import EncounterCatalog
+    from backend.app.services.localization_service import translations_for
+
+    en, zh = dict(translations_for("en")), dict(translations_for("zh-CN"))
+    zh.update({translated: zh[source] for source, translated in en.items()
+               if source in zh})
+    catalog = EncounterCatalog(CaseService())
+    zh.update({item["label"]["en"]: item["label"]["zh-CN"]
+               for item in catalog.items.values()})
+    for item in catalog.items.values():
+        if not HAS_EAST_ASIAN_SCRIPT.search(item["label"]["en"]):
+            en.setdefault(item["label"]["zh-CN"], item["label"]["en"])
+    zh.update(EVIDENCE_COPY)
+    en.update({text: text for text in EVIDENCE_COPY})
+    outputs = []
+    for name, (all_text, non_english_text) in collect_corpora().items():
+        if scope != "all" and name != scope:
+            continue
+        directory = PUBLIC_OUTPUT_DIR if name == "public" else PRIVATE_OUTPUT_DIR
+        for locale, corpus, available in (("en", non_english_text, en),
+                                          ("zh-CN", all_text, zh)):
+            missing = set(corpus) - set(available)
+            if missing:
+                raise RuntimeError(f"{name}/{locale}: {len(missing)} translations need generation")
+            outputs.append((directory, locale, {text: available[text] for text in corpus}))
+    for directory, locale, translations in outputs:
+        write_locale(directory, locale, translations, "existing-local-overlays")
+        print(f"{directory.relative_to(ROOT)}/{locale}.json: {len(translations)} strings")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--env-file", type=Path, default=ROOT / "tools/api_smoke/.env")
@@ -638,7 +708,12 @@ def main() -> int:
     parser.add_argument("--max-items", type=int, default=40)
     parser.add_argument("--max-chars", type=int, default=4000)
     parser.add_argument("--workers", type=int, default=5)
+    parser.add_argument("--offline", action="store_true",
+                        help="Reuse and repartition existing translations without external calls")
     args = parser.parse_args()
+    if args.offline:
+        reconcile_existing_locales(args.scope)
+        return 0
     load_env(args.env_file)
     api_key = os.environ.get(args.api_key_env, "")
     if args.provider == "openrouter" and not api_key:

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -33,7 +33,7 @@ def compute_state_hash(
 
 class ObservationState(BaseModel):
     case_id: str
-    age: int
+    age: Optional[Union[int, str]]
     sex: str
     dataset_name: str = "DDXPlus"
     case_type: str = "DIAGNOSTIC_QUESTIONING"

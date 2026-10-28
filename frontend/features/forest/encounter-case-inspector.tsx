@@ -14,7 +14,7 @@ type Item = {
 };
 export type InspectionCatalog = {
   items: Item[];
-  cases: { case_id: string; dataset: string; source: 'classic' | 'temporal' }[];
+  cases: { case_id: string; dataset: string; source: 'evidence' }[];
 };
 type SourceRecord = {
   source_id: string;

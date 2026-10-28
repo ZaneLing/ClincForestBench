@@ -347,8 +347,8 @@ def main() -> None:
         ).to_pylist()
     }
 
-    raw_output = processed / "raw_cases" / selection["manifest_version"]
-    tree_output = processed / "case_trees" / selection["manifest_version"]
+    raw_output = processed / "raw_cases"
+    tree_output = processed / "case_trees"
     entries = []
     for manifest_case in manifest["cases"]:
         case_id = manifest_case["case_id"]

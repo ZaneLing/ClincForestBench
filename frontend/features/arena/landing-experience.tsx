@@ -125,7 +125,7 @@ export function LandingExperience() {
         <div className="landing-stats">
           <LandingStat value="188" label="Versioned cases" />
           <LandingStat value="14" label="Dataset tracks" />
-          <LandingStat value="130+58" label="Classic · Temporal" />
+          <LandingStat value="自由选择" label="Questions · Examinations" />
           <LandingStat value="Sₙ" label="Belief checkpoints" />
         </div>
       </div>

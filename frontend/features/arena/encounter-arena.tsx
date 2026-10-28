@@ -18,6 +18,7 @@ import { useLanguage } from '@/features/i18n/language-context';
 import { api, eventId } from '@/lib/api';
 import { categories, statuses, ResultValue } from './encounter-presentation';
 import { PageControls, PagedReader } from './paged-reader';
+import { EncounterTrajectoryTree } from './encounter-trajectory-tree';
 import './encounter.css';
 
 type Label = { en: string; 'zh-CN': string };
@@ -162,6 +163,7 @@ function EncounterWorkspace({
   const [stepIndex, setStepIndex] = useState<number | null>(null);
   const [pane, setPane] = useState<'patient' | 'library' | 'result'>('library');
   const [prescriptionOpen, setPrescriptionOpen] = useState(false);
+  const [trajectoryOpen, setTrajectoryOpen] = useState(false);
   const [historyPage, setHistoryPage] = useState(0);
   const storageKey = `clincforestbench.encounter.${account?.username ?? ''}`;
 
@@ -257,6 +259,7 @@ function EncounterWorkspace({
     setVisit(next);
     setStepIndex(null);
     setPane('result');
+    if (path === 'diagnoses' || path === 'finish') setTrajectoryOpen(true);
     // The mutation already returned the saved visit. Never hold the result dialog
     // open waiting for a second, unrelated history request.
     const saved = {
@@ -330,7 +333,7 @@ function EncounterWorkspace({
               : t('History', '历史轨迹')}
           </Link>
           <Link href="/history?mode=classic">
-            {t('Earlier sessions', '旧版会话')}
+            {t('Model sessions', '模型会话')}
           </Link>
         </div>
       </header>
@@ -482,6 +485,11 @@ function EncounterWorkspace({
                 <Download size={17} />
                 {t('Export trajectory', '导出轨迹')}
               </button>
+              {(!!visit.diagnoses.length || !active) && (
+                <button disabled={busy} onClick={() => setTrajectoryOpen(true)}>
+                  {t('View trajectory tree', '查看轨迹树')}
+                </button>
+              )}
               {!!visit.diagnoses.length && active && (
                 <>
                   {visit.prescription_available && (
@@ -849,6 +857,14 @@ function EncounterWorkspace({
               )}
             </section>
           </div>
+          {trajectoryOpen && (
+            <EncounterDialog title="enc-trajectory-title" busy={busy} onClose={() => setTrajectoryOpen(false)}>
+              <button className="enc-close" aria-label={t('Close', '关闭')} disabled={busy} onClick={() => setTrajectoryOpen(false)}><X /></button>
+              <h2 id="enc-trajectory-title">{t('Your decision trajectory tree', '本次诊疗轨迹树')}</h2>
+              <EncounterTrajectoryTree caseId={visit.case_id} dataset={visit.visit.dataset} demographics={visit.visit.demographics} presentation={visit.visit.presentation} events={visit.events} chinese={zh} onSelect={(index) => { setStepIndex(index); setPane('result'); setTrajectoryOpen(false); }} />
+              <p className="enc-muted"><Link href="/forest">{t('View the community forest', '直接查看决策森林')}</Link></p>
+            </EncounterDialog>
+          )}
           {prescriptionOpen && active && (
             <EncounterDialog
               title="enc-prescription-title"

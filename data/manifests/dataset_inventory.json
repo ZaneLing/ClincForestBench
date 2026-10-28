@@ -1,0 +1,30 @@
+{
+  "protocol": "UNORDERED_EVIDENCE",
+  "case_count": 188,
+  "dataset_count": 14,
+  "dataset_case_counts": {
+    "DDXPlus": 50,
+    "MC-MED": 10,
+    "MIMIC": 10,
+    "MedAgentBench": 30,
+    "MedDialogRubrics": 3,
+    "MedMemoryBench": 3,
+    "MedPI": 3,
+    "Meddies Persona VIE": 3,
+    "MediScope": 3,
+    "NEJM CPC": 5,
+    "PMC Case Reports": 5,
+    "PatientSim": 3,
+    "Synthea": 50,
+    "eICU-CRD": 10
+  },
+  "counting_unit": "Runnable case from the current CaseService manifests",
+  "linked_modalities": {
+    "MIMIC": [
+      "MIMIC-IV-Note",
+      "MIMIC-IV-ECG",
+      "MIMIC-IV-ED"
+    ]
+  },
+  "privacy": "AGGREGATE_COUNTS_ONLY"
+}

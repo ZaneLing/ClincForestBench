@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import {
   BookOpenText,
   Bot,
-  FileClock,
   GitBranch,
   HeartPulse,
   History,
@@ -48,19 +47,10 @@ const navigation = [
     href: '/model-arena',
     label: { en: 'Model testing', zh: '模型测试' },
     detail: {
-      en: 'Classic + Temporal autoplay',
-      zh: '经典 + Temporal 自动游玩',
+      en: 'Autonomous evidence acquisition',
+      zh: '自主选择问询与检查',
     },
     icon: Bot,
-  },
-  {
-    href: '/temporal?mode=timeline',
-    label: { en: 'Source timeline', zh: '源轨迹回放' },
-    detail: {
-      en: 'Recorded clinical event timeline',
-      zh: '已记录的临床事件时间线',
-    },
-    icon: FileClock,
   },
   {
     href: '/history',

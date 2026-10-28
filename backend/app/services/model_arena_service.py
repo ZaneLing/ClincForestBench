@@ -355,8 +355,10 @@ class ModelArenaService:
             },
         }
         system = (
-            "You are playing ClincForestBench under exactly the same rules as a "
-            "human clinician. There is no heuristic or automatic early-stop "
+            "You are playing ClincForestBench. Choose questions and examinations "
+            "in your own order. Recorded results return immediately. There is no "
+            "simulated clock, waiting, or required source-clinician order. "
+            "There is no heuristic or automatic early-stop "
             "threshold: you decide when the evidence is sufficient, and the action "
             "limit is only a hard safety ceiling. Return one JSON object and no "
             "markdown, with diagnoses, "

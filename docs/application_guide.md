@@ -13,7 +13,7 @@ Open `http://localhost:3000/research`. The first MVP case loads automatically in
 
 DDXPlus has no recorded lab, imaging, examination, procedure or treatment events, so the MVP does not fabricate them. The output is explicitly a canonical ground-truth **exposure tree**, not an observed clinician chronology. See [case_tree_schema.md](case_tree_schema.md) for the schema and interpretation boundary.
 
-The classic inspector contains 130 cases across three tracks. Its Temporal mode adds 58 local Cases from 11 sources, for 188 inspectable Cases across 14 dataset tracks. The added interaction slice contains three MVP trees each from MediScope, MedPI, PatientSim, Meddies Persona VIE, MedMemoryBench, and MedDialogRubrics. Synthea is labeled `NATURAL_CSV_EXPORT`. MedAgentBench is labeled `OFFLINE_TASK_REPLAY`: the current MVP does not integrate the official Docker/Java FHIR runtime and evaluates the task-derived workflow and never claims that a FHIR request returned a lab value or that a POST created a resource.
+The unified inspector contains 188 cases across 14 datasets, including 58 converted source cases. All use unordered evidence access. The interaction slice contains three cases each from MediScope, MedPI, PatientSim, Meddies Persona VIE, MedMemoryBench, and MedDialogRubrics. Synthea is labeled `NATURAL_CSV_EXPORT`. MedAgentBench is labeled `OFFLINE_TASK_REPLAY`: it does not claim that a FHIR request returned a lab value or created a resource.
 
 ## Concrete converted patient example
 
@@ -35,7 +35,15 @@ Open [`examples/DDX_TEST_0021752.readable.json`](../examples/DDX_TEST_0021752.re
 
 The full 223-field dense truth remains in the linked versioned case bundle and is never returned during an active session.
 
-## How Arena questions are selected
+## Physician Visit and canonical model questions
+
+The physician `/arena` uses the shared operation and inquiry libraries across
+all 188 cases. Each action requires a recorded reason and returns its source
+result immediately. Missing source results end the visit and preserve its
+trajectory. A diagnosis can be entered or revised at any time; completion
+requires a diagnosis. See the [Visit protocol](encounter_protocol.md).
+
+The following staged-belief behavior describes canonical model sessions:
 
 After each belief submission, the Arena exposes the complete unanswered DDXPlus Evidence catalog. The initial evidence is already revealed, asserted case tokens resolve to `Yes` or their coded value, unasserted binary evidence resolves to `No`, and child attributes remain unavailable until their parent question has been asked. The picker supports keyword and `E_*` searches and uses separate colors for symptoms, symptom details, and medical history. It does **not** inspect hidden answers while constructing the picker.
 
@@ -47,7 +55,7 @@ Playing now requires a registered physician account. Session creation ignores cl
 
 ## Frontend experience
 
-The opening screen is a chrome-free animated clinical-forest overview of the benchmark: a case grows into branches, doctors add independent paths, and patient trees assemble into a forest. It does not ask the visitor to choose a dataset. `Enter the Arena` opens the authenticated Arena route, where classic and Temporal sources can be selected before a case begins.
+The opening screen is a chrome-free animated clinical-forest overview of the benchmark: a case grows into branches, doctors add independent paths, and patient trees assemble into a forest. `Enter the Arena` opens the authenticated Arena route with the unified dataset and case selection.
 
 A collapsible system sidebar is shown on the working routes, but intentionally omitted from the home page. It links directly to the human Arena, Model Test, personal decision history, the three-column Case inspector, population forest analytics, the unified dataset/rules center, and the local account backend. The data center explains each source dataset, raw fields, raw-to-tree mapping, track-specific Arena rules, and fidelity boundary; the DDXPlus tab also resolves all 223 `E_*` identifiers to their clinical question, domain, data type, parent field, and coded value meanings.
 
@@ -57,7 +65,7 @@ The global `EN / 中文` control switches both interface copy and case content. 
 
 `/model-arena` reads the current OpenRouter catalog and groups selectable models by provider/company before dataset and case selection. A run advances one server-validated turn at a time: the model receives the current public patient state, recent decision evolution, explicit early-stopping signals, and the complete condition and action libraries; it returns one strict JSON decision, submits its ordered stage diagnosis, and either asks one currently available non-repeated high-yield action or finalizes one unique outcome. The normal target is 3–10 questions, stable Top-1 decisions are prompted to finalize, and 30 remains only a hard emergency ceiling. Invalid IDs, repeated diagnoses/questions, locked child actions, and attempts to exceed the cap are rejected by the canonical Arena state machine. The browser can auto-advance, pause, single-step, retry a failed round, and recover persisted active runs after a page reload.
 
-`/model-arena?mode=temporal` applies that same OpenRouter loop to all 58 Temporal Cases. Its contract uses clinical `ACTION` and `FINAL`: selecting a source-backed action advances simulation time and returns the recorded result synchronously, every newly visible state triggers a new ranked differential, and repeated or unavailable actions are rejected. The completed artifact retains every prompt, raw response, parsed JSON, state application, latency, and the same model/reference/community comparison used elsewhere.
+The same `/model-arena` loop supports all 188 cases, including the 58 additional source cases. Each source-backed evidence action immediately returns its fixed recorded result. There is no simulation clock, waiting action, pending result, sequential source unlocking, or clinical time score. Model/provider latency is retained only as execution telemetry. Source dates remain clinical content or provenance.
 
 Every model request payload, raw OpenRouter response, extracted decision JSON, validation/application result, error, and latency is persisted without the API key. During play they are visible in a four-tab round inspector. Completion reuses the same three-tree comparison as human play—model path, Ground Truth, and a model-only case forest accumulated across completed model runs—and exports a versioned `clincforestbench.model-arena-run.v1` artifact containing the full exchange archive.
 
@@ -71,13 +79,26 @@ Completing a case automatically downloads `ClincForestBench_<case>_<session>.jso
 
 The result comparison matches nodes by canonical state hash. Shared states and edges are cyan, group-only branches are gray, the submitted diagnosis is violet and the ground-truth diagnosis is green. The case forest reports distinct registered physicians, all distinct participants and completed paths separately; it does not present a session count as a doctor count.
 
-The Research case tree keeps a strict top-to-bottom diagnostic chronology: case → blue stage spine → stage-specific questions/context and returned observations → the complete final differential row. Every source diagnosis is an equal-size circular node carrying its original rank and probability; the pathology-matching ground-truth node is bright red while the remaining differential nodes are amber. Hovering or selecting a diagnosis reveals its probability. The canvas initially fits the complete patient tree; the mouse wheel zooms and dragging pans.
+Research trees show evidence-access structure. Display positions and node indices
+do not imply source clinician chronology. Converted source cases have independent
+root → action → recorded-result branches and a protected reference. Participant
+trees retain actual chosen action order and diagnosis revisions. Mouse-wheel
+zoom and dragging pan the tree.
 
-`/temporal?mode=arena` is the doctor-playable Temporal Arena. A player reads a natural-language S0, submits a ranked differential, and chooses a concrete history question, examination, laboratory test, image, ECG, or record review. The same request advances the simulation clock to the source-backed availability time and renders the result as a clinical report—there is no wall-clock wait and no raw JSON in the doctor view. `/research?mode=temporal` is the Temporal section of Case 查看 and shows the exact local raw source slice, normalized Case JSON, ordered transformation rules, and complete tree. `/temporal?mode=timeline` retains the source-trajectory player. Imaging impressions and narrative imaging findings are stored and shown inside their result nodes.
+Model testing, case inspection,
+history, and forests use their normal routes and the unified catalog. There is
+no separate source timeline mode. Imaging impressions and narrative findings
+remain attached to their recorded results.
 
-MIMIC-IV-Note and MIMIC-IV-ECG are modalities of a MIMIC admission case, not standalone pseudo-cases. ECG machine time is always labeled with its known clock uncertainty. eICU remains an `ICU_EARLY_CLINICAL_ASSESSMENT` task and uses ICU-admission offsets; `Performed`, `scored`, and obtain-option workflow markers are removed before Case construction, while clinically meaningful history, examination and laboratory rows become distinct actions. Interface-dependent missingness is never interpreted as “test not performed.” Every unrecorded action resolves to `UNOBSERVED_IN_RECORDED_EPISODE`, and no adapter calls an LLM to invent a patient result.
+MIMIC-IV-Note and MIMIC-IV-ECG are modalities of a MIMIC admission case. Source
+clock uncertainty and ICU offsets are provenance only. Clinically meaningful
+history, examination, and laboratory records become queryable evidence.
+Interface-dependent missingness is never interpreted as “test not performed,”
+and no adapter calls an LLM to invent patient results.
 
-PMC and NEJM CPC are narrative-sequence extensions, not timestamp-complete EHR cases. The converter preserves source sentences, extracts explicit intervals when present, and otherwise uses LOW-confidence monotonic order proxies solely for visualization. Their reference labels and chronology require clinician review before formal benchmark release.
+PMC and NEJM CPC supply narrative evidence. The converter preserves source facts
+without sequence proxies in runnable branches. MedMemoryBench also supports any
+evidence order. Their reference labels require clinician review before formal
+benchmark release.
 
 Both the source case and normalized Case Tree can be switched between wrapped JSON source and an indented, hierarchical two-column field table. Every object or array group has an independent disclosure arrow. Arrays, objects, and Python-literal arrays embedded in raw string fields are expanded item by item. Each differential entry uses its sequence number on the left and stacks the full diagnosis name above its probability on the right; every `E_*` value in the source table is annotated with its human-readable Evidence question. In the normalized table, clicking any `tree.nodes[*]` row or descendant field highlights the same node in the visual tree. Long keys and values wrap within their panel, so neither view introduces horizontal JSON scrolling.
-

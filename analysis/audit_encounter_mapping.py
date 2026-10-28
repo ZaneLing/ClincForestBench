@@ -7,7 +7,6 @@ from pathlib import Path
 from backend.app.services.case_service import CaseService
 from backend.app.services.encounter_catalog import EncounterCatalog
 from backend.app.services.localization_service import translations_for
-from backend.app.services.temporal_case_service import TemporalCaseService
 from tools.build_case_translations import collect_strings, translation_is_complete
 
 
@@ -34,7 +33,7 @@ def audit(catalog):
 
 
 def main():
-    catalog = EncounterCatalog(CaseService(), TemporalCaseService())
+    catalog = EncounterCatalog(CaseService())
     report = audit(catalog)
     path = Path("data/analysis_runs/encounter_mapping_audit.json")
     path.parent.mkdir(parents=True, exist_ok=True)

@@ -1,4 +1,4 @@
-from etl.temporal_v2.validation import validate_mimic
+from etl.source_adapters.validation import validate_mimic
 
 
 if __name__ == "__main__":

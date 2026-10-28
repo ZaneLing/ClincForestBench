@@ -8,12 +8,11 @@ from backend.app.api.encounters import ActionRequest, DiagnosisRequest, EventReq
 from backend.app.main import create_app
 from backend.app.services.encounter_catalog import EncounterCatalog
 from backend.app.services.encounter_service import EncounterService
-from backend.app.services.temporal_case_service import TemporalCaseService
 
 
 @pytest.fixture(scope="module")
 def catalog(cases):
-    return EncounterCatalog(cases, TemporalCaseService(cases.root))
+    return EncounterCatalog(cases)
 
 
 def action(item_id, event_id="step", reason_id="support", **kwargs):
@@ -51,7 +50,7 @@ def test_inspector_routes_are_research_only_read_only_and_share_global_catalog(c
     assert client.get(case_route).status_code == 403
     headers = {"X-Research-Key": "local-research-only"}
     index = client.get(index_route, headers=headers).json()
-    assert {row["source"] for row in index["cases"]} == {"classic", "temporal"}
+    assert {row["source"] for row in index["cases"]} == {"evidence"}
     assert len(index["cases"]) == 188
     for locale in ("en", "zh-CN"):
         response = client.get(case_route, params={"lang": locale}, headers=headers)
@@ -72,7 +71,7 @@ def test_inspector_routes_are_research_only_read_only_and_share_global_catalog(c
 
 
 def test_all_sources_accounted_for_and_catalog_bilingual(catalog, cases):
-    assert len(catalog.visits) == len(cases.cases) + len(catalog.temporal.manifest()["cases"])
+    assert len(catalog.visits) == len(cases.cases) == 188
     assert len([i for i in catalog.items.values() if i["kind"] == "operation"]) > 200
     assert len([i for i in catalog.items.values() if i["kind"] == "inquiry"]) > 250
     for item in catalog.items.values():
@@ -83,10 +82,11 @@ def test_all_sources_accounted_for_and_catalog_bilingual(catalog, cases):
     assert "anemia" in catalog.reasons("operation:CBC")[0]["label"]["en"]
     assert catalog.reasons("operation:CBC") != catalog.reasons("operation:ECG")
     for case_id, bundle in cases.cases.items():
+        if bundle.generation_mode == "SOURCE_BACKED_EVIDENCE":
+            source_ids = {r["source_id"] for rows in bundle.evidence_records.values() for r in rows}
+            assert source_ids <= {a["source_id"] for a in catalog.audit[case_id]}
+            continue
         assert {r.evidence_id for r in bundle.truth} <= {a["source_id"] for a in catalog.audit[case_id]}
-    for row in catalog.temporal.manifest()["cases"]:
-        case = catalog.temporal.get(row["case_id"])
-        assert {e.event_id for e in case.timeline_events} <= {a["source_id"] for a in catalog.audit[case.case_id]}
 
 
 @pytest.mark.parametrize("item_id", ["operation:CT_HEAD", "inquiry:FINANCES", "inquiry:ONSET"])
@@ -251,7 +251,7 @@ def test_encounter_routes_auth_ownership_history_export_and_reason_required(case
     assert client.get(route + "/export").json()["events"][0]["reason_options"]
     assert client.get("/encounters/history").json()[0]["id"] == doc["id"]
     assert client.get("/research/encounter-mapping").status_code == 403
-    forest = client.get("/research/encounter-forest", headers={"X-Research-Key": "local-research-only"}).json()
+    forest = client.get("/research/encounter-forest").json()
     assert forest["session_count"] == 1
     assert forest["reason_counts"] == {"support": 1}
     assert forest["missing_examination_counts"] == {"operation:CBC": 1}
@@ -259,3 +259,76 @@ def test_encounter_routes_auth_ownership_history_export_and_reason_required(case
     client.headers["Authorization"] = f"Bearer {second}"
     assert client.get(route).status_code == 404
     assert client.get(route + "/export").status_code == 404
+
+
+def test_forests_are_keyless_but_sensitive_routes_stay_protected(cases):
+    client = TestClient(create_app(cases))
+    for route in ("/research/encounter-forest", "/research/forest/cases"):
+        assert client.get(route).status_code == 200
+        assert client.get(route, headers={"X-Research-Key": "wrong"}).status_code == 200
+    classic_id = client.get("/research/forest/cases").json()["cases"][0]["case_id"]
+    assert client.get(f"/research/forest/cases/{classic_id}").status_code == 200
+    assert client.get("/research/forest/cases/CFB_MC_99221396").status_code == 200
+    assert client.get("/research/temporal/forest/cases").status_code == 404
+    for route in ("/research/encounter-cases", "/research/encounter-mapping",
+                  "/research/case-trees", "/admin/accounts", "/model-arena/status"):
+        assert client.get(route).status_code == 403
+    assert client.get("/encounters/history").status_code == 401
+
+
+@pytest.mark.parametrize("case_id", ["DDX_TEST_0021752", "SYN_ENC_0001", "CFB_MEDISCOPE_0016"])
+def test_diagnosed_completed_visit_keeps_the_ordered_single_path(cases, case_id):
+    client = TestClient(create_app(cases))
+    token = client.post("/auth/register", json={"username": "path-test", "password": "test-password"}).json()["token"]
+    client.headers["Authorization"] = f"Bearer {token}"
+    created = client.post("/encounters", json={"case_id": case_id, "client_event_id": "start"})
+    assert created.status_code == 201
+    route = "/encounters/" + created.json()["id"]
+    step = client.post(route + "/actions", json=action("inquiry:CHIEF", event_id="ask").model_dump())
+    assert step.status_code == 200
+    assert step.json()["events"][0]["records"]
+    diagnosis = client.post(route + "/diagnoses", json={"diagnoses": ["Doctor-authored hypothesis"], "client_event_id": "dx"})
+    assert diagnosis.status_code == 200
+    finished = client.post(route + "/finish", json={"client_event_id": "complete"})
+    assert finished.status_code == 200
+    doc = client.get(route).json()
+    assert doc["status"] == "COMPLETED"
+    assert [event["type"] for event in doc["events"]] == ["ACTION", "DIAGNOSIS", "COMPLETE"]
+    assert [event["sequence"] for event in doc["events"]] == [1, 2, 3]
+    assert doc["events"][1]["diagnoses"] == ["Doctor-authored hypothesis"]
+    forest = client.get("/research/encounter-forest").json()
+    assert len(forest["nodes"]) == 4 and len(forest["edges"]) == 3
+    assert "owner" not in json.dumps(forest)
+
+
+def test_simulation_is_separate_from_doctors_and_includes_only_demo_details(catalog):
+    svc = EncounterService(catalog, ":memory:")
+    real = svc.create("DDX_TEST_0021752", "alice", "real")
+    demo = svc.create("DDX_TEST_0021752", "demo", "simulated", is_simulation=True)
+    svc.act(real["id"], "alice", action("inquiry:CHIEF"))
+    svc.act(demo["id"], "demo", action("inquiry:CHIEF", reason_text="Simulation only"))
+    ordinary = svc.forest()
+    simulated = svc.forest("DDX_TEST_0021752", simulation=True, locale="zh-CN")
+    assert ordinary["session_count"] == simulated["session_count"] == 1
+    assert ordinary["record_type"] == "DOCTOR" and simulated["record_type"] == "SIMULATION"
+    assert not ordinary["demo_visits"]
+    assert all("example" not in node for node in ordinary["nodes"])
+    assert simulated["demo_visits"][0]["encounter_id"] == demo["id"]
+    assert simulated["nodes"][-1]["example"]["reason_text"] == "Simulation only"
+    assert simulated["nodes"][-1]["example"]["records"]
+    assert "owner" not in json.dumps(simulated)
+    assert svc.forest("SYN_ENC_0001", simulation=True)["session_count"] == 0
+    with pytest.raises(KeyError):
+        svc.forest("unknown", simulation=True)
+
+
+def test_simulation_creation_and_filtered_forest_over_http(cases):
+    client = TestClient(create_app(cases))
+    token = client.post("/auth/register", json={"username": "demo-http", "password": "test-only"}).json()["token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    response = client.post("/encounters", headers=headers, json={"case_id": "DDX_TEST_0021752", "client_event_id": "sim", "is_simulation": True})
+    assert response.status_code == 201 and response.json()["is_simulation"]
+    assert client.get("/research/encounter-forest").json()["session_count"] == 0
+    demo = client.get("/research/encounter-forest", params={"case_id": "DDX_TEST_0021752", "simulation": "true"})
+    assert demo.status_code == 200 and demo.json()["session_count"] == 1
+    assert client.get("/research/encounter-forest", params={"case_id": "unknown"}).status_code == 404

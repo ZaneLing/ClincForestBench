@@ -138,7 +138,7 @@ def main() -> None:
     )
     report["exception_drift"] = exception_drift
 
-    dump_json(path_from_root("data/manifests/raw_quality_v1.json"), report)
+    dump_json(path_from_root("data/manifests/raw_quality.json"), report)
     fatal_keys = {
         "missing_condition_count",
         "invalid_evidence_list_count",

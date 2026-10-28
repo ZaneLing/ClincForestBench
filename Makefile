@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON := .venv/bin/python
 NODE_BIN := $(CURDIR)/.tools/node/bin
 
-.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp translate-cases validate-temporal-sources preprocess-all test validate audit-encounters start api web demo db-up db-down migrate
+.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-workflows preprocess-ehr-sources preprocess-evidence preprocess-interaction-mvp translate-cases validate-sources preprocess-all test validate audit-encounters start api web demo db-up db-down migrate
 
 setup: venv node frontend-install
 
@@ -26,24 +26,29 @@ download-interaction-mvp:
 preprocess-ddxplus:
 	$(VENV_PYTHON) -m etl.run_pipeline
 
-preprocess-guidance2:
-	$(VENV_PYTHON) -m etl.build_guidance2_cases
+preprocess-workflows:
+	$(VENV_PYTHON) -m etl.build_workflow_cases
 
-validate-temporal-sources:
+validate-sources:
 	$(VENV_PYTHON) -m etl.validate_mcmed_sources
 	$(VENV_PYTHON) -m etl.validate_mimic_sources
 	$(VENV_PYTHON) -m etl.validate_eicu_sources
 
-preprocess-temporal:
-	$(VENV_PYTHON) -m etl.build_temporal_mvp
+preprocess-ehr-sources:
+	$(VENV_PYTHON) -m etl.build_ehr_sources
 
 preprocess-interaction-mvp:
 	$(VENV_PYTHON) -m etl.build_interaction_mvp
+	$(VENV_PYTHON) -m etl.build_evidence_cases
+
+preprocess-evidence:
+	$(VENV_PYTHON) -m etl.build_evidence_cases
+
 
 translate-cases:
 	$(VENV_PYTHON) tools/build_case_translations.py
 
-preprocess-all: preprocess-ddxplus preprocess-guidance2 preprocess-temporal preprocess-interaction-mvp
+preprocess-all: preprocess-ddxplus preprocess-workflows preprocess-ehr-sources preprocess-interaction-mvp
 
 test:
 	$(VENV_PYTHON) -m pytest -q

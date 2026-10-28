@@ -123,6 +123,7 @@ class ReviewService:
                 else "diagnosis"
             ),
             "fidelity_note": bundle.fidelity_note,
+            "reference_quality": bundle.reference_quality,
             "comparison": {
                 "is_correct": predicted == bundle.oracle.pathology,
                 "predicted_diagnosis": predicted,

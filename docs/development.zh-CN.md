@@ -2,7 +2,28 @@
 
 [English](development.md) | [简体中文](development.zh-CN.md)
 
-推荐使用统一入口同时启动 FastAPI 后端和 Vinext 前端：
+推荐使用一键后台部署入口（也可在 Finder 双击 `deploy.command`）：
+
+```bash
+./deploy.command          # 按需安装依赖、启动前后端，关闭终端仍运行
+./deploy.command status   # 查看健康状态与访问地址
+./deploy.command stop     # 只停止本入口启动的服务，不删除数据库或病例
+```
+
+默认应用地址为 `http://127.0.0.1:3000/`，API 文档为 `http://127.0.0.1:8000/docs`，
+只绑定本机回环地址，不向公网或局域网开放。需要其它端口时，三条命令均添加
+`--api-port 8100 --web-port 3100`（必须先停止原实例，Vinext 不支持同项目双开）。
+依赖已安装时可加 `--no-install`。
+
+重复部署会复用健康的当前项目服务，不会抢占端口或按端口杀进程。
+如果服务原来由 `start.command` 在终端启动，新入口只复用，不接管停止；
+需在原终端按 `Ctrl-C` 后再运行 `deploy.command` 才转为后台管理。
+状态保存在 `.run/deployment-<API端口>-<网页端口>.json`，后台日志单独保存在
+`.run/deploy-*`，与原入口日志互不覆盖。重启电脑后需再次运行部署入口；不安装开机自启。
+部署不会自动下载受限数据、重建病例，或配置模型服务密钥；使用本机已有产物。
+账户系统仍为研究 MVP，请使用临时测试密码，不作生产部署。
+
+原来的前台入口保持可用：
 
 ```bash
 ./start.command

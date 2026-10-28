@@ -12,13 +12,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 44,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0001.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0001.json",
       "pathology": "SYN_DX_75498004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0001.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0001.raw.json",
       "raw_sha256": "87befc2fc047f494c1397048644244f443ba39257ab24a811fa9ff128d29f4f1",
       "source_evidence_count": 17,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0001.tree.json",
-      "tree_sha256": "e74f35258c5ef42101bfd994ed6f243bc30a6773d674fdaf84ec6ad7b27df053"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0001.tree.json",
+      "tree_sha256": "dff7e413eb5fec70cafb2a3431d8790e6192a73b47273611ffc33434c7fd8874"
     },
     {
       "all_checks_pass": true,
@@ -30,13 +30,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 46,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0002.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0002.json",
       "pathology": "SYN_DX_10509002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0002.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0002.raw.json",
       "raw_sha256": "e5f5d047475f5f5a0dc9381b89c334289eb9129ec1be6c77b6906f8b39c5abb3",
       "source_evidence_count": 18,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0002.tree.json",
-      "tree_sha256": "95895a0867952b9ae6dc631e0d375a9f6e6ea16884770e9d5c5f3379585558b1"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0002.tree.json",
+      "tree_sha256": "b8dc9135fc96345bbf9ac8d8ff9a51fd974e3d4bb54e248fcf38336a589a78e0"
     },
     {
       "all_checks_pass": true,
@@ -48,13 +48,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0003.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0003.json",
       "pathology": "SYN_DX_195662009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0003.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0003.raw.json",
       "raw_sha256": "63926afc7fcac9aef61bccb14b73a1a611308b7209cd36e51425eebe024f83ee",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0003.tree.json",
-      "tree_sha256": "5b730ee761103ea9460aa66d7ad733f3cd1a7c31ca32008e183f1133ac7a569c"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0003.tree.json",
+      "tree_sha256": "053f63ea8cfb1aa11da2c82469b98de5f880998244cafa825d05d66c0f668257"
     },
     {
       "all_checks_pass": true,
@@ -66,13 +66,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 46,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0004.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0004.json",
       "pathology": "SYN_DX_26929004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0004.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0004.raw.json",
       "raw_sha256": "a6e96b00aed1c5b4aa22edfd1f99d4d7aaf234451f78728d68c55725ecc5aee8",
       "source_evidence_count": 18,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0004.tree.json",
-      "tree_sha256": "0773e4ea83d176fed443bcbbb4a9c8456f50684734eabd1aee01f5f3ec529c52"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0004.tree.json",
+      "tree_sha256": "2ae0d3fa9c4672df7d4d8a1482357b10ac897ccdac38a9668f9e24f9900d08a0"
     },
     {
       "all_checks_pass": true,
@@ -84,13 +84,13 @@
       "disease_category_key": "HEMATOLOGIC",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 44,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0005.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0005.json",
       "pathology": "SYN_DX_271737000",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0005.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0005.raw.json",
       "raw_sha256": "d79e48c037c8d1c2edf8ca6e305d540987511c682daa7605cc7a0adefc11d565",
       "source_evidence_count": 17,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0005.tree.json",
-      "tree_sha256": "4a8d69ed7bc3f5ed38eda2a8b81febfd6884113b360e0d9a1ffcd00298d0c197"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0005.tree.json",
+      "tree_sha256": "1aa4c49353281ed22c593476b9da190495066d02570633945c2be665102e9913"
     },
     {
       "all_checks_pass": true,
@@ -102,13 +102,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 26,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0006.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0006.json",
       "pathology": "SYN_DX_195967001",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0006.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0006.raw.json",
       "raw_sha256": "3e6a0cf79f56480e4e522754dcb3e9c7d3ae1e0568cb86e07627041c48386e15",
       "source_evidence_count": 8,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0006.tree.json",
-      "tree_sha256": "8b29bdd617f5d0b9e2a8f0d4f2b326e3fef4e85b10ecd076e981c706b4f182da"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0006.tree.json",
+      "tree_sha256": "7490c3052a6cb7ff736bad0358e97516b87a3a2d60db36521b16793b454e3841"
     },
     {
       "all_checks_pass": true,
@@ -120,13 +120,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 40,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0007.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0007.json",
       "pathology": "SYN_DX_233678006",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0007.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0007.raw.json",
       "raw_sha256": "31fdf0b260416d9cf42d25c1a20dc47e6c88c6e91313493bca2e81c432331e7b",
       "source_evidence_count": 15,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0007.tree.json",
-      "tree_sha256": "7e97f7d3d899d9a7c6e4f258fbdfc18d9921dd41ee8834617091d118f48eaff0"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0007.tree.json",
+      "tree_sha256": "6ed371d4682fcce6e883f59b65d7e7468602c27d511dc2ce1acf728bef9db1f8"
     },
     {
       "all_checks_pass": true,
@@ -138,13 +138,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 36,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0008.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0008.json",
       "pathology": "SYN_DX_88805009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0008.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0008.raw.json",
       "raw_sha256": "b52d322e0390d7d86eed98f6665b18ab93f0578b1194a0f89ba258d2a6ed6038",
       "source_evidence_count": 13,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0008.tree.json",
-      "tree_sha256": "1aa595f9c4db55afb33f0e2d7e0545db9116783aa923a13198b7dbd2d865479c"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0008.tree.json",
+      "tree_sha256": "bc85cfe1f5a4ba580b41902a5895b03783e5d6700748831401d777d9cea82d5b"
     },
     {
       "all_checks_pass": true,
@@ -156,13 +156,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0009.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0009.json",
       "pathology": "SYN_DX_124171000119105",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0009.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0009.raw.json",
       "raw_sha256": "ff4aa9d7affea1d0a321dcbdf78ced9087f0a2195b898b60eb27ae1f077fb5fd",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0009.tree.json",
-      "tree_sha256": "acd318e0ed40a471a41d201a54bc8a5bcb0c1067f8ff1fe0c7db1b45b0ba17e8"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0009.tree.json",
+      "tree_sha256": "e7fbb03cf40089a2d58edf71615dbabac433fe9ebe405c1a26ca865750c56fc5"
     },
     {
       "all_checks_pass": true,
@@ -174,13 +174,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 44,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0010.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0010.json",
       "pathology": "SYN_DX_82423001",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0010.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0010.raw.json",
       "raw_sha256": "8aee0292e11062c8829322855e50306eda87740281413ef5f77579fa6790300c",
       "source_evidence_count": 17,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0010.tree.json",
-      "tree_sha256": "d28c5e89dacf03de6a615ed78ee3b81950ce6144704de62100ac948e9984f4eb"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0010.tree.json",
+      "tree_sha256": "b202470316fbb530c0935598b6af64dfa50def814b20953ea58712a1ac237447"
     },
     {
       "all_checks_pass": true,
@@ -192,13 +192,13 @@
       "disease_category_key": "GENITOURINARY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 40,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0011.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0011.json",
       "pathology": "SYN_DX_38822007",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0011.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0011.raw.json",
       "raw_sha256": "2d9e93b43ae9e3dfe1421a310218f71f99a929f3fba3862b9d8b05c2ed30a6a5",
       "source_evidence_count": 15,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0011.tree.json",
-      "tree_sha256": "0e549376edcbd51fd1a98de30aee2b74c94c6b3dc4103c611d5bccfb0633744e"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0011.tree.json",
+      "tree_sha256": "b8a800fc7c98ae52fa7ac981658fbcbd12389fd8b7518307114a25c06916e4c0"
     },
     {
       "all_checks_pass": true,
@@ -210,13 +210,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0012.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0012.json",
       "pathology": "SYN_DX_156073000",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0012.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0012.raw.json",
       "raw_sha256": "fac68e6a5c1a8501c34fa11286d89bf98e559a4e0975396990a0f3ddd3d77234",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0012.tree.json",
-      "tree_sha256": "0638a7bef96e4a117f74f2a039de1c450feb0fc4846ed0f34635d44bbf8a076d"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0012.tree.json",
+      "tree_sha256": "b66f6b05fbc95b0e2bbb7380df3a30bc6409066b7f383ebd5e12aef52b9ba272"
     },
     {
       "all_checks_pass": true,
@@ -228,13 +228,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 50,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0013.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0013.json",
       "pathology": "SYN_DX_55822004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0013.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0013.raw.json",
       "raw_sha256": "8b19383e2092405dbeaa011e26e46b8d426aa5aba03a679bda1a1ddbac22053d",
       "source_evidence_count": 20,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0013.tree.json",
-      "tree_sha256": "7236209fac64717a9d5b2266447645b0d3bbc7923fcbebf3be368d24d313346f"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0013.tree.json",
+      "tree_sha256": "fcae3ad56099861cd45d6c3cd01a0b99560cb7c14bb9c8d8c9697af78476ef42"
     },
     {
       "all_checks_pass": true,
@@ -246,13 +246,13 @@
       "disease_category_key": "INJURY_PROCEDURAL",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 38,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0014.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0014.json",
       "pathology": "SYN_DX_196416002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0014.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0014.raw.json",
       "raw_sha256": "136fbfbc078d6ef61e2eb497d214ba6ab3758dd3d42d37d94e40c5c8f8bab629",
       "source_evidence_count": 14,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0014.tree.json",
-      "tree_sha256": "dcdd1d30e31d94e5ca0e44a21ede98e07e40e9ef849c13d7f5c27009ce9a3388"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0014.tree.json",
+      "tree_sha256": "ea1a9ab962d0560b9f0d97763876633ecd0e36925e25aaa3793e7875cd73d615"
     },
     {
       "all_checks_pass": true,
@@ -264,13 +264,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 44,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0015.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0015.json",
       "pathology": "SYN_DX_363406005",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0015.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0015.raw.json",
       "raw_sha256": "aa34d593365ddd73de5eb84caf38d23650beabd97fefeb97823f0c4ad423f896",
       "source_evidence_count": 17,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0015.tree.json",
-      "tree_sha256": "c76e12b798729d615bfd0441b1587825d95553e2837adfd026775601140d12a5"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0015.tree.json",
+      "tree_sha256": "e11a07e203ab9f74de15a9963b50850e3ad5e079110e2c714c01367dfc072df0"
     },
     {
       "all_checks_pass": true,
@@ -282,13 +282,13 @@
       "disease_category_key": "ONCOLOGY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 52,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0016.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0016.json",
       "pathology": "SYN_DX_126906006",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0016.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0016.raw.json",
       "raw_sha256": "6233e09f097c6e987c1cf33c5e2152592c0e73ecbe4c4b2e1ec0563e2b4fe423",
       "source_evidence_count": 21,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0016.tree.json",
-      "tree_sha256": "89ba03f726efd41faa3f3a30a194951ff721b0f4bc8dc2ab9440678ce2059275"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0016.tree.json",
+      "tree_sha256": "e0de1c6ddd6ef2add2719651a1d31f2d99a6eab587c8b5b0486bb4362064c8c5"
     },
     {
       "all_checks_pass": true,
@@ -300,13 +300,13 @@
       "disease_category_key": "MATERNAL_HEALTH",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 44,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0017.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0017.json",
       "pathology": "SYN_DX_72892002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0017.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0017.raw.json",
       "raw_sha256": "cb0b4d74c95e34aa68d6ad9b60fcde1a30b768488e1302b88a21c9611f880159",
       "source_evidence_count": 17,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0017.tree.json",
-      "tree_sha256": "3ec4e0a8451bda97845e7d9f75a15fa8686973045073a4fe350cf8f4f57c99c6"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0017.tree.json",
+      "tree_sha256": "e8bc2ccc04e018291edc92f107cabe6a75e0b5e0b9dc94134d6746bcfc95fe2b"
     },
     {
       "all_checks_pass": true,
@@ -318,13 +318,13 @@
       "disease_category_key": "ONCOLOGY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0018.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0018.json",
       "pathology": "SYN_DX_109838007",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0018.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0018.raw.json",
       "raw_sha256": "ce6c82d23489bef9317074919a7a1ab6bdf56be5e54fbbe89161e037525ffbf5",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0018.tree.json",
-      "tree_sha256": "cfb70e9faaf3e870ae7e159b2bf9673c4482e01f357aa3843e6fa78e86f3db66"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0018.tree.json",
+      "tree_sha256": "33e325783f39d70f4e3285099ce358c62a7ca2eeb649c3a85996027cd4499e1b"
     },
     {
       "all_checks_pass": true,
@@ -336,13 +336,13 @@
       "disease_category_key": "ONCOLOGY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0019.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0019.json",
       "pathology": "SYN_DX_94260004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0019.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0019.raw.json",
       "raw_sha256": "84befbe84eebbbd7c58444f75d668627d39e3c73bea60f7ac44410f065dee0d3",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0019.tree.json",
-      "tree_sha256": "60772fe93ae53957f0d2c40271d1da1afea1da1b81473e333eff21e573ca7ee4"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0019.tree.json",
+      "tree_sha256": "8bafeb556cbfea8babed4ede4a23b96f42ffef345c7d46c8df2e99a10c9b6dae"
     },
     {
       "all_checks_pass": true,
@@ -354,13 +354,13 @@
       "disease_category_key": "NEUROLOGIC",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 40,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0020.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0020.json",
       "pathology": "SYN_DX_128613002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0020.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0020.raw.json",
       "raw_sha256": "d95a03e79eb0ad7c13dc487a23be8485953603dcc25e1ce6c3d541dc468820c2",
       "source_evidence_count": 15,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0020.tree.json",
-      "tree_sha256": "0c2f22a400f5ea41e36c5011fa8f6cb01aed93f17da37a68372f3445a5c178ed"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0020.tree.json",
+      "tree_sha256": "b7c3d03e4e34ce6c5ce0be422dd8f3032a64efdd720c85dfe99dda3ac1cf5cab"
     },
     {
       "all_checks_pass": true,
@@ -372,13 +372,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 40,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0021.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0021.json",
       "pathology": "SYN_DX_36971009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0021.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0021.raw.json",
       "raw_sha256": "853ed909092fa6a6b4b381f849bebd1a1fa674806647e3db342ab2239d21b2ed",
       "source_evidence_count": 15,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0021.tree.json",
-      "tree_sha256": "9d8eb37cf9490d19436a3767e7e71d22c7ebb526536fe33839f72c4bdaf1c787"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0021.tree.json",
+      "tree_sha256": "f17ace2a097acc846ab4c0a4f02076c50f7846263e833425719adf4e045abd9f"
     },
     {
       "all_checks_pass": true,
@@ -390,13 +390,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0022.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0022.json",
       "pathology": "SYN_DX_43878008",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0022.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0022.raw.json",
       "raw_sha256": "8563b849f3e712a5ed79cced5d9c5c435a975f60b5bbf9d6fc3eb8f5d0e6e3c4",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0022.tree.json",
-      "tree_sha256": "032a3596ffe911b0813aaf3372470e5b2f2eb28e6fc01c4dbedc82d2c5448888"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0022.tree.json",
+      "tree_sha256": "b777fba5c50e7f5d801277a2297d7dbf75ac0f23ed4678ff4710604cda64cbfa"
     },
     {
       "all_checks_pass": true,
@@ -408,13 +408,13 @@
       "disease_category_key": "MATERNAL_HEALTH",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 46,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0023.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0023.json",
       "pathology": "SYN_DX_79586000",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0023.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0023.raw.json",
       "raw_sha256": "df63cdd2910c6dcd2fe90fc212bd111be620d9f35916d55d5fd82e80542b848d",
       "source_evidence_count": 18,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0023.tree.json",
-      "tree_sha256": "e6f04b9a36cfe1270fd77d27d01f7634987796eb8728d9efb5307f4d2f86c668"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0023.tree.json",
+      "tree_sha256": "5f51543d8a2c99c842e64e70ce55a7506e892d1324c9fada0d7badc7af2becc5"
     },
     {
       "all_checks_pass": true,
@@ -426,13 +426,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 46,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0024.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0024.json",
       "pathology": "SYN_DX_444814009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0024.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0024.raw.json",
       "raw_sha256": "a1c904394906e9e9cdecafda51421d26574d4bf7a224d9f19d8e9941b0579727",
       "source_evidence_count": 18,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0024.tree.json",
-      "tree_sha256": "0c358455f5cf50c1f253dac0964cfae1b5d862f2414ba843bc78362a9753c2e9"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0024.tree.json",
+      "tree_sha256": "c66b3bcb13c5fe05fbf2546f103ada659291aeaa39fcfe97e7d57f6437ed55fd"
     },
     {
       "all_checks_pass": true,
@@ -444,13 +444,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 38,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0025.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0025.json",
       "pathology": "SYN_DX_75498004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0025.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0025.raw.json",
       "raw_sha256": "4d83500344190ef7e476940f7bcd126f0ce691a87d88955f52eb9c0678b53fc3",
       "source_evidence_count": 14,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0025.tree.json",
-      "tree_sha256": "1181ee6141d38a5641567aa37528660655c87bf3b71e3a69e23eff76f92ca95e"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0025.tree.json",
+      "tree_sha256": "d7d81e869831627e9826c3e70b1f8c5fbe68cfccfb35b84fc75c0318ae7f6bb5"
     },
     {
       "all_checks_pass": true,
@@ -462,13 +462,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 46,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0026.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0026.json",
       "pathology": "SYN_DX_10509002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0026.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0026.raw.json",
       "raw_sha256": "be038b21cd3df76b57d7b4f374d57eb15ad39dc8c34266caaafc973b54e7ff5a",
       "source_evidence_count": 18,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0026.tree.json",
-      "tree_sha256": "227b28004f553be063e0869d6c1149793af0dc252de3cdc3620e57d7597f97f0"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0026.tree.json",
+      "tree_sha256": "3e34d11eed0de83606cab7223cfc938a2c25fc072a7650c024c84e48845fc976"
     },
     {
       "all_checks_pass": true,
@@ -480,13 +480,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 40,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0027.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0027.json",
       "pathology": "SYN_DX_195662009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0027.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0027.raw.json",
       "raw_sha256": "53f4fd3e2db48ee066275a568632c36d30b33e7c456e302f077b8c859b1d954c",
       "source_evidence_count": 15,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0027.tree.json",
-      "tree_sha256": "cba242a817248c6fea75aed81c7c55ace2fcac0a6050dc174aac9748fcb98847"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0027.tree.json",
+      "tree_sha256": "42964183367fd8d871a0957fe09b0678274fc42f94c51c8fb785ea5dbbf6c84f"
     },
     {
       "all_checks_pass": true,
@@ -498,13 +498,13 @@
       "disease_category_key": "HEMATOLOGIC",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 48,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0028.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0028.json",
       "pathology": "SYN_DX_271737000",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0028.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0028.raw.json",
       "raw_sha256": "38dc9b3691e5fd744e0f8ccd518c4f7a82b15b41e60863507315874ebe7399d8",
       "source_evidence_count": 19,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0028.tree.json",
-      "tree_sha256": "386b31534c10ed66a572856accb2b56f3c1227748d1b0d321dcb0bd38df55204"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0028.tree.json",
+      "tree_sha256": "ba09c7c0ae67d444de878355680678922c785891fa7876b264e16c0b8f1f42aa"
     },
     {
       "all_checks_pass": true,
@@ -516,13 +516,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 36,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0029.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0029.json",
       "pathology": "SYN_DX_88805009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0029.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0029.raw.json",
       "raw_sha256": "746285f0b96f223216b4dbf7113b70395d307fcab5e5fd410b62e20034a52912",
       "source_evidence_count": 13,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0029.tree.json",
-      "tree_sha256": "dea3ec9d16d0f63e95f9aa1ef87af8854d4426d7bf10e485a35041d2179277ad"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0029.tree.json",
+      "tree_sha256": "501dc69254d6168406df24140061ee188fc56cad9d88dae01e0f276e68d303be"
     },
     {
       "all_checks_pass": true,
@@ -534,13 +534,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 48,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0030.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0030.json",
       "pathology": "SYN_DX_55822004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0030.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0030.raw.json",
       "raw_sha256": "bfa1aadf12e4b67a9a1d4a85251859b0efa5e273bd56f19cbfaba76d9b406c57",
       "source_evidence_count": 19,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0030.tree.json",
-      "tree_sha256": "6521f1a09a7a47da88c803890af9c52e7f9678ef2e07a3f15259ca7ed84df0e1"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0030.tree.json",
+      "tree_sha256": "0345c737ecd12d2142dc1fa88882bbc20885f9025c8c077187fbc930c1b2ad75"
     },
     {
       "all_checks_pass": true,
@@ -552,13 +552,13 @@
       "disease_category_key": "INJURY_PROCEDURAL",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 32,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0031.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0031.json",
       "pathology": "SYN_DX_196416002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0031.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0031.raw.json",
       "raw_sha256": "ccf46d669c6169ffaecad633f7188f6d93af1de53ae056df1797258a91ef5547",
       "source_evidence_count": 11,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0031.tree.json",
-      "tree_sha256": "564a4e3a127f732d8a68ae8b932b16082176fd116fa22f99a4ded0c6d63531ab"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0031.tree.json",
+      "tree_sha256": "4871f099f97443e7032d1ff6b032750c5db048b94e4895d788e2b7ca5da1ea32"
     },
     {
       "all_checks_pass": true,
@@ -570,13 +570,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0032.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0032.json",
       "pathology": "SYN_DX_363406005",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0032.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0032.raw.json",
       "raw_sha256": "95aa3bd6cbfdb75cf69fcd1a9bcede5d8cb73046e924752245cef6a7c3845a67",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0032.tree.json",
-      "tree_sha256": "0d9a856d86bdcddbb9db00adc36360a514412bca38af60d0f121ad15004332f5"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0032.tree.json",
+      "tree_sha256": "bbc6120a0175897ec4fb02778d081401294451d7e20ba13776548c5a5a6b2b0f"
     },
     {
       "all_checks_pass": true,
@@ -588,13 +588,13 @@
       "disease_category_key": "ONCOLOGY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 48,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0033.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0033.json",
       "pathology": "SYN_DX_126906006",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0033.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0033.raw.json",
       "raw_sha256": "e8c5d526fa48967d4f71b5e26c090dbd921822fa00feae2bbdff75d3e71b7e8f",
       "source_evidence_count": 19,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0033.tree.json",
-      "tree_sha256": "bedd2aac9d65a1c4251e800c7718561fe558d732d5341de702c05f5a021202ae"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0033.tree.json",
+      "tree_sha256": "7069d6fd2fa0ff5176f82503b33f5e9c3476ac60d8f217dc0b07d6e52cbfcfaa"
     },
     {
       "all_checks_pass": true,
@@ -606,13 +606,13 @@
       "disease_category_key": "MATERNAL_HEALTH",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0034.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0034.json",
       "pathology": "SYN_DX_72892002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0034.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0034.raw.json",
       "raw_sha256": "9f652b6f67005ff36dc9b3ec1d20b6975ba01a1b4fffba0bca56e41ed661ded0",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0034.tree.json",
-      "tree_sha256": "b88a5c935f3b22abea56992f8127f5ca0ec5ed90a4e8030835e9157b71be3353"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0034.tree.json",
+      "tree_sha256": "70c9b888628bb8350b8244daa495564f74fff96a29491432a4100bd93fb1d898"
     },
     {
       "all_checks_pass": true,
@@ -624,13 +624,13 @@
       "disease_category_key": "ONCOLOGY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0035.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0035.json",
       "pathology": "SYN_DX_109838007",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0035.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0035.raw.json",
       "raw_sha256": "fc9e7233a4ae0fdbf6cd3ff511f8bf990e570e9bd1c910c0603e832f886f9e05",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0035.tree.json",
-      "tree_sha256": "5dc5832ad95beb596aa81d121d00319717d3cb3938567823567a747d57e01c9d"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0035.tree.json",
+      "tree_sha256": "0282a9180d1a91023f03b33f29c6ee618abfc9efe55b78a482670176281b01a4"
     },
     {
       "all_checks_pass": true,
@@ -642,13 +642,13 @@
       "disease_category_key": "ONCOLOGY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0036.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0036.json",
       "pathology": "SYN_DX_94260004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0036.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0036.raw.json",
       "raw_sha256": "fa797468bd59843c3d1e58213fc2e90199930c4a299dd2af96ddd6fea37028f0",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0036.tree.json",
-      "tree_sha256": "ca31ad81187e203ca06a5172b6951d34999dd3412d3c807f2e074427db00344e"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0036.tree.json",
+      "tree_sha256": "e14775332e490249c42aa6526736a927f37f7f877efdcdffe008d648eb3a782c"
     },
     {
       "all_checks_pass": true,
@@ -660,13 +660,13 @@
       "disease_category_key": "NEUROLOGIC",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 40,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0037.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0037.json",
       "pathology": "SYN_DX_128613002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0037.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0037.raw.json",
       "raw_sha256": "2253e9658cd7f60387e2982273d03265edb3c3094727e2f5e1de8213d8a01f3a",
       "source_evidence_count": 15,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0037.tree.json",
-      "tree_sha256": "62bf768c9be7f3978a05226ab569c54a2d6638a1821fb422d06f9e923e5d8aeb"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0037.tree.json",
+      "tree_sha256": "6d16c8092f1458781a998027a8206ab4fa6a4872f83d65918cd2a9854201d94b"
     },
     {
       "all_checks_pass": true,
@@ -678,13 +678,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 38,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0038.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0038.json",
       "pathology": "SYN_DX_36971009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0038.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0038.raw.json",
       "raw_sha256": "d4465557eb2d4b8b087c04c04cd83d9861e01a2b483f99b2d309081c6e17cede",
       "source_evidence_count": 14,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0038.tree.json",
-      "tree_sha256": "693691995c69c82db61821dd50db7240d300fa2409667034e4af48280ff3cd22"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0038.tree.json",
+      "tree_sha256": "23b8ce136ecf59936b4c2633ab3b6bdff1c8eef26525401740df332ed795dc85"
     },
     {
       "all_checks_pass": true,
@@ -696,13 +696,13 @@
       "disease_category_key": "MATERNAL_HEALTH",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0039.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0039.json",
       "pathology": "SYN_DX_79586000",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0039.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0039.raw.json",
       "raw_sha256": "aedee6d631a43c3e54e7bf3aa6daceedab961c4f27d448e24920005ca2ddf71e",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0039.tree.json",
-      "tree_sha256": "24bf553286734070797bf9a1f873737756cda5585172245d7652ffcaab3e83eb"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0039.tree.json",
+      "tree_sha256": "73cc3b4689b4836ec94ba641f89bdade78303a3276939796ab878810b71baad6"
     },
     {
       "all_checks_pass": true,
@@ -714,13 +714,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 44,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0040.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0040.json",
       "pathology": "SYN_DX_444814009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0040.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0040.raw.json",
       "raw_sha256": "4e7584f0d7b5ebcb69cb209511e1f81105d8b7cacbc076f7f0073b01d7fbc849",
       "source_evidence_count": 17,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0040.tree.json",
-      "tree_sha256": "88e3460db62012335de69cb2ddb7bf93067024f3d83627b76286366cacd9a7e3"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0040.tree.json",
+      "tree_sha256": "b51014ecc5521a75a76dfabbeee6a69f03a939e34b503ad00fa281d2c50e20fa"
     },
     {
       "all_checks_pass": true,
@@ -732,13 +732,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 40,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0041.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0041.json",
       "pathology": "SYN_DX_75498004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0041.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0041.raw.json",
       "raw_sha256": "6901fd286d5586a854096c08c0f634b825d5d689dfb69f0714ca6eb47052a19c",
       "source_evidence_count": 15,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0041.tree.json",
-      "tree_sha256": "2ea0ed08322319138731e0d4c49e3fb2d94c9cda60159f25f99fc3ea45c4a0eb"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0041.tree.json",
+      "tree_sha256": "fb36f2b1bfe2b08728b51f15effc3adbf9fb01e68432310672621ca855a2242d"
     },
     {
       "all_checks_pass": true,
@@ -750,13 +750,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 48,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0042.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0042.json",
       "pathology": "SYN_DX_10509002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0042.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0042.raw.json",
       "raw_sha256": "ab2d766420c0e0420fe8ca9fdbc31800ab7abdbefdc73a9b9793073a31c94839",
       "source_evidence_count": 19,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0042.tree.json",
-      "tree_sha256": "eb5a3b348ff0835d13eaf9bc10c9a7fd6ba85cbd5a455ecffafe0bddcc05e6bf"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0042.tree.json",
+      "tree_sha256": "dfca658630db833207646ff5bf30e584e351d7f97b4e138da62b890ef8fd6058"
     },
     {
       "all_checks_pass": true,
@@ -768,13 +768,13 @@
       "disease_category_key": "RESPIRATORY_ENT",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 38,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0043.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0043.json",
       "pathology": "SYN_DX_195662009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0043.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0043.raw.json",
       "raw_sha256": "eadadf3a470425c44a509a6039eb2dd137ec1009e8af86f96f0a966c89489c29",
       "source_evidence_count": 14,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0043.tree.json",
-      "tree_sha256": "da4ee9969715cffeec76d92684cfdea0b320139dc47fa4623752828cb455730f"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0043.tree.json",
+      "tree_sha256": "e5f990b8bdc716399b93fb0fe64cdf1ab16f279b31dec50429f31f80be7f5072"
     },
     {
       "all_checks_pass": true,
@@ -786,13 +786,13 @@
       "disease_category_key": "HEMATOLOGIC",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 50,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0044.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0044.json",
       "pathology": "SYN_DX_271737000",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0044.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0044.raw.json",
       "raw_sha256": "a4441bd08fa42047a0080488299431592b9013c50c9dc5eba72bb7f2312e4f13",
       "source_evidence_count": 20,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0044.tree.json",
-      "tree_sha256": "edd0bfbd6238fd2be4da1baa90f1e24f7dab97e248955bec90a1f980b8e8f21d"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0044.tree.json",
+      "tree_sha256": "7ef3acd94ed441ba0998bc97119216fe7ace94b9a3951c7c5870af37bcb85086"
     },
     {
       "all_checks_pass": true,
@@ -804,13 +804,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 34,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0045.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0045.json",
       "pathology": "SYN_DX_88805009",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0045.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0045.raw.json",
       "raw_sha256": "2e656d874353f3dc431578ea7910e872a4ff489a29f2c078c4dfe3578be48f1f",
       "source_evidence_count": 12,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0045.tree.json",
-      "tree_sha256": "644f2f41520cb5c48f48ae63dba39af1093eb3bd80118ffdb8bad3a8a06f9c7f"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0045.tree.json",
+      "tree_sha256": "f2f3a388c408451530cfe01a53053fa7a3be88ba5ea9b715e77a19abb6ed98ec"
     },
     {
       "all_checks_pass": true,
@@ -822,13 +822,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 46,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0046.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0046.json",
       "pathology": "SYN_DX_55822004",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0046.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0046.raw.json",
       "raw_sha256": "ac0e785351df1823720ff4810e12f372ea3455103a2ad2e258095e8a54ffe271",
       "source_evidence_count": 18,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0046.tree.json",
-      "tree_sha256": "277fd8b3d776d83d8845b9b92e0de430dfbb13e3dd73347bcf2ec96f132bd07f"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0046.tree.json",
+      "tree_sha256": "37c44b9a452b822fb52a11b210e76a6acb35f64797f884bf06d8f09238f0ee9a"
     },
     {
       "all_checks_pass": true,
@@ -840,13 +840,13 @@
       "disease_category_key": "INJURY_PROCEDURAL",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 38,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0047.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0047.json",
       "pathology": "SYN_DX_196416002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0047.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0047.raw.json",
       "raw_sha256": "6add0545cdddb9b9bbdbd3e23b5fffe16a1991f2d4660d8a1247efb4530bc539",
       "source_evidence_count": 14,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0047.tree.json",
-      "tree_sha256": "68d7bcaf62770c879b3ed94316a3bf812994fd23391757a3c40dd75d44406237"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0047.tree.json",
+      "tree_sha256": "7b03835ae6632dae837208072a718cbac0a147b45e3df2eeb41eb459cb3f5457"
     },
     {
       "all_checks_pass": true,
@@ -858,13 +858,13 @@
       "disease_category_key": "GENERAL_MEDICINE",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 42,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0048.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0048.json",
       "pathology": "SYN_DX_363406005",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0048.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0048.raw.json",
       "raw_sha256": "82653da0ce5d8694db7445e1504051e99dba531eb20224e51aa6aa4a6feb59b1",
       "source_evidence_count": 16,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0048.tree.json",
-      "tree_sha256": "4de5235004c2d459ffc159d32e892f845287a8836623e58a54518e5a127ae879"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0048.tree.json",
+      "tree_sha256": "3e7c380312ed10cb2c67951b5dda6b140533770aaa6fdb659e7f487ee8f4f799"
     },
     {
       "all_checks_pass": true,
@@ -876,13 +876,13 @@
       "disease_category_key": "ONCOLOGY",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 50,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0049.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0049.json",
       "pathology": "SYN_DX_126906006",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0049.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0049.raw.json",
       "raw_sha256": "4d4137b7e1d131397ed5a934904fc701d4e36e845e929ae40d04771f663a0271",
       "source_evidence_count": 20,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0049.tree.json",
-      "tree_sha256": "ad49b2b0f91b551f998f489c31d4f8947c3e39c308a1d8b40a3610102f387921"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0049.tree.json",
+      "tree_sha256": "735e987002952507d237e59d6e1f67224f3e478318ca985a7b91adfc7b88abd7"
     },
     {
       "all_checks_pass": true,
@@ -894,13 +894,13 @@
       "disease_category_key": "MATERNAL_HEALTH",
       "generation_mode": "NATURAL_CSV_EXPORT",
       "node_count": 32,
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0050.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0050.json",
       "pathology": "SYN_DX_72892002",
-      "raw_case_path": "data/processed/synthea/v1/mvp50_v1/raw_cases/SYN_ENC_0050.raw.json",
+      "raw_case_path": "data/processed/synthea/raw_cases/SYN_ENC_0050.raw.json",
       "raw_sha256": "76fb1355b538ba4175288a6704fc712b52c8e9a95b7b45ef74bcad48bc9fd2ad",
       "source_evidence_count": 11,
-      "tree_path": "data/processed/synthea/v1/mvp50_v1/case_trees/SYN_ENC_0050.tree.json",
-      "tree_sha256": "87e25f4e5b026b72248b321f62bc10c670813b75fa2b61ee761888d600143023"
+      "tree_path": "data/processed/synthea/case_trees/SYN_ENC_0050.tree.json",
+      "tree_sha256": "52c219f990fcdc76187a5e956d5412ba6f591a0b3276c36832948e413758ef2c"
     }
   ],
   "category_case_counts": {

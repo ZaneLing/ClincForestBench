@@ -28,7 +28,7 @@ def test_train_only_reference_bayes_is_normalized(cases):
 
 
 def test_quality_exceptions_are_explicit_and_stable():
-    report = json.loads(Path("data/manifests/raw_quality_v1.json").read_text())
+    report = json.loads(Path("data/manifests/raw_quality.json").read_text())
     # This is refreshed by the one-command pipeline; source drift must never be
     # silently accepted as a new baseline.
     if "quality_status" in report:

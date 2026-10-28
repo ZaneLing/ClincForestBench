@@ -12,13 +12,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_1.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_1.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_1.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_1.raw.json",
       "raw_sha256": "8e6cc63e80304a4b2b4b91f8d33812ae627439bde25cdbfcd28db3959c855773",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_1.tree.json",
-      "tree_sha256": "b2dd28b0c29b1d9aa5410879f9ed9b463db8d3676fedb6dcdfba3853a9cc3534"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_1.tree.json",
+      "tree_sha256": "fc8c6dd0c84395b0de008fb85ab1500b4a7f36ee4c93f7f355c4b845b8bcbaaa"
     },
     {
       "all_checks_pass": true,
@@ -30,13 +30,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_2.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_2.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_2.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_2.raw.json",
       "raw_sha256": "4a65c9dd2860b408ea1d827f004ed9b0ddcf2c4d6504e82d345ac2f855a26c06",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_2.tree.json",
-      "tree_sha256": "3425ce0f37c33de0e9e814b7c6738299386928fff25b5a5bacdab39ffe49737f"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_2.tree.json",
+      "tree_sha256": "79db445df14384ec49d380a11d01fa0515826930270a03f507a696d609f44177"
     },
     {
       "all_checks_pass": true,
@@ -48,13 +48,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_3.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_3.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_3.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_3.raw.json",
       "raw_sha256": "18a692ab8959ec213e636004a2f448bcb7288259dd47526a25e218d52c033b27",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_3.tree.json",
-      "tree_sha256": "9ac89f0336947b3f6a653bb0fd6452ac044668e700b369683c82943b8e09d1f8"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_3.tree.json",
+      "tree_sha256": "2afa778e60fe7a2fa86c29bebbf5807081cb725c27c03f0cc60b81ab520602ef"
     },
     {
       "all_checks_pass": true,
@@ -66,13 +66,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_4.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_4.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_4.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_4.raw.json",
       "raw_sha256": "aa9048008f110ca0db68cd4bb1a5567b2293169750d0e152404fbd80ff1a312f",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_4.tree.json",
-      "tree_sha256": "27d06433a956e7a661229f3dda6adbd0474252a70f91737ed639f2b06816f93c"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_4.tree.json",
+      "tree_sha256": "9959e3a5e6a138e8e234946aa0029d1ea15d02caf0e958be8faab98d0973ba54"
     },
     {
       "all_checks_pass": true,
@@ -84,13 +84,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_5.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_5.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_5.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_5.raw.json",
       "raw_sha256": "02ca44d3840e1d2d7ba89822c53ceb6a94a358dc7a26236483c6ccf978087b3f",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_5.tree.json",
-      "tree_sha256": "289606da7e6fe6b32e3c4005e29a5deaef261214cb930709bd47073860ddaa8a"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_5.tree.json",
+      "tree_sha256": "e92226529fed514915410019f97f9397e9ace91b5eee751b13dbc8acaecc67f4"
     },
     {
       "all_checks_pass": true,
@@ -102,13 +102,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_6.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_6.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_6.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_6.raw.json",
       "raw_sha256": "b0b3fe3047276b80a8908325ac27bbf2b39785959af93a481e1c804b1f35c0ce",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_6.tree.json",
-      "tree_sha256": "226c68aa4aac7c8cd0a906bb0d6ffb1ede1de59b9f777d5f5b1f0c27554aa094"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_6.tree.json",
+      "tree_sha256": "eac40be46b01e62928633090c59fc666b2a2a1b9315fac25980a9736099747bb"
     },
     {
       "all_checks_pass": true,
@@ -120,13 +120,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_7.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_7.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_7.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_7.raw.json",
       "raw_sha256": "b1a518a040a736888fd2608ad1c2c2a703a93308298593d075c2c565976a4653",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_7.tree.json",
-      "tree_sha256": "52f248552999c00584d747211c2595e8e99c47c8cce13c973b7968a7dc3d4e36"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_7.tree.json",
+      "tree_sha256": "44b05f0d668daf891871a07f9c9f74760b3fec375a5c0ea8a1611f6d9a897293"
     },
     {
       "all_checks_pass": true,
@@ -138,13 +138,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_8.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_8.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_8.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_8.raw.json",
       "raw_sha256": "d60da087a2721ebec16579b65e55aa6cda49acd65c64cef940efae7f69eb3684",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_8.tree.json",
-      "tree_sha256": "9ff644b8e11641dd3c03ba6da0c373737fc17a111a29acd08877bcd98338226f"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_8.tree.json",
+      "tree_sha256": "8423aed7bd958628c465c24d462a3c8a1cd8e412e17cfe0d163cc8c4304fe325"
     },
     {
       "all_checks_pass": true,
@@ -156,13 +156,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_9.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_9.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_9.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_9.raw.json",
       "raw_sha256": "47d063f6cc2030d3bb90c1f20825914bd69659b55a4b2a88e70a44100d145475",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_9.tree.json",
-      "tree_sha256": "dd141d264da5d998db3ff405f58d812e7e798d3615fdbb22a2c16211f21d8098"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_9.tree.json",
+      "tree_sha256": "676049123cd200823415186d598a714a5d1ef9f83ce9141ef1d9bd9ee314055a"
     },
     {
       "all_checks_pass": true,
@@ -174,13 +174,13 @@
       "disease_category_key": "LAB_RETRIEVAL",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK4_10.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK4_10.json",
       "pathology": "MAB_OUTCOME_LAB_RETRIEVAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK4_10.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK4_10.raw.json",
       "raw_sha256": "a7c5baf549ea31f52561318d7eeb6fd6384af72cecbba8dd9b6a75a3321a4e28",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK4_10.tree.json",
-      "tree_sha256": "e5d6cb21a8f80edae018015a22b16199a1d96673ec39aea1a310c04a70cf53fb"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK4_10.tree.json",
+      "tree_sha256": "63e5420265409b328ebd46b27f38a25450c3e1b703b3a72bbfeb2bbcb18e8820"
     },
     {
       "all_checks_pass": true,
@@ -192,13 +192,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_1.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_1.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_1.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_1.raw.json",
       "raw_sha256": "e7a70f787fd91ac2ad598844cd34af93153ebf5cac5c0642c295541674e0ec36",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_1.tree.json",
-      "tree_sha256": "f8683c493f8f14b82ce2724775f3236072ea5e39fc890ce8e77dc66b2b64391b"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_1.tree.json",
+      "tree_sha256": "573baaedb21a581d682649849d78f84ea2eaeea0bcf1d7dbfd6b07e8ecb2d7a8"
     },
     {
       "all_checks_pass": true,
@@ -210,13 +210,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_2.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_2.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_2.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_2.raw.json",
       "raw_sha256": "f86344d35bb4b15a600218a858550f851e522d8be13b5c8d2a0e1ecd9aabb6f6",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_2.tree.json",
-      "tree_sha256": "dbf49630ded1a2ac60d68adeed83bfa725d1cc4f26bb573e36ae8eab78bdd236"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_2.tree.json",
+      "tree_sha256": "ec879596d4d497ec62ab9050c8d76448914615bb230d803196b6a6d9eebd2e2a"
     },
     {
       "all_checks_pass": true,
@@ -228,13 +228,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_3.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_3.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_3.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_3.raw.json",
       "raw_sha256": "c2878f7eca2092a10e90f109658f7d62aba660d2786e8dc0c29c50bc43b93fe7",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_3.tree.json",
-      "tree_sha256": "b51ae2832a3e391b674d2005ed6fcbb06e2f342012bc462394485550c271cffc"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_3.tree.json",
+      "tree_sha256": "1fee882da4290761a720b3d7733d1c21b846ee59d3fff91ae2c9b8fed18611dc"
     },
     {
       "all_checks_pass": true,
@@ -246,13 +246,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_4.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_4.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_4.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_4.raw.json",
       "raw_sha256": "2b9d1b0c876e9bc0a2e2da0fd37865598bf1503ab6fc659a0119587463f32ae3",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_4.tree.json",
-      "tree_sha256": "e2cff3df45ad316ccc4a38a2e1b05a984c3d8f21c0fc3b8606dd8e74090872ce"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_4.tree.json",
+      "tree_sha256": "e8e9256501dd065babe3f9c53618dfeb57032a6b337c10920bfc931b04918bf5"
     },
     {
       "all_checks_pass": true,
@@ -264,13 +264,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_5.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_5.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_5.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_5.raw.json",
       "raw_sha256": "4a9cb4d0a0b4e7f8d486345ca477039a1628981e1ab74a0b7c14dea60527e968",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_5.tree.json",
-      "tree_sha256": "4ea9fc6e714bc1016b9c5fb0a1d365d6eaea5c20e80cdcd61844c736f9832b62"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_5.tree.json",
+      "tree_sha256": "6100a5dbfe010eef074f70f6669ad55e8d828a704d5998417ac89f84cdca6f89"
     },
     {
       "all_checks_pass": true,
@@ -282,13 +282,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_6.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_6.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_6.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_6.raw.json",
       "raw_sha256": "da9e58bce984c4fd2d4096e105c0f2a8d3c3352bbec4975b4dbd4cff6b781af9",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_6.tree.json",
-      "tree_sha256": "240084ec316cff089fb92b8825d8bc8c59bf3088667b0b49270c423589c7becc"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_6.tree.json",
+      "tree_sha256": "246e7a4093fcc03d458de13c5d8aa5d09974b47726017de735a0c72f8dd1a01d"
     },
     {
       "all_checks_pass": true,
@@ -300,13 +300,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_7.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_7.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_7.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_7.raw.json",
       "raw_sha256": "392eb717b12cb767deddb05376bdcbd2889165dcbe61e0dd95f02c48c0d2c13d",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_7.tree.json",
-      "tree_sha256": "1809961176cea7fdc9a32cf7af6a861269b41dbcc08585adf6c3970a38ebfb71"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_7.tree.json",
+      "tree_sha256": "c38fe5d7138525179ec17283aeac8b173cf8c46556d09c431aea7c2d62a5f9cc"
     },
     {
       "all_checks_pass": true,
@@ -318,13 +318,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_8.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_8.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_8.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_8.raw.json",
       "raw_sha256": "015a8a885092d757201704243358b405ee2d5928b90188e716d5169e6958fbc4",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_8.tree.json",
-      "tree_sha256": "3de6254ec6313ec1d0169be0110785a9ed9f1b577fb17655b88c2a84ea2a3584"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_8.tree.json",
+      "tree_sha256": "fa12a78da1f434f7b876bbc2588541126265dddfd6ee4d5925254953d8be2164"
     },
     {
       "all_checks_pass": true,
@@ -336,13 +336,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_9.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_9.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_9.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_9.raw.json",
       "raw_sha256": "ae35a2a3962ec3c5517cfa6cb5de9fe03ef8ae23fecbc454c4b7587e40a426c0",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_9.tree.json",
-      "tree_sha256": "85738c662aae354249f96c4c307ce04c74e8a31f7cc3e19f2cbf049466b3d948"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_9.tree.json",
+      "tree_sha256": "8bd316dd5721b9f49853dc42182e9bbcc21d66345a3e51d89d366df4e8f24162"
     },
     {
       "all_checks_pass": true,
@@ -354,13 +354,13 @@
       "disease_category_key": "CONDITIONAL_MANAGEMENT",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 18,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK5_10.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK5_10.json",
       "pathology": "MAB_OUTCOME_CONDITIONAL_MAGNESIUM",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK5_10.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK5_10.raw.json",
       "raw_sha256": "0113319537e29f6937759174f79af402e923353ac0973cf9d2e7810ce8699c9d",
       "source_evidence_count": 5,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK5_10.tree.json",
-      "tree_sha256": "2266d0c55ad7b413b1219e2671e79d742c192eb6e2bcfed31298c8eff527b28d"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK5_10.tree.json",
+      "tree_sha256": "043ad6c3d53990e497b847f47a7b8028978386332235cde9ac15efef4db54560"
     },
     {
       "all_checks_pass": true,
@@ -372,13 +372,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_1.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_1.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_1.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_1.raw.json",
       "raw_sha256": "4c90dcaeca7f4b2e0d0f8e79e501ee2967fae99398e71575e68e8730fd0f1709",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_1.tree.json",
-      "tree_sha256": "3fdbd121a45ce3d1521f97504112cae568fdfba48919d3b8a732776f5bca9c3f"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_1.tree.json",
+      "tree_sha256": "343300e9eed1e77b2c27a4135b3523fd5d73ee86ebfc930da3b6b704feb265c7"
     },
     {
       "all_checks_pass": true,
@@ -390,13 +390,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_2.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_2.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_2.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_2.raw.json",
       "raw_sha256": "1e0fa4acc5c1fd2b2fe1ed89322e7a306bedecb434772eb1e456913d1bcb2bc0",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_2.tree.json",
-      "tree_sha256": "98dccc09d6918d70d107110d9e006ecdc6e4440aa42dcfa25736774865520ab5"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_2.tree.json",
+      "tree_sha256": "aea554b1b48f5e6a514185d6e82490c322c7a259e7355b129ee77b40a447e3e8"
     },
     {
       "all_checks_pass": true,
@@ -408,13 +408,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_3.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_3.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_3.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_3.raw.json",
       "raw_sha256": "c636d0d3fa05bc0eeda1c88243142145a42a2245bf7ac2fda6f1857945cc70e4",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_3.tree.json",
-      "tree_sha256": "bf82e0ed8341bfcb2aaceb62cdb6b6bef9e0868e038c2957bb0f5fdebd11fc6b"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_3.tree.json",
+      "tree_sha256": "b611a42ac44b2a5bdca09afd7494e138c804d03c594737e1cef4add65211b4fd"
     },
     {
       "all_checks_pass": true,
@@ -426,13 +426,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_4.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_4.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_4.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_4.raw.json",
       "raw_sha256": "d6908139ea7e64a53855ae6e87cd75490cc5216dd94106327324e1e446dc9b8f",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_4.tree.json",
-      "tree_sha256": "b456e42fb2c3619f52e335b6516547c8e6b4e5e51d8f8c56a6be2c536e244320"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_4.tree.json",
+      "tree_sha256": "2d126a402a32504053a542dbafd5947344971d6783fb45934c686290425dcdf4"
     },
     {
       "all_checks_pass": true,
@@ -444,13 +444,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_5.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_5.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_5.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_5.raw.json",
       "raw_sha256": "dafa0d481400433960437301bc1cfe4b6299d7a64363e62e6bef80a3fd2c8815",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_5.tree.json",
-      "tree_sha256": "f7ff99b4f03fc7329660d5263e67338ce313401fab28ab97bc1aaa688ad48a70"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_5.tree.json",
+      "tree_sha256": "3634694726d20d2f5d55ec483c00ef56e35e8799dfa4d94826a36801dffcf899"
     },
     {
       "all_checks_pass": true,
@@ -462,13 +462,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_6.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_6.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_6.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_6.raw.json",
       "raw_sha256": "ae5103755c6a7fd91598eae6a6a1f875c12afdee6e3672dd176d9b4d6c4e2fae",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_6.tree.json",
-      "tree_sha256": "4dee00ac82a967597f30e73899a4f2f5befc4ec5fa37127d7a9027ccb2e7aee9"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_6.tree.json",
+      "tree_sha256": "f6f4de16e665f556dde4cd1ee81b9e4564507bc50c0944da4e81cb405cda59de"
     },
     {
       "all_checks_pass": true,
@@ -480,13 +480,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_7.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_7.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_7.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_7.raw.json",
       "raw_sha256": "1e8e402142106d49c17a3743ce72921f20b5cd4d91e433690b4b8d5c188b9124",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_7.tree.json",
-      "tree_sha256": "d97b940b8ae2608a74b22a4c5e899fc70924de085818b96f411df17da932c699"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_7.tree.json",
+      "tree_sha256": "0756f112089e3086d1a4b20f931d7602f95b611235a417da989f8ac231218591"
     },
     {
       "all_checks_pass": true,
@@ -498,13 +498,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_8.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_8.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_8.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_8.raw.json",
       "raw_sha256": "980a9c6b18f192ccf94d4330a056ca53a5ac4271466bb276eaaf44e5683cb827",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_8.tree.json",
-      "tree_sha256": "3afdaa61bab8bc4758b9bb7c0a62041e3828fe9ed95f7183d42336fa82cd223c"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_8.tree.json",
+      "tree_sha256": "ad736acaaeb210eb379276cac4f1bd50b1a46e78295973a6ddc15545f0359965"
     },
     {
       "all_checks_pass": true,
@@ -516,13 +516,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_9.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_9.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_9.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_9.raw.json",
       "raw_sha256": "6c432a34cade55120effb4cf80bd31e600e74097857d87d0e736aebd45012819",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_9.tree.json",
-      "tree_sha256": "f765ffd503ab28dd6029ee2059b55398499aa4480480259ee9f465a5263992bb"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_9.tree.json",
+      "tree_sha256": "e29348923b1da8b8f81f686ed64394979c655382a76d54c1a28f6ccc6c33bc8a"
     },
     {
       "all_checks_pass": true,
@@ -534,13 +534,13 @@
       "disease_category_key": "PROCEDURE_ACTION",
       "generation_mode": "OFFLINE_TASK_REPLAY",
       "node_count": 16,
-      "path": "data/processed/medagentbench/v2/mvp30_v1/case_bundles/MAB_TASK8_10.json",
+      "path": "data/processed/medagentbench/case_bundles/MAB_TASK8_10.json",
       "pathology": "MAB_OUTCOME_ORTHOPEDIC_REFERRAL",
-      "raw_case_path": "data/processed/medagentbench/v2/mvp30_v1/raw_cases/MAB_TASK8_10.raw.json",
+      "raw_case_path": "data/processed/medagentbench/raw_cases/MAB_TASK8_10.raw.json",
       "raw_sha256": "77b62443379c3ceceaf9812fafac4d56ceaa4731cd8830c1c8c04786fe87283d",
       "source_evidence_count": 4,
-      "tree_path": "data/processed/medagentbench/v2/mvp30_v1/case_trees/MAB_TASK8_10.tree.json",
-      "tree_sha256": "c47116ea0dc25f6db73deda3cba653b244d2288a2c61fec602587c3f7ba21287"
+      "tree_path": "data/processed/medagentbench/case_trees/MAB_TASK8_10.tree.json",
+      "tree_sha256": "109e49f9117ac4b54e0f1198fc34869318a5f8c180934769bb32a3fb658cc6ef"
     }
   ],
   "category_case_counts": {

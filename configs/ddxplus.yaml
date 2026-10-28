@@ -8,7 +8,7 @@ dataset:
 paths:
   source_dir: dataset/ddxplus
   raw_dir: data/raw/ddxplus/original
-  processed_dir: data/processed/ddxplus/v1
+  processed_dir: data/processed/ddxplus
   manifests_dir: data/manifests
   exports_dir: data/exports
 

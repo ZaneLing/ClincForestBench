@@ -15,6 +15,7 @@ class EventRequest(BaseModel):
 
 class VisitRequest(EventRequest):
     case_id: str = Field(min_length=1, max_length=128)
+    is_simulation: bool = False
 
 
 class ActionRequest(EventRequest):
@@ -36,7 +37,7 @@ def register_encounter_routes(app, container, current_username, research_access)
     @lru_cache(maxsize=1)
     def service():
         database = ":memory:" if container.settings.arena_repository == "memory" else container.cases.root / "data/encounters.db"
-        return EncounterService(EncounterCatalog(container.cases, container.temporal_cases), database)
+        return EncounterService(EncounterCatalog(container.cases), database)
 
     def invoke(call):
         try:
@@ -61,7 +62,7 @@ def register_encounter_routes(app, container, current_username, research_access)
 
     @app.post("/encounters", status_code=201)
     def create(request: VisitRequest, lang: str = "en", username: str = Depends(current_username)):
-        return invoke(lambda: service().view(service().create(request.case_id, username, request.client_event_id), lang))
+        return invoke(lambda: service().view(service().create(request.case_id, username, request.client_event_id, is_simulation=request.is_simulation), lang))
 
     @app.get("/encounters/history")
     def history(username: str = Depends(current_username)):
@@ -100,13 +101,25 @@ def register_encounter_routes(app, container, current_username, research_access)
         catalog = service().catalog
         return {"items": list(catalog.items.values()),
                 "cases": [{"case_id": cid, "dataset": visit["dataset"],
-                           "source": "classic" if cid in catalog.cases.cases else "temporal"}
+                           "source": "evidence"}
                           for cid, visit in catalog.visits.items()]}
 
     @app.get("/research/encounter-cases/{case_id}", dependencies=[Depends(research_access)])
     def inspect_case(case_id: str, lang: str = "en"):
         return invoke(lambda: service().catalog.inspection(case_id, lang))
 
-    @app.get("/research/encounter-forest", dependencies=[Depends(research_access)])
-    def forest():
-        return service().forest()
+    @app.get("/research/classic-simulation-forest/cases")
+    def classic_simulation_index():
+        return invoke(lambda: service().classic_simulation_index())
+
+    @app.get("/research/classic-simulation-forest/cases/{case_id}")
+    def classic_simulation_case(case_id: str, lang: str = "en"):
+        # Only source-derived labels/observations are localized. Authored demo
+        # diagnoses stay in their original form in the read-only projection.
+        return invoke(lambda: service().classic_simulation_detail(case_id, lang))
+
+    # Read-only aggregate forest is intentionally viewable without a research key.
+    # Individual visits/exports and source inspection remain protected.
+    @app.get("/research/encounter-forest")
+    def forest(case_id: str = "", simulation: bool = False, lang: str = "en"):
+        return invoke(lambda: service().forest(case_id or None, simulation=simulation, locale=lang))

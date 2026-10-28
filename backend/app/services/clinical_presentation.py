@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from backend.app.domain.temporal import CanonicalTemporalEvent
+from etl.source_adapters.schema import SourceEvidence
 
 
 _EMPTY_MARKERS = {"", "none", "null", "nan", "unknown", "not available", "n/a"}
@@ -71,7 +71,7 @@ _CLINICAL_LABELS = {
 }
 
 
-def is_meaningful_event(event: CanonicalTemporalEvent) -> bool:
+def is_meaningful_event(event: SourceEvidence) -> bool:
     """Reject source workflow markers that do not carry a clinical finding."""
     display = _text(event.clinical_concept.display).casefold()
     value = _text(event.result.get("value")).casefold()
@@ -218,7 +218,7 @@ def initial_state_presentation(
     }
 
 
-def event_presentation(event: CanonicalTemporalEvent) -> dict[str, Any]:
+def event_presentation(event: SourceEvidence) -> dict[str, Any]:
     result = event.result
     blocks: list[dict[str, Any]] = []
     patient_answer = result.get("patient_answer")
@@ -354,7 +354,7 @@ def event_presentation(event: CanonicalTemporalEvent) -> dict[str, Any]:
     }
 
 
-def action_presentation(event: CanonicalTemporalEvent) -> dict[str, str]:
+def action_presentation(event: SourceEvidence) -> dict[str, str]:
     modality = event.clinical_concept.modality
     label = _strip_action_prefix(event.clinical_concept.display)
     if modality == "HISTORY":

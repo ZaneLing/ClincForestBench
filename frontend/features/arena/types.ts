@@ -8,14 +8,14 @@ export type EvidenceResponse = {
 
 export type ObservationState = {
   case_id: string;
-  dataset_name: 'DDXPlus' | 'Synthea' | 'MedAgentBench';
+  dataset_name: string;
   case_type:
     | 'DIAGNOSTIC_QUESTIONING'
     | 'DIAGNOSTIC_EVIDENCE_ACQUISITION'
     | 'WORKFLOW_FOREST';
   generation_mode: string;
   initial_context: Record<string, unknown>;
-  demographics: { age: number; sex: string };
+  demographics: { age: number | string | null; sex: string };
   initial_evidence_id: string;
   initial_evidence_question: string;
   initial_evidence_answer: string;
@@ -49,7 +49,7 @@ export type Condition = {
 };
 export type CaseSummary = {
   case_id: string;
-  dataset_name: 'DDXPlus' | 'Synthea' | 'MedAgentBench';
+  dataset_name: string;
   case_type: string;
   generation_mode: string;
   action_count: number;

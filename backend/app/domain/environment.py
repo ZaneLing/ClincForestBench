@@ -192,7 +192,7 @@ class SyntheaClinicalEnvironment(DDXPlusEnvironment):
 class FHIRClinicalEnvironment(DDXPlusEnvironment):
     """FHIR-compatible workflow environment with explicit offline semantics.
 
-    Guidance2 MVP cases use ``OFFLINE_TASK_REPLAY`` and therefore have no
+    MedAgentBench cases use ``OFFLINE_TASK_REPLAY`` and therefore have no
     mutating definitions.  The created-resource portion of state hashing is
     implemented here so a future live adapter can record real POST results
     without changing the Arena event contract.

@@ -82,21 +82,26 @@ export function ModelArenaDashboard() {
 
   useEffect(() => {
     let active = true;
+    void api<{ cases: CaseSummary[] }>('/cases').then((catalog) => {
+      if (!active) return;
+      setCases(catalog.cases);
+      const firstCase = catalog.cases.find(item => item.dataset_name === 'DDXPlus') ?? catalog.cases[0];
+      setDataset(firstCase?.dataset_name ?? 'DDXPlus');
+      setCaseId(firstCase?.case_id ?? '');
+    }).catch((error: Error) => { if (active) setNotice(error.message); });
     void Promise.all([
       api<OpenRouterStatus>('/model-arena/status', { headers }),
       api<{ providers: OpenRouterProvider[]; models: OpenRouterModel[] }>(
         '/model-arena/models',
         { headers },
       ),
-      api<{ cases: CaseSummary[] }>('/cases'),
       api<{ runs: ModelRunSummary[] }>('/model-arena/runs', { headers }),
     ])
-      .then(([nextStatus, catalog, caseCatalog, runIndex]) => {
+      .then(([nextStatus, catalog, runIndex]) => {
         if (!active) return;
         setStatus(nextStatus);
         setProviders(catalog.providers);
         setModels(catalog.models);
-        setCases(caseCatalog.cases);
         setActiveRuns(runIndex.runs.filter((item) => item.status === 'ACTIVE'));
         const preferred =
           catalog.providers.find((item) => item.id === 'openai') ??
@@ -106,11 +111,6 @@ export function ModelArenaDashboard() {
           (item) => item.provider === preferred?.id,
         );
         setModelId(firstModel?.id ?? '');
-        const firstCase =
-          caseCatalog.cases.find((item) => item.dataset_name === 'DDXPlus') ??
-          caseCatalog.cases[0];
-        setDataset(firstCase?.dataset_name ?? 'DDXPlus');
-        setCaseId(firstCase?.case_id ?? '');
         setNotice(
           nextStatus.configured
             ? ''
@@ -140,6 +140,11 @@ export function ModelArenaDashboard() {
     () => cases.filter((item) => item.dataset_name === dataset),
     [cases, dataset],
   );
+  const datasets = useMemo(() => {
+    const counts = new Map<string, number>();
+    cases.forEach(item => counts.set(item.dataset_name, (counts.get(item.dataset_name) ?? 0) + 1));
+    return [...counts.entries()].map(([name, count]) => ({ name, count }));
+  }, [cases]);
 
   function chooseProvider(nextProvider: string) {
     setProviderId(nextProvider);
@@ -255,6 +260,7 @@ export function ModelArenaDashboard() {
         caseId={caseId}
         dataset={dataset}
         datasetCases={datasetCases}
+        datasets={datasets}
         modelId={modelId}
         modelQuery={modelQuery}
         notice={notice}
@@ -443,6 +449,7 @@ function ModelRunSetup({
   caseId,
   dataset,
   datasetCases,
+  datasets,
   modelId,
   modelQuery,
   notice,
@@ -463,6 +470,7 @@ function ModelRunSetup({
   caseId: string;
   dataset: string;
   datasetCases: CaseSummary[];
+  datasets: { name: string; count: number }[];
   modelId: string;
   modelQuery: string;
   notice: string;
@@ -488,8 +496,8 @@ function ModelRunSetup({
           <p>CLINCFORESTBENCH · MODEL LAB</p>
           <h1>模型测试</h1>
         </div>
-        <Link href="/model-arena?mode=temporal">
-          <Clock3 /> Temporal 轨迹与评测
+        <Link href="/research">
+          <Database /> 全部病例与证据
         </Link>
         <Badge className={status?.configured ? 'is-connected' : 'is-offline'}>
           <span /> OpenRouter {status?.configured ? '已连接' : '未配置'}
@@ -578,7 +586,7 @@ function ModelRunSetup({
         <article className="model-setup-card case-picker-card">
           <header><span>03</span><div><p>CLINICAL CASE</p><h3>选择数据集与病例</h3></div></header>
           <div className="model-dataset-picker">
-            {['DDXPlus', 'Synthea', 'MedAgentBench'].map((name) => (
+            {datasets.map(({ name, count }) => (
               <button
                 className={dataset === name ? 'is-selected' : ''}
                 key={name}
@@ -587,7 +595,7 @@ function ModelRunSetup({
               >
                 <Database />
                 <b>{name}</b>
-                <small>{datasetCountLabel(name)}</small>
+                <small>{count} cases · {datasetCountLabel(name)}</small>
               </button>
             ))}
           </div>
@@ -779,7 +787,8 @@ function compactTokens(value: number) {
 function datasetCountLabel(name: string) {
   if (name === 'DDXPlus') return 'Diagnostic questioning';
   if (name === 'Synthea') return 'Clinical evidence';
-  return 'FHIR workflow';
+  if (name === 'MedAgentBench') return 'FHIR workflow';
+  return 'Source evidence';
 }
 
 function displayUnknown(value: unknown) {

@@ -21,36 +21,10 @@
 .app-shell-page :is(h1, h2, h3, p, label) {
   overflow-wrap: anywhere;
 }
-.temporal-root {
-  display: flex;
-  flex-direction: column;
-}
-.temporal-root > .temporal-mode-nav {
-  position: static;
-  transform: none;
-  translate: none;
-  width: 100%;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  justify-content: center;
-  border-radius: 0;
-  box-shadow: none;
-}
-.temporal-root > :not(.temporal-mode-nav) {
-  flex: 1;
-  height: auto;
-  min-height: 0;
-}
 .case-audit-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .history-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.temporal-workspace {
-  grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.5fr) minmax(0, 0.85fr);
-}
-.temporal-audit-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .dataset-contract-hero {
@@ -97,18 +71,10 @@
 .unified-case-selectors {
   flex-wrap: wrap;
 }
-.app-shell-page
-  :is(
-    .history-toolbar,
-    .forest-toolbar,
-    .admin-toolbar,
-    .temporal-controls,
-    .temporal-forest-toolbar
-  ) {
+.app-shell-page :is(.history-toolbar, .forest-toolbar, .admin-toolbar) {
   flex-wrap: wrap;
 }
-.app-shell-page
-  :is(.history-header, .forest-header, .admin-header, .temporal-header) {
+.app-shell-page :is(.history-header, .forest-header, .admin-header) {
   flex-wrap: wrap;
 }
 .admin-table-scroll {
@@ -128,9 +94,6 @@
   }
   .case-audit-grid,
   .history-grid,
-  .temporal-workspace,
-  .temporal-audit-grid,
-  .temporal-forest-grid,
   .model-setup-grid,
   .model-run-grid,
   .forest-workspace {
@@ -141,42 +104,11 @@
   }
   .case-audit-grid > *,
   .history-grid > *,
-  .temporal-workspace > *,
-  .temporal-audit-grid > *,
-  .temporal-forest-grid > *,
   .model-setup-grid > *,
   .model-run-grid > *,
   .forest-workspace > * {
     min-height: 400px;
     max-height: 650px;
-  }
-  .temporal-page,
-  .temporal-audit-page,
-  .temporal-forest-page {
-    overflow-x: hidden;
-  }
-  .temporal-header,
-  .temporal-player-bar,
-  .temporal-workspace,
-  .temporal-audit-header,
-  .temporal-audit-grid,
-  .temporal-forest-page > header,
-  .temporal-forest-toolbar,
-  .temporal-forest-grid {
-    min-width: 0;
-  }
-  .temporal-player-bar {
-    flex-wrap: wrap;
-    height: auto;
-    gap: 10px;
-    padding-block: 10px;
-  }
-  .temporal-controls {
-    width: 100%;
-  }
-  .temporal-controls select {
-    flex: 1;
-    width: 100%;
   }
   .dataset-contract-hero,
   .dataset-guide-columns {
@@ -243,8 +175,7 @@
   .history-header,
   .forest-header,
   .admin-header,
-  .dataset-guide-header,
-  .temporal-header {
+  .dataset-guide-header {
     padding: 12px;
     gap: 10px;
   }
@@ -289,13 +220,6 @@
   }
   .forest-summary {
     flex-wrap: wrap;
-  }
-  .temporal-title,
-  .temporal-controls {
-    flex-wrap: wrap;
-  }
-  .temporal-player-bar .temporal-slider {
-    flex-basis: 100%;
   }
   .auth-gate {
     overflow: auto;

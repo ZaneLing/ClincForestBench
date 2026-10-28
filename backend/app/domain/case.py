@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -19,7 +19,7 @@ class DatasetIdentity(BaseModel):
 
 
 class Demographics(BaseModel):
-    age: int
+    age: Optional[Union[int, str]]
     sex: str
 
 
@@ -65,6 +65,10 @@ class CaseBundle(BaseModel):
     outcome_catalog: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
     original_trajectory: List[Dict[str, Any]] = Field(default_factory=list)
     fidelity_note: str = ""
+    # Source-backed, unordered evidence. Provenance is research-only.
+    evidence_records: Dict[str, List[Dict[str, Any]]] = Field(default_factory=dict)
+    source_provenance: Dict[str, Any] = Field(default_factory=dict)
+    reference_quality: Dict[str, Any] = Field(default_factory=dict)
     case_hash: str = ""
 
     def truth_map(self) -> Dict[str, EvidenceResponse]:
@@ -73,8 +77,11 @@ class CaseBundle(BaseModel):
     def compute_hash(self) -> str:
         payload: Dict[str, Any] = self.model_dump(mode="json")
         payload.pop("case_hash", None)
-        # Preserve the immutable v1 DDXPlus hashes.  These fields were added
-        # for Guidance2 tracks and are absent from the original bundle schema.
+        for key in ("evidence_records", "source_provenance", "reference_quality"):
+            if not payload[key]:
+                payload.pop(key)
+        # Keep the established DDXPlus hash contract: optional fields used by
+        # additional datasets are absent from its original bundle schema.
         if self.dataset.name == "DDXPlus" and not self.action_space:
             for key in (
                 "case_type",

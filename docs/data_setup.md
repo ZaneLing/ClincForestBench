@@ -58,12 +58,12 @@ For the public classic tracks (130 Cases), after downloading `core`:
 ```bash
 make setup
 make preprocess-ddxplus
-make preprocess-guidance2
+make preprocess-workflows
 ```
 
 For the complete 188-Case local MVP, download both public profiles and obtain
 the credentialed sources first. The default `all` download alone does not
-provide the restricted inputs required by the Temporal builder:
+provide the restricted inputs required by the EHR source readers:
 
 ```bash
 make setup
@@ -73,10 +73,25 @@ make validate
 
 Generated artifacts are written beneath `data/processed/` and can always be
 rebuilt from the source directories. They are not synchronized through Git.
-The full test suite expects the Temporal and interaction artifacts as well as
-the classic tracks. `make preprocess-all` builds the base Temporal manifest
-before merging the interaction slice. When rebuilding individual steps, run
-`make preprocess-interaction-mvp` again after `make preprocess-temporal`.
+The full test suite expects all 188 unified unordered cases.
+`make preprocess-all` builds EHR source staging records, merges interaction
+inputs, and converts them into independent action/result bundles. Source dates
+remain provenance or clinical text; no source order controls the runtime.
+When rebuilding individual steps, run `make preprocess-interaction-mvp` after
+`make preprocess-ehr-sources`. With staging inputs already prepared,
+`make preprocess-evidence` regenerates the runnable evidence bundles and trees.
+
+After conversion, reuse existing bilingual overlays without external calls:
+
+```bash
+.venv/bin/python tools/build_case_translations.py --offline
+make audit-encounters
+```
+
+Offline reconciliation stops before writing if a required translation is
+missing. Generate missing translations with `make translate-cases` in an
+authorized environment. Public and private dictionaries are partitioned by
+source access metadata.
 
 The Node bootstrap used by `make setup` currently targets macOS. On other
 platforms, provide Node 22.13+ and install the Python and frontend dependencies

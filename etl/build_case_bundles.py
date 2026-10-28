@@ -79,7 +79,7 @@ def main() -> None:
         raw_dir, config["dataset"]["semantic_mapping_version"]
     )
 
-    bundle_dir = processed / "case_bundles" / selection["manifest_version"]
+    bundle_dir = processed / "case_bundles"
     bundle_dir.mkdir(parents=True, exist_ok=True)
     manifest_entries = []
     truth_rows = []

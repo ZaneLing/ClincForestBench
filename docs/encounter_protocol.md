@@ -38,10 +38,10 @@ events are retained in the audit as reference-only rather than actionable eviden
 
 DDXPlus negatives and default values keep their source semantics. A missing
 record is never synthesized as a negative result. Panel expansion returns only
-recorded components and marks partial panels. Repeat temporal investigations
-use the first mapped source result; later results remain identified in the audit.
-This visit protocol does not simulate treatment effects or elapsed clinical time.
-The original temporal timeline remains available at `/temporal?mode=timeline`.
+recorded components and marks partial panels. Repeated source investigations
+preserve their mapped records and qualifiers. All evidence is accessed without
+simulation clocks, waits, source sequence unlocking, or time scoring. Source
+dates remain clinical history or provenance; there is no source timeline mode.
 Synthea's diagnosis-bearing encounter reason is omitted from the new opening
 visit; its recorded vitals are retrievable as an operation. MedAgentBench FHIR
 request templates are explicitly identified as offline workflow instructions.
@@ -91,8 +91,8 @@ owner. `/history` supports reopening active visits and viewing ended visits;
 the browser retains the latest encounter across refreshes and language switches.
 The JSON export preserves original source text and physician-authored text.
 `/forest` groups visits by case, action, selected reason and result state, behind
-the research key. Legacy history/forest views remain under `?mode=classic` and
-`?mode=temporal`. Model Arena still uses its existing protocol; new physician
+the research key. Canonical history/forest views remain under `?mode=classic`.
+Model Arena uses the same unified case inventory with staged rankings; physician
 trajectories must not be pooled with those runs as if the protocols were identical.
 
 `/research/encounter-mapping` provides the private mapping audit.

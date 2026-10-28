@@ -14,10 +14,12 @@ class CaseService:
     OPTIONAL_MANIFESTS = (
         "data/manifests/synthea_mvp50_manifest.json",
         "data/manifests/medagentbench_mvp30_manifest.json",
+        "data/manifests/evidence_mvp58_manifest.json",
     )
 
-    def __init__(self, root: Path | None = None) -> None:
+    def __init__(self, root: Path | None = None, *, include_evidence: bool = True) -> None:
         self.root = (root or path_from_root(".")).resolve()
+        self.include_evidence = include_evidence
         self.config = ddx_config()
         self._cases: Dict[str, CaseBundle] = {}
         self._evidences: Dict[str, EvidenceDefinition] = {}
@@ -87,6 +89,8 @@ class CaseService:
         }
 
         for relative_manifest in self.OPTIONAL_MANIFESTS:
+            if not self.include_evidence and "evidence_mvp58" in relative_manifest:
+                continue
             optional_path = self.root / relative_manifest
             if not optional_path.exists():
                 continue
@@ -94,6 +98,8 @@ class CaseService:
             self._manifest_documents[document["manifest_version"]] = document
             for row in document["cases"]:
                 bundle = CaseBundle.model_validate(load_json(self.root / row["path"]))
+                if bundle.generation_mode == "SOURCE_BACKED_EVIDENCE":
+                    self._manifest_documents[bundle.dataset.case_manifest_version] = document
                 if not bundle.action_space:
                     raise RuntimeError(f"{bundle.case_id} has no case-local action space")
                 self._cases[bundle.case_id] = bundle
@@ -149,6 +155,19 @@ class CaseService:
             return self._cases[case_id]
         except KeyError as exc:
             raise KeyError(f"Unknown case: {case_id}") from exc
+
+    def public_media_path(self, case_id: str, asset_name: str) -> Path:
+        if Path(asset_name).name != asset_name or asset_name in {"", ".", ".."}:
+            raise KeyError("Unknown case media")
+        case = self.get(case_id)
+        access = str(case.source_provenance.get("source", {}).get("access_class", ""))
+        if not access.startswith("PUBLIC"):
+            raise PermissionError("This case media is not publicly accessible")
+        directory = (self.root / "data/processed/evidence/case_bundles" / case_id / "media").resolve()
+        path = (directory / asset_name).resolve()
+        if directory not in path.parents or not path.is_file():
+            raise KeyError("Unknown case media")
+        return path
 
     def catalog_for_case(self, case_id: str) -> Dict[str, EvidenceDefinition]:
         self.get(case_id)
@@ -210,7 +229,7 @@ class CaseService:
                 evidence_id: [
                     "Source encounter action"
                     if bundle.dataset.name == "Synthea"
-                    else "Task-derived workflow"
+                    else "Source-backed evidence"
                 ]
                 for evidence_id in self.catalog_for_case(case_id)
                 if evidence_id != initial_evidence_id

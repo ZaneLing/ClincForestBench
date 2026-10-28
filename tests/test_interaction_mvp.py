@@ -1,12 +1,7 @@
-import pytest
 
-from backend.app.domain.temporal import TemporalCase
 from backend.app.services.clinical_presentation import event_presentation
-from backend.app.services.temporal_arena_service import TemporalArenaService
-from backend.app.services.temporal_case_service import TemporalCaseService
-from etl.common import dump_json
-from etl.temporal_v2.common import build_temporal_graph, make_event
-from etl.temporal_v2.interaction import (
+from etl.source_adapters.common import make_event
+from etl.source_adapters.interaction import (
     _medical_record_facts,
     consultation_pairs,
     extract_questions,
@@ -96,98 +91,13 @@ def test_media_metadata_is_preserved_for_frontend_rendering():
     ]
 
 
-def _case(case_id: str, action_names: list[str], *, sequential: bool) -> TemporalCase:
-    events = [
-        make_event(
-            case_id=case_id,
-            event_id=f"{case_id}::E{index}",
-            event_type="CONSULTATION_QUESTION_ANSWER",
-            display=f"Question {name}?",
-            modality="HISTORY",
-            dataset="INTERACTION_TEST",
-            source_table="turns",
-            source_row_id=str(index),
-            relative_order_min=index * 2,
-            relative_available_min=index * 2 + 1,
-            confidence="HIGH",
-            availability_semantics="SOURCE_TURN",
-            result={"patient_answer": f"Answer {name}."},
-            action_id=name,
-        )
-        for index, name in enumerate(action_names, 1)
-    ]
-    reference = {
-        "reference_diagnosis": "Example",
-        "reference_strength": "PROXY",
-        "is_absolute_ground_truth": False,
-    }
-    return TemporalCase(
-        case_id=case_id,
-        task_type="MULTI_TURN_CONSULTATION_REPLAY",
-        source={"dataset_family": "INTERACTION_TEST", "access_class": "PUBLIC_TEST"},
-        anchor={"anchor_type": "SOURCE_SEQUENCE", "relative_zero": 0},
-        initial_state={"presentation": "Initial complaint"},
-        timeline_events=events,
-        hidden_evidence_pool=[event.event_id for event in events],
-        realized_trajectory=[],
-        reference=reference,
-        case_quality={"checks": {"source_backed_results_only": True}},
-        temporal_quality={"warnings": []},
-        arena_config={
-            "max_questions": 30,
-            "action_catalog_scope": "CASE",
-            "sequential_actions": sequential,
-        },
-        temporal_graph=build_temporal_graph(case_id, events, reference),
-    )
-
-
-def test_case_scoped_sequential_catalog_never_leaks_another_patient_action(tmp_path):
-    first = _case("CASE_A", ["ASK_A1", "ASK_A2"], sequential=True)
-    other = _case("CASE_B", ["ASK_B1"], sequential=False)
-
-    class Cases:
-        root = tmp_path
-
-        @staticmethod
-        def get(case_id):
-            return {"CASE_A": first, "CASE_B": other}[case_id]
-
-        @staticmethod
-        def manifest():
-            return {
-                "cases": [
-                    {"case_id": "CASE_A", "reference_label": "Example"},
-                    {"case_id": "CASE_B", "reference_label": "Other"},
-                ]
-            }
-
-    arena = TemporalArenaService(Cases(), tmp_path)
-    state = arena.create("CASE_A", "doctor")
-    assert [item["action_id"] for item in state["available_actions"]] == ["ASK_A1"]
-    state = arena.submit_belief(state["session_id"], "doctor", ["Example"])
-    state = arena.order(state["session_id"], "doctor", "ASK_A1")
-    assert [item["action_id"] for item in state["available_actions"]] == ["ASK_A2"]
-
-
-def test_public_case_media_is_confined_to_its_bundle(tmp_path):
-    case = _case("CASE_MEDIA", ["ASK"], sequential=False)
-    bundle = tmp_path / "data/processed/temporal/v2/case_bundles/test/CASE_MEDIA"
-    dump_json(bundle / "case.json", case.model_dump(mode="json"))
-    (bundle / "media").mkdir()
-    (bundle / "media/report.jpg").write_bytes(b"jpeg-test")
-    dump_json(
-        tmp_path / "data/processed/temporal/v2/manifest.json",
-        {
-            "cases": [
-                {
-                    "case_id": "CASE_MEDIA",
-                    "path": str((bundle / "case.json").relative_to(tmp_path)),
-                }
-            ]
-        },
-    )
-    service = TemporalCaseService(tmp_path)
-    assert service.public_media_path("CASE_MEDIA", "report.jpg").read_bytes() == b"jpeg-test"
-    with pytest.raises(KeyError):
-        service.public_media_path("CASE_MEDIA", "../case.json")
+def test_interaction_answers_are_case_scoped_without_sequential_unlocking(cases):
+    from backend.app.domain.environment import DDXPlusEnvironment
+    for case in cases.cases.values():
+        if case.dataset.name not in {"MedPI", "MediScope", "MedMemoryBench"}:
+            continue
+        environment = DDXPlusEnvironment(cases.cases, cases.catalog_for_case(case.case_id))
+        environment.reset(case.case_id)
+        assert all(action.dependency_met for action in environment.get_available_actions().actions)
+        for evidence_id, records in case.evidence_records.items():
+            assert case.truth_map()[evidence_id].value == [r["result"] for r in records]

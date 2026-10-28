@@ -7,7 +7,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0001.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0001.json",
       "pathology": "SYN_DX_75498004"
     },
     {
@@ -16,7 +16,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0002.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0002.json",
       "pathology": "SYN_DX_10509002"
     },
     {
@@ -25,7 +25,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0003.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0003.json",
       "pathology": "SYN_DX_195662009"
     },
     {
@@ -34,7 +34,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0004.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0004.json",
       "pathology": "SYN_DX_26929004"
     },
     {
@@ -43,7 +43,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0005.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0005.json",
       "pathology": "SYN_DX_271737000"
     },
     {
@@ -52,7 +52,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0006.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0006.json",
       "pathology": "SYN_DX_195967001"
     },
     {
@@ -61,7 +61,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0007.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0007.json",
       "pathology": "SYN_DX_233678006"
     },
     {
@@ -70,7 +70,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0008.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0008.json",
       "pathology": "SYN_DX_88805009"
     },
     {
@@ -79,7 +79,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0009.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0009.json",
       "pathology": "SYN_DX_124171000119105"
     },
     {
@@ -88,7 +88,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0010.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0010.json",
       "pathology": "SYN_DX_82423001"
     },
     {
@@ -97,7 +97,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0011.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0011.json",
       "pathology": "SYN_DX_38822007"
     },
     {
@@ -106,7 +106,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0012.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0012.json",
       "pathology": "SYN_DX_156073000"
     },
     {
@@ -115,7 +115,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0013.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0013.json",
       "pathology": "SYN_DX_55822004"
     },
     {
@@ -124,7 +124,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0014.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0014.json",
       "pathology": "SYN_DX_196416002"
     },
     {
@@ -133,7 +133,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0015.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0015.json",
       "pathology": "SYN_DX_363406005"
     },
     {
@@ -142,7 +142,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0016.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0016.json",
       "pathology": "SYN_DX_126906006"
     },
     {
@@ -151,7 +151,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0017.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0017.json",
       "pathology": "SYN_DX_72892002"
     },
     {
@@ -160,7 +160,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0018.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0018.json",
       "pathology": "SYN_DX_109838007"
     },
     {
@@ -169,7 +169,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0019.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0019.json",
       "pathology": "SYN_DX_94260004"
     },
     {
@@ -178,7 +178,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0020.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0020.json",
       "pathology": "SYN_DX_128613002"
     },
     {
@@ -187,7 +187,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0021.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0021.json",
       "pathology": "SYN_DX_36971009"
     },
     {
@@ -196,7 +196,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0022.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0022.json",
       "pathology": "SYN_DX_43878008"
     },
     {
@@ -205,7 +205,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0023.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0023.json",
       "pathology": "SYN_DX_79586000"
     },
     {
@@ -214,7 +214,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0024.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0024.json",
       "pathology": "SYN_DX_444814009"
     },
     {
@@ -223,7 +223,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0025.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0025.json",
       "pathology": "SYN_DX_75498004"
     },
     {
@@ -232,7 +232,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0026.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0026.json",
       "pathology": "SYN_DX_10509002"
     },
     {
@@ -241,7 +241,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0027.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0027.json",
       "pathology": "SYN_DX_195662009"
     },
     {
@@ -250,7 +250,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0028.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0028.json",
       "pathology": "SYN_DX_271737000"
     },
     {
@@ -259,7 +259,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0029.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0029.json",
       "pathology": "SYN_DX_88805009"
     },
     {
@@ -268,7 +268,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0030.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0030.json",
       "pathology": "SYN_DX_55822004"
     },
     {
@@ -277,7 +277,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0031.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0031.json",
       "pathology": "SYN_DX_196416002"
     },
     {
@@ -286,7 +286,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0032.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0032.json",
       "pathology": "SYN_DX_363406005"
     },
     {
@@ -295,7 +295,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0033.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0033.json",
       "pathology": "SYN_DX_126906006"
     },
     {
@@ -304,7 +304,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0034.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0034.json",
       "pathology": "SYN_DX_72892002"
     },
     {
@@ -313,7 +313,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0035.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0035.json",
       "pathology": "SYN_DX_109838007"
     },
     {
@@ -322,7 +322,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0036.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0036.json",
       "pathology": "SYN_DX_94260004"
     },
     {
@@ -331,7 +331,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0037.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0037.json",
       "pathology": "SYN_DX_128613002"
     },
     {
@@ -340,7 +340,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0038.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0038.json",
       "pathology": "SYN_DX_36971009"
     },
     {
@@ -349,7 +349,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0039.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0039.json",
       "pathology": "SYN_DX_79586000"
     },
     {
@@ -358,7 +358,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0040.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0040.json",
       "pathology": "SYN_DX_444814009"
     },
     {
@@ -367,7 +367,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0041.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0041.json",
       "pathology": "SYN_DX_75498004"
     },
     {
@@ -376,7 +376,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0042.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0042.json",
       "pathology": "SYN_DX_10509002"
     },
     {
@@ -385,7 +385,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0043.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0043.json",
       "pathology": "SYN_DX_195662009"
     },
     {
@@ -394,7 +394,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0044.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0044.json",
       "pathology": "SYN_DX_271737000"
     },
     {
@@ -403,7 +403,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0045.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0045.json",
       "pathology": "SYN_DX_88805009"
     },
     {
@@ -412,7 +412,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0046.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0046.json",
       "pathology": "SYN_DX_55822004"
     },
     {
@@ -421,7 +421,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0047.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0047.json",
       "pathology": "SYN_DX_196416002"
     },
     {
@@ -430,7 +430,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0048.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0048.json",
       "pathology": "SYN_DX_363406005"
     },
     {
@@ -439,7 +439,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0049.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0049.json",
       "pathology": "SYN_DX_126906006"
     },
     {
@@ -448,7 +448,7 @@
       "case_type": "DIAGNOSTIC_EVIDENCE_ACQUISITION",
       "dataset_name": "Synthea",
       "generation_mode": "NATURAL_CSV_EXPORT",
-      "path": "data/processed/synthea/v1/mvp50_v1/case_bundles/SYN_ENC_0050.json",
+      "path": "data/processed/synthea/case_bundles/SYN_ENC_0050.json",
       "pathology": "SYN_DX_72892002"
     }
   ],

@@ -12,7 +12,6 @@ from backend.app.services.localization_service import (
     source_text,
     translations_for,
 )
-from backend.app.services.temporal_case_service import TemporalCaseService
 from tools.build_case_translations import (
     PUBLIC_OUTPUT_DIR,
     collect_corpora,
@@ -135,14 +134,11 @@ def test_classic_case_catalog_switches_with_locale(cases):
     )
 
 
-def test_vietnamese_temporal_case_switches_with_locale():
-    service = TemporalCaseService()
+def test_vietnamese_evidence_case_switches_with_locale(cases):
+    client = TestClient(create_app(cases))
     case_id = "CFB_MEDDIES_48A3B083_374B_4076_ADA4_5A0D9EBC6F76"
-    english = service.detail(case_id, "en")["case"]["initial_state"][
-        "chief_complaint"
-    ]
-    chinese = service.detail(case_id, "zh-CN")["case"]["initial_state"][
-        "chief_complaint"
-    ]
+    headers = {"X-Research-Key": "local-research-only"}
+    english = client.get(f"/research/cases/{case_id}?lang=en", headers=headers).json()["initial_context"]["presentation"]
+    chinese = client.get(f"/research/cases/{case_id}?lang=zh-CN", headers=headers).json()["initial_context"]["presentation"]
     assert english.startswith("Lately I often have stomach pain")
     assert any("\u4e00" <= character <= "\u9fff" for character in chinese)

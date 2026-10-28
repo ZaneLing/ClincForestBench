@@ -75,3 +75,7 @@ model/**
 
 # Previous ad-hoc import location; datasets are organized under dataset/.
 NewData/
+
+# Local record-level evidence manifests (including restricted source references).
+data/manifests/evidence_mvp58_manifest.json
+data/manifests/evidence_mvp58_tree_manifest.json

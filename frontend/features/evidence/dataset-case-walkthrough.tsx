@@ -14,9 +14,6 @@ import {
   Route,
 } from 'lucide-react';
 import { api } from '@/lib/api';
-import type { TemporalCaseDetail } from '@/features/temporal/types';
-
-type ExampleKind = 'CLASSIC' | 'TEMPORAL';
 
 type ClassicTreeAudit = {
   manifest_entry: Record<string, unknown>;
@@ -36,9 +33,7 @@ type ClassicTreeAudit = {
   };
 };
 
-type ExampleData =
-  | { kind: 'CLASSIC'; bundle: Record<string, unknown>; audit: ClassicTreeAudit }
-  | { kind: 'TEMPORAL'; detail: TemporalCaseDetail };
+type ExampleData = { bundle: Record<string, unknown>; audit: ClassicTreeAudit };
 
 type WalkthroughStep = {
   title: string;
@@ -55,12 +50,10 @@ export function DatasetCaseWalkthrough({
   caseId,
   datasetName,
   enabled,
-  kind,
 }: {
   caseId: string;
   datasetName: string;
   enabled: boolean;
-  kind: ExampleKind;
 }) {
   const [data, setData] = useState<ExampleData | null>(null);
   const [error, setError] = useState('');
@@ -69,14 +62,10 @@ export function DatasetCaseWalkthrough({
   useEffect(() => {
     if (!enabled || data) return;
     let active = true;
-    const request = kind === 'CLASSIC'
-      ? Promise.all([
+    const request = Promise.all([
         api<Record<string, unknown>>(`/research/cases/${caseId}`, { headers: RESEARCH_HEADERS }),
         api<ClassicTreeAudit>(`/research/cases/${caseId}/tree-audit`, { headers: RESEARCH_HEADERS }),
-      ]).then(([bundle, audit]) => ({ kind: 'CLASSIC' as const, bundle, audit }))
-      : api<TemporalCaseDetail>(`/research/temporal/cases/${caseId}`, {
-        headers: RESEARCH_HEADERS,
-      }).then((detail) => ({ kind: 'TEMPORAL' as const, detail }));
+      ]).then(([bundle, audit]) => ({ bundle, audit }));
 
     void request
       .then((result) => {
@@ -88,7 +77,7 @@ export function DatasetCaseWalkthrough({
     return () => {
       active = false;
     };
-  }, [caseId, data, enabled, kind]);
+  }, [caseId, data, enabled]);
 
   const walkthrough = useMemo(() => data ? buildWalkthrough(data) : null, [data]);
 
@@ -138,7 +127,7 @@ export function DatasetCaseWalkthrough({
             <LockKeyhole />
             <div><b>泄漏隔离</b><span>reference / oracle 在转换审计中可见，但进入 Arena 后会一直隐藏到玩家锁定诊断。</span></div>
             <Clock3 />
-            <div><b>动作边界</b><span>{kind === 'TEMPORAL' ? '模型只能提交库内 action_id；病例没有记录的库内动作返回 UNOBSERVED，不伪造检查结果。' : '模型只能提交当前 AVAILABLE 的库内 action_id；库外、重复或依赖未满足的条目会被拒绝。'}</span></div>
+            <div><b>动作边界</b><span>自主选择问询和检查；已记录结果立即返回。模型只能提交当前可用的动作 ID，不补造结果。</span></div>
           </footer>
         </>
       )}
@@ -147,7 +136,6 @@ export function DatasetCaseWalkthrough({
 }
 
 function buildWalkthrough(data: ExampleData) {
-  if (data.kind === 'TEMPORAL') return buildTemporalWalkthrough(data.detail);
   return buildClassicWalkthrough(data.bundle, data.audit);
 }
 
@@ -237,89 +225,6 @@ function buildClassicWalkthrough(bundle: Record<string, unknown>, audit: Classic
   return {
     sourceLabel: sourceName,
     eventLabel: `${nodes.length} typed nodes`,
-    graphLabel: `${nodes.length} nodes · ${edges.length} edges`,
-    steps,
-  };
-}
-
-function buildTemporalWalkthrough(detail: TemporalCaseDetail) {
-  const caseData = detail.case;
-  const nodes = caseData.temporal_graph.nodes;
-  const edges = caseData.temporal_graph.edges;
-  const eligibleCount = caseData.timeline_events.filter((event) => event.arena.arena_eligible).length;
-  const typeCounts = countValues(nodes as unknown as Array<Record<string, unknown>>, 'node_type');
-  const sourceName = textValue(caseData.source.dataset)
-    || textValue(caseData.source.source_file)
-    || detail.manifest_entry.dataset_name;
-
-  const steps: WalkthroughStep[] = [
-    {
-      title: '提取真实 Episode 原始资料',
-      description: '保留候选行、关联事件摘录、文章原文或源文件定位；文字报告和影像印象也停留在这一来源层。',
-      input: 'restricted source',
-      output: 'raw_source',
-      artifactLabel: 'case.raw_source',
-      artifact: caseData.raw_source,
-    },
-    {
-      title: '确定病例边界与时间零点',
-      description: '用住院、急诊到诊、ICU 入科或叙事起点定义 T0；精确时间和叙事代理时间明确区分。',
-      input: 'candidate episode',
-      output: 'anchor + initial state',
-      artifactLabel: 'case.source + case.anchor + case.initial_state',
-      artifact: { source: caseData.source, anchor: caseData.anchor, initial_state: caseData.initial_state },
-    },
-    {
-      title: '执行字段映射与安全转换',
-      description: '转换审计逐条声明输入、规则和输出，同时保留“禁止合成结果、隐藏参考答案”等安全不变量。',
-      input: 'raw_source',
-      output: 'conversion audit',
-      artifactLabel: 'case.transformation',
-      artifact: caseData.transformation,
-    },
-    {
-      title: '规范化为时序临床事件',
-      description: `本病例抽取 ${caseData.timeline_events.length} 个真实事件，其中 ${eligibleCount} 个可在 Arena 中主动获取；每个事件保留结果、模态、六类时间与 provenance。`,
-      input: 'source extracts',
-      output: 'timeline_events',
-      artifactLabel: 'case.timeline_events',
-      artifact: caseData.timeline_events,
-    },
-    {
-      title: '拆开医嘱、执行与结果可见时间',
-      description: '把 action 与 result reveal 分开保存在树中；Arena 点击动作后同步推进模拟时钟到 available_time，不发生现实等待。',
-      input: 'timeline_events',
-      output: 'realized trajectory',
-      artifactLabel: 'case.realized_trajectory',
-      artifact: caseData.realized_trajectory,
-    },
-    {
-      title: '生成动态时间树 / DAG',
-      description: `生成 ${nodes.length} 个节点和 ${edges.length} 条边；类型分布为 ${formatCounts(typeCounts)}。节点详情携带真实文字结果、影像印象和时间置信度。`,
-      input: 'initial + events',
-      output: 'temporal graph',
-      artifactLabel: 'case.temporal_graph',
-      artifact: caseData.temporal_graph,
-    },
-    {
-      title: '形成可玩的状态机并隔离 Ground Truth',
-      description: '只把 eligible 动作放入候选库；未记录的库内动作返回 UNOBSERVED。模型自主决定何时 final，最多 30 个动作。',
-      input: 'audited graph',
-      output: 'Arena contract',
-      artifactLabel: 'arena_config + quality + protected reference',
-      artifact: {
-        arena_config: caseData.arena_config,
-        hidden_evidence_pool: caseData.hidden_evidence_pool,
-        case_quality: caseData.case_quality,
-        temporal_quality: caseData.temporal_quality,
-        protected_reference: caseData.reference,
-      },
-    },
-  ];
-
-  return {
-    sourceLabel: sourceName,
-    eventLabel: `${caseData.timeline_events.length} timed events`,
     graphLabel: `${nodes.length} nodes · ${edges.length} edges`,
     steps,
   };

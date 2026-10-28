@@ -35,22 +35,22 @@ class EncounterService:
             raise KeyError("Encounter not found")
         return json.loads(row[0])
 
-    def create(self, case_id, owner, client_event_id):
+    def create(self, case_id, owner, client_event_id, *, is_simulation=False):
         if case_id not in self.catalog.visits:
             raise KeyError("Unknown case")
         encounter_id = hashlib.sha256(f"{owner}\0{client_event_id}".encode()).hexdigest()[:32]
         with self.lock, self.connection:
             try:
                 existing = self.get(encounter_id, owner)
-                if existing["case_id"] != case_id:
-                    raise ValueError("Event ID was already used for another case")
+                if existing["case_id"] != case_id or existing.get("is_simulation", False) != is_simulation:
+                    raise ValueError("Event ID was already used for another case or record type")
                 return existing
             except KeyError:
                 pass
             document = {"id": encounter_id, "owner": owner, "case_id": case_id,
                         "catalog_version": VERSION, "status": "ACTIVE", "created_at": now(),
                         "visit": self.catalog.visits[case_id], "events": [], "diagnoses": [],
-                        "prescription": None, "completed_at": None}
+                        "prescription": None, "completed_at": None, "is_simulation": bool(is_simulation)}
             self.save(document)
         return document
 
@@ -165,14 +165,33 @@ class EncounterService:
         return [{k: doc[k] for k in ("id", "case_id", "status", "created_at", "completed_at", "diagnoses")}
                 for doc in (json.loads(r[0]) for r in rows)]
 
-    def forest(self):
+    def classic_simulation_index(self):
+        from backend.app.services.classic_simulation_forest import simulation_case_index
         with self.lock:
             documents = [json.loads(row[0]) for row in self.connection.execute("SELECT document FROM encounters")]
+        return simulation_case_index(self.catalog.cases, documents)
+
+    def classic_simulation_detail(self, case_id, locale="en"):
+        from backend.app.services.classic_simulation_forest import project_classic_simulations
+        with self.lock:
+            documents = [json.loads(row[0]) for row in self.connection.execute("SELECT document FROM encounters")]
+        return project_classic_simulations(self.catalog.cases, documents, case_id, locale)
+
+    def forest(self, case_id=None, *, simulation=False, locale="en"):
+        if case_id and case_id not in self.catalog.visits:
+            raise KeyError("Unknown case")
+        with self.lock:
+            documents = [json.loads(row[0]) for row in self.connection.execute("SELECT document FROM encounters")]
+        documents = [doc for doc in documents if doc.get("is_simulation", False) == simulation
+                     and (not case_id or doc["case_id"] == case_id)]
+        cases = [{"case_id": cid, "dataset": visit["dataset"]} for cid, visit in self.catalog.visits.items()]
         nodes, edges = {}, {}
         reasons, terminations, missing_inquiries = {}, {}, {}
         for doc in documents:
             parent = doc["case_id"]
-            nodes.setdefault(parent, {"id": parent, "label": parent, "count": 0})["count"] += 1
+            nodes.setdefault(parent, {"id": parent, "label": parent, "count": 0,
+                                      "event_type": "INITIAL", "case_id": doc["case_id"],
+                                      "is_simulation": simulation})["count"] += 1
             for event in doc["events"]:
                 label = (f"{event['item']['id']} / {event['reason_id']} / {event['result_status']}"
                          if event["type"] == "ACTION" else event["type"] +
@@ -186,9 +205,21 @@ class EncounterService:
                 child = hashlib.sha256(f"{parent}/{label}".encode()).hexdigest()[:24]
                 nodes.setdefault(child, {"id": child, "label": label, "count": 0,
                                          "item": event.get("item"), "event_type": event["type"],
-                                         "reason_id": event.get("reason_id"), "result_status": event.get("result_status")})["count"] += 1
+                                         "reason_id": event.get("reason_id"), "result_status": event.get("result_status"),
+                                         "is_simulation": simulation, "case_id": doc["case_id"]})["count"] += 1
+                if simulation:
+                    visible = self.view(doc, locale)
+                    visible_event = next(e for e in visible["events"] if e["id"] == event["id"])
+                    nodes[child]["example"] = {key: visible_event[key] for key in
+                        ("records", "diagnoses", "reason_options", "reason_text", "hypothesis", "text")
+                        if key in visible_event}
                 edges.setdefault((parent, child), {"source": parent, "target": child, "count": 0})["count"] += 1
                 parent = child
         return {"nodes": list(nodes.values()), "edges": list(edges.values()), "session_count": len(documents),
                 "reason_counts": reasons, "missing_examination_counts": terminations,
-                "missing_inquiry_counts": missing_inquiries}
+                "missing_inquiry_counts": missing_inquiries, "cases": cases,
+                "record_type": "SIMULATION" if simulation else "DOCTOR",
+                "selected_case_id": case_id,
+                "demo_visits": [{"encounter_id": doc["id"], "case_id": doc["case_id"],
+                                  "status": doc["status"], "is_simulation": True}
+                                 for doc in documents] if simulation else []}

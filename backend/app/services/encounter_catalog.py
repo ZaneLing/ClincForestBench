@@ -35,8 +35,8 @@ def normalized(text: str) -> str:
 
 
 class EncounterCatalog:
-    def __init__(self, cases, temporal):
-        self.cases, self.temporal = cases, temporal
+    def __init__(self, cases, sources=None):
+        self.cases = cases
         self.items: dict[str, dict] = {}
         self.aliases: dict[tuple[str, str], str] = {}
         self.bindings: dict[str, dict[str, list[dict]]] = {}
@@ -55,11 +55,17 @@ class EncounterCatalog:
                 kind = row["target"].split(":")[0]
                 self.aliases[(kind, normalized(row["alias"]))] = row["target"]
         for case in cases.cases.values():
-            self.classic(case)
-        for entry in temporal.manifest()["cases"]:
-            self.temporal_case(temporal.get(entry["case_id"]))
+            if case.generation_mode == "SOURCE_BACKED_EVIDENCE":
+                self.evidence_case(case)
+            else:
+                self.classic(case)
+        # Source extraction records are read only during evidence conversion.
+        if sources is not None:
+            for entry in sources.manifest()["cases"]:
+                if entry["case_id"] not in self.visits:
+                    self.source_case(sources.get(entry["case_id"]))
         for case_id, visit in self.visits.items():
-            if visit["presentation"]:
+            if visit["presentation"] and "inquiry:CHIEF" not in self.bindings[case_id]:
                 self.bind(case_id, "inquiry:CHIEF", "visit.presentation", visit["presentation"], origin="VISIT_PRESENTATION")
         self.expand_components()
 
@@ -176,12 +182,37 @@ class EncounterCatalog:
                                                    "component_index": index, "origin": "SOURCE_PANEL_COMPONENT"}]
             bindings.update(additions)
 
-    def temporal_case(self, case):
+    def evidence_case(self, case):
+        cid = case.case_id
+        self.prepare(cid)
+        self.visits[cid] = {
+            "case_id": cid, "dataset": case.dataset.name,
+            "demographics": case.initial_context.get("patient_details", {}),
+            "presentation": case.initial_context.get("presentation", ""),
+            "track_type": case.case_type, "source_hash": case.case_hash,
+        }
+        for evidence_id, records in case.evidence_records.items():
+            item_id = evidence_id.removeprefix("CFB_E::")
+            definition = self.cases.catalog_for_case(cid)[evidence_id]
+            if item_id not in self.items:
+                item = case.source_provenance.get("catalog_items", {}).get(item_id, {})
+                self.add(item_id, "inquiry" if definition.action_kind == "ASK_QUESTION" else "operation",
+                         definition.clinical_domain, item.get("label", bilingual(definition.question_en)),
+                         [definition.question_en])
+            for record in records:
+                self.bind(cid, item_id, record["source_id"], record["result"],
+                          **{key: value for key, value in record.items()
+                             if key not in {"source_id", "result", "source_time"}})
+        self.treatments[cid] = case.source_provenance.get("treatments", [])
+        self.audit[cid].extend(row for row in case.source_provenance.get("mapping_audit", [])
+                               if row.get("disposition") not in {"MAPPED", "VISIT"})
+
+    def source_case(self, case):
         cid = case.case_id
         self.prepare(cid)
         initial = case.initial_state
         self.visits[cid] = {
-            "case_id": cid, "dataset": case.source.get("dataset_family", case.source.get("dataset", "Temporal")),
+            "case_id": cid, "dataset": case.source.get("dataset_family", case.source.get("dataset", "Source")),
             "demographics": {k: initial[k] for k in ("age", "age_range", "sex", "gender", "occupation") if k in initial},
             "presentation": initial.get("chief_complaint", initial.get("presentation", "")),
             "track_type": case.task_type,
@@ -199,7 +230,7 @@ class EncounterCatalog:
                 item_id = self.resolve(kind, "", source_id, native=False)
                 if item_id:
                     self.bind(cid, item_id, source_id, context["items"], origin="SOURCE_CONTEXT")
-        for event in case.timeline_events:
+        for event in case.evidence_events:
             source_id = event.event_id
             modality = event.clinical_concept.modality
             if modality == "INTERVENTION":

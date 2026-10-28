@@ -40,7 +40,7 @@ def main() -> None:
             item["sha256"] = sha256_file(source)
         manifest["files"].append(item)
 
-    dump_json(path_from_root("data/manifests/raw_ddxplus_v1.json"), manifest)
+    dump_json(path_from_root("data/manifests/raw_ddxplus.json"), manifest)
     print(f"Prepared immutable raw links in {raw_dir}")
 
 

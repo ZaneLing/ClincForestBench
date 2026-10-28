@@ -10,8 +10,8 @@ from etl.build_case_trees import TREE_SCHEMA_VERSION, canonical_hash
 def test_mvp50_raw_to_tree_artifacts_are_complete_and_auditable(cases):
     service = CaseTreeService(cases.root)
     manifest = service.manifest()
-    assert manifest["case_count"] == 130
-    assert manifest["dataset_case_counts"] == {
+    assert manifest["case_count"] == 188
+    assert {key: manifest["dataset_case_counts"][key] for key in ("DDXPlus", "MedAgentBench", "Synthea")} == {
         "DDXPlus": 50,
         "MedAgentBench": 30,
         "Synthea": 50,
@@ -28,6 +28,13 @@ def test_mvp50_raw_to_tree_artifacts_are_complete_and_auditable(cases):
         audit = service.get(entry["case_id"])
         raw_case = audit["raw_case"]
         tree = audit["processed_tree"]
+        if entry["generation_mode"] == "SOURCE_BACKED_EVIDENCE":
+            from etl.common import sha256_file
+            assert sha256_file(cases.root / entry["raw_case_path"]) == entry["raw_sha256"]
+            assert sha256_file(cases.root / entry["tree_path"]) == entry["tree_sha256"]
+            assert tree["schema_version"] == "unordered_evidence_tree_v1"
+            assert all(tree["audit"]["checks"].values())
+            continue
         assert canonical_hash(raw_case["raw_row"]) == entry["raw_sha256"]
         assert canonical_hash(tree) == entry["tree_sha256"]
         if entry["dataset_name"] != "DDXPlus":

@@ -39,51 +39,37 @@ Two graph forms are retained. Events preserve the exact personal trajectory. Sta
 
 Model play is an orchestration layer over the same `ArenaService`, never a second simulator. Each OpenRouter response is parsed as a typed decision, checked against the current outcome catalog and dependency-aware available-action set, then applied through the same belief/action/finalization methods as physician play. Runs and complete provider transcripts are stored separately in `model_arena_runs` and `model_interactions`; model-only forest aggregation filters canonical sessions by `PlayerType.MODEL` so it cannot mix physician choices or the oracle into model statistics.
 
-## Temporal Forest v2 local boundary
+## Unified unordered evidence boundary
 
-Credentialed sources under `dataset/restricted/` pass through three independent
-adapters: `MCMEDTemporalAdapter`, `MIMICTemporalAdapter`, and
-`EICUTemporalAdapter`. MIMIC-IV-Note, ECG, and ED are linked modalities of the
-MIMIC adapter. The adapters first emit a canonical temporal event layer and
-only then build Case bundles and graphs.
+All 188 local cases across 14 datasets use `CaseService` and the shared Arena,
+Model Arena, history, research inspector, and forest. The 58 additional source
+episodes are converted by `etl.build_evidence_cases` into `CaseBundle` objects
+under `data/processed/evidence/`, listed in
+`data/manifests/evidence_mvp58_manifest.json`.
 
 ```text
-restricted source tables
-        │ source validation (schema / rows / null rate / join coverage)
+EHR / narrative / consultation / persona / memory / rubric source records
+        │ source readers → case-scoped catalog bindings
         ▼
-canonical temporal events
-  order ┆ acquisition ┆ availability ┆ documentation
+unordered CaseBundle: initial presentation + independent action/result pairs
         │
-        ├──► immutable realized trajectory
-        ├──► review page + per-Case timeline Parquet
-        └──► Temporal Tree / DAG
-                state = visible observations + pending set + time bucket
+        ├──► physician Visit: global operation/inquiry libraries
+        ├──► Model Arena: validated evidence choice + diagnosis ranking
+        └──► research tree: root → action → fixed recorded result
 ```
 
-An observed lab or imaging result may be replayed with its source-derived TAT,
-but its value never changes. An action absent from the recorded episode keeps
-its edge and resolves to `UNOBSERVED_IN_RECORDED_EPISODE`; it never invokes a
-model to synthesize a result. MIMIC ECG clock uncertainty, eICU
-interface-dependent missingness, and post-intervention exclusions are
-first-class metadata. All record-level inputs and outputs remain Git-ignored
-and are reachable only through research-key endpoints in the local API.
+There is no simulation clock, waiting action, turnaround-time score, source
+sequence unlocking, pending-result set, or time bucket in state identity.
+MedMemoryBench records are queryable in any order. Layout indices are only
+display ordering. Actual participant action order is retained for analysis of
+evidence acquisition and diagnosis changes.
 
-## Interaction, persona, memory, and rubric adapters
+Source dates and uncertainty remain provenance or clinically meaningful history.
+`etl/source_adapters/` extracts recorded evidence into local staging records.
+The unordered builder produces runnable CaseBundle artifacts from those records.
+MIMIC Note, ECG, and ED remain linked modalities. Missing source values are
+never synthesized, and reference-quality labels survive conversion.
 
-Six additional adapters emit the same `TemporalCase` contract:
-
-```text
-MediScope / MedPI ─────────────► source-authored consultation Q/A branches
-PatientSim / Meddies ──────────► case-scoped persona profile branches
-MedMemoryBench ────────────────► date-ordered, one-next-event-at-a-time tree
-MedDialogRubrics ──────────────► expert inquiry action + source-fact response
-                                      │
-                                      ▼
-                         canonical event → action/result DAG
-```
-
-All six use a Case-scoped action catalog so one patient cannot receive another
-patient's source-authored answer. MedMemoryBench additionally sets sequential
-unlocking. MediScope media is served only when the Case declares a `PUBLIC*`
-access class and the requested filename resolves inside that Case's media
-directory. Proxy labels remain marked non-adjudicated in both JSON and UI.
+Patient-level derivatives and translations remain local. Research endpoints
+require the research key. Case media requires an explicitly public source and
+a filename confined to that case's directory.

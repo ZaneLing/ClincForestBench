@@ -139,7 +139,7 @@ export function ResultValue({
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href={`${API_BASE}/temporal/media/${encodeURIComponent(caseId)}/${encodeURIComponent(typeof val === 'string' ? val : '')}`}
+                  href={`${API_BASE}/cases/${encodeURIComponent(caseId)}/media/${encodeURIComponent(typeof val === 'string' ? val : '')}`}
                 >
                   {chinese ? '打开原始报告图像' : 'Open original report image'}
                 </a>

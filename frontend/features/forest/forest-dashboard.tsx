@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
   Background,
   BackgroundVariant,
@@ -16,9 +17,7 @@ import {
 } from '@xyflow/react';
 import {
   Activity,
-  Clock3,
   GitBranch,
-  KeyRound,
   Network,
   Stethoscope,
   Trees,
@@ -26,9 +25,9 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { api } from '@/lib/api';
+import { ResultValue } from '@/features/arena/encounter-presentation';
 
 type DiagnosisStatistic = {
   condition: string;
@@ -42,6 +41,8 @@ type DiagnosisStatistic = {
 };
 
 type ForestCaseSummary = {
+  simulation_count?: number;
+  simulation_session_count?: number;
   case_id: string;
   pathology: string;
   pathology_label: string;
@@ -61,13 +62,21 @@ type ForestNode = {
   visit_rate: number;
   belief_submission_count: number;
   diagnoses: DiagnosisStatistic[];
+  observations?: { evidence_id: string; status: string; value: unknown; values: unknown[] }[];
 };
 
 type ForestDetail = {
+  record_type?: 'SIMULATION' | 'DOCTOR';
+  limitations?: string[];
+  final_diagnosis_texts?: { text: string; count: number }[];
+  source_trajectories?: { label: string; evidence_ids: string[]; state_hashes: string[]; final_state_hash: string; diagnoses: string[]; status: string }[];
+  evidence_labels?: Record<string, string>;
   case_id: string;
   dataset_name: string;
   case_type: string;
   summary: {
+    simulation_count?: number;
+    simulation_session_count?: number;
     physician_count: number;
     physician_session_count: number;
     completed_session_count: number;
@@ -103,7 +112,10 @@ type ForestFlowNode = Node<ForestNode, 'forestState'>;
 const nodeTypes = { forestState: ForestStateNode };
 
 export function ForestDashboard() {
-  const [researchKey, setResearchKey] = useState('local-research-only');
+  const params = useSearchParams();
+  const simulation = params.get('simulation') === 'true';
+  const requestedCase = params.get('case') ?? '';
+  const forestBase = simulation ? '/research/classic-simulation-forest/cases' : '/research/forest/cases';
   const [cases, setCases] = useState<ForestCaseSummary[]>([]);
   const [dataset, setDataset] = useState('ALL');
   const [caseId, setCaseId] = useState('');
@@ -113,17 +125,16 @@ export function ForestDashboard() {
   const [notice, setNotice] = useState('正在汇总医生决策森林…');
   const [busy, setBusy] = useState(false);
 
-  async function loadCase(nextCaseId: string, key = researchKey) {
+  async function loadCase(nextCaseId: string) {
     if (!nextCaseId) return;
     setBusy(true);
     setCaseId(nextCaseId);
     try {
       const value = await api<ForestDetail>(
-        `/research/forest/cases/${nextCaseId}`,
-        { headers: { 'X-Research-Key': key } },
+        `${forestBase}/${encodeURIComponent(nextCaseId)}?lang=zh-CN`,
       );
       setDetail(value);
-      setSelectedHash(value.nodes[0]?.state_hash ?? '');
+      setSelectedHash(value.nodes.find((node) => node.step === 0)?.state_hash ?? value.nodes[0]?.state_hash ?? '');
       setStage(value.stages[0]?.step ?? 0);
       setNotice('');
     } catch (error) {
@@ -133,41 +144,38 @@ export function ForestDashboard() {
     }
   }
 
-  async function unlock(key = researchKey) {
+  async function reloadForest() {
     setBusy(true);
     try {
       const index = await api<{ cases: ForestCaseSummary[] }>(
-        '/research/forest/cases',
-        { headers: { 'X-Research-Key': key } },
+        forestBase,
       );
       setCases(index.cases);
-      const first = index.cases[0];
-      if (first) await loadCase(first.case_id, key);
+      const first = index.cases.find((item) => item.case_id === (caseId || requestedCase)) ?? index.cases[0];
+      if (first) await loadCase(first.case_id);
+      else { setDetail(null); setNotice(simulation ? '暂无模拟轨迹' : '暂无医生轨迹'); }
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : '森林权限验证失败');
+      setNotice(error instanceof Error ? error.message : '森林加载失败');
+    } finally {
       setBusy(false);
     }
   }
 
   useEffect(() => {
-    const headers = { 'X-Research-Key': 'local-research-only' };
     let active = true;
-    void api<{ cases: ForestCaseSummary[] }>('/research/forest/cases', {
-      headers,
-    })
+    void api<{ cases: ForestCaseSummary[] }>(forestBase)
       .then(async (index) => {
         if (!active) return;
         setCases(index.cases);
-        const first = index.cases[0];
-        if (!first) return;
+        const first = index.cases.find((item) => item.case_id === requestedCase) ?? index.cases[0];
+        if (!first) { setDetail(null); setNotice(simulation ? '暂无模拟轨迹' : '暂无医生轨迹'); return; }
         const value = await api<ForestDetail>(
-          `/research/forest/cases/${first.case_id}`,
-          { headers },
+          `${forestBase}/${encodeURIComponent(first.case_id)}?lang=zh-CN`,
         );
         if (!active) return;
         setCaseId(first.case_id);
         setDetail(value);
-        setSelectedHash(value.nodes[0]?.state_hash ?? '');
+        setSelectedHash(value.nodes.find((node) => node.step === 0)?.state_hash ?? value.nodes[0]?.state_hash ?? '');
         setStage(value.stages[0]?.step ?? 0);
         setNotice('');
       })
@@ -177,7 +185,7 @@ export function ForestDashboard() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [forestBase, requestedCase, simulation]);
 
   const graph = useMemo(() => buildForestGraph(detail), [detail]);
   const datasets = useMemo(
@@ -214,14 +222,17 @@ export function ForestDashboard() {
           </span>
           <div>
             <p>ClincForestBench · Population analytics</p>
-            <h1>病例决策森林</h1>
+            <h1>{simulation ? '模拟病例决策森林 · 经典圆节点' : '病例决策森林'}</h1>
           </div>
         </div>
         <Badge>
-          <Network /> Ground truth 与医生选择分离统计
+          <Network /> {simulation ? '演示数据 · 与真实医生统计隔离' : 'Ground truth 与医生选择分离统计'}
         </Badge>
-        <Link className="audit-nav-link" href="/forest?mode=temporal">
-          Temporal Forest <Clock3 />
+        <Link className="audit-nav-link" href={`/forest?mode=classic&simulation=${!simulation}${caseId ? `&case=${encodeURIComponent(caseId)}` : ''}`}>
+          {simulation ? '查看真人森林' : '查看模拟森林'}
+        </Link>
+        <Link className="audit-nav-link" href={`/forest?simulation=${simulation}${caseId ? `&case=${encodeURIComponent(caseId)}` : ''}`}>
+          新版轨迹森林
         </Link>
       </header>
 
@@ -258,18 +269,7 @@ export function ForestDashboard() {
             ))}
           </select>
         </label>
-        <label htmlFor="forest-research-key">
-          <span>
-            <KeyRound /> Research key
-          </span>
-          <Input
-            id="forest-research-key"
-            onChange={(event) => setResearchKey(event.target.value)}
-            type="password"
-            value={researchKey}
-          />
-        </label>
-        <Button disabled={busy} onClick={() => void unlock()}>
+        <Button disabled={busy} onClick={() => void reloadForest()}>
           {busy ? '汇总中…' : '加载森林'}
         </Button>
         {detail && <ForestSummary detail={detail} />}
@@ -283,7 +283,7 @@ export function ForestDashboard() {
                 <p>CASE FOREST</p>
                 <h2>{detail.case_id}</h2>
               </div>
-              <small>节点百分比 = 经过该状态的医生游玩次数占比</small>
+              <small>节点百分比 = {simulation ? '经过该证据状态的模拟轨迹占比；相同证据集合会汇合' : '经过该状态的医生游玩次数占比'}</small>
             </header>
             <div className="forest-canvas">
               <ReactFlow
@@ -320,7 +320,7 @@ export function ForestDashboard() {
                 <p>SELECTED NODE</p>
                 <h2>
                   {selectedNode
-                    ? `S${selectedNode.step} 节点选择集中`
+                    ? `S${selectedNode.step} ${simulation ? '已获得的证据状态' : '节点选择集中'}`
                     : '选择一个节点'}
                 </h2>
               </div>
@@ -329,19 +329,25 @@ export function ForestDashboard() {
               <>
                 <div className="forest-node-meta">
                   <span>
-                    <b>{percent(selectedNode.visit_rate)}</b>医生游玩访问率
+                    <b>{percent(selectedNode.visit_rate)}</b>{simulation ? '模拟轨迹访问率' : '医生游玩访问率'}
                   </span>
                   <span>
-                    <b>{selectedNode.belief_submission_count}</b>该节点阶段判断
+                    <b>{simulation ? '未记录' : selectedNode.belief_submission_count}</b>该节点阶段判断
                   </span>
                   <span>
                     <b>{selectedNode.support}</b>路径支持数
                   </span>
                 </div>
-                <DiagnosisDistribution
+                {simulation ? <div className="classic-simulation-evidence">
+                  <p>点击圆节点查看截至此步的证据。原模拟轨迹没有记录逐轮诊断或置信度。</p>
+                  {selectedNode.observations?.map((observation) => <article key={observation.evidence_id}>
+                    <b>{detail.evidence_labels?.[observation.evidence_id] ?? observation.evidence_id}</b>
+                    <ResultValue value={{status: observation.status, value: observation.values.length ? observation.values : observation.value}} chinese caseId={detail.case_id} />
+                  </article>)}
+                </div> : <DiagnosisDistribution
                   diagnoses={selectedNode.diagnoses}
                   empty="该节点还没有医生诊断提交"
-                />
+                />}
               </>
             ) : null}
           </article>
@@ -351,7 +357,7 @@ export function ForestDashboard() {
               <TabsList>
                 <TabsTrigger value="stages">
                   <GitBranch />
-                  逐轮统计
+                  {simulation ? '来源轨迹' : '逐轮统计'}
                 </TabsTrigger>
                 <TabsTrigger value="final">
                   <Stethoscope />
@@ -359,6 +365,15 @@ export function ForestDashboard() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="stages">
+                {simulation ? <div className="classic-simulation-paths">
+                  {detail.limitations?.map((text) => <p key={text}>{text}</p>)}
+                  {detail.source_trajectories?.map((path) => <article key={path.label}>
+                    <b>{path.label} · {path.status === 'COMPLETED' ? '已完成' : path.status}</b>
+                    <ol>{path.evidence_ids.map((id, index) => <li key={`${index}-${id}`}>{detail.evidence_labels?.[id] ?? id}</li>)}</ol>
+                    <Button size="sm" variant="outline" onClick={() => setSelectedHash(path.final_state_hash)}>查看此轨迹最终状态</Button>
+                    <p>{path.diagnoses.join('；')}</p>
+                  </article>)}
+                </div> : <>
                 <div className="forest-stage-picker">
                   {detail.stages.map((item) => (
                     <button
@@ -376,6 +391,7 @@ export function ForestDashboard() {
                   diagnoses={selectedStage?.diagnoses ?? []}
                   empty="该轮次还没有提交"
                 />
+                </>}
               </TabsContent>
               <TabsContent value="final">
                 <div className="forest-reference">
@@ -393,10 +409,13 @@ export function ForestDashboard() {
                     ))}
                   </div>
                 </details>
-                <DiagnosisDistribution
+                {simulation ? <div className="classic-simulation-paths">
+                  <p>以下仅为原模拟诊断文本；未记录诊断概率，不计算选择率或 Top 1。</p>
+                  {detail.final_diagnosis_texts?.map((item) => <article key={item.text}>{item.text}<small> · {item.count} 条轨迹</small></article>)}
+                </div> : <DiagnosisDistribution
                   diagnoses={detail.final_diagnoses}
                   empty={`还没有医生完成这个病例的${outcomeNoun}提交`}
-                />
+                />}
               </TabsContent>
             </Tabs>
           </article>
@@ -417,11 +436,11 @@ function ForestSummary({ detail }: { detail: ForestDetail }) {
     <div className="forest-summary">
       <span>
         <UsersRound />
-        <b>{detail.summary.physician_count}</b>医生
+        <b>{detail.record_type === 'SIMULATION' ? detail.summary.simulation_count : detail.summary.physician_count}</b>{detail.record_type === 'SIMULATION' ? '模拟参与者' : '医生'}
       </span>
       <span>
         <Activity />
-        <b>{detail.summary.physician_session_count}</b>次游玩
+        <b>{detail.record_type === 'SIMULATION' ? detail.summary.simulation_session_count : detail.summary.physician_session_count}</b>{detail.record_type === 'SIMULATION' ? '条模拟轨迹' : '次游玩'}
       </span>
       <span>
         <GitBranch />

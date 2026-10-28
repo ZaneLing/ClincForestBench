@@ -192,7 +192,7 @@ for port in "$API_PORT" "$WEB_PORT"; do
   fi
 done
 
-RUN_DIR="$ROOT_DIR/.run"
+RUN_DIR="${CFB_RUN_DIR:-$ROOT_DIR/.run}"
 mkdir -p "$RUN_DIR"
 API_LOG="$RUN_DIR/api.log"
 WEB_LOG="$RUN_DIR/web.log"
@@ -294,8 +294,10 @@ echo "Logs: $API_LOG and $WEB_LOG"
 echo "Press Ctrl-C to stop both services."
 echo
 
-tail -n 20 -F "$API_LOG" "$WEB_LOG" &
-TAIL_PID=$!
+if [[ "${CFB_TAIL_LOGS:-1}" == "1" ]]; then
+  tail -n 20 -F "$API_LOG" "$WEB_LOG" &
+  TAIL_PID=$!
+fi
 
 while kill -0 "$API_PID" 2>/dev/null && kill -0 "$WEB_PID" 2>/dev/null; do
   sleep 1

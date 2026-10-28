@@ -19,11 +19,13 @@
 | 数据流水线 | 原始数据校验、确定性转换、版本化清单、病例哈希及原始数据到病例树审计 | 对映射、参考标签和首诊信息提取进行临床审核 |
 | 医生 Arena | 账户、证据动作、分阶段诊断排序、回放、个人历史及群体森林 | 扩大医生参与规模并开展亚组研究 |
 | 模型 Arena | OpenRouter 模型选择、决策校验、暂停与恢复、完整交互归档及模型专属森林 | 按固定协议开展多病例、重复模型评测 |
-| Temporal Forest v2 | 基于源数据的动作/结果事件、模拟时间、诊断检查点及 58 个本地病例 | 对时间语义和叙事参考语义进行临床裁定 |
+| 源证据病例 | 58 个新增病例转换为独立动作/结果分支，进入统一运行协议 | 对映射和参考标签进行临床裁定 |
 | 分析 | 准确率与排名指标、诊断变化、分支熵、参考朴素贝叶斯及导出/快照工具 | 高级轨迹分析及医生对比研究 |
 | 本地化 | 中英文界面及病例内容词典 | 病例产物变化后重新生成词典 |
 
-近期功能里程碑包括 Temporal Arena（9 月 15 日），以及交互数据集、可复现下载、仓库整理和中英双语病例本地化（2026 年 9 月 16 日）。
+所有可运行病例均采用无时序证据访问：医生和模型自主选择问询、检查顺序，
+不设置模拟时钟、等待动作、按源顺序解锁或时间评分。源日期保留为临床病史或
+来源信息；实际参与者的决策路径仍完整记录。
 
 仓库内的临床 QA 表仍有 **10 项待审核**。生成审核页面或通过工程测试不代表已经完成医学裁定。本地探索报告仅包含三个模型在一个病例上的运行结果，不能视为排行榜或总体性能估计。
 
@@ -39,7 +41,7 @@
 | MC-MED | 10 | 基于源数据的急诊首诊病例 |
 | MIMIC-IV 多模态 | 10 | 关联 Note、ECG 和 ED 模态的住院病例 |
 | eICU-CRD | 10 | ICU 早期临床评估 |
-| PMC Case Reports | 5 | 暂定的叙事序列病例 |
+| PMC Case Reports | 5 | 暂定的叙事证据病例 |
 | NEJM CPC | 5 | 暂定的 PubMed 记录叙事病例 |
 | MediScope | 3 | 多模态问诊 |
 | MedPI | 3 | 多轮问诊 |
@@ -47,9 +49,10 @@
 | Meddies Persona VIE | 3 | 越南语患者画像 |
 | MedMemoryBench | 3 | 纵向医疗记忆 |
 | MedDialogRubrics | 3 | 与源事实匹配的专家问诊参考 |
-| **合计** | **188** | **130 个经典病例 + 58 个时序/交互病例** |
+| **合计** | **188** | **14 个数据集统一采用无时序证据协议** |
 
-MIMIC Note、ECG 和 ED 是关联模态，不单独计为数据轨道。交互数据的参考标签均明确标记为未经独立临床裁定。详情见 [Temporal MVP 状态](docs/temporal_v2_mvp.md)和[交互 MVP 约定](docs/interaction_mvp.md)。
+各数据集的汇总数量保存在 [dataset_inventory.json](data/manifests/dataset_inventory.json)。
+MIMIC Note、ECG 和 ED 是关联模态，不单独计为数据轨道。交互数据的参考标签均明确标记为未经独立临床裁定。详情见[源证据 MVP 状态](docs/source_evidence.md)和[交互 MVP 约定](docs/interaction_mvp.md)。
 
 ## 快速开始
 
@@ -67,7 +70,7 @@ cd ClincForestBench
 make setup
 ./download_data.sh core
 make preprocess-ddxplus
-make preprocess-guidance2
+make preprocess-workflows
 ```
 
 以上命令会构建 130 个经典病例。下载的输入和生成的输出均保留在本地。下载器默认的 `all` 配置包含公开核心数据和交互数据，但**不会**下载需要授权的 PhysioNet 数据源。
@@ -87,22 +90,24 @@ make preprocess-guidance2
 
 打开[应用](http://localhost:3000)或 [API 文档](http://localhost:8000/docs)。注册本地医生账户后即可进入 Arena。
 
-本地开发使用位于 `data/clincforestbench.db` 的 **SQLite** 数据库，因此账户、经典病例会话和模型运行记录在 API 重启后仍会保留。时序会话和模型运行记录保存在 `data/processed/temporal/v2/`。测试使用隔离的内存仓库或临时数据库。
+本地开发使用 `data/clincforestbench.db` 的 **SQLite** 数据库保存账户、统一病例会话和模型记录，医生 Visit 保存在 `data/encounters.db`。测试使用隔离的内存仓库或临时数据库。
 
 模型测试还需要在本地 `.env` 中配置 `OPENROUTER_API_KEY`。可从 `.env.example` 开始，替换其中占位值；多人使用时还应设置私有的 `RESEARCH_API_KEY`。独立的服务商连通性探测使用 `tools/api_smoke/.env`。密钥仅由后端加载，不会写入导出的模型交互记录。
 
-### 3. 添加时序和交互轨道
+### 3. 添加源证据和交互病例
 
 重新构建全部 188 个病例需要取得相应受限数据集的访问许可，同时准备公开数据源。获得许可并配置 PhysioNet 凭据后运行：
 
 ```bash
 ./download_data.sh restricted
 ./download_data.sh interaction
-make preprocess-temporal
+make preprocess-ehr-sources
 make preprocess-interaction-mvp
 ```
 
-必须先构建基础 Temporal 清单，再合并交互数据。重新构建基础清单会覆盖原清单，因此之后需要再次运行交互构建步骤。数据源要求和下载配置见[数据准备说明](docs/data_setup.md)。
+先构建 EHR 来源暂存输入，再合并交互数据。交互构建步骤会同时将全部来源病例
+转换为 `data/processed/evidence/` 下的无时序病例。已有暂存输入时，可用
+`make preprocess-evidence` 直接重建。数据源要求见[数据准备说明](docs/data_setup.md)。
 
 ### 4. 验证
 
@@ -112,7 +117,7 @@ make validate   # Python 测试、前端静态检查和前端生产构建
 make demo       # 命令行 Arena 演示
 ```
 
-完整测试套件依赖已生成的经典、时序和交互产物。请在完整数据准备后运行；仅构建公开经典轨道并不足以形成完整测试环境。
+完整测试套件依赖全部 188 个无时序病例产物。请在完整数据准备后运行；仅构建公开经典轨道并不足以形成完整测试环境。
 
 ## 应用路由
 
@@ -126,10 +131,9 @@ make demo       # 命令行 Arena 演示
 | `/research` | 原始来源、转换后病例及病例树审计 |
 | `/evidence` | 数据集约定、映射和证据词典 |
 | `/admin` | 由研究密钥保护的本地账户管理 |
-| `/temporal?mode=arena` | 时序医生 Arena |
-| `/temporal?mode=timeline` | 已记录源轨迹回放 |
+| `/temporal` | 兼容旧链接，跳转至 `/arena` |
 
-模型测试、历史、森林和研究路由均可通过 `?mode=temporal` 进入时序模式。全局 `EN / 中文` 开关会同时切换界面文案和病例内容。完整的交互规则、导出、结果对比和本地化说明见[应用指南](docs/application_guide.md)。
+模型测试、历史、森林和研究页面统一使用同一病例库。全局 `EN / 中文` 开关会同时切换界面文案和病例内容。完整的交互规则、导出、结果对比和本地化说明见[应用指南](docs/application_guide.md)。
 
 ## 仓库结构
 
@@ -153,7 +157,7 @@ Git 管理规则见[仓库结构说明](docs/repository_layout.md)。本地编�
 - DDXPlus 病例树表达的是证据暴露过程，不是已记录的医生诊疗时间线。五个已知的证据父级缺失引用和重复记录数量均作为上游例外进行版本管理和漂移检查。
 - MedAgentBench 当前使用 `OFFLINE_TASK_REPLAY`，不会声称 FHIR 请求真实返回了结果或创建了资源。
 - 已记录结果按原值回放，不生成虚构结果。缺失动作会解析为 `UNOBSERVED_IN_RECORDED_EPISODE`。
-- PMC/NEJM 的展示顺序代理值不代表真实临床耗时。叙事和交互参考标签需要经过临床审核后才能用于正式评分。
+- 来源展示顺序不控制证据访问。叙事和交互参考标签需要经过临床审核后才能用于正式评分。
 - 当前 MVP 的本地账户管理会暴露明文密码。请只使用临时密码，并在共享或生产部署前替换该存储方式。
 
 本项目仅用于研究，不是医疗诊断设备。
@@ -167,7 +171,7 @@ cp .env.example .env  # 仅在本地尚无 .env 时执行，并编辑其中配�
 docker compose up --build
 ```
 
-Compose 配置使用 PostgreSQL、执行数据库迁移，并挂载本地 `data/` 和只读的 `dataset/`。当前 SQLAlchemy 数据结构包含 **21 张表**；数据库初始化会加载可用的经典 MVP 清单（完成两个经典构建步骤后共 130 个病例），而不是加载完整源数据人群。时序产物仍使用本地文件存储。此配置用于开发，不是生产部署方案。
+Compose 配置使用 PostgreSQL、执行数据库迁移，并挂载本地 `data/` 和只读的 `dataset/`。当前 SQLAlchemy 数据结构包含 **21 张表**；数据库初始化加载统一病例清单（完整构建后共 188 个病例）。此配置用于开发，不是生产部署方案。
 
 ## 项目文档
 
@@ -177,6 +181,4 @@ Compose 配置使用 PostgreSQL、执行数据库迁移，并挂载本地 `data/
 - [数据准备和下载配置](docs/data_setup.md)
 - [架构及 API/数据边界](docs/architecture.md)
 - [病例树结构](docs/case_tree_schema.md)
-- [Temporal MVP 状态](docs/temporal_v2_mvp.md)及[交互 MVP](docs/interaction_mvp.md)
-- [设计到代码的追踪表](docs/guidance_traceability.md)
-- [原始设计指南](docs/guides/README.md)
+- [源证据 MVP 状态](docs/source_evidence.md)及[交互 MVP](docs/interaction_mvp.md)

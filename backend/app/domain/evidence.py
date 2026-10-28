@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+import json
 from typing import Any, Dict, Iterable, List, Optional
 
 from pydantic import BaseModel, Field
@@ -159,6 +160,8 @@ def human_readable_response(
     response: EvidenceResponse, definition: EvidenceDefinition
 ) -> str:
     def label(value: Any) -> str:
+        if isinstance(value, (dict, list)):
+            return json.dumps(value, ensure_ascii=False)
         meaning = definition.value_meanings.get(str(value), {})
         if isinstance(meaning, dict) and meaning.get("en"):
             readable = str(meaning["en"])

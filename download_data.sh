@@ -110,7 +110,7 @@ download_medagentbench() {
   local target="$DATASET_DIR/medagentbench"
   download "$base/README.md" "$target/README.upstream.md"
   download "$base/LICENSE" "$target/LICENSE.upstream"
-  for file in test_data_v1.json test_data_v2.json funcs_v1.json web.html final_web.html; do
+  for file in test_data_v2.json funcs_v1.json; do
     download "$base/data/medagentbench/$file" "$target/$file"
   done
 }
