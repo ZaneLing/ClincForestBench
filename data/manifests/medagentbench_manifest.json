@@ -274,6 +274,6 @@
   ],
   "dataset_name": "MedAgentBench",
   "execution_mode": "OFFLINE_TASK_REPLAY",
-  "manifest_name": "medagentbench_mvp30",
+  "manifest_name": "medagentbench",
   "manifest_version": "medagentbench_mvp30_v1"
 }

@@ -21,7 +21,7 @@
   },
   "dense_truth": {
     "evidence_count": 223,
-    "full_bundle_path": "data/processed/ddxplus/v1/case_bundles/mvp50_v1/DDX_TEST_0021752.json"
+    "full_bundle_path": "data/processed/ddxplus/case_bundles/DDX_TEST_0021752.json"
   },
   "ground_truth": {
     "differential": [
@@ -106,6 +106,8 @@
         "probability": 0.01178601169626863
       }
     ],
+    "display_name": "",
+    "outcome_kind": "DIAGNOSIS",
     "pathology": "Acute COPD exacerbation / infection",
     "severity": 3
   },

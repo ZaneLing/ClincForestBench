@@ -95,7 +95,7 @@ def main() -> None:
             "analysis_version": args.version,
             "git_commit": git_commit,
             "dataset_version": config["dataset"]["dataset_version"],
-            "manifest_version": load_json(path_from_root("data/manifests/mvp50_manifest.json"))["manifest_version"],
+            "manifest_version": load_json(path_from_root("data/manifests/ddxplus_manifest.json"))["manifest_version"],
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "source_export": str(args.export_dir),
             "metrics": ["path_efficiency", "belief_update", "branch_entropy"],

@@ -7,7 +7,7 @@ from etl.common import dump_json, load_json, path_from_root
 
 
 def main() -> None:
-    manifest = load_json(path_from_root("data/manifests/mvp50_manifest.json"))
+    manifest = load_json(path_from_root("data/manifests/ddxplus_manifest.json"))
     case_id = manifest["cases"][0]["case_id"]
     cases = CaseService()
     bundle = cases.get(case_id)

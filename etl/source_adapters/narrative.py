@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import csv
+import json
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -263,13 +264,19 @@ class PMCSourceAdapter(NarrativeSourceAdapter):
 class NEJMSourceAdapter(NarrativeSourceAdapter):
     dataset_slug = "nejm"
     dataset_name = "NEJM CPC"
+    access_class = "LOCAL_ONLY_NEJM_PUBLISHED_NARRATIVE"
 
     def __init__(self, root: Path = ROOT):
         super().__init__(root)
         self.source = root / "dataset/nejm_cpc/pubmed_records.xml"
 
     def list_cases(self, limit: int = 20) -> List[Dict[str, Any]]:
-        result = []
+        fulltexts = self.source.parent / "open_fulltexts.json"
+        result = (json.loads(fulltexts.read_text())["cases"] if fulltexts.exists() else [])
+        result = result[:limit]
+        used_pmids = {str(row["pmid"]) for row in result}
+        if len(result) >= limit:
+            return result
         root = ET.parse(self.source).getroot()
         for article in root.findall(".//PubmedArticle"):
             title_node = article.find(".//ArticleTitle")
@@ -278,7 +285,8 @@ class NEJMSourceAdapter(NarrativeSourceAdapter):
                 "".join(node.itertext())
                 for node in article.findall(".//Abstract/AbstractText")
             ).strip()
-            if "case record" not in title.lower() or len(abstract) < 150:
+            if ("case record" not in title.lower() or len(abstract) < 150
+                    or article.findtext(".//PMID") in used_pmids):
                 continue
             mesh = []
             for heading in article.findall(".//MeshHeading"):
@@ -318,7 +326,7 @@ class NEJMSourceAdapter(NarrativeSourceAdapter):
     def load_case(self, candidate: Dict[str, Any]) -> SourceCase:
         mesh = [
             item["term"]
-            for item in candidate["mesh_terms"]
+            for item in candidate.get("mesh_terms", [])
             if item["major_topic"]
             and item["term"]
             not in {
@@ -330,24 +338,29 @@ class NEJMSourceAdapter(NarrativeSourceAdapter):
                 "Diagnosis, Differential",
             }
         ]
-        reference = " / ".join(mesh[:3]) or candidate["title"]
+        reference = candidate.get("reference_diagnosis") or " / ".join(mesh[:3]) or candidate["title"]
+        text = candidate.get("clinical_text") or candidate["abstract"]
         return self._build_case(
             case_id=f"CFB_NEJM_{candidate['pmid']}",
             raw={
                 "pmid": candidate["pmid"],
                 "doi": candidate["doi"],
                 "title": candidate["title"],
-                "abstract": candidate["abstract"],
-                "mesh_terms": candidate["mesh_terms"],
+                "clinical_text": text,
+                "mesh_terms": candidate.get("mesh_terms", []),
+                "pmcid": candidate.get("pmcid"),
+                "source_url": candidate.get("source_url"),
             },
-            text=candidate["abstract"],
+            text=text,
             reference_diagnosis=reference,
             source_id=str(candidate["pmid"]),
-            source_table="PubMed XML",
+            source_table="PMC clinical presentation" if candidate.get("clinical_text") else "PubMed XML",
             initial_state={"article_title": candidate["title"]},
             reference_extra={
                 "pmid": candidate["pmid"],
                 "doi": candidate["doi"],
                 "mesh_diagnosis_proxy": mesh,
+                "reference_strength": "SOURCE_AUTHORED_FINAL_DIAGNOSIS_REQUIRES_CLINICIAN_REVIEW"
+                if candidate.get("reference_diagnosis") else "NARRATIVE_METADATA_PROXY_REQUIRES_CLINICIAN_REVIEW",
             },
         )

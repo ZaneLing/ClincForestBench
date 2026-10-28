@@ -17,6 +17,7 @@ from collections import Counter, defaultdict
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
+from etl.quota import CASES_PER_DATASET
 
 from backend.app.domain.case import (
     CaseBundle,
@@ -247,7 +248,7 @@ def _synthea_category(reason: str) -> tuple[str, str]:
     return "GENERAL_MEDICINE", "General medicine"
 
 
-def build_synthea(limit: int = 50) -> tuple[dict, dict]:
+def build_synthea(limit: int = CASES_PER_DATASET) -> tuple[dict, dict]:
     source_root = path_from_root("dataset/synthea/csv")
     output_root = path_from_root("data/processed/synthea")
     patients = {row["Id"]: row for row in _read_csv(source_root / "patients.csv")}
@@ -630,15 +631,15 @@ def build_synthea(limit: int = 50) -> tuple[dict, dict]:
         tree_rows.append(entry)
 
     manifest = {
-        "manifest_name": "synthea_mvp50",
+        "manifest_name": "synthea",
         "manifest_version": "synthea_mvp50_v1",
         "dataset_name": "Synthea",
         "case_count": len(manifest_rows),
         "cases": manifest_rows,
     }
-    tree_manifest = _tree_manifest("synthea_mvp50_trees", "synthea_mvp50_v1", tree_rows)
-    dump_json(path_from_root("data/manifests/synthea_mvp50_manifest.json"), manifest)
-    dump_json(path_from_root("data/manifests/synthea_mvp50_tree_manifest.json"), tree_manifest)
+    tree_manifest = _tree_manifest("synthea_trees", "synthea_mvp50_v1", tree_rows)
+    dump_json(path_from_root("data/manifests/synthea_manifest.json"), manifest)
+    dump_json(path_from_root("data/manifests/synthea_tree_manifest.json"), tree_manifest)
     return manifest, tree_manifest
 
 
@@ -961,16 +962,16 @@ def build_medagentbench() -> tuple[dict, dict]:
         tree_rows.append(entry)
 
     manifest = {
-        "manifest_name": "medagentbench_mvp30",
+        "manifest_name": "medagentbench",
         "manifest_version": "medagentbench_mvp30_v1",
         "dataset_name": "MedAgentBench",
         "case_count": len(manifest_rows),
         "execution_mode": "OFFLINE_TASK_REPLAY",
         "cases": manifest_rows,
     }
-    tree_manifest = _tree_manifest("medagentbench_mvp30_trees", "medagentbench_mvp30_v1", tree_rows)
-    dump_json(path_from_root("data/manifests/medagentbench_mvp30_manifest.json"), manifest)
-    dump_json(path_from_root("data/manifests/medagentbench_mvp30_tree_manifest.json"), tree_manifest)
+    tree_manifest = _tree_manifest("medagentbench_trees", "medagentbench_mvp30_v1", tree_rows)
+    dump_json(path_from_root("data/manifests/medagentbench_manifest.json"), manifest)
+    dump_json(path_from_root("data/manifests/medagentbench_tree_manifest.json"), tree_manifest)
     return manifest, tree_manifest
 
 

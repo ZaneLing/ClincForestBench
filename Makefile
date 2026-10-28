@@ -2,7 +2,7 @@ PYTHON ?= python
 VENV_PYTHON := .venv/bin/python
 NODE_BIN := $(CURDIR)/.tools/node/bin
 
-.PHONY: setup venv node frontend-install download-data download-interaction-mvp preprocess-ddxplus preprocess-workflows preprocess-ehr-sources preprocess-evidence preprocess-interaction-mvp translate-cases validate-sources preprocess-all test validate audit-encounters start api web demo db-up db-down migrate
+.PHONY: setup venv node frontend-install download-data download-interaction-mvp download-nejm-open preprocess-ddxplus preprocess-workflows preprocess-ehr-sources preprocess-evidence preprocess-interaction-mvp translate-cases validate-sources preprocess-all test validate audit-encounters start api web demo db-up db-down migrate
 
 setup: venv node frontend-install
 
@@ -22,6 +22,9 @@ download-data:
 
 download-interaction-mvp:
 	bash scripts/data/download_interaction_mvp.sh
+
+download-nejm-open:
+	$(VENV_PYTHON) tools/download_nejm_open.py
 
 preprocess-ddxplus:
 	$(VENV_PYTHON) -m etl.run_pipeline
@@ -49,6 +52,7 @@ translate-cases:
 	$(VENV_PYTHON) tools/build_case_translations.py
 
 preprocess-all: preprocess-ddxplus preprocess-workflows preprocess-ehr-sources preprocess-interaction-mvp
+	$(VENV_PYTHON) tools/update_dataset_inventory.py
 
 test:
 	$(VENV_PYTHON) -m pytest -q

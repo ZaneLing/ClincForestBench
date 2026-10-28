@@ -23,7 +23,10 @@ def ddx_config() -> Dict[str, Any]:
 
 
 def selection_config() -> Dict[str, Any]:
-    return load_yaml("configs/case_selection.yaml")
+    from etl.quota import CASES_PER_DATASET
+    selection = load_yaml("configs/case_selection.yaml")
+    selection["target_cases"] = CASES_PER_DATASET
+    return selection
 
 
 def path_from_root(value: str) -> Path:

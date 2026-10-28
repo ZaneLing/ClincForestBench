@@ -1,7 +1,7 @@
-manifest_name: MVP-50
+manifest_name: Balanced DDXPlus selection
 manifest_version: mvp50_v1
 source_split: test
-target_cases: 50
+target_cases: 30
 min_evidence_count: 8
 min_differential_size: 3
 prefer_initial_symptom: true

@@ -51,7 +51,7 @@ def test_inspector_routes_are_research_only_read_only_and_share_global_catalog(c
     headers = {"X-Research-Key": "local-research-only"}
     index = client.get(index_route, headers=headers).json()
     assert {row["source"] for row in index["cases"]} == {"evidence"}
-    assert len(index["cases"]) == 188
+    assert len(index["cases"]) == len(cases.cases)
     for locale in ("en", "zh-CN"):
         response = client.get(case_route, params={"lang": locale}, headers=headers)
         assert response.status_code == 200
@@ -71,7 +71,7 @@ def test_inspector_routes_are_research_only_read_only_and_share_global_catalog(c
 
 
 def test_all_sources_accounted_for_and_catalog_bilingual(catalog, cases):
-    assert len(catalog.visits) == len(cases.cases) == 188
+    assert len(catalog.visits) == len(cases.cases)
     assert len([i for i in catalog.items.values() if i["kind"] == "operation"]) > 200
     assert len([i for i in catalog.items.values() if i["kind"] == "inquiry"]) > 250
     for item in catalog.items.values():

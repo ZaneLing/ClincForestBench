@@ -4,22 +4,22 @@
 
 一个可复现的临床决策基准，用于记录医生和模型如何获取证据、修正诊断，并共同形成决策路径森林。所有患者回答均来自确定的源数据；模型只负责选择动作，不生成患者检查结果。
 
-**当前状态：可运行的研究 MVP；临床裁定与大规模评测仍待完成。** 当前本地清单包含 **14 条数据轨道、188 个病例（Case）**。患者级生成产物不会纳入 Git，需在本地重新构建。
+**当前状态：可运行的研究 MVP；临床裁定与大规模评测仍待完成。** 当前本地清单包含 **14 条数据轨道、393 个病例（Case）**。患者级生成产物不会纳入 Git，需在本地重新构建。
 
 [快速开始](#快速开始) · [数据集覆盖](#数据集覆盖) · [项目进展](#项目进展) · [项目文档](docs/README.md)
 
 ## 项目进展
 
-仓库状态核对日期：**2026-10-12**。
+仓库状态核对日期：**2026-10-28**。
 
-当日已通过 `make validate`，包括 Python 测试、前端静态检查和生产构建。本次文档更新未重新验证浏览器端到端流程及 Docker/PostgreSQL 配置。
+已通过全部 94 项 Python 测试、前端静态检查和生产构建。运行中的 API 加载 393 个无时序病例，双语映射覆盖缺口为 0。本次更新未重新验证浏览器端到端流程及 Docker/PostgreSQL 配置。
 
 | 方向 | 已实现 | 待完成 |
 | --- | --- | --- |
 | 数据流水线 | 原始数据校验、确定性转换、版本化清单、病例哈希及原始数据到病例树审计 | 对映射、参考标签和首诊信息提取进行临床审核 |
 | 医生 Arena | 账户、证据动作、分阶段诊断排序、回放、个人历史及群体森林 | 扩大医生参与规模并开展亚组研究 |
 | 模型 Arena | OpenRouter 模型选择、决策校验、暂停与恢复、完整交互归档及模型专属森林 | 按固定协议开展多病例、重复模型评测 |
-| 源证据病例 | 58 个新增病例转换为独立动作/结果分支，进入统一运行协议 | 对映射和参考标签进行临床裁定 |
+| 源证据病例 | 303 个新增病例转换为独立动作/结果分支，进入统一运行协议 | 对映射和参考标签进行临床裁定 |
 | 分析 | 准确率与排名指标、诊断变化、分支熵、参考朴素贝叶斯及导出/快照工具 | 高级轨迹分析及医生对比研究 |
 | 本地化 | 中英文界面及病例内容词典 | 病例产物变化后重新生成词典 |
 
@@ -35,30 +35,32 @@
 
 | 轨道 | 病例数 | 含义 |
 | --- | ---: | --- |
-| DDXPlus | 50 | 标准答案证据暴露树；包含 223 个证据字段和 49 个目录疾病 |
-| Synthea | 50 | 与就诊关联的观察、操作和用药记录 |
+| DDXPlus | 30 | 标准答案证据暴露树；包含 223 个证据字段和 49 个目录疾病 |
+| Synthea | 30 | 与就诊关联的观察、操作和用药记录 |
 | MedAgentBench | 30 | 离线任务/工作流回放；不执行实时 FHIR 操作 |
-| MC-MED | 10 | 基于源数据的急诊首诊病例 |
-| MIMIC-IV 多模态 | 10 | 关联 Note、ECG 和 ED 模态的住院病例 |
-| eICU-CRD | 10 | ICU 早期临床评估 |
-| PMC Case Reports | 5 | 暂定的叙事证据病例 |
-| NEJM CPC | 5 | 暂定的 PubMed 记录叙事病例 |
-| MediScope | 3 | 多模态问诊 |
-| MedPI | 3 | 多轮问诊 |
+| MC-MED | 30 | 基于源数据的急诊首诊病例 |
+| MIMIC-IV 多模态 | 30 | 关联 Note、ECG 和 ED 模态的住院病例 |
+| eICU-CRD | 30 | ICU 早期临床评估 |
+| PMC Case Reports | 30 | 暂定的叙事证据病例 |
+| NEJM CPC | 30 | 27 个开放全文病例及 3 个 PubMed 摘要病例 |
+| MediScope | 30 | 多模态问诊；采用原对话诊断陈述作为暂定参考 |
+| MedPI | 30 | 24 个患者画像中的不同原始诊断会话 |
 | PatientSim | 3 | 官方公开演示患者档案 |
-| Meddies Persona VIE | 3 | 越南语患者画像 |
-| MedMemoryBench | 3 | 纵向医疗记忆 |
-| MedDialogRubrics | 3 | 与源事实匹配的专家问诊参考 |
-| **合计** | **188** | **14 个数据集统一采用无时序证据协议** |
+| Meddies Persona VIE | 30 | 越南语患者画像 |
+| MedMemoryBench | 30 | 20 个画像中的互不重叠事件片段 |
+| MedDialogRubrics | 30 | 与源事实匹配的专家问诊参考 |
+| **合计** | **393** | **14 个数据集统一采用无时序证据协议** |
 
 各数据集的汇总数量保存在 [dataset_inventory.json](data/manifests/dataset_inventory.json)。
+目标为**每个数据集 30 例、合计 420 例**。目前仅 PatientSim 缺少 27 例，
+需要取得其 PhysioNet 授权完整版。计数单位和重建流程见[配额说明](docs/dataset_quota.md)。
 MIMIC Note、ECG 和 ED 是关联模态，不单独计为数据轨道。交互数据的参考标签均明确标记为未经独立临床裁定。详情见[源证据 MVP 状态](docs/source_evidence.md)和[交互 MVP 约定](docs/interaction_mvp.md)。
 
 ## 快速开始
 
 医生工作台现已使用统一的 Visit 流程：共享检查/操作库与问询库、每步必选原因、
-缺失问询答案或检查结果时终止并保留轨迹、就诊进行中随时诊断，以及诊断后的可选处方。188 个本地病例当前
-形成 309 个检查/操作项和 397 个问询项。见[协议与映射说明](docs/encounter_protocol.zh-CN.md)。
+缺失问询答案或检查结果时终止并保留轨迹、就诊进行中随时诊断，以及诊断后的可选处方。393 个本地病例当前
+形成 354 个检查/操作项和 1127 个问询项。见[协议与映射说明](docs/encounter_protocol.zh-CN.md)。
 
 ### 1. 安装并构建公开经典轨道
 
@@ -73,7 +75,7 @@ make preprocess-ddxplus
 make preprocess-workflows
 ```
 
-以上命令会构建 130 个经典病例。下载的输入和生成的输出均保留在本地。下载器默认的 `all` 配置包含公开核心数据和交互数据，但**不会**下载需要授权的 PhysioNet 数据源。
+以上命令会构建 90 个经典病例。下载的输入和生成的输出均保留在本地。下载器默认的 `all` 配置包含公开核心数据和交互数据，但**不会**下载需要授权的 PhysioNet 数据源。
 
 ### 2. 运行应用
 
@@ -96,18 +98,24 @@ make preprocess-workflows
 
 ### 3. 添加源证据和交互病例
 
-重新构建全部 188 个病例需要取得相应受限数据集的访问许可，同时准备公开数据源。获得许可并配置 PhysioNet 凭据后运行：
+重新构建全部 393 个病例需要取得相应受限数据集的访问许可，同时准备公开数据源。获得许可并配置 PhysioNet 凭据后运行：
 
 ```bash
 ./download_data.sh restricted
 ./download_data.sh interaction
-make preprocess-ehr-sources
-make preprocess-interaction-mvp
+make download-nejm-open
+.venv/bin/python -m etl.build_ehr_sources --allow-shortfall
+.venv/bin/python -m etl.build_interaction_mvp --allow-shortfall
+make preprocess-evidence
+.venv/bin/python tools/update_dataset_inventory.py
 ```
 
 先构建 EHR 来源暂存输入，再合并交互数据。交互构建步骤会同时将全部来源病例
 转换为 `data/processed/evidence/` 下的无时序病例。已有暂存输入时，可用
 `make preprocess-evidence` 直接重建。数据源要求见[数据准备说明](docs/data_setup.md)。
+
+其中缺口选项会明确记录 PatientSim 授权数据缺失。准备完整授权数据后，
+`make preprocess-all` 会严格检查 420 例配额。
 
 ### 4. 验证
 
@@ -117,7 +125,7 @@ make validate   # Python 测试、前端静态检查和前端生产构建
 make demo       # 命令行 Arena 演示
 ```
 
-完整测试套件依赖全部 188 个无时序病例产物。请在完整数据准备后运行；仅构建公开经典轨道并不足以形成完整测试环境。
+完整测试套件依赖全部 393 个无时序病例产物。请在完整数据准备后运行；仅构建公开经典轨道并不足以形成完整测试环境。
 
 ## 应用路由
 
@@ -171,7 +179,7 @@ cp .env.example .env  # 仅在本地尚无 .env 时执行，并编辑其中配�
 docker compose up --build
 ```
 
-Compose 配置使用 PostgreSQL、执行数据库迁移，并挂载本地 `data/` 和只读的 `dataset/`。当前 SQLAlchemy 数据结构包含 **21 张表**；数据库初始化加载统一病例清单（完整构建后共 188 个病例）。此配置用于开发，不是生产部署方案。
+Compose 配置使用 PostgreSQL、执行数据库迁移，并挂载本地 `data/` 和只读的 `dataset/`。当前 SQLAlchemy 数据结构包含 **21 张表**；数据库初始化加载统一病例清单（完整构建后共 393 个病例）。此配置用于开发，不是生产部署方案。
 
 ## 项目文档
 

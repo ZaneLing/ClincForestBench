@@ -112,12 +112,13 @@ HAS_WORD = re.compile(
     r"\uac00-\ud7af\u0400-\u04ff\u0600-\u06ff]{2}"
 )
 HAS_NON_ENGLISH_SCRIPT = re.compile(
-    r"[ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯẠ-ỹ"
+    r"[À-ÖØ-öø-ÿĀ-žƠơƯưẠ-ỹ"
     r"\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af\u0400-\u04ff\u0600-\u06ff]"
 )
 HAS_EAST_ASIAN_SCRIPT = re.compile(
     r"[\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af]"
 )
+HAS_VIETNAMESE_LETTER = re.compile(r"[ĂăĐđĨĩŨũƠơƯưẠ-ỹ]")
 ENGLISH_WORD = re.compile(r"[A-Za-z][A-Za-z'-]*")
 ENGLISH_OVERRIDES = {
     "Nạo VA": "Adenoidectomy",
@@ -130,6 +131,15 @@ EVIDENCE_COPY = {
     "Source dataset": "来源数据集",
     "Dataset-specific workflow taxonomy": "数据集专属工作流分类",
     "CORTISOL, SERUM": "血清皮质醇",
+    "TIBC": "总铁结合力",
+    "CHF": "充血性心力衰竭",
+    "CVP": "中心静脉压",
+    "asthma": "哮喘",
+    "bladder": "膀胱",
+    "dementia": "痴呆",
+    "encephalopathy": "脑病",
+    "hypothyroidism": "甲状腺功能减退",
+    "varices": "静脉曲张",
 }
 
 
@@ -145,12 +155,20 @@ def load_env(path: Path) -> None:
 
 
 def manifest_case_paths() -> list[Path]:
-    paths: list[Path] = []
+    from etl.common import ddx_config
+
+    # Classic DDXPlus cases reference the shared public catalogs instead of
+    # embedding their question labels in each case's action_space.
+    catalog_directory = ROOT / ddx_config()["paths"]["raw_dir"]
+    paths: list[Path] = [
+        catalog_directory / "release_evidences.json",
+        catalog_directory / "release_conditions.json",
+    ]
     manifests = [
-        ROOT / "data/manifests/mvp50_manifest.json",
-        ROOT / "data/manifests/synthea_mvp50_manifest.json",
-        ROOT / "data/manifests/medagentbench_mvp30_manifest.json",
-        ROOT / "data/manifests/evidence_mvp58_manifest.json",
+        ROOT / "data/manifests/ddxplus_manifest.json",
+        ROOT / "data/manifests/synthea_manifest.json",
+        ROOT / "data/manifests/medagentbench_manifest.json",
+        ROOT / "data/manifests/evidence_manifest.json",
     ]
     for manifest_path in manifests:
         if not manifest_path.exists():
@@ -161,10 +179,10 @@ def manifest_case_paths() -> list[Path]:
                 if item.get(key):
                     paths.append(ROOT / item[key])
     tree_manifests = [
-        ROOT / "data/manifests/mvp50_tree_manifest.json",
-        ROOT / "data/manifests/synthea_mvp50_tree_manifest.json",
-        ROOT / "data/manifests/medagentbench_mvp30_tree_manifest.json",
-        ROOT / "data/manifests/evidence_mvp58_tree_manifest.json",
+        ROOT / "data/manifests/ddxplus_tree_manifest.json",
+        ROOT / "data/manifests/synthea_tree_manifest.json",
+        ROOT / "data/manifests/medagentbench_tree_manifest.json",
+        ROOT / "data/manifests/evidence_tree_manifest.json",
     ]
     for manifest_path in tree_manifests:
         if not manifest_path.exists():
@@ -181,8 +199,12 @@ def is_translatable(key: str, value: str) -> bool:
     text = value.strip()
     if key in PROTECTED_KEYS or len(text) < 2:
         return False
-    if ID_LIKE.fullmatch(text) or not HAS_WORD.search(text):
+    if not HAS_WORD.search(text):
         return False
+    if ID_LIKE.fullmatch(text):
+        # Human-facing single-word clinical labels are not protocol IDs.
+        return key in {"label", "display", "question_en", "display_name", "condition_name",
+                       "source_label"} and bool(re.fullmatch(r"[A-Za-z]{3,}", text))
     return True
 
 
@@ -207,7 +229,8 @@ def collect_strings(
         for child_key, child in value.items():
             # Bilingual catalog labels already have their own display contract.
             # Private provenance and duplicate global catalogs are not case copy.
-            if child_key in {"source_provenance", "catalog_items", "outcome_catalog", "action_space"}:
+            # Action labels are displayed even when their result is unavailable.
+            if child_key in {"source_provenance", "catalog_items", "outcome_catalog"}:
                 continue
             yield from collect_strings(child, source_is_non_english, child_key)
     elif isinstance(value, list):
@@ -218,8 +241,12 @@ def collect_strings(
         if embedded is not None:
             yield from collect_strings(embedded, source_is_non_english, key)
         elif is_translatable(key, value):
-            yield value.strip(), source_is_non_english or bool(
-                HAS_NON_ENGLISH_SCRIPT.search(value)
+            # Mixed Vietnamese files contain English metadata; English medical
+            # names can also contain Latin accents (for example, Guillain-Barré).
+            yield value.strip(), bool(
+                HAS_EAST_ASIAN_SCRIPT.search(value)
+                or HAS_VIETNAMESE_LETTER.search(value)
+                or (source_is_non_english and HAS_NON_ENGLISH_SCRIPT.search(value))
             )
 
 
@@ -251,6 +278,31 @@ def collect_corpora() -> dict[str, tuple[list[str], list[str]]]:
             all_text.add(text)
             if needs_english:
                 non_english_text.add(text)
+    # Runtime labels can differ from stored questions (for example, Synthea
+    # removes "Review recorded observation:"). Keep their case access boundary.
+    from backend.app.services.case_service import CaseService
+    from backend.app.services.encounter_catalog import EncounterCatalog
+
+    cases = CaseService()
+    catalog = EncounterCatalog(cases)
+    used = set()
+    for case_id, bindings in catalog.bindings.items():
+        case = cases.get(case_id)
+        access = case.source_provenance.get("source", {}).get("access_class", "")
+        private = case.generation_mode == "SOURCE_BACKED_EVIDENCE" and not access.startswith("PUBLIC")
+        all_text, non_english_text = corpora["private" if private else "public"]
+        for item_id in bindings:
+            used.add(item_id)
+            for text, needs_english in collect_strings(catalog.items[item_id]["label"]["en"], False, "label"):
+                all_text.add(text)
+                if needs_english:
+                    non_english_text.add(text)
+    for item_id in catalog.items.keys() - used:
+        scope = "private" if ":source_" in item_id else "public"
+        for text, needs_english in collect_strings(catalog.items[item_id]["label"]["en"], False, "label"):
+            corpora[scope][0].add(text)
+            if needs_english:
+                corpora[scope][1].add(text)
     return {
         scope: (sorted(all_text), sorted(non_english_text))
         for scope, (all_text, non_english_text) in corpora.items()
@@ -671,7 +723,8 @@ def reconcile_existing_locales(scope: str = "all") -> None:
                if source in zh})
     catalog = EncounterCatalog(CaseService())
     zh.update({item["label"]["en"]: item["label"]["zh-CN"]
-               for item in catalog.items.values()})
+               for item in catalog.items.values()
+               if HAS_EAST_ASIAN_SCRIPT.search(item["label"]["zh-CN"])})
     for item in catalog.items.values():
         if not HAS_EAST_ASIAN_SCRIPT.search(item["label"]["en"]):
             en.setdefault(item["label"]["zh-CN"], item["label"]["en"])

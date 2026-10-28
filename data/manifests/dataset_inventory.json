@@ -1,24 +1,50 @@
 {
   "protocol": "UNORDERED_EVIDENCE",
-  "case_count": 188,
+  "case_count": 393,
   "dataset_count": 14,
+  "requested_cases_per_dataset": 30,
+  "requested_total": 420,
+  "quota_complete": false,
   "dataset_case_counts": {
-    "DDXPlus": 50,
-    "MC-MED": 10,
-    "MIMIC": 10,
+    "DDXPlus": 30,
+    "MC-MED": 30,
+    "MIMIC": 30,
     "MedAgentBench": 30,
-    "MedDialogRubrics": 3,
-    "MedMemoryBench": 3,
-    "MedPI": 3,
-    "Meddies Persona VIE": 3,
-    "MediScope": 3,
-    "NEJM CPC": 5,
-    "PMC Case Reports": 5,
+    "MedDialogRubrics": 30,
+    "MedMemoryBench": 30,
+    "MedPI": 30,
+    "Meddies Persona VIE": 30,
+    "MediScope": 30,
+    "NEJM CPC": 30,
+    "PMC Case Reports": 30,
     "PatientSim": 3,
-    "Synthea": 50,
-    "eICU-CRD": 10
+    "Synthea": 30,
+    "eICU-CRD": 30
   },
-  "counting_unit": "Runnable case from the current CaseService manifests",
+  "shortfalls": {
+    "PatientSim": {
+      "requested": 30,
+      "actual": 3,
+      "reason": "AUTHORIZED_SOURCE_REQUIRED"
+    }
+  },
+  "counting_unit": "Runnable source-backed case from current manifests",
+  "sampling_notes": {
+    "MedMemoryBench": {
+      "case_count": 30,
+      "source_persona_count": 20,
+      "unit": "Non-overlapping source event window; shared personas are not independent patients"
+    },
+    "MedPI": {
+      "case_count": 30,
+      "source_patient_profile_count": 24,
+      "unit": "Distinct source conversation; shared profiles are not independent patients"
+    },
+    "NEJM CPC": {
+      "open_fulltext_cases": 27,
+      "pubmed_abstract_cases": 3
+    }
+  },
   "linked_modalities": {
     "MIMIC": [
       "MIMIC-IV-Note",

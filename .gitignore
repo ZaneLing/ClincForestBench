@@ -38,6 +38,7 @@ dataset/**/*.csv
 dataset/**/*.csv.gz
 dataset/**/*.zip
 dataset/**/*.xml
+dataset/nejm_cpc/*.json
 dataset/**/*.jsonl
 dataset/**/*.xlsx
 dataset/**/*.tar
@@ -77,5 +78,5 @@ model/**
 NewData/
 
 # Local record-level evidence manifests (including restricted source references).
-data/manifests/evidence_mvp58_manifest.json
-data/manifests/evidence_mvp58_tree_manifest.json
+data/manifests/evidence_manifest.json
+data/manifests/evidence_tree_manifest.json

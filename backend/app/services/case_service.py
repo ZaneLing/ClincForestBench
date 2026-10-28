@@ -12,9 +12,9 @@ class CaseService:
     """Load all tracks while retaining each case's native action vocabulary."""
 
     OPTIONAL_MANIFESTS = (
-        "data/manifests/synthea_mvp50_manifest.json",
-        "data/manifests/medagentbench_mvp30_manifest.json",
-        "data/manifests/evidence_mvp58_manifest.json",
+        "data/manifests/synthea_manifest.json",
+        "data/manifests/medagentbench_manifest.json",
+        "data/manifests/evidence_manifest.json",
     )
 
     def __init__(self, root: Path | None = None, *, include_evidence: bool = True) -> None:
@@ -35,12 +35,14 @@ class CaseService:
         raw_dir = path_from_root(self.config["paths"]["raw_dir"])
         manifest_path = (
             path_from_root(self.config["paths"]["manifests_dir"])
-            / "mvp50_manifest.json"
+            / "ddxplus_manifest.json"
         )
         if not manifest_path.exists():
             raise RuntimeError("Case bundles are missing; run `python -m etl.run_pipeline`")
         ddx_manifest = load_json(manifest_path)
-        self._manifest_documents = {"mvp50_v1": ddx_manifest}
+        # File names and sample quotas may change; historical revision IDs must
+        # remain stable for unchanged cases and their recorded play histories.
+        self._manifest_documents = {self.config["dataset"]["case_manifest_version"]: ddx_manifest}
         self._cases = {
             row["case_id"]: CaseBundle.model_validate(
                 load_json(self.root / row["path"])
@@ -89,7 +91,7 @@ class CaseService:
         }
 
         for relative_manifest in self.OPTIONAL_MANIFESTS:
-            if not self.include_evidence and "evidence_mvp58" in relative_manifest:
+            if not self.include_evidence and "evidence" in relative_manifest:
                 continue
             optional_path = self.root / relative_manifest
             if not optional_path.exists():

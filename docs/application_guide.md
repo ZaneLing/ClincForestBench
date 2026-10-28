@@ -13,7 +13,7 @@ Open `http://localhost:3000/research`. The first MVP case loads automatically in
 
 DDXPlus has no recorded lab, imaging, examination, procedure or treatment events, so the MVP does not fabricate them. The output is explicitly a canonical ground-truth **exposure tree**, not an observed clinician chronology. See [case_tree_schema.md](case_tree_schema.md) for the schema and interpretation boundary.
 
-The unified inspector contains 188 cases across 14 datasets, including 58 converted source cases. All use unordered evidence access. The interaction slice contains three cases each from MediScope, MedPI, PatientSim, Meddies Persona VIE, MedMemoryBench, and MedDialogRubrics. Synthea is labeled `NATURAL_CSV_EXPORT`. MedAgentBench is labeled `OFFLINE_TASK_REPLAY`: it does not claim that a FHIR request returned a lab value or created a resource.
+The unified inspector contains 393 cases across 14 datasets, including 303 converted source cases. All use unordered evidence access. The interaction slice contains 30 cases each from MediScope, MedPI, Meddies Persona VIE, MedMemoryBench, and MedDialogRubrics, plus three available PatientSim demo profiles. Synthea is labeled `NATURAL_CSV_EXPORT`. MedAgentBench is labeled `OFFLINE_TASK_REPLAY`: it does not claim that a FHIR request returned a lab value or created a resource.
 
 ## Concrete converted patient example
 
@@ -38,7 +38,7 @@ The full 223-field dense truth remains in the linked versioned case bundle and i
 ## Physician Visit and canonical model questions
 
 The physician `/arena` uses the shared operation and inquiry libraries across
-all 188 cases. Each action requires a recorded reason and returns its source
+all 393 cases. Each action requires a recorded reason and returns its source
 result immediately. Missing source results end the visit and preserve its
 trajectory. A diagnosis can be entered or revised at any time; completion
 requires a diagnosis. See the [Visit protocol](encounter_protocol.md).
@@ -65,7 +65,7 @@ The global `EN / 中文` control switches both interface copy and case content. 
 
 `/model-arena` reads the current OpenRouter catalog and groups selectable models by provider/company before dataset and case selection. A run advances one server-validated turn at a time: the model receives the current public patient state, recent decision evolution, explicit early-stopping signals, and the complete condition and action libraries; it returns one strict JSON decision, submits its ordered stage diagnosis, and either asks one currently available non-repeated high-yield action or finalizes one unique outcome. The normal target is 3–10 questions, stable Top-1 decisions are prompted to finalize, and 30 remains only a hard emergency ceiling. Invalid IDs, repeated diagnoses/questions, locked child actions, and attempts to exceed the cap are rejected by the canonical Arena state machine. The browser can auto-advance, pause, single-step, retry a failed round, and recover persisted active runs after a page reload.
 
-The same `/model-arena` loop supports all 188 cases, including the 58 additional source cases. Each source-backed evidence action immediately returns its fixed recorded result. There is no simulation clock, waiting action, pending result, sequential source unlocking, or clinical time score. Model/provider latency is retained only as execution telemetry. Source dates remain clinical content or provenance.
+The same `/model-arena` loop supports all 393 cases, including the 303 additional source cases. Each source-backed evidence action immediately returns its fixed recorded result. There is no simulation clock, waiting action, pending result, sequential source unlocking, or clinical time score. Model/provider latency is retained only as execution telemetry. Source dates remain clinical content or provenance.
 
 Every model request payload, raw OpenRouter response, extracted decision JSON, validation/application result, error, and latency is persisted without the API key. During play they are visible in a four-tab round inspector. Completion reuses the same three-tree comparison as human play—model path, Ground Truth, and a model-only case forest accumulated across completed model runs—and exports a versioned `clincforestbench.model-arena-run.v1` artifact containing the full exchange archive.
 

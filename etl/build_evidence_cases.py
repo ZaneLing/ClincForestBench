@@ -23,8 +23,8 @@ from etl.source_adapters.loader import SourceCaseLoader
 from etl.common import dump_json, path_from_root, sha256_file
 
 VERSION = "evidence_v1"
-MANIFEST = "data/manifests/evidence_mvp58_manifest.json"
-TREE_MANIFEST = "data/manifests/evidence_mvp58_tree_manifest.json"
+MANIFEST = "data/manifests/evidence_manifest.json"
+TREE_MANIFEST = "data/manifests/evidence_tree_manifest.json"
 OUTPUT = "data/processed/evidence"
 SOURCE_ONLY_KEYS = {
     "source_time", "time_is_sequence_proxy", "source_sentence_index",

@@ -4,24 +4,25 @@
 
 A reproducible clinical decision benchmark that records how physicians and models acquire evidence, revise diagnoses, and build a shared forest of decision paths. Source-backed patient responses are deterministic; models choose actions but do not generate patient results.
 
-**Status: runnable research MVP; clinical adjudication and large-scale evaluation are still pending.** The current local manifests contain **188 Cases across 14 dataset tracks**. Generated patient-level artifacts are excluded from Git and must be rebuilt locally.
+**Status: runnable research MVP; clinical adjudication and large-scale evaluation are still pending.** The current local manifests contain **393 Cases across 14 dataset tracks**. Generated patient-level artifacts are excluded from Git and must be rebuilt locally.
 
 [Quick start](#quick-start) · [Dataset coverage](#dataset-coverage) · [Project progress](#project-progress) · [Documentation](docs/README.md)
 
 ## Project progress
 
-Repository status reviewed on **2026-10-12**.
+Repository status reviewed on **2026-10-28**.
 
-Local verification on that date: `make validate` passed (Python tests,
-frontend lint, and production build). Browser end-to-end behavior and the
-Docker/PostgreSQL profile were not revalidated in this documentation update.
+Local verification: all 94 Python tests, frontend lint, and the production
+build passed. The running API reports 393 unordered cases; bilingual mapping
+coverage has no gaps. Browser end-to-end behavior and the Docker/PostgreSQL
+profile were not revalidated in this update.
 
 | Area | Implemented | Remaining work |
 | --- | --- | --- |
 | Data pipeline | Raw-source validation, deterministic conversion, versioned manifests, case hashes, and raw-to-tree audit | Clinical review of mappings, reference labels, and presentation extraction |
 | Human Arena | Accounts, evidence actions, staged diagnosis rankings, replay, personal history, and population forests | Broader physician participation and subgroup studies |
 | Model Arena | OpenRouter model selection, validated decisions, pause/resume, full exchange archive, and model-only forests | Fixed-protocol, multi-case, repeated model evaluation |
-| Source evidence | 58 additional cases converted into independent action/result branches in the unified runtime | Clinical adjudication of mappings and reference labels |
+| Source evidence | 303 additional cases converted into independent action/result branches in the unified runtime | Clinical adjudication of mappings and reference labels |
 | Analysis | Accuracy/rank metrics, belief shifts, branch entropy, reference Naive Bayes, and export/snapshot helpers | Advanced trajectory and physician-comparison studies |
 | Localization | English/Chinese interface and case-content dictionaries | Regenerate dictionaries when case artifacts change |
 
@@ -38,23 +39,26 @@ Counts describe the current local manifests, not patient records distributed wit
 
 | Track | Cases | Interpretation |
 | --- | ---: | --- |
-| DDXPlus | 50 | Ground-truth evidence exposure trees; 223 evidence fields and 49 catalog conditions |
-| Synthea | 50 | Encounter-linked observations, procedures, and medications |
+| DDXPlus | 30 | Ground-truth evidence exposure trees; 223 evidence fields and 49 catalog conditions |
+| Synthea | 30 | Encounter-linked observations, procedures, and medications |
 | MedAgentBench | 30 | Offline task/workflow replay; no live FHIR execution |
-| MC-MED | 10 | Source-backed emergency presentation Cases |
-| MIMIC-IV multimodal | 10 | Admission Cases with linked Note, ECG, and ED modalities |
-| eICU-CRD | 10 | Early ICU clinical assessment |
-| PMC Case Reports | 5 | Provisional narrative evidence Cases |
-| NEJM CPC | 5 | Provisional PubMed-record narrative Cases |
-| MediScope | 3 | Multimodal consultation |
-| MedPI | 3 | Multi-turn consultation |
+| MC-MED | 30 | Source-backed emergency presentation Cases |
+| MIMIC-IV multimodal | 30 | Admission Cases with linked Note, ECG, and ED modalities |
+| eICU-CRD | 30 | Early ICU clinical assessment |
+| PMC Case Reports | 30 | Provisional narrative evidence Cases |
+| NEJM CPC | 30 | 27 open full-text presentations and 3 PubMed abstracts |
+| MediScope | 30 | Multimodal consultation with source diagnostic statement proxies |
+| MedPI | 30 | Distinct diagnosis conversations from 24 patient profiles |
 | PatientSim | 3 | Official public demo profiles |
-| Meddies Persona VIE | 3 | Vietnamese persona profiles |
-| MedMemoryBench | 3 | Longitudinal memory |
-| MedDialogRubrics | 3 | Expert inquiry references matched to source facts |
-| **Total** | **188** | **One unordered evidence catalog across 14 datasets** |
+| Meddies Persona VIE | 30 | Vietnamese persona profiles |
+| MedMemoryBench | 30 | Disjoint source event windows from 20 personas |
+| MedDialogRubrics | 30 | Expert inquiry references matched to source facts |
+| **Total** | **393** | **One unordered evidence catalog across 14 datasets** |
 
 Aggregate counts are recorded in [dataset_inventory.json](data/manifests/dataset_inventory.json).
+The requested quota is **30 per dataset (420 total)**. The current **27-case
+shortfall** is PatientSim, whose full release requires an authorized PhysioNet
+export. See [quota and sampling details](docs/dataset_quota.md).
 MIMIC Note, ECG, and ED are linked modalities, not separately counted dataset tracks. Interaction reference labels are explicitly non-adjudicated. See the [source evidence status](docs/source_evidence.md) and [interaction contract](docs/interaction_mvp.md).
 
 ## Quick start
@@ -63,7 +67,7 @@ The physician Arena now uses a unified Visit protocol: shared examination and
 inquiry libraries, required reasons at each step, persisted termination on a
 missing inquiry answer or examination result, diagnosis at any time during an
 active visit, and optional post-diagnosis plans.
-The 188-case local inventory currently yields 309 operation and 397 inquiry
+The 393-case local inventory currently yields 354 operation and 1127 inquiry
 items. See the [protocol and mapping guide](docs/encounter_protocol.md).
 
 ### 1. Install and build the public classic tracks
@@ -79,7 +83,7 @@ make preprocess-ddxplus
 make preprocess-workflows
 ```
 
-This builds the 130 classic Cases. Downloaded inputs and generated outputs stay local. The downloader's default `all` profile includes public core and interaction inputs; it **does not** download credentialed PhysioNet sources.
+This builds the 90 classic Cases. Downloaded inputs and generated outputs stay local. The downloader's default `all` profile includes public core and interaction inputs; it **does not** download credentialed PhysioNet sources.
 
 ### 2. Run the application
 
@@ -103,16 +107,21 @@ Model testing additionally requires `OPENROUTER_API_KEY` in a local `.env`. Star
 
 ### 3. Add source evidence and interaction cases
 
-Rebuilding all 188 Cases requires approved access to the relevant restricted datasets, as well as the public sources. After obtaining access and configuring PhysioNet credentials:
+Rebuilding all 393 Cases requires approved access to the relevant restricted datasets, as well as the public sources. After obtaining access and configuring PhysioNet credentials:
 
 ```bash
 ./download_data.sh restricted
 ./download_data.sh interaction
-make preprocess-ehr-sources
-make preprocess-interaction-mvp
+make download-nejm-open
+.venv/bin/python -m etl.build_ehr_sources --allow-shortfall
+.venv/bin/python -m etl.build_interaction_mvp --allow-shortfall
+make preprocess-evidence
+.venv/bin/python tools/update_dataset_inventory.py
 ```
 
 Build the EHR source staging inputs before merging the interaction slice.
+The shortfall option explicitly records the missing PatientSim authorization.
+With all sources authorized, `make preprocess-all` enforces the full 420-case quota.
 The interaction step also converts all source episodes into unordered bundles
 under `data/processed/evidence/`. If staging inputs already exist, use
 `make preprocess-evidence` to regenerate them. See [data setup](docs/data_setup.md).
@@ -125,7 +134,9 @@ make validate   # Python tests, frontend lint, and frontend production build
 make demo       # command-line Arena demonstration
 ```
 
-The full test suite expects all 188 generated unordered cases. Run it after the full data setup; a public-classic-only installation is not a complete test fixture.
+The full test suite expects all 393 generated unordered cases. Run it after the full data setup; a public-classic-only installation is not a complete test fixture.
+New case text can be translated locally using the optional
+`offline-translation` dependencies and the workflow in [quota details](docs/dataset_quota.md).
 
 ## Application routes
 
@@ -179,7 +190,7 @@ cp .env.example .env  # only if a local .env does not already exist; edit its va
 docker compose up --build
 ```
 
-The Compose profile uses PostgreSQL, applies migrations, and mounts local `data/` and read-only `dataset/`. The current SQLAlchemy schema has **21 tables**; database seeding loads the available unified case manifests (188 cases after the complete build), rather than the full source population. This profile is a development setup, not a production deployment recipe.
+The Compose profile uses PostgreSQL, applies migrations, and mounts local `data/` and read-only `dataset/`. The current SQLAlchemy schema has **21 tables**; database seeding loads the available unified case manifests (393 cases after the complete build), rather than the full source population. This profile is a development setup, not a production deployment recipe.
 
 ## Documentation
 

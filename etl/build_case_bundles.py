@@ -66,7 +66,7 @@ def main() -> None:
     processed = path_from_root(config["paths"]["processed_dir"])
     manifests = path_from_root(config["paths"]["manifests_dir"])
     raw_dir = path_from_root(config["paths"]["raw_dir"])
-    selected_table = pq.read_table(manifests / "mvp50_case_selection.parquet")
+    selected_table = pq.read_table(manifests / "ddxplus_case_selection.parquet")
     selected = {row["case_id"]: row for row in selected_table.to_pylist()}
     case_ids = list(selected)
     patient_table = pq.read_table(
@@ -152,11 +152,11 @@ def main() -> None:
 
     pq.write_table(
         pa.Table.from_pylist(truth_rows),
-        processed / "case_evidence_truth_mvp50.parquet",
+        processed / "case_evidence_truth.parquet",
         compression="zstd",
     )
     dump_json(
-        manifests / "mvp50_manifest.json",
+        manifests / "ddxplus_manifest.json",
         {
             "manifest_name": selection["manifest_name"],
             "manifest_version": selection["manifest_version"],
@@ -176,6 +176,7 @@ def main() -> None:
     ) as handle:
         writer = csv.DictWriter(
             handle,
+            lineterminator="\n",
             fieldnames=[
                 "case_id",
                 "reviewer",

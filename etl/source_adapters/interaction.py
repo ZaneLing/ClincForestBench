@@ -338,6 +338,7 @@ class MedPISourceAdapter(SourceAdapter):
     def list_cases(self, limit: int = 20) -> List[Dict[str, Any]]:
         candidates = []
         seen_patients = set()
+        additional_encounters = []
         with (self.source / "conversations_messages.jsonl").open(encoding="utf-8") as handle:
             for line in handle:
                 row = json.loads(line)
@@ -347,24 +348,25 @@ class MedPISourceAdapter(SourceAdapter):
                     not patient
                     or metadata.get("completed") != "True"
                     or patient.get("encounter_objective") != "diagnosis"
-                    or patient.get("id") in seen_patients
                 ):
                     continue
                 initial, pairs = consultation_pairs(row.get("messages") or [])
                 if len(initial) < 20 or len(pairs) < 3:
                     continue
-                candidates.append(
-                    {
+                candidate = {
                         "conversation_id": row["conversation_id"],
                         "patient_id": patient["id"],
                         "reference": patient["encounter_reason"],
                         "messages": row["messages"],
                     }
-                )
+                if patient["id"] in seen_patients:
+                    additional_encounters.append(candidate)
+                    continue
+                candidates.append(candidate)
                 seen_patients.add(patient["id"])
                 if len(candidates) >= limit:
                     break
-        return candidates
+        return (candidates + additional_encounters)[:limit]
 
     def load_case(self, candidate: Dict[str, Any]) -> SourceCase:
         conversation_id = str(candidate["conversation_id"])
@@ -424,6 +426,7 @@ class MedPISourceAdapter(SourceAdapter):
                 "ENCOUNTER_REASON_IS_A_TASK_LABEL_NOT_AN_INDEPENDENTLY_ADJUDICATED_DIAGNOSIS",
                 "ONE_SOURCE_DOCTOR_TURN_CAN_CONTAIN_MULTIPLE_QUESTIONS",
                 "UPSTREAM_LICENSE_METADATA_CONFLICT_REQUIRES_CONSERVATIVE_USE",
+                "DISTINCT_SOURCE_CONVERSATIONS_CAN_SHARE_ONE_PATIENT_PROFILE",
             ],
             queryable_context=[{"evaluation_dimensions": applicable_dimensions}],
             dataset_version="MEDPI_2025_08_14",
@@ -437,12 +440,31 @@ class PatientSimSourceAdapter(SourceAdapter):
 
     def __init__(self, root: Path = ROOT):
         super().__init__(root)
-        self.source = INTERACTION_ROOT / "patientsim/source/demo/demo_data.json"
+        directory = root / "dataset/interaction/patientsim"
+        authorized = directory / "patient_profile.json"
+        self.authorized = authorized.exists()
+        self.source = authorized if self.authorized else directory / "source/demo/demo_data.json"
+        if self.authorized:
+            self.access_class = "RESTRICTED_PHYSIONET_DUA"
 
     def list_cases(self, limit: int = 20) -> List[Dict[str, Any]]:
-        return json.loads(self.source.read_text(encoding="utf-8"))[:limit]
+        rows = json.loads(self.source.read_text(encoding="utf-8"))
+        unique = {}
+        for row in rows:
+            unique.setdefault(str(row["hadm_id"]), row)
+        return list(unique.values())[:limit]
 
     def load_case(self, candidate: Dict[str, Any]) -> SourceCase:
+        candidate = dict(candidate)
+        for target, aliases in {
+            "medical_history": ("history",),
+            "medication": ("medications",),
+            "present_illness_positive": ("positive_illness", "positiveillness"),
+            "present_illness_negative": ("negative_illness", "negativeillness"),
+        }.items():
+            if not candidate.get(target):
+                candidate[target] = next((candidate[key] for key in aliases
+                                          if candidate.get(key)), None)
         source_id = str(candidate["hadm_id"])
         case_id = f"CFB_PATIENTSIM_{slug(source_id).upper()}"
         fields = [
@@ -460,7 +482,7 @@ class PatientSimSourceAdapter(SourceAdapter):
                 "display": question,
                 "modality": modality,
                 "event_type": "PERSONA_PROFILE_ANSWER",
-                "source_table": "demo/demo_data.json",
+                "source_table": str(self.source.relative_to(self.root)),
                 "source_row_id": f"{source_id}:{field}",
                 "result": {"patient_answer": candidate.get(field), "profile_field": field},
             }
@@ -474,13 +496,16 @@ class PatientSimSourceAdapter(SourceAdapter):
             "cognitive_confusion": "normal",
             "selection_note": "Static MVP policy using official PatientSim option names; not an upstream profile assignment.",
         }
+        if self.authorized:
+            persona_policy = {key: candidate.get(key) for key in
+                              ("personality", "cefr", "recall_level", "dazed_level", "split")}
         return _make_interaction_case(
             adapter=self,
             case_id=case_id,
             source_id=source_id,
             task_type="PERSONA_CONSULTATION_MVP",
-            source_tables=["demo/demo_data.json", "src/prompts/simulation/*.json"],
-            raw_source={"demo_profile": candidate, "mvp_persona_policy": persona_policy},
+            source_tables=[str(self.source.relative_to(self.root))],
+            raw_source={"source_profile": candidate, "persona_policy": persona_policy},
             initial_state={
                 "age": candidate.get("age"),
                 "sex": candidate.get("gender"),
@@ -490,14 +515,14 @@ class PatientSimSourceAdapter(SourceAdapter):
             },
             event_specs=specs,
             reference_diagnosis=str(candidate.get("diagnosis") or "Unknown"),
-            reference_strength="PUBLIC_DEMO_PROFILE_DIAGNOSIS",
+            reference_strength="SOURCE_PROFILE_DIAGNOSIS" if self.authorized else "PUBLIC_DEMO_PROFILE_DIAGNOSIS",
             limitations=[
                 "FULL_PATIENTSIM_DATA_REQUIRES_PHYSIONET_CREDENTIALS_AND_DUA",
                 "STATIC_MVP_REPLAYS_PROFILE_FIELDS_AND_DOES_NOT_RUN_A_GENERATIVE_PATIENT_AGENT",
                 "PERSONA_AXIS_ASSIGNMENT_IS_AN_MVP_POLICY_NOT_AN_UPSTREAM_PAIRING",
             ],
             queryable_context=[{"persona_policy": persona_policy}],
-            dataset_version="PATIENTSIM_PUBLIC_DEMO_2026_03",
+            dataset_version="PATIENTSIM_PHYSIONET_1_0_0" if self.authorized else "PATIENTSIM_PUBLIC_DEMO_2026_03",
         )
 
 
@@ -512,7 +537,13 @@ class MeddiesSourceAdapter(SourceAdapter):
 
     def list_cases(self, limit: int = 20) -> List[Dict[str, Any]]:
         rows = json.loads(self.source.read_text(encoding="utf-8")).get("rows", [])
-        return [item["row"] for item in rows[:limit]]
+        unique = {}
+        for item in rows:
+            row = item["row"]
+            source_id = str((row.get("demographics") or {}).get("patient_id"))
+            if source_id != "None":
+                unique.setdefault(source_id, row)
+        return list(unique.values())[:limit]
 
     def load_case(self, candidate: Dict[str, Any]) -> SourceCase:
         demographics = candidate.get("demographics") or {}
@@ -612,16 +643,25 @@ class MedMemoryBenchSourceAdapter(SourceAdapter):
         }
 
     def list_cases(self, limit: int = 20) -> List[Dict[str, Any]]:
-        return [
-            {
-                "persona_id": persona_id,
-                "reference": self.personas[persona_id]["type_name"],
-                "event_count": sum(
-                    int(row["persona_id"]) == persona_id for row in self.events
-                ),
-            }
-            for persona_id in sorted(self.personas)[:limit]
-        ]
+        candidates = []
+        # Round-robin disjoint 31-event windows preserve patient diversity.
+        # The initial event and the 30 revealable events never overlap windows.
+        for window in range(4):
+            for persona_id in sorted(self.personas):
+                count = sum(int(row["persona_id"]) == persona_id for row in self.events)
+                start = window * 31
+                if count - start < 2:
+                    continue
+                candidates.append({
+                    "persona_id": persona_id, "window_index": window,
+                    "event_start": start, "event_stop": min(start + 31, count),
+                    "reference": self.personas[persona_id]["type_name"],
+                    "event_count": min(31, count - start),
+                    "sampling_unit": "NON_OVERLAPPING_SOURCE_EVENT_WINDOW",
+                })
+                if len(candidates) >= limit:
+                    return candidates
+        return candidates
 
     def load_case(self, candidate: Dict[str, Any]) -> SourceCase:
         persona_id = int(candidate["persona_id"])
@@ -630,10 +670,13 @@ class MedMemoryBenchSourceAdapter(SourceAdapter):
             [row for row in self.events if int(row["persona_id"]) == persona_id],
             key=lambda row: (str(row.get("event_date") or ""), int(row["event_id"])),
         )
+        start, stop = int(candidate.get("event_start", 0)), int(candidate.get("event_stop", 31))
+        events = events[start:stop]
         if len(events) < 2:
             raise ValueError("longitudinal persona has insufficient events")
         anchor_date = datetime.fromisoformat(str(events[0]["event_date"]))
-        case_id = f"CFB_MEDMEMORY_{persona_id:02d}"
+        window = int(candidate.get("window_index", 0))
+        case_id = f"CFB_MEDMEMORY_{persona_id:02d}_W{window + 1:02d}"
         specs = []
         for row in events[1:31]:
             event_date = datetime.fromisoformat(str(row["event_date"]))
@@ -660,27 +703,26 @@ class MedMemoryBenchSourceAdapter(SourceAdapter):
                     },
                 }
             )
-        traps = [row for row in self.traps if int(row["persona_id"]) == persona_id]
-        queries = [row for row in self.queries if int(row["persona_id"]) == persona_id]
-        report = self.reports.get(persona_id, {})
+        event_ids = {int(row["event_id"]) for row in events}
+        traps = [row for row in self.traps if int(row["persona_id"]) == persona_id
+                 and row.get("event_id") in event_ids]
         return _make_interaction_case(
             adapter=self,
             case_id=case_id,
-            source_id=str(persona_id),
+            source_id=f"{persona_id}:window:{window + 1}",
             task_type="LONGITUDINAL_MEMORY_REPLAY",
             source_tables=[
                 "personas.parquet",
                 "events.parquet",
                 "trap_events.parquet",
-                "queries.parquet",
-                "clinical_reports.parquet",
             ],
             raw_source={
                 "persona": persona,
                 "events": events,
                 "trap_events": traps,
-                "evaluation_queries": queries,
-                "clinical_report": report,
+                "sampling_unit": "NON_OVERLAPPING_SOURCE_EVENT_WINDOW",
+                "source_persona_id": persona_id,
+                "source_event_range": [events[0]["event_id"], events[-1]["event_id"]],
             },
             initial_state={
                 "sex": persona.get("gender"),
@@ -698,12 +740,11 @@ class MedMemoryBenchSourceAdapter(SourceAdapter):
                 "MVP_USES_STRUCTURED_EVENTS_NOT_THE_LARGE_DIALOGUE_PARQUET",
                 "SOURCE_DISEASE_TYPE_IS_A_PERSONA_LABEL_NOT_REAL_WORLD_ADJUDICATION",
                 "UPSTREAM_LICENSE_METADATA_CONFLICT_REQUIRES_CONSERVATIVE_USE",
+                "MULTIPLE_DISJOINT_EVENT_WINDOWS_CAN_SHARE_ONE_PERSONA",
             ],
             queryable_context=[
                 {
                     "trap_events": traps,
-                    "evaluation_queries": queries[:25],
-                    "clinical_report": report,
                 }
             ],
             dataset_version="MEDMEMORYBENCH_V1_EN_MVP",
@@ -713,7 +754,7 @@ class MedMemoryBenchSourceAdapter(SourceAdapter):
 class MedDialogRubricsSourceAdapter(SourceAdapter):
     dataset_slug = "meddialogrubrics"
     dataset_name = "MedDialogRubrics"
-    access_class = "PUBLIC_FILE_LICENSE_UNDECLARED_NO_REDISTRIBUTION"
+    access_class = "LOCAL_ONLY_FILE_LICENSE_UNDECLARED_NO_REDISTRIBUTION"
 
     def __init__(self, root: Path = ROOT):
         super().__init__(root)
@@ -815,6 +856,17 @@ def _mediscope_reference(text: str) -> str:
         if matches:
             value = re.sub(r"^(?:有|存在)", "", matches[-1]).strip()
             return value
+    # Preserve an explicit source diagnostic statement as a provisional label;
+    # do not infer a diagnosis from the uploaded report or patient symptoms.
+    turns = parse_speaker_turns(text)
+    for turn in reversed(turns):
+        if turn["role"] != "doctor":
+            continue
+        for sentence in re.split(r"[。；\n]", turn["content"]):
+            if re.search(r"可能是|提示.{0,12}(?:炎|病|异常|感染)|符合|初步考虑|考虑(?:有|为|是)|诊断(?:是|为)", sentence):
+                value = sentence.strip()
+                if 4 <= len(value) <= 140 and not re.search(r"建议|检查一下|排除", value):
+                    return value
     return ""
 
 

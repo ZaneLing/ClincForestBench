@@ -21,7 +21,7 @@ small and auditable, while `download_data.sh` recreates permitted sources.
 | `tools/api_smoke/` | optional external-provider connectivity probes | scripts tracked; `.env` ignored |
 | `tools/build_case_translations.py` | public/restricted case dictionary generator | tracked |
 | `locales/cases/` | public English and Simplified Chinese case dictionaries | tracked; restricted translations stay under `data/processed/locales/cases/` |
-| `data/manifests/` | small versioned selection, QA, and case/tree manifests | base manifests tracked; patient-level `evidence_mvp58*` manifests ignored |
+| `data/manifests/` | small versioned selection, QA, and case/tree manifests | base manifests tracked; patient-level `evidence*` manifests ignored |
 | `dataset/` | upstream source datasets and provenance notes | notes/small permitted metadata tracked; large and restricted payloads ignored |
 | `data/processed/` | generated Case bundles, Parquet tables, and trees | ignored |
 | `data/exports/` | session exports | ignored |

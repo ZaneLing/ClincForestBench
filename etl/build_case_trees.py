@@ -328,7 +328,7 @@ def main() -> None:
     manifests = path_from_root(config["paths"]["manifests_dir"])
     raw_dir = path_from_root(config["paths"]["raw_dir"])
     processed = path_from_root(config["paths"]["processed_dir"])
-    manifest = load_json(manifests / "mvp50_manifest.json")
+    manifest = load_json(manifests / "ddxplus_manifest.json")
     cases = CaseService()
     condition_names = set(cases.condition_catalog)
     category_by_condition, taxonomy = disease_category_map(condition_names)
@@ -412,7 +412,7 @@ def main() -> None:
         )
 
     tree_manifest = {
-        "manifest_name": "DDXPlus MVP-50 ground-truth exposure trees",
+        "manifest_name": "DDXPlus selected ground-truth exposure trees",
         "manifest_version": selection["manifest_version"],
         "tree_schema_version": TREE_SCHEMA_VERSION,
         "taxonomy_version": taxonomy["taxonomy_version"],
@@ -426,7 +426,7 @@ def main() -> None:
         "all_checks_pass": all(item["all_checks_pass"] for item in entries),
         "cases": entries,
     }
-    dump_json(manifests / "mvp50_tree_manifest.json", tree_manifest)
+    dump_json(manifests / "ddxplus_tree_manifest.json", tree_manifest)
     print(
         f"Built {len(entries)} raw projections and case trees across "
         f"{tree_manifest['category_count']} disease categories"

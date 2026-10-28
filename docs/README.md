@@ -9,6 +9,7 @@ installation, verification commands, and release boundaries.
 | [Local development](development.md) | One-command startup, launcher options, logs, and validation |
 | [Application guide](application_guide.md) | Arena behavior, model rounds, case inspection, result comparison, exports, and localization |
 | [Data setup](data_setup.md) | Public/restricted download profiles and ordered artifact rebuilding |
+| [Dataset quotas](dataset_quota.md) | Thirty-case targets, actual shortfalls, sampling units and local translation |
 | [Repository layout](repository_layout.md) | Directory responsibilities and what belongs in Git |
 | [Architecture](architecture.md) | Domain separation, persistence, model orchestration, and data boundaries |
 | [Case-tree schema](case_tree_schema.md) | Classic source-to-tree representation and interpretation |

@@ -41,11 +41,11 @@ Model play is an orchestration layer over the same `ArenaService`, never a secon
 
 ## Unified unordered evidence boundary
 
-All 188 local cases across 14 datasets use `CaseService` and the shared Arena,
-Model Arena, history, research inspector, and forest. The 58 additional source
+All 393 local cases across 14 datasets use `CaseService` and the shared Arena,
+Model Arena, history, research inspector, and forest. The 303 additional source
 episodes are converted by `etl.build_evidence_cases` into `CaseBundle` objects
 under `data/processed/evidence/`, listed in
-`data/manifests/evidence_mvp58_manifest.json`.
+`data/manifests/evidence_manifest.json`.
 
 ```text
 EHR / narrative / consultation / persona / memory / rubric source records

@@ -16,11 +16,10 @@ def evidence_cases(cases):
             if case.generation_mode == "SOURCE_BACKED_EVIDENCE"]
 
 
-def test_all_188_cases_use_shared_runtime_and_58_converted_cases_are_unordered(cases):
-    assert len(cases.cases) == 188
+def test_all_cases_use_shared_runtime_and_converted_cases_are_unordered(cases):
     assert len(Counter(case.dataset.name for case in cases.cases.values())) == 14
     converted = evidence_cases(cases)
-    assert len(converted) == 58
+    assert len(converted) == len(cases.cases) - 90
     trees = CaseTreeService(cases.root)
     for case in converted:
         assert case.case_hash == case.compute_hash()
@@ -74,16 +73,16 @@ def test_source_records_are_preserved_and_case_answers_do_not_cross(cases):
                 (r["source_id"], r["result"]) for r in records]
             assert case.truth_map()[eid].value == [r["result"] for r in records]
     memory = [case for case in evidence_cases(cases) if case.dataset.name == "MedMemoryBench"]
-    assert len(memory) == 3
+    assert len(memory) == 30
     for case in memory:
         assert all(item.parent_evidence_id is None for item in case.action_space)
 
 
 def test_api_has_one_case_catalog_and_no_temporal_runtime(cases):
     client = TestClient(create_app(cases))
-    assert client.get("/health").json()["case_count"] == 188
-    assert len(client.get("/cases").json()["cases"]) == 188
-    assert len(client.get("/research/forest/cases").json()["cases"]) == 188
+    assert client.get("/health").json()["case_count"] == len(cases.cases)
+    assert len(client.get("/cases").json()["cases"]) == len(cases.cases)
+    assert len(client.get("/research/forest/cases").json()["cases"]) == len(cases.cases)
     assert not any("temporal" in route.path or route.path.endswith("/wait")
                    for route in client.app.routes)
     headers = {"X-Research-Key": "local-research-only"}

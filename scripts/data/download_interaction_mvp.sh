@@ -28,10 +28,17 @@ download_rows() {
   local length="$4"
   local output="$5"
   local partial="${output}.part"
+  local py="${ROOT_DIR}/.venv/bin/python"
+  local row_count=0
+  [[ -x "$py" ]] || py=python3
   mkdir -p "$(dirname "$output")"
   if [[ -s "$output" && "$FORCE" != "1" ]]; then
-    echo "[skip] ${output#$ROOT_DIR/}"
-    return
+    row_count=$("$py" -c 'import json,sys; print(len(json.load(open(sys.argv[1])).get("rows", [])))' "$output") || row_count=0
+    if (( row_count >= length )); then
+      echo "[skip] ${output#$ROOT_DIR/}"
+      return
+    fi
+    echo "[refresh] cached export has $row_count rows; requested $length"
   fi
   [[ "$FORCE" == "1" ]] && rm -f "$partial"
   echo "[download] ${output#$ROOT_DIR/}"
@@ -74,7 +81,7 @@ fi
 
 download "https://huggingface.co/datasets/Meddies/meddies-persona-vie/raw/main/README.md" \
   "$DATA_DIR/meddies-persona-vie/README.upstream.md"
-download_rows "Meddies/meddies-persona-vie" "default" "train" "12" \
+download_rows "Meddies/meddies-persona-vie" "default" "train" "100" \
   "$DATA_DIR/meddies-persona-vie/mvp_rows.json"
 
 download "https://huggingface.co/datasets/Cyan27/MedMemoryBench/raw/main/README.md" \

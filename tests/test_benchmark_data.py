@@ -4,15 +4,15 @@ from pathlib import Path
 from analysis.reference_bayes import ReferenceNaiveBayes
 
 
-def test_mvp50_manifest_and_case_hashes(cases):
-    manifest = json.loads(Path("data/manifests/mvp50_manifest.json").read_text())
-    assert len(manifest["cases"]) == 50
+def test_ddxplus_manifest_and_case_hashes(cases):
+    manifest = json.loads(Path("data/manifests/ddxplus_manifest.json").read_text())
+    assert len(manifest["cases"]) == 30
     assert len({row["pathology"] for row in manifest["cases"]}) >= 30
     ddx_cases = [
         bundle for bundle in cases.cases.values()
         if bundle.dataset.name == "DDXPlus"
     ]
-    assert len(ddx_cases) == 50
+    assert len(ddx_cases) == 30
     for bundle in ddx_cases:
         assert len(bundle.truth) == len(cases.evidence_catalog) == 223
         assert bundle.case_hash == bundle.compute_hash()

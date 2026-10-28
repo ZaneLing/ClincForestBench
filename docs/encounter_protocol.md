@@ -14,8 +14,8 @@ pathology, microbiology, physical examination, endoscopy, sampling, and specialt
 investigations. Inquiries cover symptom characterization, systems review,
 medical/family/social history, medication/allergy, exposures, reproductive and
 pediatric history, and patient preferences. Source-native items extend these
-libraries at load time. The current 188-case local inventory produces **309
-operations and 397 inquiries**; counts change with source manifests.
+libraries at load time. The current 393-case local inventory produces **354
+operations and 1127 inquiries**; counts change with source manifests.
 
 These are broad, extensible research catalogs, not an assertion that a finite
 list includes every hospital's orderables. New items require stable IDs and

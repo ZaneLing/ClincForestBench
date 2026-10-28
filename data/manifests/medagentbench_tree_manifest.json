@@ -549,7 +549,7 @@
     "Medication / procedure action": 10
   },
   "category_count": 3,
-  "manifest_name": "medagentbench_mvp30_trees",
+  "manifest_name": "medagentbench_trees",
   "manifest_version": "medagentbench_mvp30_v1",
   "pathology_count": 3,
   "taxonomy_condition_count": 3,

@@ -48,11 +48,11 @@ def main() -> None:
     manifest_dir.mkdir(parents=True, exist_ok=True)
     pq.write_table(
         pa.Table.from_pylist(selected),
-        manifest_dir / "mvp50_case_selection.parquet",
+        manifest_dir / "ddxplus_case_selection.parquet",
         compression="zstd",
     )
     dump_json(
-        manifest_dir / "mvp50_selection.json",
+        manifest_dir / "ddxplus_selection.json",
         {
             "manifest_name": selection["manifest_name"],
             "manifest_version": selection["manifest_version"],

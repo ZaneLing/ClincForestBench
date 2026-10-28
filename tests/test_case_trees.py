@@ -7,14 +7,14 @@ from backend.app.services.case_tree_service import CaseTreeService
 from etl.build_case_trees import TREE_SCHEMA_VERSION, canonical_hash
 
 
-def test_mvp50_raw_to_tree_artifacts_are_complete_and_auditable(cases):
+def test_ddxplus_raw_to_tree_artifacts_are_complete_and_auditable(cases):
     service = CaseTreeService(cases.root)
     manifest = service.manifest()
-    assert manifest["case_count"] == 188
+    assert manifest["case_count"] == len(cases.cases)
     assert {key: manifest["dataset_case_counts"][key] for key in ("DDXPlus", "MedAgentBench", "Synthea")} == {
-        "DDXPlus": 50,
+        "DDXPlus": 30,
         "MedAgentBench": 30,
-        "Synthea": 50,
+        "Synthea": 30,
     }
     assert manifest["pathology_count"] >= 48
     assert manifest["taxonomy_condition_count"] >= 49

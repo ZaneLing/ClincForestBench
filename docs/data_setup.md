@@ -53,7 +53,7 @@ PhysioNet serves those files.
 
 ## Build generated benchmark artifacts
 
-For the public classic tracks (130 Cases), after downloading `core`:
+For the public classic tracks (90 Cases), after downloading `core`:
 
 ```bash
 make setup
@@ -61,19 +61,26 @@ make preprocess-ddxplus
 make preprocess-workflows
 ```
 
-For the complete 188-Case local MVP, download both public profiles and obtain
+For the complete 393-Case local MVP, download both public profiles and obtain
 the credentialed sources first. The default `all` download alone does not
 provide the restricted inputs required by the EHR source readers:
 
 ```bash
 make setup
-make preprocess-all
+make download-nejm-open
+make preprocess-ddxplus preprocess-workflows
+.venv/bin/python -m etl.build_ehr_sources --allow-shortfall
+.venv/bin/python -m etl.build_interaction_mvp --allow-shortfall
+make preprocess-evidence
+.venv/bin/python tools/update_dataset_inventory.py
 make validate
 ```
 
 Generated artifacts are written beneath `data/processed/` and can always be
 rebuilt from the source directories. They are not synchronized through Git.
-The full test suite expects all 188 unified unordered cases.
+The full test suite expects all 393 unified unordered cases.
+`make preprocess-all` enforces 30 cases per track (420 total) and requires the
+authorized full PatientSim export. See [quota details](dataset_quota.md).
 `make preprocess-all` builds EHR source staging records, merges interaction
 inputs, and converts them into independent action/result bundles. Source dates
 remain provenance or clinical text; no source order controls the runtime.

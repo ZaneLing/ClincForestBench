@@ -5,7 +5,7 @@ Each selected DDXPlus case now has two immutable audit artifacts:
 - `raw_cases/<case_id>.raw.json`: an exact JSON projection of the source Parquet row. Source strings are deliberately left unparsed.
 - `case_trees/<case_id>.tree.json`: the classified, human-readable tree derived from that row.
 
-The aggregate index is `data/manifests/mvp50_tree_manifest.json`. It records the raw/tree hashes, disease category, node/evidence counts and the result of all conversion checks for every MVP-50 case.
+The aggregate index is `data/manifests/ddxplus_tree_manifest.json`. It records the raw/tree hashes, disease category, node/evidence counts and the result of all conversion checks for every selected DDXPlus case.
 
 ## Honest interpretation
 

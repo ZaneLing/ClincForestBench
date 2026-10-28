@@ -3,10 +3,16 @@
 The runnable benchmark uses **unordered evidence**. The model chooses which
 recorded question or examination result to acquire next.
 
-The unified catalog contains 188 cases from 14 datasets: DDXPlus 50, Synthea 50,
-MedAgentBench 30, plus 58 source cases from MC-MED, MIMIC-IV, eICU-CRD, PMC Case
+The shared target is 30 cases per dataset, or 420 cases across 14 tracks.
+The current catalog contains 393 cases: DDXPlus 30, Synthea 30,
+MedAgentBench 30, plus 303 source cases from MC-MED, MIMIC-IV, eICU-CRD, PMC Case
 Reports, NEJM CPC, MediScope, MedPI, PatientSim, Meddies Persona VIE,
 MedMemoryBench, and MedDialogRubrics.
+
+Thirteen tracks have 30 cases each. PatientSim has only three available public
+demo profiles; its 27-case gap requires an authorized PhysioNet export.
+See [dataset quotas and sampling units](dataset_quota.md) for the precise counting
+units and rebuild instructions.
 
 Each converted source case contains initial patient information, independent
 action/result branches, protected references, reference-quality metadata, and

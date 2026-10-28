@@ -1,8 +1,12 @@
 # Interaction evidence MVP
 
-Six public source adapters contribute three cases each: MediScope, MedPI,
+Six source adapters target 30 cases each: MediScope, MedPI,
 PatientSim, Meddies Persona VIE, MedMemoryBench, and MedDialogRubrics. They
 join the other source episodes in the unified unordered evidence catalog.
+Five tracks currently have 30 cases each; PatientSim has three public demo
+profiles until an authorized full export is supplied. MedPI uses distinct source
+conversations from 24 patient profiles. MedMemoryBench uses 30 disjoint event
+windows from 20 personas. Neither count implies 30 independent patients.
 
 ```bash
 make download-interaction-mvp
@@ -12,7 +16,7 @@ make preprocess-interaction-mvp
 
 The last command merges source inputs and runs `etl.build_evidence_cases`.
 Generated runnable bundles and trees live under `data/processed/evidence/`.
-The `evidence_mvp58` manifests include all 58 additional source cases. The
+The `evidence` manifests include all 303 additional source cases. The
 legacy source staging format is an ingestion implementation detail.
 
 Consultation questions return source-authored answers. Persona and memory

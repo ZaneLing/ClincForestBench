@@ -14,7 +14,7 @@ def test_workflow_case_counts_and_native_semantics(cases):
     medagent = [
         item for item in cases.cases.values() if item.dataset.name == "MedAgentBench"
     ]
-    assert len(synthea) == 50
+    assert len(synthea) == 30
     assert len(medagent) == 30
     assert all(item.case_type == "DIAGNOSTIC_EVIDENCE_ACQUISITION" for item in synthea)
     assert all(item.generation_mode == "NATURAL_CSV_EXPORT" for item in synthea)

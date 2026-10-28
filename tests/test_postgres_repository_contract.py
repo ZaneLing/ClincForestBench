@@ -21,7 +21,7 @@ def test_persistent_repository_contract_and_seed(cases, tmp_path, dataset):
     from sqlalchemy.orm import Session
     from backend.app.db.models import Case, DatasetVersion
     with Session(engine) as database:
-        assert database.scalar(select(func.count()).select_from(Case)) == 188
+        assert database.scalar(select(func.count()).select_from(Case)) == len(cases.cases)
         assert database.scalar(select(func.count()).select_from(DatasetVersion)) == 14
     repository = SqlAlchemyArenaRepository(sessionmaker(bind=engine, expire_on_commit=False))
     arena = ArenaService(cases, repository)
