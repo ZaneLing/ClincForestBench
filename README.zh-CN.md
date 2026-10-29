@@ -10,9 +10,9 @@
 
 ## 项目进展
 
-仓库状态核对日期：**2026-10-28**。
+仓库状态核对日期：**2026-10-29**。
 
-已通过全部 94 项 Python 测试、前端静态检查和生产构建。运行中的 API 加载 393 个无时序病例，双语映射覆盖缺口为 0。本次更新未重新验证浏览器端到端流程及 Docker/PostgreSQL 配置。
+已通过全部 97 项 Python 测试、前端静态检查、类型检查和生产构建。运行中的 API 加载 393 个无时序病例。已实测病例浏览与 JSON/Excel 下载，并核对 Excel 的 9 个工作表：30,399 条 JSON 信息可完整还原。本次未重新验证 Docker/PostgreSQL 配置。
 
 | 方向 | 已实现 | 待完成 |
 | --- | --- | --- |
@@ -136,12 +136,26 @@ make demo       # 命令行 Arena 演示
 | `/model-arena` | OpenRouter 模型测试和轮次检查 |
 | `/history` | 当前医生已完成的会话 |
 | `/forest` | 聚合参与者路径和诊断分布 |
-| `/research` | 原始来源、转换后病例及病例树审计 |
+| `/research` | 病例检索、初始信息、可选证据、固定结果及 JSON/Excel 导出 |
 | `/evidence` | 数据集约定、映射和证据词典 |
 | `/admin` | 由研究密钥保护的本地账户管理 |
 | `/temporal` | 兼容旧链接，跳转至 `/arena` |
 
 模型测试、历史、森林和研究页面统一使用同一病例库。全局 `EN / 中文` 开关会同时切换界面文案和病例内容。完整的交互规则、导出、结果对比和本地化说明见[应用指南](docs/application_guide.md)。
+
+在[病例浏览页](http://localhost:3000/research)按数据集或 Case ID 选取病例，
+可逐项展开问询和检查，查看固定答案、源记录、模型证据 ID 与父证据条件。
+诊断参考和来源信息单独展示；未记录项明确标记为“无记录结果”。
+页面支持按当前病例、当前数据集或全部病例下载 JSON 和 Excel。
+
+也可直接生成完整本地文件：
+
+```bash
+.venv/bin/python -m tools.export_case_library --locale zh-CN
+```
+
+输出为 `data/exports/case_library/case_library_zh-CN.json` 和
+`data/exports/case_library/case_library_zh-CN.xlsx`，患者级导出文件保留在本地。
 
 ## 仓库结构
 

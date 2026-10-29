@@ -10,12 +10,13 @@ A reproducible clinical decision benchmark that records how physicians and model
 
 ## Project progress
 
-Repository status reviewed on **2026-10-28**.
+Repository status reviewed on **2026-10-29**.
 
-Local verification: all 94 Python tests, frontend lint, and the production
-build passed. The running API reports 393 unordered cases; bilingual mapping
-coverage has no gaps. Browser end-to-end behavior and the Docker/PostgreSQL
-profile were not revalidated in this update.
+Local verification: all 97 Python tests, frontend lint, type checking, and the
+production build passed. The running API reports 393 unordered cases. The case
+library's browsing and JSON/Excel downloads were checked in the browser; all
+30,399 exported JSON records round-trip through the nine-sheet Excel workbook.
+The Docker/PostgreSQL profile was not revalidated in this update.
 
 | Area | Implemented | Remaining work |
 | --- | --- | --- |
@@ -101,6 +102,19 @@ remain available for split-terminal development.
 
 Open [the application](http://localhost:3000) or [API documentation](http://localhost:8000/docs). Register a local physician account to enter the Arena.
 
+Open [the case library](http://localhost:3000/research) to filter by dataset or
+Case ID and inspect initial information, selectable inquiries/examinations,
+fixed answers, model evidence IDs, and separate source/reference information.
+Download JSON or Excel for one case, its dataset, or all cases. To generate the
+full local review files without the web application:
+
+```bash
+.venv/bin/python -m tools.export_case_library --locale zh-CN
+```
+
+Files are written to `data/exports/case_library/` and remain local. See the
+[case library guide](docs/application_guide.md#case-library-and-jsonexcel-exports).
+
 Local development uses **SQLite** at `data/clincforestbench.db` for accounts, canonical sessions, and model runs across all available cases. Physician Visits persist in `data/encounters.db`. Tests use isolated in-memory repositories or temporary databases.
 
 Model testing additionally requires `OPENROUTER_API_KEY` in a local `.env`. Start from `.env.example`, replace the placeholders, and set a private `RESEARCH_API_KEY` for shared use. Standalone provider probes use `tools/api_smoke/.env`. Credentials are loaded by the backend and are not included in exported model transcripts.
@@ -147,7 +161,7 @@ New case text can be translated locally using the optional
 | `/model-arena` | OpenRouter model testing and round inspection |
 | `/history` | Signed-in physician's completed sessions |
 | `/forest` | Aggregated participant paths and diagnosis distributions |
-| `/research` | Raw source, converted Case, and tree audit |
+| `/research` | Searchable case library, source evidence, model pool, and JSON/Excel exports |
 | `/evidence` | Dataset contracts, mappings, and evidence dictionary |
 | `/admin` | Research-key-protected local account administration |
 | `/temporal` | Compatibility redirect to `/arena` |

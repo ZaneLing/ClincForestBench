@@ -3,15 +3,52 @@
 Detailed Arena, model testing, case inspection, localization, and review behavior.
 For installation and project status, see the [project README](../README.md).
 
-## Raw case → processed tree audit
+## Case library and JSON/Excel exports
 
-Open `http://localhost:3000/research`. The first MVP case loads automatically into three synchronized columns:
+Open `http://localhost:3000/research`. Select a dataset or search a Case ID in the
+left panel. Each case has five sections:
 
-1. the exact unparsed source row JSON;
-2. the processed and classified case-tree JSON with conversion checks;
-3. the complete color-coded tree from patient context through question actions and observations to the full ranked reference differential.
+1. **Initial information:** demographics and the source-backed opening presentation.
+2. **Selectable actions:** expandable inquiries and examinations with fixed
+   results and source record IDs. Search by action ID, question, or result.
+   The default filter shows recorded results; disabling it includes the shared
+   menu's unrecorded actions, explicitly marked as having no source result.
+3. **Model evidence pool:** canonical evidence IDs, questions, parent conditions,
+   status, and fixed answers. `INITIAL` is already known, `DIRECT` can be queried,
+   and `CONDITIONAL` specifies a parent rule, not a simulation clock.
+4. **Reference and source:** research-only diagnosis references, quality flags,
+   source metadata, and available treatment records, kept separate from the
+   initial presentation.
+5. **JSON:** the complete structured detail, with copy and download controls.
 
-DDXPlus has no recorded lab, imaging, examination, procedure or treatment events, so the MVP does not fabricate them. The output is explicitly a canonical ground-truth **exposure tree**, not an observed clinician chronology. See [case_tree_schema.md](case_tree_schema.md) for the schema and interpretation boundary.
+The export scope selector supports the current case, its dataset, or all cases.
+JSON includes the global action catalog, initial information, recorded action
+bindings and results, canonical model evidence, treatments, media references,
+source provenance, mapping audit, and research references.
+Excel provides nine filtered worksheets: usage notes, dataset inventory, case
+overview, initial information, action catalog, recorded actions, source evidence
+results, model evidence pool, and diagnosis references. Long values are split
+into numbered JSON fragments; concatenate them in order to recover the complete
+value. Source text is stored as text, never executable Excel formulas.
+
+Generate both full review files locally:
+
+```bash
+.venv/bin/python -m tools.export_case_library --locale zh-CN
+# Optional: --locale en --output /absolute/path/to/review-directory
+```
+
+The default output is `data/exports/case_library/case_library_zh-CN.json` and
+`case_library_zh-CN.xlsx`. Generated patient-level files are ignored by Git.
+Protected API routes are `/research/case-library`,
+`/research/case-library/{case_id}`, and `/research/case-library/export` with
+`format=json|xlsx`, `lang=en|zh-CN`, and optional `case_id` or `dataset`.
+The local UI uses the prototype research key; shared deployments must configure
+their authorized research access.
+
+DDXPlus has no recorded lab, imaging, examination, procedure or treatment
+events. Its output is a canonical ground-truth **exposure tree**, not an
+observed clinician chronology. See [case_tree_schema.md](case_tree_schema.md).
 
 The unified inspector contains 393 cases across 14 datasets, including 303 converted source cases. All use unordered evidence access. The interaction slice contains 30 cases each from MediScope, MedPI, Meddies Persona VIE, MedMemoryBench, and MedDialogRubrics, plus three available PatientSim demo profiles. Synthea is labeled `NATURAL_CSV_EXPORT`. MedAgentBench is labeled `OFFLINE_TASK_REPLAY`: it does not claim that a FHIR request returned a lab value or created a resource.
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 from functools import lru_cache
 
 from fastapi import Depends, HTTPException
+from fastapi.responses import Response
 from pydantic import BaseModel, Field
 
 from backend.app.services.encounter_catalog import EncounterCatalog, bilingual
@@ -38,6 +39,11 @@ def register_encounter_routes(app, container, current_username, research_access)
     def service():
         database = ":memory:" if container.settings.arena_repository == "memory" else container.cases.root / "data/encounters.db"
         return EncounterService(EncounterCatalog(container.cases), database)
+
+    @lru_cache(maxsize=1)
+    def library():
+        from backend.app.services.case_library_service import CaseLibraryService
+        return CaseLibraryService(container.cases, service().catalog)
 
     def invoke(call):
         try:
@@ -103,6 +109,26 @@ def register_encounter_routes(app, container, current_username, research_access)
                 "cases": [{"case_id": cid, "dataset": visit["dataset"],
                            "source": "evidence"}
                           for cid, visit in catalog.visits.items()]}
+
+    @app.get("/research/case-library", dependencies=[Depends(research_access)])
+    def case_library():
+        return library().index()
+
+    @app.get("/research/case-library/export", dependencies=[Depends(research_access)])
+    def export_case_library(format: str = "json", lang: str = "en",
+                            dataset: str = "", case_id: str = ""):
+        if format not in {"json", "xlsx"}:
+            raise HTTPException(status_code=400, detail="Supported formats: json, xlsx")
+        from backend.app.services.case_library_service import excel_bytes, json_bytes
+        document = invoke(lambda: library().export(lang, dataset or None, case_id or None))
+        data = excel_bytes(document) if format == "xlsx" else json_bytes(document)
+        return Response(data, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        if format == "xlsx" else "application/json",
+                        headers={"Content-Disposition": f'attachment; filename="case-library.{format}"'})
+
+    @app.get("/research/case-library/{case_id}", dependencies=[Depends(research_access)])
+    def case_library_detail(case_id: str, lang: str = "en"):
+        return invoke(lambda: library().detail(case_id, lang))
 
     @app.get("/research/encounter-cases/{case_id}", dependencies=[Depends(research_access)])
     def inspect_case(case_id: str, lang: str = "en"):
