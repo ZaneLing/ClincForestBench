@@ -1,0 +1,142 @@
+.compare-page .ws-page-heading > button {
+  margin-left: auto;
+}
+.ws-compare-tabs {
+  flex: none;
+  padding: 0 24px;
+}
+.ws-compare-tabs > [role='tablist'] {
+  height: 42px;
+}
+.ws-compare-tabs [role='tab'] {
+  padding-inline: 16px;
+  font-size: 12px;
+}
+.ws-compare-tabs [role='tab'][data-active] {
+  color: var(--ws-blue);
+}
+.ws-compare-tabs [role='tab']:after {
+  background: var(--ws-blue);
+}
+.ws-comparison-body {
+  flex: 1;
+  min-height: 0;
+}
+.ws-comparison-body [data-slot='resizable-panel']:first-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ws-metric-empty {
+  padding: 14px 24px;
+  font-size: 12px;
+  color: var(--ws-muted, var(--muted-foreground));
+  background: var(--ws-canvas, var(--muted));
+  border-bottom: 1px solid var(--ws-line, var(--border));
+  line-height: 1.7;
+}
+.ws-metric-caption {
+  padding: 10px 24px;
+  color: var(--ws-muted);
+  font-size: 11px;
+}
+.metric-table th {
+  min-width: 160px;
+}
+.metric-table th:first-child {
+  min-width: 250px;
+}
+.metric-table th > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.metric-table td {
+  height: 78px;
+}
+.metric-table td strong {
+  font-size: 13px;
+  font-weight: 500;
+  display: block;
+}
+.metric-table td small {
+  display: block;
+  font-size: 10px;
+  color: var(--ws-muted);
+  margin-top: 5px;
+}
+.ws-metric-value {
+  position: relative;
+  padding: 7px 8px;
+  border-radius: 4px;
+  min-width: 110px;
+  overflow: hidden;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+}
+.ws-metric-value i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--ws-selected);
+}
+.ws-metric-value.is-best i {
+  background: #0891b21a;
+}
+.ws-metric-value.is-best > span {
+  color: var(--ws-blue);
+}
+.ws-metric-value > span,
+.ws-metric-value > small {
+  position: relative;
+  z-index: 1;
+}
+.ws-run-review:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.ws-run-review > header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ws-run-review > header strong {
+  font-size: 11px;
+}
+.ws-run-id {
+  font-size: 10px !important;
+  padding-top: 8px;
+}
+.ws-run-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 11px;
+  padding: 10px 0;
+}
+.ws-run-review .ws-error {
+  padding: 8px;
+}
+.ws-run-review .ws-metric-empty {
+  padding: 10px;
+}
+.ws-case-chips {
+  display: flex;
+  gap: 6px;
+  padding: 10px 24px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--ws-line);
+}
+.ws-legacy-model {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+  background: var(--ws-canvas);
+}
+.ws-compare-loading {
+  padding: 20px;
+}

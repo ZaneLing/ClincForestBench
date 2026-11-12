@@ -1,110 +1,92 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import {
   BookOpenText,
-  Bot,
-  GitBranch,
+  ChartNoAxesCombined,
+  Database,
   HeartPulse,
   History,
-  LogOut,
-  ShieldCheck,
-  Trees,
-  UserRound,
+  Plus,
 } from 'lucide-react';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarRail,
-  SidebarSeparator,
-  SidebarTrigger,
-  useSidebar,
-} from '@/components/ui/sidebar';
-import { useAuth } from '@/features/auth/auth-context';
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
 import {
   LanguageSwitcher,
   useLanguage,
 } from '@/features/i18n/language-context';
-
-const navigation = [
-  {
-    href: '/arena',
-    label: { en: 'Arena', zh: '竞技场' },
-    detail: { en: '14 datasets in one arena', zh: '14 个数据集进入竞技场' },
-    icon: HeartPulse,
-  },
-  {
-    href: '/model-arena',
-    label: { en: 'Model testing', zh: '模型测试' },
-    detail: {
-      en: 'Autonomous evidence acquisition',
-      zh: '自主选择问询与检查',
-    },
-    icon: Bot,
-  },
-  {
-    href: '/history',
-    label: { en: 'Decision history', zh: '决策历史' },
-    detail: { en: 'Visits, actions and reasons', zh: '就诊、操作与原因轨迹' },
-    icon: History,
-  },
-  {
-    href: '/research',
-    label: { en: 'Case inspector', zh: 'Case 查看' },
-    detail: { en: 'Questions and examination results', zh: '问询回答与检查结果' },
-    icon: GitBranch,
-  },
-  {
-    href: '/forest',
-    label: { en: 'Forest explorer', zh: '森林查看' },
-    detail: { en: 'Action and rationale branches', zh: '操作与原因分支统计' },
-    icon: Trees,
-  },
-  {
-    href: '/evidence',
-    label: { en: 'Datasets and rules', zh: '数据集与规则' },
-    detail: { en: '14 schemas and protocols', zh: '14 套字段、转换与玩法' },
-    icon: BookOpenText,
-  },
-  {
-    href: '/admin',
-    label: { en: 'Account admin', zh: '账户后台' },
-    detail: { en: 'Prototype account management', zh: '原型账户管理' },
-    icon: ShieldCheck,
-  },
-];
-
-function SidebarRouteLink({
-  onClick,
-  ...props
-}: React.ComponentProps<typeof Link>) {
-  const { setOpenMobile } = useSidebar();
-  return (
-    <Link
-      {...props}
-      onClick={(event) => {
-        onClick?.(event);
-        if (!event.defaultPrevented) setOpenMobile(false);
-      }}
-    />
-  );
-}
+import { api } from '@/lib/api';
+import { TopBar } from './shell/top-bar';
+import { IconRail } from './shell/icon-rail';
+import { StatusProvider } from './shell/status-bar';
 
 export function ApplicationShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { account, logout } = useAuth();
-  const { isChinese } = useLanguage();
-
+  const router = useRouter();
+  const { isChinese: zh } = useLanguage();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [cases, setCases] = useState<{ case_id: string; dataset: string }[]>(
+    [],
+  );
+  const [error, setError] = useState('');
+  const [attempt, setAttempt] = useState(0);
+  const [query, setQuery] = useState('');
+  const tabs = [
+    { href: '/cases', label: zh ? '病例库' : 'Cases', icon: Database },
+    {
+      href: '/compare',
+      label: zh ? '模型对比' : 'Compare',
+      icon: ChartNoAxesCombined,
+    },
+    { href: '/arena', label: zh ? '交互就诊' : 'Arena', icon: HeartPulse },
+    { href: '/history', label: zh ? '决策历史' : 'History', icon: History },
+    {
+      href: '/evidence',
+      label: zh ? '数据集' : 'Datasets',
+      icon: BookOpenText,
+    },
+  ];
+  const active =
+    tabs.find((item) => pathname.startsWith(item.href))?.href ??
+    (pathname === '/model-arena'
+      ? '/compare'
+      : ['/research', '/forest'].includes(pathname)
+        ? '/cases'
+        : '');
+  useEffect(() => {
+    function handleKey(event: KeyboardEvent) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setSearchOpen((value) => !value);
+      }
+    }
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
+  useEffect(() => {
+    if (!searchOpen || cases.length) return;
+    const controller = new AbortController();
+    api<{ cases: typeof cases }>('/research/case-library', {
+      signal: controller.signal,
+      headers: { 'X-Research-Key': 'local-research-only' },
+    })
+      .then((data) => {
+        setCases(data.cases);
+        setError('');
+      })
+      .catch((e) => {
+        if (!controller.signal.aborted) setError(String(e.message));
+      });
+    return () => controller.abort();
+  }, [searchOpen, cases.length, attempt]);
   if (pathname === '/')
     return (
       <>
@@ -112,110 +94,81 @@ export function ApplicationShell({ children }: { children: React.ReactNode }) {
         {children}
       </>
     );
-
   return (
-    <SidebarProvider className="bench-app-shell" defaultOpen>
-      <Sidebar className="border-cyan-300/10" collapsible="icon">
-        <SidebarHeader className="p-3">
-          <div className="flex items-center gap-2">
-            <SidebarTrigger className="sidebar-brand-trigger" />
-            <div className="min-w-0 group-data-[collapsible=icon]:hidden">
-              <b className="block truncate text-sm text-white">
-                ClincForestBench
-              </b>
-              <small className="block truncate text-xs text-cyan-200/60">
-                Clinical decision forest
-              </small>
-            </div>
-          </div>
-        </SidebarHeader>
-        <SidebarSeparator className="bg-cyan-100/10" />
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>
-              {isChinese ? '系统导航' : 'Navigation'}
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {navigation.map((item) => {
-                  const Icon = item.icon;
-                  const active = pathname.startsWith(item.href.split('?')[0]);
-                  return (
-                    <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton
-                        className="bench-sidebar-link h-11"
-                        isActive={active}
-                        render={<SidebarRouteLink href={item.href} />}
-                        tooltip={isChinese ? item.label.zh : item.label.en}
-                      >
-                        <Icon />
-                        <span className="min-w-0">
-                          <b className="block truncate font-medium">
-                            {isChinese ? item.label.zh : item.label.en}
-                          </b>
-                          <small className="block truncate text-xs opacity-55">
-                            {isChinese ? item.detail.zh : item.detail.en}
-                          </small>
-                        </span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-        <SidebarFooter>
-          <div className="sidebar-account group-data-[collapsible=icon]:hidden">
-            <span>
-              <UserRound />
-            </span>
-            <div>
-              <small>
-                {account
-                  ? isChinese
-                    ? '当前医生'
-                    : 'Current clinician'
-                  : isChinese
-                    ? '医生账户'
-                    : 'Clinician account'}
-              </small>
-              <b>
-                {account?.username ?? (isChinese ? '未登录' : 'Signed out')}
-              </b>
-            </div>
-            {account && (
-              <button
-                aria-label={isChinese ? '退出登录' : 'Sign out'}
-                onClick={() => void logout()}
-                title={isChinese ? '退出登录' : 'Sign out'}
-                type="button"
-              >
-                <LogOut />
-              </button>
-            )}
-          </div>
-          <LanguageSwitcher />
-          <div className="rounded-lg border border-cyan-200/10 bg-cyan-200/[0.04] px-3 py-2 group-data-[collapsible=icon]:hidden">
-            <small className="block text-xs text-cyan-100/50">Dataset</small>
-            <b className="mt-0.5 block text-xs font-medium text-cyan-50">
-              DDXPlus · Synthea · MedAgentBench · MIMIC · MC-MED · eICU · PMC ·
-              NEJM · consultation · persona · memory · rubric
-            </b>
-          </div>
-        </SidebarFooter>
-        <SidebarRail />
-      </Sidebar>
-      <div className="app-shell-content">
-        <div className="mobile-shell-bar md:hidden">
-          <SidebarTrigger
-            aria-label={isChinese ? '打开导航' : 'Open navigation'}
-          />
-          <span>ClincForestBench</span>
-          <LanguageSwitcher />
+    <div className="workspace-shell">
+      <StatusProvider>
+        <TopBar
+          tabs={tabs}
+          active={active}
+          onSearch={() => setSearchOpen(true)}
+          actions={
+            <Link href="/arena" className="ws-button ws-primary">
+              <Plus size={15} />
+              <span>{zh ? '开始就诊' : 'New visit'}</span>
+            </Link>
+          }
+        />
+        <div className="workspace-main">
+          <IconRail items={tabs} active={active} />
+          <div className="app-shell-page workspace-page">{children}</div>
         </div>
-        <div className="app-shell-page">{children}</div>
-      </div>
-    </SidebarProvider>
+      </StatusProvider>
+      <CommandDialog
+        open={searchOpen}
+        onOpenChange={setSearchOpen}
+        title={zh ? '搜索病例' : 'Search cases'}
+        description={zh ? '输入病例 ID 或数据集' : 'Type a case ID or dataset'}
+      >
+        <Command shouldFilter={false}>
+          <CommandInput
+            value={query}
+            onValueChange={setQuery}
+            placeholder={
+              zh ? '搜索病例 ID、数据集…' : 'Search case ID, dataset…'
+            }
+          />
+          <CommandList>
+            {error ? (
+              <div role="alert" className="ws-empty">
+                {error}
+                <button
+                  className="ws-button"
+                  onClick={() => setAttempt((value) => value + 1)}
+                >
+                  {zh ? '重试' : 'Retry'}
+                </button>
+              </div>
+            ) : !cases.length ? (
+              <div className="ws-empty">{zh ? '加载中…' : 'Loading…'}</div>
+            ) : (
+              <CommandEmpty>
+                {zh ? '没有匹配病例' : 'No matching cases'}
+              </CommandEmpty>
+            )}
+            {cases
+              .filter((row) =>
+                `${row.case_id} ${row.dataset}`
+                  .toLowerCase()
+                  .includes(query.toLowerCase()),
+              )
+              .slice(0, 60)
+              .map((row) => (
+                <CommandItem
+                  key={row.case_id}
+                  value={row.case_id}
+                  onSelect={() => {
+                    setSearchOpen(false);
+                    router.push(`/cases/${encodeURIComponent(row.case_id)}`);
+                  }}
+                >
+                  <Database size={15} />
+                  <span>{row.case_id}</span>
+                  <small className="ml-auto">{row.dataset}</small>
+                </CommandItem>
+              ))}
+          </CommandList>
+        </Command>
+      </CommandDialog>
+    </div>
   );
 }

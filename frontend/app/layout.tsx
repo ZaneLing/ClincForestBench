@@ -5,6 +5,7 @@ import { AuthProvider } from '@/features/auth/auth-context';
 import { LanguageProvider } from '@/features/i18n/language-context';
 import './globals.css';
 import './responsive.css';
+import '@/components/shell/workspace.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -17,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ClincForestBench',
+  title: 'MedTreeBench',
   description:
     'An evidence-locked clinical reasoning arena and diagnostic forest benchmark.',
 };

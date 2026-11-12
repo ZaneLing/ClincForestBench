@@ -1,0 +1,347 @@
+.ws-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  background: var(--ws-surface);
+  overflow: hidden;
+}
+.ws-page-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 24px;
+  flex-shrink: 0;
+}
+.ws-heading-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--ws-line);
+  border-radius: 8px;
+  color: var(--ws-blue);
+  background: var(--ws-canvas);
+}
+.ws-page-heading h1 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+.ws-page-heading p {
+  color: var(--ws-muted);
+  margin-top: 3px;
+  font-size: 12px;
+}
+.ws-page-heading > .ws-pill {
+  margin-left: auto;
+}
+.ws-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 24px;
+  border-block: 1px solid var(--ws-line);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.ws-search {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--ws-line);
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--ws-muted);
+  background: var(--ws-surface);
+}
+.ws-search input {
+  background: transparent;
+  outline: none;
+  min-width: 0;
+  width: 100%;
+  color: var(--ws-text);
+}
+.ws-toolbar .ws-search {
+  width: 300px;
+  margin-right: auto;
+}
+.ws-muted {
+  color: var(--ws-muted);
+}
+.ws-table-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.ws-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+}
+.ws-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--ws-canvas);
+  height: 38px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ws-muted);
+  border-bottom: 1px solid var(--ws-line);
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+.ws-table th button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ws-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--ws-line);
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+.ws-table tbody tr {
+  cursor: pointer;
+  transition: background 120ms;
+}
+.ws-table tbody tr:hover {
+  background: var(--ws-canvas);
+}
+.ws-table tbody tr[aria-selected='true'] {
+  background: var(--ws-selected);
+}
+.ws-table tbody tr[aria-selected='true'] td:first-child {
+  box-shadow: inset 3px 0 var(--ws-blue);
+}
+.case-table {
+  table-layout: fixed;
+}
+.ws-check-cell {
+  width: 38px;
+  text-align: center;
+}
+.workspace-shell input[type='checkbox'],
+.ws-filter-sheet input[type='checkbox'] {
+  accent-color: #0891b2;
+  width: 13px;
+  height: 13px;
+}
+.case-col-case_id {
+  width: 19%;
+}
+.case-col-status {
+  width: 108px;
+}
+.case-col-dataset {
+  width: 11%;
+}
+.case-col-input {
+  width: 25%;
+}
+.case-col-expected {
+  width: 20%;
+}
+.case-col-counts {
+  width: 95px;
+}
+.case-col-actions {
+  width: 62px;
+}
+.ws-case-id {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.ws-expected {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.ws-expected > span:first-child {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ws-json-cell {
+  position: relative;
+  display: flex;
+  width: 100%;
+  gap: 6px;
+  padding: 5px 7px;
+  border: 1px solid var(--ws-line, var(--border));
+  border-radius: 5px;
+  background: var(--ws-canvas, var(--muted));
+  text-align: left;
+}
+.ws-json-cell code {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  line-height: 17px;
+}
+.ws-json-cell svg {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--ws-muted, var(--muted-foreground));
+}
+.ws-json-dialog {
+  width: calc(100vw - 64px) !important;
+  max-width: 1200px !important;
+  max-height: 90dvh;
+  overflow: auto;
+}
+.ws-json-view {
+  min-width: 0;
+}
+.ws-json-view > button {
+  margin-bottom: 12px;
+}
+.ws-json-view pre {
+  overflow: auto;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  margin: 0;
+}
+.ws-json-line {
+  display: flex;
+}
+.ws-json-line i {
+  position: sticky;
+  left: 0;
+  min-width: 38px;
+  padding-right: 12px;
+  user-select: none;
+  text-align: right;
+  font-style: normal;
+  color: var(--ws-muted, var(--muted-foreground));
+  background: var(--ws-surface, var(--background));
+}
+.ws-json-line code {
+  white-space: pre;
+}
+.ws-columns-menu {
+  position: relative;
+}
+.ws-columns-menu summary {
+  list-style: none;
+  cursor: pointer;
+}
+.ws-columns-menu summary::-webkit-details-marker {
+  display: none;
+}
+.ws-columns-menu .ws-menu {
+  z-index: 10;
+}
+.ws-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  height: 48px;
+  flex-shrink: 0;
+  padding: 8px 20px;
+  border-top: 1px solid var(--ws-line);
+  color: var(--ws-muted);
+  font-size: 12px;
+}
+.ws-pagination > span:first-child {
+  margin-right: auto;
+}
+.ws-selection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 24px;
+  background: var(--ws-selected);
+  border-bottom: 1px solid var(--ws-line);
+}
+.ws-selection > button:last-child {
+  margin-left: auto;
+}
+.ws-filter-sheet {
+  padding: 26px !important;
+  gap: 16px;
+  overflow: auto;
+  font-size: 13px;
+}
+.ws-filter-sheet fieldset {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.ws-filter-sheet legend {
+  font-weight: 600;
+  padding-right: 10px;
+}
+.ws-filter-sheet label {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 5px 0;
+}
+.ws-filter-sheet label small {
+  margin-left: auto;
+  color: var(--muted-foreground);
+}
+.ws-filter-sheet > label {
+  display: grid;
+  gap: 5px;
+}
+.ws-filter-sheet select {
+  border: 1px solid var(--border);
+  padding: 7px;
+  border-radius: 6px;
+  background: var(--background);
+  max-width: 100%;
+}
+.ws-skeleton {
+  height: 38px;
+  margin: 4px 0;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--ws-canvas),
+    var(--ws-selected),
+    var(--ws-canvas)
+  );
+  background-size: 200% 100%;
+  animation: ws-loading 1.4s linear infinite;
+}
+@keyframes ws-loading {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (max-width: 900px) {
+  .ws-page-heading {
+    padding: 16px;
+  }
+  .ws-toolbar {
+    padding: 10px 16px;
+  }
+  .ws-toolbar .ws-search {
+    flex: 1;
+    width: auto;
+    min-width: 160px;
+  }
+  .case-col-status {
+    width: 100px;
+  }
+  .case-table {
+    min-width: 850px;
+  }
+}

@@ -1,5 +1,10 @@
-import { ResearchRoot } from '@/features/forest/research-root';
+import { permanentRedirect } from 'next/navigation';
+import { legacyDestination, type LegacySearch } from '@/lib/legacy-route';
 
-export default function ResearchPage() {
-  return <ResearchRoot />;
+export default async function ResearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<LegacySearch>;
+}) {
+  permanentRedirect(legacyDestination('/cases', await searchParams));
 }

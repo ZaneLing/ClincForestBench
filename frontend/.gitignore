@@ -36,3 +36,8 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# Local acceptance screenshots may contain case-level clinical content.
+.delivery/
+p0-shell.png
+p0-shell.jpg

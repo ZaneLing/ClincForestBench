@@ -1,6 +1,10 @@
-import { Suspense } from 'react';
-import { ModelArenaRoot } from '@/features/model-arena/model-arena-root';
+import { permanentRedirect } from 'next/navigation';
+import { legacyDestination, type LegacySearch } from '@/lib/legacy-route';
 
-export default function ModelArenaPage() {
-  return <Suspense fallback={null}><ModelArenaRoot /></Suspense>;
+export default async function ModelArenaPage({
+  searchParams,
+}: {
+  searchParams: Promise<LegacySearch>;
+}) {
+  permanentRedirect(legacyDestination('/compare', await searchParams));
 }

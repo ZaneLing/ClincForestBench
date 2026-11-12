@@ -9,7 +9,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
-    "lint": "oxlint app features lib",
+    "lint": "oxlint app features lib components/shell components/application-shell.tsx",
     "format": "oxfmt"
   },
   "dependencies": {
